@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'io.runon.trading'
+version '0.1.1'
+
+repositories {
+    mavenCentral()
+}
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+dependencies {
+//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+
+    implementation 'ch.qos.logback:logback-core:1.2.6'
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'ch.qos.logback:logback-access:1.2.6'
+
+    implementation 'com.seomse.commons:seomse-commons:1.2.5'
+
+}
+
+test {
+    useJUnitPlatform()
+}
