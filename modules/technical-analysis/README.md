@@ -13,9 +13,9 @@
 단 이전에 작업 해 놓은게 너무 많아서 당장 사용하는 소스부터 변환 하고 있습니다.
 
 # gradle (예정)
-implementation 'io.runon.trading:technical-analysis:0.1.0'
+implementation 'io.runon.trading:technical-analysis:0.0.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.0
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.1
 
 # communication
 ### blog, homepage
@@ -27,7 +27,7 @@ implementation 'io.runon.trading:technical-analysis:0.1.0'
 
 ### 카카오톡 오픈톡
  - https://open.kakao.com/o/g6vzOKqb
-     - 참여코드: seomse
+     - 참여코드: runon
 ### 슬랙 slack
 - https://seomse.slack.com/
 
