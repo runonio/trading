@@ -28,7 +28,7 @@ public class IchimokuBalanceAnalysis {
      * 선행스팬1과 선행스팬2를 이용한 분석정보 생성
      * @param candleStickArray 가격정보
      * @param ichimokuDataArray 일목데이터정보
-     * @return
+     * @return data array
      */
     public static IchimokuAnalysisData[] getAnalysisDataArray(CandleStick[] candleStickArray,
                                                               IchimokuData [] ichimokuDataArray ) {

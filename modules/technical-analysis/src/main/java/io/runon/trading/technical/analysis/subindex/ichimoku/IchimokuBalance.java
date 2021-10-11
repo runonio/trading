@@ -165,7 +165,7 @@ public class IchimokuBalance {
      * (과거 n일간의 최고가+과거 n일간의 최저가)/2
      * @param candleStickArray 캔들스틱배열
      * @param n 전환선 기간
-     * @return
+     * @return price array
      */
     public static double[] getMiddlePriceArray(CandleStick[] candleStickArray, int n) {
         double [] middlePriceArray = new double[candleStickArray.length - n];
@@ -193,7 +193,7 @@ public class IchimokuBalance {
     /**
      * 후행스팬
      * @param candleStickArray 캔들스틱배열
-     * @return
+     * @return lagging array
      */
     public static double[] getLaggingArray(CandleStick[] candleStickArray) {
         double [] laggingArray = new double[candleStickArray.length];

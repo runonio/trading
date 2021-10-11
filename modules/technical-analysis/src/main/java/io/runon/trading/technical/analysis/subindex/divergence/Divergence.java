@@ -97,7 +97,7 @@ public class Divergence {
      * 다이버젼스 신호 얻기
      * @param priceCandles 가격정보 캔들 배열
      * @param subIndexCandles 보조지표 캔들 배열
-     * @return 다이버젼스 정보 배열 신뢰도가 높은 순서로 정렬되어 있음 index -> 0이 신뢰도 높음
+     * @return 다이버젼스 정보 배열 신뢰도가 높은 순서로 정렬되어 있음 index 0이 신뢰도 높음
      */
     public DivergenceSignal[] signal(Candle[] priceCandles, Candle [] subIndexCandles){
 

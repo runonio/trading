@@ -73,12 +73,10 @@ public class TradingChart {
      */
     public TradingChart(CandleStick[] candleStickArr , int width , int height , ChartDateType dateType){
 
-        try {
-            pureJsContents = JarUtil.readFromJarFile("pure.js");
-            lightWeightJsContents = JarUtil.readFromJarFile("lightweight-charts.standalone.production.js");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+       pureJsContents = JarUtil.readFromJarFile("pure.js");
+       lightWeightJsContents = JarUtil.readFromJarFile("lightweight-charts.standalone.production.js");
+
 
         this.candleStickArr = candleStickArr;
         this.dateType = dateType;

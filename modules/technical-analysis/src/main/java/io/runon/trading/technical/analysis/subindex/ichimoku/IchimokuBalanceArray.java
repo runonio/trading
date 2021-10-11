@@ -47,7 +47,7 @@ public class IchimokuBalanceArray {
 
     /**
      * 전환선 기간
-     * @param reverseN
+     * @param reverseN n
      */
     public void setReverseN(int reverseN) {
         this.reverseN = reverseN;
@@ -55,7 +55,7 @@ public class IchimokuBalanceArray {
 
     /**
      * 기준선 기간
-     * @param standardN
+     * @param standardN n
      */
     public void setStandardN(int standardN) {
         this.standardN = standardN;
@@ -63,7 +63,7 @@ public class IchimokuBalanceArray {
 
     /**
      * 후행스팬 기간
-     * @param laggingN
+     * @param laggingN n
      */
     public void setLaggingN(int laggingN) {
         this.laggingN = laggingN;
@@ -71,7 +71,7 @@ public class IchimokuBalanceArray {
 
     /**
      * 선행스팬 기간
-     * @param leadingN
+     * @param leadingN n
      */
     public void setLeadingN(int leadingN) {
         this.leadingN = leadingN;
@@ -79,7 +79,7 @@ public class IchimokuBalanceArray {
 
     /**
      * 시그널 기간
-     * @param signalN
+     * @param signalN n
      */
     public void setSignalN(int signalN) {
         this.signalN = signalN;

@@ -137,7 +137,7 @@ public class IchimokuAnalysisData {
 
     /**
      * 구름 높이차 설정
-     * @param cloudHeightDistance
+     * @param cloudHeightDistance Distance
      */
     public void setCloudHeightDistance(double cloudHeightDistance) {
         this.cloudHeightDistance = cloudHeightDistance;
