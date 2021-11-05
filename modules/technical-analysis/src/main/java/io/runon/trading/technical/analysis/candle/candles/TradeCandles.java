@@ -65,6 +65,18 @@ public class TradeCandles {
 
     private final List<CandleChangeObserver> observerList = new LinkedList<>();
 
+    private boolean isTradeRecord = false;
+
+    private long lastTime = System.currentTimeMillis();
+
+    /**
+     * 거래정보 기록 여부 설정
+     * 설정하지 않으면 false
+     * @param tradeRecord 거래정보 기록 여부
+     */
+    public void setTradeRecord(boolean tradeRecord) {
+        isTradeRecord = tradeRecord;
+    }
 
     /**
      *  캔들 변화 인지 옵져버 추가
@@ -200,6 +212,8 @@ public class TradeCandles {
      * @param isNewCandles boolean candles array change flag
      */
     public void addCandle(TradeCandle tradeCandle, boolean isNewCandles){
+        lastTime = System.currentTimeMillis();
+        tradeCandle.setTradeRecord(isTradeRecord);
         TradeCandle lastEndCandle = null;
 
         if(candles.length > 0){
@@ -245,9 +259,10 @@ public class TradeCandles {
     /**
      * 거래정보 추가
      * trade add
-     * @param trade Trade trade
+     * @param trade 거래정보
      */
     public void addTrade(Trade trade){
+        lastTime = System.currentTimeMillis();
         tradeAdd.addTrade(trade);
     }
 
@@ -271,11 +286,12 @@ public class TradeCandles {
 
     /**
      * 캔들을 추가로 생성하여 트레이드 정보 입력
-     * @param trade Trade trade
+     * @param trade 거래정보
      * @param startTime long startTime
      * @param endTime long endTime
      */
     void addTradeNewCandle(Trade trade, long startTime, long endTime){
+        lastTime = System.currentTimeMillis();
         TradeCandle tradeCandle = new TradeCandle();
         tradeCandle.setOpenTime(startTime);
         tradeCandle.setCloseTime(endTime);
@@ -344,6 +360,13 @@ public class TradeCandles {
         return steadyGapRatio;
     }
 
+    /**
+     * 최종 추가 시간 얻기
+     * @return 최종 추가 시간
+     */
+    public long getLastTime() {
+        return lastTime;
+    }
 
 
     // 주식쪽에 옮겨갈 소스로 옮기기 전까지는 주석처리

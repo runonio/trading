@@ -87,14 +87,29 @@ public class TradeCandle extends CandleStick {
      */
     private List<Trade> tradeList = null;
 
+    private boolean isTradeRecord = false;
+
+    /**
+     * 거래정보 기록 여부 설정
+     * 설정하지 않으면 false
+     * @param tradeRecord 거래정보 기록 여부
+     */
+    public void setTradeRecord(boolean tradeRecord) {
+        isTradeRecord = tradeRecord;
+    }
+
+
+    private boolean isInit = false;
+
     /**
      * 거래정보 추가
      * @param trade Trade 거래정보
      */
     public void addTrade(Trade trade){
 
-        if(tradeList == null){
-            tradeList = new ArrayList<>();
+        if(!isInit){
+            isInit = true;
+
             setOpen(trade.getPrice());
             setClose(trade.getPrice());
             high = trade.getPrice();
@@ -108,8 +123,15 @@ public class TradeCandle extends CandleStick {
             }
             setClose(trade.getPrice());
         }
-        tradeList.add(trade);
-        tradeCount = tradeList.size();
+        if(isTradeRecord){
+            if(tradeList == null){
+                tradeList = new ArrayList<>();
+            }
+            tradeCount = tradeList.size();
+            tradeList.add(trade);
+        }else{
+            tradeCount++;
+        }
 
         if(trade.getType() == Trade.Type.BUY){
             buyVolume = buyVolume.add(trade.getVolume());
@@ -135,6 +157,7 @@ public class TradeCandle extends CandleStick {
      * trade 를 한번에 추가했을때 사용
      */
     public void setCandleToTrade(){
+
         if(tradeList == null  || tradeList.size() == 0){
             logger.error("trade data not set");
             return;
