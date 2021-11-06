@@ -49,13 +49,28 @@ public class TradeCandle extends CandleStick {
      */
     private BigDecimal sellVolume = BigDecimal.ZERO;
 
+    /**
+     * 거래대금
+     */
+    private BigDecimal tradingPrice = BigDecimal.ZERO;
+
+    /**
+     * 매수 거래대금
+     */
+    private BigDecimal buyTradingPrice = BigDecimal.ZERO;
+
+    /**
+     * 매도 거래대금
+     */
+    private BigDecimal sellTradingPrice = BigDecimal.ZERO;
+
 
     /**
      * 평균가격 얻기
      * @return  평균가격
      */
     public BigDecimal getAverage() {
-        return priceTotal.divide(volume, MathContext.DECIMAL128);
+        return tradingPrice.divide(volume, MathContext.DECIMAL128);
     }
 
 
@@ -81,7 +96,7 @@ public class TradeCandle extends CandleStick {
      */
     private int tradeCount = 0;
 
-    BigDecimal priceTotal = BigDecimal.ZERO;
+
     /**
      * 거래 정보 리스트
      */
@@ -135,12 +150,14 @@ public class TradeCandle extends CandleStick {
 
         if(trade.getType() == Trade.Type.BUY){
             buyVolume = buyVolume.add(trade.getVolume());
+            buyTradingPrice = buyTradingPrice.add(trade.getTradingPrice());
         }else{
             sellVolume = sellVolume.add(trade.getVolume());
+            sellTradingPrice = sellTradingPrice.add(trade.getTradingPrice());
         }
 
         volume = volume.add(trade.getVolume());
-        priceTotal = priceTotal.add(trade.getVolume().multiply(trade.getPrice()));
+        tradingPrice = tradingPrice.add(trade.getTradingPrice());
     }
 
     /**
@@ -163,42 +180,10 @@ public class TradeCandle extends CandleStick {
             return;
         }
 
-        priceTotal = BigDecimal.ZERO;
-
-        tradeCount = tradeList.size();
-
-
-        Trade firstTrade = tradeList.get(0);
-        Trade endTrade = tradeList.get(tradeList.size()-1);
-
-        setOpen(firstTrade.getPrice());
-        setClose(endTrade.getPrice());
-
-        volume = BigDecimal.ZERO;
-        BigDecimal high = firstTrade.getPrice();
-        BigDecimal low = firstTrade.getPrice();
-
         for (Trade trade: tradeList) {
-
-            volume = volume.add(trade.getVolume());
-            priceTotal = priceTotal.add(trade.getVolume().multiply(trade.getPrice()));
-
-            if(high.compareTo(trade.getPrice()) < 0){
-                high = trade.getPrice();
-            }
-
-            if(low.compareTo(trade.getPrice()) > 0){
-                low =  trade.getPrice();
-            }
-
-            if(trade.getType() == Trade.Type.BUY){
-                buyVolume = buyVolume.add(trade.getVolume());
-            }else{
-                sellVolume = sellVolume.add(trade.getVolume());
-            }
+            addTrade(trade);
         }
-        setHigh(high);
-        setLow(low);
+
     }
 
     //100.0 == 100% , 500.0 == 500%
@@ -269,4 +254,43 @@ public class TradeCandle extends CandleStick {
     }
 
 
+    /**
+     * 매수 거래량 얻기
+     * @return 매수 거래량
+     */
+    public BigDecimal getBuyVolume() {
+        return buyVolume;
+    }
+
+    /**
+     * 매도 거래량 얻기
+     * @return 매도거래량
+     */
+    public BigDecimal getSellVolume() {
+        return sellVolume;
+    }
+
+    /**
+     * 거래대금 얻기
+     * @return 거래대금
+     */
+    public BigDecimal getTradingPrice() {
+        return tradingPrice;
+    }
+
+    /**
+     * 매수거래대금 얻기
+     * @return 매수거래대금
+     */
+    public BigDecimal getBuyTradingPrice() {
+        return buyTradingPrice;
+    }
+
+    /**
+     * 매도거래대금 얻기
+     * @return 매도거래대금
+     */
+    public BigDecimal getSellTradingPrice() {
+        return sellTradingPrice;
+    }
 }

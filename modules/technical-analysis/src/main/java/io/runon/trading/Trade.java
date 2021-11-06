@@ -48,6 +48,12 @@ public class Trade {
     private final BigDecimal price;
 
     /**
+     * 거래대금
+     */
+    private BigDecimal tradingPrice = null;
+
+
+    /**
      * 시간
      */
     private final long time;
@@ -100,4 +106,24 @@ public class Trade {
     }
 
 
+    /**
+     * 거래대금 얻기
+     * 설정하지 않으면 거래량 * 가격
+     * 설정하였으면 설정한 가격
+     * @return 거래대금
+     */
+    public BigDecimal getTradingPrice() {
+        if(tradingPrice == null){
+            tradingPrice = price.multiply(volume);
+        }
+        return tradingPrice;
+    }
+
+    /**
+     * 거래대금 설정
+     * @param tradingPrice 거래대금
+     */
+    public void setTradingPrice(BigDecimal tradingPrice) {
+        this.tradingPrice = tradingPrice;
+    }
 }
