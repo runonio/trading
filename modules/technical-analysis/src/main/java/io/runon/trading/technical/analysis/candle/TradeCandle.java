@@ -116,11 +116,15 @@ public class TradeCandle extends CandleStick {
 
     private boolean isInit = false;
 
+    private long lastTradeTime = System.currentTimeMillis();
+
     /**
      * 거래정보 추가
      * @param trade Trade 거래정보
      */
     public void addTrade(Trade trade){
+
+        lastTradeTime = trade.getTime();
 
         if(!isInit){
             isInit = true;
@@ -292,5 +296,13 @@ public class TradeCandle extends CandleStick {
      */
     public BigDecimal getSellTradingPrice() {
         return sellTradingPrice;
+    }
+
+    /**
+     * 최종거래시간 얻기
+     * @return 최종거래시간
+     */
+    public long getTradeLastTime() {
+        return lastTradeTime;
     }
 }
