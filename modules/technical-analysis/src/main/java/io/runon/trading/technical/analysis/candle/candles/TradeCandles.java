@@ -58,7 +58,6 @@ public class TradeCandles {
     BigDecimal steadyGapRatio ;
 
     boolean isEmptyCandleContinue = false;
-    boolean isEmptyCandleMake = false;
 
     private final Object observerLock = new Object();
     private CandleChangeObserver[] observers = EMPTY_OBSERVER;
@@ -68,6 +67,17 @@ public class TradeCandles {
     private boolean isTradeRecord = false;
 
     private long lastTime = System.currentTimeMillis();
+
+    private boolean isValidTime = false;
+
+    /**
+     * 캔들 유효시간 사용여부 설정
+     * 최신시간에서 유효시간을 체크하여 유요하지 않으시간캔들 삭제
+     * @param isValidTime 캔들 유효시간 사용여부
+     */
+    public void setIsValidTime(boolean isValidTime) {
+        this.isValidTime = isValidTime;
+    }
 
     /**
      * 거래정보 기록 여부 설정
@@ -197,7 +207,8 @@ public class TradeCandles {
         }
         this.candles = candleList.toArray(new TradeCandle[0]);
     }
-    
+
+
     /**
      * add candle
      * @param tradeCandle TradeCandle add trade candle
@@ -209,40 +220,72 @@ public class TradeCandles {
     /**
      * add candle
      * @param tradeCandle TradeCandle add trade candle
-     * @param isNewCandles boolean candles array change flag
+     * @param isCandlesChange boolean candles array change flag
      */
-    public void addCandle(TradeCandle tradeCandle, boolean isNewCandles){
+    public void addCandle(TradeCandle tradeCandle, boolean isCandlesChange){
         lastTime = System.currentTimeMillis();
         tradeCandle.setTradeRecord(isTradeRecord);
         TradeCandle lastEndCandle = null;
 
-        if(candles.length > 0){
 
-            lastEndCandle = candles[candles.length-1];
+        if(lastCandle != null && lastCandle.getOpenTime() == tradeCandle.getOpenTime()){
+            //마지막 캔들 교체
 
-            //마지막 캔들이 더이상 변화가 없는상태로 변환
-            lastEndCandle.setEndTrade();
+            candleList.remove(candleList.size()-1);
 
-            //캔들유형을
-            if(shortGapRatio != null && steadyGapRatio != null && lastEndCandle.getType() == CandleStick.Type.UNDEFINED){
-                lastEndCandle.setType(lastEndCandle.getOpen().multiply(shortGapRatio) , lastEndCandle.getOpen().multiply(steadyGapRatio) );
-            }
-            
-            //새로 들어온 캔들이 변화가 없는 캔들일 경우
-            if(tradeCandle.isEndTrade()){
-                if(shortGapRatio != null && steadyGapRatio != null && tradeCandle.getType() == CandleStick.Type.UNDEFINED){
-                    tradeCandle.setType(tradeCandle.getOpen().multiply(shortGapRatio), tradeCandle.getOpen().multiply(steadyGapRatio));
+        }else {
+            if (candles.length > 0) {
+
+                lastEndCandle = candles[candles.length - 1];
+
+                //마지막 캔들이 더이상 변화가 없는상태로 변환
+                lastEndCandle.setEndTrade();
+
+                //캔들유형을
+                if (shortGapRatio != null && steadyGapRatio != null && lastEndCandle.getType() == CandleStick.Type.UNDEFINED) {
+                    lastEndCandle.setType(lastEndCandle.getOpen().multiply(shortGapRatio), lastEndCandle.getOpen().multiply(steadyGapRatio));
                 }
-                lastEndCandle = tradeCandle;
+
+                //새로 들어온 캔들이 변화가 없는 캔들일 경우
+                if (tradeCandle.isEndTrade()) {
+                    if (shortGapRatio != null && steadyGapRatio != null && tradeCandle.getType() == CandleStick.Type.UNDEFINED) {
+                        tradeCandle.setType(tradeCandle.getOpen().multiply(shortGapRatio), tradeCandle.getOpen().multiply(steadyGapRatio));
+                    }
+                    lastEndCandle = tradeCandle;
+                }
             }
+
         }
 
         candleList.add(tradeCandle);
 
-        while(candleList.size() >= count) {
-            candleList.remove(0);
+        for(;;){
+            if(candleList.size() > count){
+                candleList.remove(0);
+            }else{
+                break;
+            }
         }
-        if(isNewCandles ) {
+
+        if(isValidTime && candleList.size() > 1){
+            long validTime = tradeCandle.getOpenTime() - (timeGap*count);
+
+            for(;;){
+                if(candleList.size() <2){
+                    break;
+                }
+
+                TradeCandle candle = candleList.get(0);
+                if(candle.getOpenTime() < validTime){
+                    candleList.remove(0);
+                }else{
+                    break;
+                }
+            }
+
+        }
+
+        if(isCandlesChange) {
             this.candles = candleList.toArray(new TradeCandle[0]);
         }
         lastCandle = tradeCandle;
@@ -250,7 +293,6 @@ public class TradeCandles {
         CandleChangeObserver[] observers = this.observers;
 
         for(CandleChangeObserver observer : observers){
-
             observer.changeCandle(lastEndCandle, tradeCandle);
         }
     }
