@@ -299,6 +299,46 @@ public class TradeCandle extends CandleStick {
     }
 
     /**
+     * 거래대금 설정
+     * @param tradingPrice 거래대금
+     */
+    public void setTradingPrice(BigDecimal tradingPrice) {
+        this.tradingPrice = tradingPrice;
+    }
+
+    /**
+     * 매수볼륨 설정
+     * @param buyVolume 매수 볼륨
+     */
+    public void setBuyVolume(BigDecimal buyVolume) {
+        this.buyVolume = buyVolume;
+    }
+
+    /**
+     * 메도볼륨 설정
+     * @param sellVolume 매도 볼륨
+     */
+    public void setSellVolume(BigDecimal sellVolume) {
+        this.sellVolume = sellVolume;
+    }
+
+    /**
+     * 매수거래대금 설정
+     * @param buyTradingPrice 매수거래대금
+     */
+    public void setBuyTradingPrice(BigDecimal buyTradingPrice) {
+        this.buyTradingPrice = buyTradingPrice;
+    }
+
+    /**
+     * 매도거래대금 설정
+     * @param sellTradingPrice 매도거래대금
+     */
+    public void setSellTradingPrice(BigDecimal sellTradingPrice) {
+        this.sellTradingPrice = sellTradingPrice;
+    }
+
+    /**
      * 최종거래시간 얻기
      * @return 최종거래시간
      */
