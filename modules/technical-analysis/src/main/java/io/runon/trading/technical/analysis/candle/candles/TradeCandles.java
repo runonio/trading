@@ -75,7 +75,7 @@ public class TradeCandles {
      * 최신시간에서 유효시간을 체크하여 유요하지 않으시간캔들 삭제
      * @param isValidTime 캔들 유효시간 사용여부
      */
-    public void setIsValidTime(boolean isValidTime) {
+    public void setValidTime(boolean isValidTime) {
         this.isValidTime = isValidTime;
     }
 
