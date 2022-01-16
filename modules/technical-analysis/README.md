@@ -13,9 +13,9 @@
 단 이전에 작업 해 놓은게 너무 많아서 당장 사용하는 소스부터 변환 하고 있습니다.
 
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.0.1'
+implementation 'io.runon.trading:technical-analysis:0.0.2'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.1
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.2
 
 # communication
 ### blog, homepage
