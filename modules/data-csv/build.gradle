@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'io.runon.trading'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'io.runon.trading:technical-analysis:0.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}
