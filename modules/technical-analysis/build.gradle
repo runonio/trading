@@ -22,7 +22,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.10'
     implementation 'ch.qos.logback:logback-access:1.2.10'
 
-    implementation 'com.seomse.commons:seomse-commons:1.2.5'
+    implementation 'com.seomse.commons:commons:1.2.6'
 
 }
 

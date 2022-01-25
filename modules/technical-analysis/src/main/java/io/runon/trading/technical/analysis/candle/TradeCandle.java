@@ -323,6 +323,17 @@ public class TradeCandle extends CandleStick {
     }
 
     /**
+     * 매도볼륨 설정
+     * 매수 볼륨을 활용해서 설정한다.
+     */
+    public void setSellVolume(){
+        if(buyVolume == null || volume == null){
+            return ;
+        }
+        sellVolume = volume.subtract(buyVolume);
+    }
+
+    /**
      * 매수거래대금 설정
      * @param buyTradingPrice 매수거래대금
      */

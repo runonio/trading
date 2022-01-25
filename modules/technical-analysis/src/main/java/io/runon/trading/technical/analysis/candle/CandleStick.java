@@ -217,12 +217,10 @@ public class CandleStick implements PriceChange, Candle {
      */
     protected BigDecimal close;
 
-
     /**
      * 고가
      */
     protected BigDecimal high = null;
-
 
     /**
      * 저가
@@ -352,6 +350,10 @@ public class CandleStick implements PriceChange, Candle {
      * 변화가격이 설정되어 있을때 전일가격을 세팅한다.
      */
     public void setPrevious() {
+        if(close == null || change == null){
+            return;
+        }
+
         previous = close.subtract(change);
     }
 
@@ -360,6 +362,11 @@ public class CandleStick implements PriceChange, Candle {
      * 직전 가격이 설정되어 있을때 가격변화량 및 변화율을 설정한다.
      */
     public void setChange(){
+
+        if(close == null || previous == null){
+            return;
+        }
+
         change = close.subtract(previous);
         changeRate = change.divide(previous, MathContext.DECIMAL128);
     }
