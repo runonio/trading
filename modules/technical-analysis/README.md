@@ -14,9 +14,9 @@
 
 
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.0.2'
+implementation 'io.runon.trading:technical-analysis:0.0.3'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.2
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.3
 
 # communication
 ### blog, homepage

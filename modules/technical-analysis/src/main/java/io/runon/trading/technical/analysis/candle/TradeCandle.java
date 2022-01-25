@@ -350,6 +350,18 @@ public class TradeCandle extends CandleStick {
     }
 
     /**
+     * 매도거래대금 설정
+     * 매수대금을 활용한다
+     */
+    public void setSellTradingPrice() {
+        if(tradingPrice == null || buyTradingPrice == null){
+            return ;
+        }
+
+        this.sellTradingPrice = tradingPrice.subtract(buyTradingPrice);
+    }
+
+    /**
      * 최종거래시간 얻기
      * @return 최종거래시간
      */

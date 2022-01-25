@@ -69,6 +69,9 @@ public class CsvCandle {
                 tradeCandle.setBuyVolume(getBigDecimal(values[9]));
                 tradeCandle.setBuyTradingPrice(getBigDecimal(values[10]));
 
+                tradeCandle.setSellVolume();
+                tradeCandle.setSellTradingPrice();
+
                 //직전가로 변화량과 변화율 설정
                 tradeCandle.setChange();
             }
