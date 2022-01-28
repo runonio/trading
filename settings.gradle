@@ -1,9 +1,5 @@
 rootProject.name = 'trading'
-
 include 'technical-analysis'
 project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
 include 'chart-view'
 project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
-include 'modules:data-csv'
-findProject(':modules:data-csv')?.name = 'data-csv'
-

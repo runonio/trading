@@ -1,6 +1,8 @@
-package io.runon.trading.data.csv;
+package io.runon.trading.data;
 
 import com.seomse.commons.exception.IORuntimeException;
+import com.seomse.commons.utils.FileUtil;
+import io.runon.trading.exception.EmptyCandleException;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
@@ -16,8 +18,7 @@ import java.math.BigDecimal;
  */
 public class CsvCandle {
 
-
-    private final long time ;
+    private final long time;
 
     public CsvCandle(long time){
         this.time = time;
@@ -33,8 +34,11 @@ public class CsvCandle {
         this.candleCount = candleCount;
     }
 
-
     private TradeCandles tradeCandles = null;
+
+    public void setTradeCandles(TradeCandles tradeCandles) {
+        this.tradeCandles = tradeCandles;
+    }
 
     public TradeCandles load(String filePath){
         if(tradeCandles == null){
@@ -43,7 +47,6 @@ public class CsvCandle {
         if(candleCount != -1){
             tradeCandles.setCount(candleCount);
         }
-
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))){
             String line;
@@ -80,20 +83,54 @@ public class CsvCandle {
         }
         return null;
     }
-    
-    
-    
+
+    public void out(String path){
+        out(path, tradeCandles);
+    }
+
+    public void out(String path, TradeCandles tradeCandles){
+        TradeCandle[] candles = tradeCandles.getCandles();
+
+        if(candles.length == 0){
+            throw new EmptyCandleException();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(TradeCandle candle : candles){
+            sb.append("\n").append(value(candle));
+        }
+
+        FileUtil.fileOutput(sb.substring(1), path, false);
+    }
+
+    public String value(TradeCandle tradeCandle){
+        StringBuilder sb = new StringBuilder();
+        sb.append(tradeCandle.getOpenTime()).append(",").append(tradeCandle.getCloseTime());
+        append(sb, tradeCandle.getClose());
+        append(sb, tradeCandle.getOpen());
+        append(sb, tradeCandle.getHigh());
+        append(sb, tradeCandle.getLow());
+        append(sb, tradeCandle.getPrevious());
+        append(sb, tradeCandle.getVolume());
+        append(sb, tradeCandle.getTradingPrice());
+        sb.append(",").append(tradeCandle.getTradeCount());
+        append(sb, tradeCandle.getBuyVolume());
+        append(sb, tradeCandle.getBuyTradingPrice());
+        return sb.toString();
+    }
+
+    private void append(StringBuilder sb, BigDecimal bigDecimal){
+        sb.append(",");
+        if(bigDecimal != null){
+            sb.append(bigDecimal.stripTrailingZeros());
+        }
+    }
 
     private BigDecimal getBigDecimal(String value){
         if(value == null){
             return null;
         }
         return new BigDecimal(value);
-    }
-
-
-    public static void main(String[] args) {
-
     }
 
 }
