@@ -368,4 +368,5 @@ public class TradeCandle extends CandleStick {
     public long getTradeLastTime() {
         return lastTradeTime;
     }
+
 }

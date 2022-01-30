@@ -67,6 +67,11 @@ public class Trade {
      * @param time long
      */
     public Trade(Type type, BigDecimal price, BigDecimal volume, long time ){
+
+        if(price == null || volume == null) {
+            throw new IllegalArgumentException("price, volume is not null");
+        }
+
         this.type = type;
         this.price = price;
         this.volume = volume;
