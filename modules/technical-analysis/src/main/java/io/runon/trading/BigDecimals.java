@@ -17,6 +17,7 @@
 package io.runon.trading;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 가격변화유형
@@ -74,4 +75,19 @@ public class BigDecimals {
 
         return num1;
     }
+
+    /**
+     * BigDecimal 을 활용한 text 얻기
+     * @param num BigDecimal
+     * @param scale 소수점
+     * @return 문자열
+     */
+    public static String getText(BigDecimal num, int scale){
+        if( num == null){
+            return "";
+        }
+        return num.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+    }
+
+
 }
