@@ -16,7 +16,7 @@
 package io.runon.trading.technical.analysis.pattern.upper.shadow;
 
 import io.runon.trading.PriceChangeType;
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import io.runon.trading.TrendChangeType;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.pattern.CandlePatternDefault;
@@ -75,13 +75,13 @@ public class ShootingStar extends CandlePatternDefault {
 
         // 아래그림자와 다르게 위그림자 캔들은 몸통이 짧아야 하므로 비율을 좀더 준다
         BigDecimal upperTail = tradeCandle.getUpperTail();
-        if(change.multiply(TradingBigDecimal.DECIMAL_3).compareTo(upperTail) > 0){
+        if(change.multiply(BigDecimals.DECIMAL_3).compareTo(upperTail) > 0){
             //위꼬리가 몸통의 3배보다 커야한다
             return null;
         }
 
         BigDecimal shortGapPrice = tradeCandle.getOpen().multiply(shortGapRate) ;
-        if(shortGapPrice.multiply(TradingBigDecimal.DECIMAL_2).compareTo(upperTail) > 0){
+        if(shortGapPrice.multiply(BigDecimals.DECIMAL_2).compareTo(upperTail) > 0){
             //위꼬리가 짧은 기준의 2배보다 커야한다
             return null;
         }

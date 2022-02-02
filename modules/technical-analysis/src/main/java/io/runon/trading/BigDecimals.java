@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * 가격변화유형
  * @author macle
  */
-public class TradingBigDecimal {
+public class BigDecimals {
 
     // -1
     public final static BigDecimal DECIMAL_M_1 = new BigDecimal(-1);
@@ -41,4 +41,37 @@ public class TradingBigDecimal {
 
     //2.5
     public final static BigDecimal DECIMAL_2_5 = new BigDecimal("2.5");
+
+
+    public static BigDecimal getMin(BigDecimal num1, BigDecimal num2){
+        if(num1 == null){
+            return num2;
+        }
+
+        if(num2 == null){
+            return num1;
+        }
+
+        if(num1.compareTo(num2) > 0){
+            return num2;
+        }
+
+        return num1;
+    }
+
+    public static BigDecimal getMax(BigDecimal num1, BigDecimal num2){
+        if(num1 == null){
+            return num2;
+        }
+
+        if(num2 == null){
+            return num1;
+        }
+
+        if(num1.compareTo(num2) < 0){
+            return num2;
+        }
+
+        return num1;
+    }
 }

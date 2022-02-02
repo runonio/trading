@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.pattern.lower.shadow;
 
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.pattern.CandlePatternPoint;
@@ -52,14 +52,14 @@ public class LowerShadowPattern {
         //양봉이면 아래꼬리는
         BigDecimal lowerTail = tradeCandle.getLowerTail();
 
-        if(absChange.multiply(TradingBigDecimal.DECIMAL_2).compareTo(lowerTail) > 0){
+        if(absChange.multiply(BigDecimals.DECIMAL_2).compareTo(lowerTail) > 0){
             //아래꼬리가 몸통의 2배보다 커야한다
             return false;
         }
 
         BigDecimal upperTail = tradeCandle.getUpperTail();
         //noinspection RedundantIfStatement
-        if(upperTail.multiply(TradingBigDecimal.DECIMAL_2).compareTo(absChange) > 0 ){
+        if(upperTail.multiply(BigDecimals.DECIMAL_2).compareTo(absChange) > 0 ){
             //위꼬리는 몸통보다 2배이상 작아야한다.
             return false;
         }
@@ -99,8 +99,8 @@ public class LowerShadowPattern {
         }
 
         //추세(상승 or 하락) 점수 최대 가중치 1.5점
-        if(trendLineScore.compareTo(TradingBigDecimal.DECIMAL_1_5) > 0){
-            trendLineScore = TradingBigDecimal.DECIMAL_1_5;
+        if(trendLineScore.compareTo(BigDecimals.DECIMAL_1_5) > 0){
+            trendLineScore = BigDecimals.DECIMAL_1_5;
         }
 
         //몸통길이 계산하기
@@ -110,7 +110,7 @@ public class LowerShadowPattern {
 
         BigDecimal lowerTail = tradeCandle.getLowerTail();
 
-        BigDecimal score = lowerTail.divide(absChange.multiply(TradingBigDecimal.DECIMAL_100), MathContext.DECIMAL128).multiply(trendLineScore);
+        BigDecimal score = lowerTail.divide(absChange.multiply(BigDecimals.DECIMAL_100), MathContext.DECIMAL128).multiply(trendLineScore);
         return new CandlePatternPoint(candles[index], score);
     }
 

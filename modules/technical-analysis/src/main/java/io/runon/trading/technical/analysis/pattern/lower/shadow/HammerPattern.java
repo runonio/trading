@@ -16,7 +16,7 @@
 package io.runon.trading.technical.analysis.pattern.lower.shadow;
 
 import io.runon.trading.PriceChangeType;
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import io.runon.trading.TrendChangeType;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.pattern.CandlePatternDefault;
@@ -64,7 +64,7 @@ public class HammerPattern extends CandlePatternDefault {
         }
 
         //몸통이 약간은 있어야하므로 너무작은경우 체크 추가
-        if(tradeCandle.getChangeRate().multiply(TradingBigDecimal.DECIMAL_2).compareTo(shortGapRate) < 0){
+        if(tradeCandle.getChangeRate().multiply(BigDecimals.DECIMAL_2).compareTo(shortGapRate) < 0){
             //몸통길이가 짧은 캔들 기준값을 절반은 되어야함
             return null;
         }
