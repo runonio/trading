@@ -64,7 +64,6 @@ public class TradeCandle extends CandleStick {
      */
     private BigDecimal sellTradingPrice = BigDecimal.ZERO;
 
-
     /**
      * 평균가격 얻기
      * @return  평균가격
@@ -72,7 +71,6 @@ public class TradeCandle extends CandleStick {
     public BigDecimal getAverage() {
         return tradingPrice.divide(volume, MathContext.DECIMAL128);
     }
-
 
     /**
      * 거래량 얻기
@@ -95,7 +93,6 @@ public class TradeCandle extends CandleStick {
      * 한명이 대량 거래를 한건지를 측정하기위한 변수
      */
     private int tradeCount = 0;
-
 
     /**
      * 거래 정보 리스트
@@ -122,7 +119,6 @@ public class TradeCandle extends CandleStick {
      * @param trade Trade 거래정보
      */
     public void addTrade(Trade trade){
-
 
         lastTradeTime = trade.getTime();
 
@@ -170,10 +166,17 @@ public class TradeCandle extends CandleStick {
      */
     public void addCandle(TradeCandle tradeCandle){
 
-        
-        if(lastTradeTime < tradeCandle.getTradeLastTime()){
+        if(openTime == -1){
+            openTime = tradeCandle.getOpenTime();
+        }
+
+        if(closeTime == -1){
+            closeTime = tradeCandle.getCloseTime();
+        }
+
+        if(lastTradeTime < tradeCandle.getLastTradeTime()){
             //거래시간은 항상 최신값으로
-            lastTradeTime = tradeCandle.getTradeLastTime();
+            lastTradeTime = tradeCandle.getLastTradeTime();
             //총가는 항상 최신값으로
             if(tradeCandle.getClose() != null) {
                 close = tradeCandle.getClose();
@@ -234,12 +237,10 @@ public class TradeCandle extends CandleStick {
         for (Trade trade: tradeList) {
             addTrade(trade);
         }
-
     }
 
     //100.0 == 100% , 500.0 == 500%
     public static final BigDecimal MAX_STRENGTH = new BigDecimal(500);
-
 
     private BigDecimal strength = null;
 
@@ -412,8 +413,32 @@ public class TradeCandle extends CandleStick {
      * 최종거래시간 얻기
      * @return 최종거래시간
      */
-    public long getTradeLastTime() {
+    public long getLastTradeTime() {
         return lastTradeTime;
     }
 
+
+    public void setLastTradeTime(long lastTradeTime) {
+        this.lastTradeTime = lastTradeTime;
+    }
+
+    public static TradeCandle sumCandles( TradeCandle [] candles , long openTime, long closeTime){
+        TradeCandle tradeCandle = new TradeCandle();
+        tradeCandle.addCandle(candles[candles.length-1]);
+        for (int i = candles.length-2; i > -1 ; i--) {
+            TradeCandle candle = candles[i];
+            if(     //시작시간이 사이에 있거나
+                    (openTime <= candle.getOpenTime() && closeTime >= candle.getOpenTime())
+                    //시작시간이 걸쳐 있거나
+                    || (candle.getOpenTime() <= openTime && candle.getCloseTime() > openTime)
+                    //끝시간이 걸쳐 있거나
+                    || (candle.getOpenTime() <= closeTime && candle.getCloseTime() > closeTime)
+            ){
+                tradeCandle.addCandle(candle);
+            }else{
+                break;
+            }
+        }
+        return tradeCandle;
+    }
 }

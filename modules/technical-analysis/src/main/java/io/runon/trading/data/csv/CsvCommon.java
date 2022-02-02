@@ -11,7 +11,7 @@ public class CsvCommon {
     public static void append(StringBuilder sb, BigDecimal bigDecimal){
         sb.append(",");
         if(bigDecimal != null){
-            sb.append(bigDecimal.stripTrailingZeros());
+            sb.append(bigDecimal.stripTrailingZeros().toPlainString());
         }
     }
 

@@ -55,7 +55,6 @@ public class CandleStick implements PriceChange, Candle {
         return type;
     }
 
-
     /**
      * 유형설정
      * @param shortGap  짧은 캔들 gap
@@ -82,7 +81,6 @@ public class CandleStick implements PriceChange, Candle {
                 priceChangeType = PriceChangeType.FALL;
             }
         }
-
 
         BigDecimal upperShadow;
         BigDecimal lowerShadow;
@@ -119,7 +117,6 @@ public class CandleStick implements PriceChange, Candle {
             }
         }
 
-
         //아래그림자 캔들
         if(lowerShadow.compareTo(upperShadow) > 0
                 //아래그림자가 위꼬리보다 크고
@@ -133,7 +130,6 @@ public class CandleStick implements PriceChange, Candle {
                 type = Type.LOWER_SHADOW;
                 return;
             }
-
 
             BigDecimal rate = lowerShadow.divide(upperShadow, MathContext.DECIMAL128);
             if(rate.compareTo(decimal_2) >= 2.0){
@@ -232,7 +228,6 @@ public class CandleStick implements PriceChange, Candle {
      */
     protected BigDecimal change = null;
 
-
     /**
      * 가격 변화율
      */
@@ -242,7 +237,6 @@ public class CandleStick implements PriceChange, Candle {
      * 전 candle 가격
      */
     protected BigDecimal previous = null;
-
 
     /**
      * 시가 얻기
@@ -357,7 +351,6 @@ public class CandleStick implements PriceChange, Candle {
         previous = close.subtract(change);
     }
 
-
     /**
      * 직전 가격이 설정되어 있을때 가격변화량 및 변화율을 설정한다.
      */
@@ -370,7 +363,6 @@ public class CandleStick implements PriceChange, Candle {
         change = close.subtract(previous);
         changeRate = change.divide(previous, MathContext.DECIMAL128);
     }
-
 
     /**
      * 가격 변화량 얻기
@@ -388,7 +380,6 @@ public class CandleStick implements PriceChange, Candle {
     public void setChangeRate(BigDecimal changeRate) {
         this.changeRate = changeRate;
     }
-
 
     /**
      * 가격 변화량 절대값 얻기
@@ -428,20 +419,19 @@ public class CandleStick implements PriceChange, Candle {
         return open.max(close).subtract(low);
     }
 
-
     /**
      * 시작시간
      */
-    private long openTime;
+    protected long openTime = -1;
 
     /**
      * 끝시간
      */
-    private long closeTime;
-
+    protected long closeTime = -1;
 
     /**
      * 시작시간 얻기
+     * 설정되지 않으면 -1
      * @return long 시작시간
      */
     public long getOpenTime() {
@@ -450,6 +440,7 @@ public class CandleStick implements PriceChange, Candle {
 
     /**
      * 시작시간 설정
+     * 설정되지 않으면 -1
      * @param openTime long 시작시간
      */
     public void setOpenTime(long openTime) {
@@ -458,6 +449,7 @@ public class CandleStick implements PriceChange, Candle {
 
     /**
      * 끝시간 얻기
+     * 설정되지 않으면 -1
      * @return long 끝시간
      */
     public long getCloseTime() {
@@ -466,13 +458,12 @@ public class CandleStick implements PriceChange, Candle {
 
     /**
      * 끝시간 설정
+     * 설정되지 않으면 -1
      * @param closeTime long 끝시간
      */
     public void setCloseTime(long closeTime) {
         this.closeTime = closeTime;
     }
-
-
 
     protected boolean isEndTrade = false;
 
@@ -490,6 +481,5 @@ public class CandleStick implements PriceChange, Candle {
     public void setEndTrade() {
         isEndTrade = true;
     }
-
 }
 

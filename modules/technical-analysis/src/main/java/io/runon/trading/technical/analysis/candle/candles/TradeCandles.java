@@ -297,7 +297,6 @@ public class TradeCandles {
         }
     }
 
-
     /**
      * 거래정보 추가
      * trade add
@@ -306,6 +305,13 @@ public class TradeCandles {
     public void addTrade(Trade trade){
         lastTime = System.currentTimeMillis();
         tradeAdd.addTrade(trade);
+    }
+
+    public void addTrade(Trade [] trades){
+        lastTime = System.currentTimeMillis();
+        for(Trade trade:  trades){
+            tradeAdd.addTrade(trade);
+        }
     }
 
     /**
