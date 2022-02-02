@@ -17,7 +17,7 @@
 package io.runon.trading.technical.analysis.subindex.rsi;
 
 import io.runon.trading.PriceChangeRate;
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.CandleBigDecimalChange;
 import io.runon.trading.technical.analysis.subindex.ma.MovingAverage;
 
@@ -165,19 +165,19 @@ public class RSI {
             return BigDecimal.ZERO;
         }
         if(downCount == 0){
-            return TradingBigDecimal.DECIMAL_100;
+            return BigDecimals.DECIMAL_100;
         }
 
         BigDecimal averageUps = upSum.divide(new BigDecimal(upCount), MathContext.DECIMAL128);
         //- 값이므로 -를 곲함 양수전환
-        BigDecimal averageDowns = downSum.divide(new BigDecimal(downCount).multiply(TradingBigDecimal.DECIMAL_M_1),MathContext.DECIMAL128);
+        BigDecimal averageDowns = downSum.divide(new BigDecimal(downCount).multiply(BigDecimals.DECIMAL_M_1),MathContext.DECIMAL128);
 
         BigDecimal rs = averageUps.divide(averageDowns, MathContext.DECIMAL128);
         BigDecimal rsi = rs.divide(BigDecimal.ONE.add(rs), MathContext.DECIMAL128);
 
         //소수점 4재짜리 까지만 사용하기
         //백분율 이기때문에  * 100의 효과
-        return rsi.multiply(TradingBigDecimal.DECIMAL_100);
+        return rsi.multiply(BigDecimals.DECIMAL_100);
     }
 
     /**

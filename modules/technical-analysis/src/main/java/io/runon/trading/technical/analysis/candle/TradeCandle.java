@@ -16,7 +16,7 @@
 package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.Trade;
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +113,6 @@ public class TradeCandle extends CandleStick {
         isTradeRecord = tradeRecord;
     }
 
-
     private boolean isInit = false;
 
     private long lastTradeTime = System.currentTimeMillis();
@@ -123,6 +122,7 @@ public class TradeCandle extends CandleStick {
      * @param trade Trade 거래정보
      */
     public void addTrade(Trade trade){
+
 
         lastTradeTime = trade.getTime();
 
@@ -162,6 +162,53 @@ public class TradeCandle extends CandleStick {
 
         volume = volume.add(trade.getVolume());
         tradingPrice = tradingPrice.add(trade.getTradingPrice());
+    }
+
+    /**
+     * 캔들정보추가 (정보합침)
+     * @param tradeCandle 캔들정보를 활용하여 정보합침
+     */
+    public void addCandle(TradeCandle tradeCandle){
+
+        
+        if(lastTradeTime < tradeCandle.getTradeLastTime()){
+            //거래시간은 항상 최신값으로
+            lastTradeTime = tradeCandle.getTradeLastTime();
+            //총가는 항상 최신값으로
+            if(tradeCandle.getClose() != null) {
+                close = tradeCandle.getClose();
+            }
+        }
+
+        low = BigDecimals.getMax(low, tradeCandle.getLow());
+        high = BigDecimals.getMax(high, tradeCandle.getHigh());
+
+        if(isTradeRecord && tradeCandle.getTradeList() != null){
+            if(tradeList == null){
+                tradeList = new ArrayList<>();
+            }
+            tradeList.addAll(tradeCandle.getTradeList());
+        }
+
+        tradeCount += tradeCandle.getTradeCount();
+
+        buyVolume = buyVolume.add(tradeCandle.getBuyVolume());
+        buyTradingPrice = buyTradingPrice.add(tradeCandle.getBuyTradingPrice());
+
+        sellVolume = sellVolume.add(tradeCandle.getSellVolume());
+        sellTradingPrice = sellTradingPrice.add(tradeCandle.getSellTradingPrice());
+
+        volume = volume.add(tradeCandle.getVolume());
+        tradingPrice = tradingPrice.add(tradeCandle.getTradingPrice());
+    }
+
+    /**
+     * 거래리스트 얻기
+     * isTradeRecord = true 일때만 적용
+     * @return 거래리스트
+     */
+    public List<Trade> getTradeList() {
+        return tradeList;
     }
 
     /**
@@ -224,7 +271,7 @@ public class TradeCandle extends CandleStick {
             return MAX_STRENGTH;
         }
 
-        BigDecimal strength = buyVolume.divide(sellVolume, MathContext.DECIMAL128).multiply(TradingBigDecimal.DECIMAL_100);
+        BigDecimal strength = buyVolume.divide(sellVolume, MathContext.DECIMAL128).multiply(BigDecimals.DECIMAL_100);
 
         if(strength.compareTo(MAX_STRENGTH) > 0){
             this.strength = MAX_STRENGTH;

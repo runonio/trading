@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.trend.line;
 
-import io.runon.trading.TradingBigDecimal;
+import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
@@ -119,13 +119,13 @@ public class TrendLine {
 
 
         BigDecimal avg = changeRateSum.abs().divide(new BigDecimal(count), MathContext.DECIMAL128);
-        BigDecimal half = shortGapRate.multiply(TradingBigDecimal.DECIMAL_0_5);
+        BigDecimal half = shortGapRate.multiply(BigDecimals.DECIMAL_0_5);
 
         if(half.compareTo(avg) > 0 ){
             return null;
         }
 
-        return candles[index-1].getClose().subtract(candles[startIndex].getOpen()).abs().divide(new BigDecimal(count).multiply(TradingBigDecimal.DECIMAL_0_5), MathContext.DECIMAL128);
+        return candles[index-1].getClose().subtract(candles[startIndex].getOpen()).abs().divide(new BigDecimal(count).multiply(BigDecimals.DECIMAL_0_5), MathContext.DECIMAL128);
     }
 
     /**
