@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.runon.trading;
+package io.runon.trading.technical.analysis.candle;
+
+import io.runon.trading.Trade;
 
 /**
  * 거래정보 추가
@@ -25,5 +27,5 @@ public interface TradeAdd {
      * trade 추가
      * @param trade Trade
      */
-    void addTrade(Trade trade);
+    TradeCandle addTrade(Trade trade);
 }

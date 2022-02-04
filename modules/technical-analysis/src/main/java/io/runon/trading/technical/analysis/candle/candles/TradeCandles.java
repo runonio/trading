@@ -17,8 +17,8 @@ package io.runon.trading.technical.analysis.candle.candles;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
-import io.runon.trading.TradeAdd;
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 
 /**
  * 여러개의 TradeCandle 정보
@@ -302,16 +301,18 @@ public class TradeCandles {
      * trade add
      * @param trade 거래정보
      */
-    public void addTrade(Trade trade){
+    public TradeCandle addTrade(Trade trade){
         lastTime = System.currentTimeMillis();
-        tradeAdd.addTrade(trade);
+        return tradeAdd.addTrade(trade);
     }
 
-    public void addTrade(Trade [] trades){
+    public TradeCandle addTrade(Trade [] trades){
         lastTime = System.currentTimeMillis();
+        TradeCandle last = null;
         for(Trade trade:  trades){
-            tradeAdd.addTrade(trade);
+            last = tradeAdd.addTrade(trade);
         }
+        return last;
     }
 
     /**
@@ -338,13 +339,14 @@ public class TradeCandles {
      * @param startTime long startTime
      * @param endTime long endTime
      */
-    void addTradeNewCandle(Trade trade, long startTime, long endTime){
+    TradeCandle addTradeNewCandle(Trade trade, long startTime, long endTime){
         lastTime = System.currentTimeMillis();
         TradeCandle tradeCandle = new TradeCandle();
         tradeCandle.setOpenTime(startTime);
         tradeCandle.setCloseTime(endTime);
         tradeCandle.addTrade(trade);
         addCandle(tradeCandle);
+        return tradeCandle;
     }
 
     /**

@@ -442,4 +442,8 @@ public class TradeCandle extends CandleStick {
         }
         return tradeCandle;
     }
+
+    public void addTradingCount(int count){
+        tradeCount += count;
+    }
 }

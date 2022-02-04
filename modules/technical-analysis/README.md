@@ -22,9 +22,9 @@
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.0.8'
+implementation 'io.runon.trading:technical-analysis:0.1.0'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.0.8
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.0
 
 # communication
 ### blog, homepage
