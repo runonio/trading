@@ -15,8 +15,8 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.trading.Trade;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,13 +165,14 @@ public class TradeCandle extends CandleStick {
      * @param tradeCandle 캔들정보를 활용하여 정보합침
      */
     public void addCandle(TradeCandle tradeCandle){
-
         if(openTime == -1){
             openTime = tradeCandle.getOpenTime();
+            open = tradeCandle.getOpen();
         }
 
         if(closeTime == -1){
             closeTime = tradeCandle.getCloseTime();
+            close = tradeCandle.getClose();
         }
 
         if(lastTradeTime < tradeCandle.getLastTradeTime()){
@@ -264,7 +265,7 @@ public class TradeCandle extends CandleStick {
         }
 
         if(sellVolume == null && buyVolume == null){
-            return BigDecimal.ONE;
+            return BigDecimals.DECIMAL_100;
         }
 
         if(sellVolume == null || sellVolume.compareTo(BigDecimal.ZERO) == 0){
@@ -440,5 +441,9 @@ public class TradeCandle extends CandleStick {
             }
         }
         return tradeCandle;
+    }
+
+    public void addTradingCount(int count){
+        tradeCount += count;
     }
 }

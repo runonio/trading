@@ -35,17 +35,17 @@ public class Trade {
     /**
      * 거래유형
      */
-    private final Type type;
+    private Type type;
 
     /**
      * 거래량
      */
-    private final BigDecimal volume;
+    private BigDecimal volume;
 
     /**
      * 가격
      */
-    private final BigDecimal price;
+    private BigDecimal price;
 
     /**
      * 거래대금
@@ -56,8 +56,12 @@ public class Trade {
     /**
      * 시간
      */
-    private final long time;
+    private long time;
 
+
+    public Trade(){
+
+    }
 
     /**
      * 생성자
@@ -130,5 +134,22 @@ public class Trade {
      */
     public void setTradingPrice(BigDecimal tradingPrice) {
         this.tradingPrice = tradingPrice;
+    }
+
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

@@ -17,8 +17,9 @@
 package io.runon.trading.technical.analysis.candle.candles;
 
 import io.runon.trading.Trade;
-import io.runon.trading.TradeAdd;
 import io.runon.trading.technical.analysis.candle.CandleTimeGap;
+import io.runon.trading.technical.analysis.candle.TradeAdd;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 
 /**
@@ -38,18 +39,18 @@ class FirstTradeAdd implements TradeAdd {
     }
 
     @Override
-    public void addTrade(Trade trade){
+    public TradeCandle addTrade(Trade trade){
         if(tradeCandles.candleList.size() != 0){
             //이미 추가된 켄들이 있을경우
             tradeCandles.tradeAdd = new NextTradeAdd(tradeCandles);
-            tradeCandles.tradeAdd.addTrade(trade);
-            return;
+            return tradeCandles.tradeAdd.addTrade(trade);
         }
         long timeGap = tradeCandles.getTimeGap();
 
         long startTime = CandleTimeGap.getStartTime(timeGap, trade.getTime());
-        tradeCandles.addTradeNewCandle(trade, startTime, startTime + timeGap);
+        TradeCandle tradeCandle =tradeCandles.addTradeNewCandle(trade, startTime, startTime + timeGap);
         tradeCandles.tradeAdd = new NextTradeAdd(tradeCandles);
 
+        return tradeCandle;
     }
 }
