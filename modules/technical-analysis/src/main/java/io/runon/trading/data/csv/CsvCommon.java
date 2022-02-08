@@ -19,6 +19,11 @@ public class CsvCommon {
         if(value == null){
             return null;
         }
+        value = value.trim();
+        if(value.length() == 0){
+            return null;
+        }
+
         return new BigDecimal(value);
     }
 }

@@ -117,6 +117,10 @@ public class CsvCandle {
             tradeCandle.setTradeCount(Integer.parseInt(values[8]));
         }
 
+        if(tradeCandle.getPrevious() == null){
+            tradeCandle.setPrevious(tradeCandle.getOpen());
+        }
+
         tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
         tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
         tradeCandle.setSellVolume();

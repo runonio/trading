@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>technical-analysis</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
 
     <name>technical-analysis</name>
@@ -146,7 +146,7 @@
         <dependency>
             <groupId>com.seomse.commons</groupId>
             <artifactId>commons</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.7</version>
         </dependency>
 
         <dependency>
