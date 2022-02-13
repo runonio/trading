@@ -1,12 +1,7 @@
-# technical-analysis
+# data
 
 # 개발환경
 - open jdk 17
-
-# 개요
- - 기술적 분석
- - 트레이딩을 시작한다면 지금으로서는 가장 기본적인 모듈
- - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
 
 # 데이터구조
 ## csv TradeCandle(캔들) 데이터 기본 구조
@@ -22,9 +17,9 @@
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.1.2'
+implementation 'io.runon.trading:data:0.0.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.2
+    - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.1
 
 # communication
 ### blog, homepage
