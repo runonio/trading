@@ -1,3 +1,4 @@
+
 package io.runon.trading.data.csv;
 
 import io.runon.trading.Trade;
