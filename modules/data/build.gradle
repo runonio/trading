@@ -2,7 +2,9 @@ plugins {
     id 'java'
 }
 
-version 'unspecified'
+group 'io.runon.trading'
+version '0.0.3'
+
 
 repositories {
     mavenCentral()

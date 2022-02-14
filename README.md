@@ -26,9 +26,9 @@ implementation 'io.runon.trading:technical-analysis:0.1.3'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.3
 
-implementation 'io.runon.trading:data:0.0.2'
+implementation 'io.runon.trading:data:0.0.3'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.2
+    - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.3
 
 implementation 'io.runon.trading:chart-view:0.1.3'
 - etc
