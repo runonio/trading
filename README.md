@@ -6,6 +6,11 @@
 
 # 데이터구조
 
+
+# 데이터구조
+## csv TradeCandle(캔들) 데이터 기본 구조
+캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
+
 ## csv Trade(거래) (거래대금이 설정된 경우)
 - 유형종류 (BUY, SELL)
 
@@ -16,9 +21,9 @@
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
 # gradle
-implementation 'io.runon.trading:trading:0.0.2'
+implementation 'io.runon.trading:trading:0.0.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.0.2
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.0.4
 
 implementation 'io.runon.trading:technical-analysis:0.1.2'
 - etc

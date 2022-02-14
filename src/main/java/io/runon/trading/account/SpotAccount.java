@@ -94,4 +94,7 @@ public abstract class SpotAccount implements Account{
         return id;
     }
 
+    public BigDecimal getCash() {
+        return cash;
+    }
 }
