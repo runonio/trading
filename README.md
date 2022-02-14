@@ -16,9 +16,9 @@
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
 # gradle
-implementation 'io.runon.trading:trading:0.0.1'
+implementation 'io.runon.trading:trading:0.0.2'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.0.1
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.0.2
 
 implementation 'io.runon.trading:technical-analysis:0.1.2'
 - etc
