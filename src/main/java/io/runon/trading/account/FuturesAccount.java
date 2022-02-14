@@ -1,10 +1,12 @@
 package io.runon.trading.account;
 
+import io.runon.trading.AmountType;
 import io.runon.trading.Position;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +20,7 @@ public abstract class FuturesAccount implements Account{
 
     protected BigDecimal cash = BigDecimal.ZERO;
 
-    private final String id;
+    protected final String id;
     public FuturesAccount(String id){
         this.id = id;
     }
@@ -34,12 +36,64 @@ public abstract class FuturesAccount implements Account{
     protected final Object lock = new Object();
 
     protected final Map<String, FuturesHolding> holdingMap = new HashMap<>();
-
     protected SymbolPrice symbolPrice;
-
     public void setSymbolPrice(SymbolPrice symbolPrice) {
         this.symbolPrice = symbolPrice;
     }
+
+    //기준 1달러
+    protected BigDecimal minPrice = BigDecimal.ONE;
+    public void setMinPrice(BigDecimal minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    protected AmountType amountType = AmountType.DECIMAL;
+
+    public void setAmountType(AmountType amountType) {
+        this.amountType = amountType;
+    }
+
+
+    protected int scale = 6;
+
+    /**
+     * AmountType DECIMAL 일떄만 사용
+     * @param scale default 6
+     */
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    /**
+     *
+     * @param subtractRate 제외비율
+     * @param symbol 심볼
+     * @param position 롱숏 표지션
+     * @param leverage 레버리지
+     * @return 레버리지를 포함한 포지션, 캐시가 부족하면 null
+     */
+    public FuturesHolding getBuyAmount(BigDecimal subtractRate, String symbol, Position position, BigDecimal leverage){
+        BigDecimal price = symbolPrice.getPrice(symbol);
+        BigDecimal cash = this.cash.multiply(leverage).multiply(subtractRate);
+        BigDecimal amount;
+        if(amountType == AmountType.INTEGER){
+            amount = cash.divide(price, 0, RoundingMode.DOWN);
+        }else{
+            //AmountType.DECIMAL
+            amount = cash.divide(price, scale, RoundingMode.DOWN);
+        }
+
+        FuturesHolding futuresHolding = new FuturesHolding();
+        futuresHolding.symbol = symbol;
+        futuresHolding.price = price;
+        futuresHolding.amount = amount;
+        futuresHolding.leverage = leverage;
+        futuresHolding.position = position;
+
+        return futuresHolding;
+    }
+
+
     /**
      * 종목과 방향성 추가
      * 포지션 율 변경 같은 부분은 신경쓰지않고 전량매수 전량매도로만 작업
@@ -136,5 +190,9 @@ public abstract class FuturesAccount implements Account{
             }
             return assets;
         }
+    }
+
+    public BigDecimal getCash() {
+        return cash;
     }
 }
