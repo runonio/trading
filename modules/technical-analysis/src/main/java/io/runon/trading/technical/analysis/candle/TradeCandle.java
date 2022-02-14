@@ -17,8 +17,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -30,9 +29,10 @@ import java.util.List;
  * 기본정보외에 분석에 필요한 거래정보 추가
  * @author macle
  */
+@Slf4j
 public class TradeCandle extends CandleStick {
 
-    private static final Logger logger = LoggerFactory.getLogger(TradeCandle.class);
+    public static final TradeCandle [] EMPTY_CANDLES = new TradeCandle[0];
 
     /**
      * 거래량
@@ -231,7 +231,7 @@ public class TradeCandle extends CandleStick {
     public void setCandleToTrade(){
 
         if(tradeList == null  || tradeList.size() == 0){
-            logger.error("trade data not set");
+            log.error("trade data not set");
             return;
         }
 

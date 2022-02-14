@@ -3,12 +3,13 @@ package io.runon.trading.data.csv;
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * csv 파일을 활용한 캔들 생성
@@ -16,53 +17,26 @@ import java.io.InputStreamReader;
  */
 public class CsvCandle {
 
-    private final long time;
 
-    public CsvCandle(long time){
-        this.time = time;
-    }
-
-    //설정하지 않으면 기본값 활용
-    private int candleCount = -1;
-
-    public void setCandleCount(int candleCount) {
-        if(candleCount < 1){
-            throw new IllegalArgumentException("candle count > 0");
-        }
-        this.candleCount = candleCount;
-    }
-
-    private TradeCandles tradeCandles = null;
-
-    public void setTradeCandles(TradeCandles tradeCandles) {
-        this.tradeCandles = tradeCandles;
-    }
-
-    public TradeCandles load(String filePath){
-        if(tradeCandles == null){
-            tradeCandles = new TradeCandles(time);
-        }
-        if(candleCount != -1){
-            tradeCandles.setCount(candleCount);
-        }
+    public static TradeCandle [] load(String filePath, long time){
+        List<TradeCandle> list = new ArrayList<>();
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))){
             String line;
             while ((line = br.readLine()) != null) {
-                tradeCandles.addCandle(make(line, time));
+                list.add(make(line, time));
             }
         }catch(IOException e){
             throw new IORuntimeException(e);
         }
-        return tradeCandles;
+
+        TradeCandle [] candles = list.toArray(new TradeCandle[0]);
+        list.clear();
+
+        return candles;
     }
 
-    public void out(String path){
-        out(path, tradeCandles);
-    }
-
-    public void out(String path, TradeCandles tradeCandles){
-        TradeCandle[] candles = tradeCandles.getCandles();
+    public static void out(String path, TradeCandle[] candles){
 
         if(candles.length == 0){
             throw new IllegalArgumentException("candles length > 0");

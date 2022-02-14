@@ -205,6 +205,22 @@ public class TradeCandles {
             addCandle(tradeCandle, false);
         }
         this.candles = candleList.toArray(new TradeCandle[0]);
+        setEnd();
+    }
+
+    /**
+     * 캔들의 종료여부 설정
+     */
+    public void setEnd(){
+        TradeCandle [] candles = this.candles;
+        for (int i = 0; i < candles.length-2 ; i++) {
+            candles[i].setEndTrade();
+        }
+
+        TradeCandle last = candles[candles.length-1];
+        if(last.getCloseTime() <= System.currentTimeMillis()){
+            last.setEndTrade();
+        }
     }
 
 
@@ -233,7 +249,7 @@ public class TradeCandles {
             candleList.remove(candleList.size()-1);
 
         }else {
-            if (candles.length > 0) {
+            if (candles.length > 0 && isCandlesChange) {
 
                 lastEndCandle = candles[candles.length - 1];
 
@@ -374,6 +390,65 @@ public class TradeCandles {
      */
     public TradeCandle[] getCandles() {
         return candles;
+    }
+
+    /**
+     * 캔들 배열 얻기
+     * 기존배열에서 end time 이용하여 원하는 캔들만큼 건수생성
+     * @return TradeCandle candles
+     */
+    public TradeCandle[] getCandles(long endTime, int count) {
+        TradeCandle [] candles = this.candles;
+
+        long openTime = candles[0].getOpenTime();
+
+        if(openTime > endTime){
+            return TradeCandle.EMPTY_CANDLES;
+        }
+
+        long time = endTime - openTime;
+
+        int quotient = (int) (time/timeGap);
+
+        if(quotient >= candles.length){
+            return TradeCandle.EMPTY_CANDLES;
+        }
+
+        int end = quotient + 1;
+
+        int startIndex =  end - count;
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        TradeCandle [] newCandles = new TradeCandle[end - startIndex];
+        int index = 0;
+
+        for (int i = startIndex; i < end ; i++) {
+            newCandles[index++] = candles[i];
+        }
+
+        return newCandles;
+    }
+
+    public TradeCandle getCandle(long endTime){
+        TradeCandle [] candles = this.candles;
+
+        long openTime = candles[0].getOpenTime();
+
+        if(openTime > endTime){
+            return null;
+        }
+
+        long time = endTime - openTime;
+
+        int quotient = (int) (time/timeGap);
+
+        if(quotient >= candles.length){
+            return null;
+        }
+        return candles[quotient];
     }
 
     /**
