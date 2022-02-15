@@ -89,5 +89,12 @@ public class BigDecimals {
         return num.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
+    public static BigDecimal add(BigDecimal [] array){
+        BigDecimal sum = BigDecimal.ZERO;
+        for(BigDecimal decimal : array){
+            sum = sum.add(decimal);
+        }
+        return sum;
+    }
 
 }
