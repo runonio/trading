@@ -7,7 +7,9 @@ ext {
 }
 
 
-version 'unspecified'
+group 'io.runon.trading'
+version '0.0.5'
+
 
 repositories {
     mavenCentral()
