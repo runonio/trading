@@ -243,14 +243,14 @@ public class TradeCandle extends CandleStick {
     //100.0 == 100% , 500.0 == 500%
     public static final BigDecimal MAX_STRENGTH = new BigDecimal(500);
 
-    private BigDecimal strength = null;
+    private BigDecimal volumePower = null;
 
     /**
      * 체결강도 설정
-     * @param strength 체결강도
+     * @param volumePower 체결강도
      */
-    public void setStrength(BigDecimal strength) {
-        this.strength = strength;
+    public void setVolumePower(BigDecimal volumePower) {
+        this.volumePower = volumePower;
     }
 
     /**
@@ -258,10 +258,10 @@ public class TradeCandle extends CandleStick {
      * max  MAX_STRENGTH
      * @return  체결 강도
      */
-    public BigDecimal strength(){
+    public BigDecimal getVolumePower(){
 
-        if(isEndTrade && strength != null){
-            return strength;
+        if(isEndTrade && volumePower != null){
+            return volumePower;
         }
 
         if(sellVolume == null && buyVolume == null){
@@ -276,11 +276,11 @@ public class TradeCandle extends CandleStick {
         BigDecimal strength = buyVolume.divide(sellVolume, MathContext.DECIMAL128).multiply(BigDecimals.DECIMAL_100);
 
         if(strength.compareTo(MAX_STRENGTH) > 0){
-            this.strength = MAX_STRENGTH;
+            this.volumePower = MAX_STRENGTH;
             return MAX_STRENGTH;
         }
 
-        this.strength = strength;
+        this.volumePower = strength;
         return strength;
     }
 
