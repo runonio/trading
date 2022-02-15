@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis;
 
 import io.runon.trading.PriceChangeRate;
 import io.runon.trading.technical.analysis.candle.Candle;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
 
@@ -37,7 +38,44 @@ public class CandleBigDecimalChange {
             array[index++] = priceChangeRateArray[i].getChangeRate() ;
         }
         return array;
-
     }
 
+    public static BigDecimal[] getVolumes(TradeCandle[] candles){
+        return getVolumes(candles, 0, candles.length);
+    }
+
+    public static BigDecimal[] getVolumes(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getVolume() ;
+        }
+        return array;
+    }
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles){
+        return getVolumePowers(candles, 0, candles.length);
+    }
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getVolumePower() ;
+        }
+        return array;
+    }
+
+    public static BigDecimal[] getTradingPriceArray(TradeCandle[] candles){
+        return getTradingPriceArray(candles, 0 , candles.length);
+    }
+
+    public static BigDecimal[] getTradingPriceArray(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getTradingPrice() ;
+        }
+        return array;
+    }
 }

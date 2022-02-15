@@ -17,6 +17,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
+import io.runon.trading.technical.analysis.Volumes;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -240,8 +241,6 @@ public class TradeCandle extends CandleStick {
         }
     }
 
-    //100.0 == 100% , 500.0 == 500%
-    public static final BigDecimal MAX_STRENGTH = new BigDecimal(500);
 
     private BigDecimal volumePower = null;
 
@@ -264,24 +263,8 @@ public class TradeCandle extends CandleStick {
             return volumePower;
         }
 
-        if(sellVolume == null && buyVolume == null){
-            return BigDecimals.DECIMAL_100;
-        }
-
-        if(sellVolume == null || sellVolume.compareTo(BigDecimal.ZERO) == 0){
-            //500%
-            return MAX_STRENGTH;
-        }
-
-        BigDecimal strength = buyVolume.divide(sellVolume, MathContext.DECIMAL128).multiply(BigDecimals.DECIMAL_100);
-
-        if(strength.compareTo(MAX_STRENGTH) > 0){
-            this.volumePower = MAX_STRENGTH;
-            return MAX_STRENGTH;
-        }
-
-        this.volumePower = strength;
-        return strength;
+        volumePower = Volumes.getVolumePower(buyVolume, sellVolume);
+        return volumePower;
     }
 
     /**
@@ -440,6 +423,8 @@ public class TradeCandle extends CandleStick {
                 break;
             }
         }
+        tradeCandle.setPrevious(tradeCandle.getOpen());
+        tradeCandle.setChange();
         return tradeCandle;
     }
 
