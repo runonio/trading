@@ -1,7 +1,7 @@
 package io.runon.trading.account;
 
 import io.runon.trading.AmountType;
-import io.runon.trading.Position;
+import io.runon.trading.position.Position;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
