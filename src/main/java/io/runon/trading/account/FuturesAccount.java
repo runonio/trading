@@ -1,7 +1,8 @@
 package io.runon.trading.account;
 
 import io.runon.trading.AmountType;
-import io.runon.trading.position.Position;
+import io.runon.trading.SymbolPrice;
+import io.runon.trading.strategy.Position;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -53,7 +54,6 @@ public abstract class FuturesAccount implements Account{
         this.amountType = amountType;
     }
 
-
     protected int scale = 6;
 
     /**
@@ -69,6 +69,12 @@ public abstract class FuturesAccount implements Account{
     public void setPriceScale(int priceScale) {
         this.priceScale = priceScale;
     }
+
+    //구매수수료
+    protected BigDecimal buyFee = new BigDecimal("0.0004");
+
+    //판매수수료
+    protected BigDecimal sellFee = new BigDecimal("0.0004");
 
     /**
      *
@@ -110,7 +116,6 @@ public abstract class FuturesAccount implements Account{
 //        System.out.println(futuresHolding);
         return futuresHolding;
     }
-
 
     /**
      * 종목과 방향성 추가

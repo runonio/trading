@@ -1,6 +1,6 @@
 package io.runon.trading.account;
 
-import io.runon.trading.position.Position;
+import io.runon.trading.strategy.Position;
 import lombok.Data;
 
 import java.math.BigDecimal;

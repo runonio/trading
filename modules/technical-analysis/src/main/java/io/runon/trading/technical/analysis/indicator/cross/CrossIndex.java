@@ -14,46 +14,40 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.candle;
-
-import io.runon.trading.Candle;
-
-import java.math.BigDecimal;
+package io.runon.trading.technical.analysis.indicator.cross;
 
 /**
- * 단일가 캔들
- * 다이버전스에 활용됨
+ * 골든크로스 혹은 데드크로스 발생 유형과 위치
  * @author macle
  */
-public class OnePriceCandle implements Candle {
+public class CrossIndex {
 
-    private final BigDecimal price;
+    Cross.Type type;
+    int index;
+
+    int gap;
+    
+    /**
+     * 크로스 유형얻기
+     * @return 골드크로스 or 데드 크로스
+     */
+    public Cross.Type type() {
+        return type;
+    }
 
     /**
-     * 생성자
-     * @param price 단일가
+     * 최근 크로스 발생지점 얻기
+     * @return 최근 크로스 발생지점
      */
-    public OnePriceCandle(BigDecimal price){
-        this.price = price;    
-    }
-    
-    @Override
-    public BigDecimal getOpen() {
-        return price;
+    public int index() {
+        return index;
     }
 
-    @Override
-    public BigDecimal getClose() {
-        return price;
-    }
-
-    @Override
-    public BigDecimal getHigh() {
-        return price;
-    }
-
-    @Override
-    public BigDecimal getLow() {
-        return price;
+    /**
+     * 마지막 발생시점으로 부터의 거리 얻기
+     * @return 마지막 발생시점으로 부터의 거리
+     */
+    public int gap() {
+        return gap;
     }
 }

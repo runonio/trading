@@ -1,5 +1,6 @@
 package io.runon.trading.account;
 
+import io.runon.trading.SymbolPrice;
 import io.runon.trading.Trade;
 
 import java.math.BigDecimal;
