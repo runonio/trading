@@ -17,7 +17,7 @@ import java.util.Map;
  * @author macle
  */
 @Slf4j
-public abstract class FuturesAccount implements Account{
+public class FuturesAccount implements Account{
 
     protected BigDecimal cash = BigDecimal.ZERO;
 
@@ -77,6 +77,33 @@ public abstract class FuturesAccount implements Account{
     protected BigDecimal sellFee = new BigDecimal("0.0004");
 
     /**
+     * 구매 수수료 설정
+     * @param buyFee 구매수수료
+     */
+    public void setBuyFee(BigDecimal buyFee) {
+        this.buyFee = buyFee;
+    }
+
+    /**
+     * 판매수수료 설정
+     * @param sellFee 판매수수료
+     */
+    public void setSellFee(BigDecimal sellFee) {
+        this.sellFee = sellFee;
+    }
+
+    /**
+     * 수수료 설정
+     * 구매수수료와 판매수수료가 같은경우
+     * 다른경우는 각각 설정
+     * @param fee 수수료
+     */
+    public void setFee(BigDecimal fee){
+        this.buyFee = fee;
+        this.sellFee = fee;
+    }
+
+    /**
      *
      * @param subtractRate 제외비율
      * @param symbol 심볼
@@ -90,7 +117,7 @@ public abstract class FuturesAccount implements Account{
             return null;
         }
 
-        BigDecimal price = symbolPrice.getPrice(symbol);
+        BigDecimal price = symbolPrice.getBuyPrice(symbol);
 
         BigDecimal cash = this.cash.multiply(leverage).multiply(subtractRate);
         BigDecimal amount;
@@ -144,22 +171,10 @@ public abstract class FuturesAccount implements Account{
             BigDecimal fee = getBuyFee(futuresHolding, futuresHolding.price, futuresHolding.amount);
 
             cash = cash.divide(futuresHolding.leverage, MathContext.DECIMAL128).add(fee);
-
-
-
+            
             this.cash = this.cash.subtract(cash);
 
         }
-
-//        if(last != null){
-//            BigDecimal c = getSellPrice(futuresHolding);
-//            synchronized (lock){
-//                if(c.compareTo(BigDecimal.ZERO) > 0) {
-//                    //청산당하지 않았으면
-//                    this.cash = this.cash.add(c);
-//                }
-//            }
-//        }
     }
 
 
@@ -190,7 +205,7 @@ public abstract class FuturesAccount implements Account{
 
     //매각대금 계산하기
     public BigDecimal getSellPrice(FuturesHolding futuresHolding){
-        BigDecimal price = symbolPrice.getPrice(futuresHolding.getSymbol());
+        BigDecimal price = symbolPrice.getSellPrice(futuresHolding.getSymbol());
         BigDecimal gap = price.subtract(futuresHolding.getPrice());
         BigDecimal rate;
 
@@ -217,9 +232,31 @@ public abstract class FuturesAccount implements Account{
         return cash;
     }
 
-    public abstract BigDecimal getBuyFee(FuturesHolding holding, BigDecimal price, BigDecimal volume);
-    public abstract BigDecimal getSellFee(FuturesHolding holding, BigDecimal price, BigDecimal volume);
+    /**
+     * 매수 수수료
+     * 구현된 내용은 종목별로 수수료가 다른경우는 구현되어 있지않음
+     * 종목별로 수수료가 다른경우 Override 해서 구현
+     * @param holding 종목별 수수료가 다른경우 아래 메소드를 오버라이딩 해서 구현 (종목 정보를 얻기위한 용도)
+     * @param price 가격
+     * @param volume 거래량
+     * @return 수수료
+     */
+    public BigDecimal getBuyFee(FuturesHolding holding, BigDecimal price, BigDecimal volume){
+        return price.multiply(volume).multiply(buyFee);
+    }
 
+    /**
+     * 매도 수수료
+     * 구현된 내용은 종목별로 수수료가 다른경우는 구현되어 있지않음
+     * 종목별로 수수료가 다른경우 Override 해서 구현
+     * @param holding 종목별 수수료가 다른경우 아래 메소드를 오버라이딩 해서 구현 (종목 정보를 얻기위한 용도)
+     * @param price 가격
+     * @param volume 거래량
+     * @return 수수료
+     */
+    public BigDecimal getSellFee(FuturesHolding holding, BigDecimal price, BigDecimal volume){
+        return  price.multiply(volume).multiply(sellFee);
+    }
 
     @Override
     public String getId() {

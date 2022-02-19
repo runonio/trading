@@ -9,4 +9,6 @@ import java.math.BigDecimal;
 public interface SymbolPrice {
 
     BigDecimal getPrice(String symbol);
+    BigDecimal getBuyPrice(String symbol);
+    BigDecimal getSellPrice(String symbol);
 }
