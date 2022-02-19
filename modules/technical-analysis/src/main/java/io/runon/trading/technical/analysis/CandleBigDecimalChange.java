@@ -1,8 +1,8 @@
 
 package io.runon.trading.technical.analysis;
 
+import io.runon.trading.Candle;
 import io.runon.trading.PriceChangeRate;
-import io.runon.trading.technical.analysis.candle.Candle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;

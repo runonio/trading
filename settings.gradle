@@ -1,5 +1,6 @@
 rootProject.name = 'trading'
 
+//개발용 의존성 ( 봇만들면서 직접 모듈소스 추가)
 include 'technical-analysis'
 project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
 include 'chart-view'

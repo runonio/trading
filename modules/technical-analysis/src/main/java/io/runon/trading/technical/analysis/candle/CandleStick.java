@@ -15,6 +15,7 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.trading.Candle;
 import io.runon.trading.PriceChange;
 import io.runon.trading.PriceChangeType;
 
