@@ -1,7 +1,6 @@
 package io.runon.trading.backtesting;
 
 import io.runon.trading.Candle;
-import io.runon.trading.SymbolPrice;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -10,14 +9,16 @@ import java.util.Random;
 
 /**
  * 슬리피지를 고민한 종목별가격
+ * 짧은 매매주기에 불리하게 적용하기 위해활용
  * 매수할때는 종가와 고가 사이의 가격중 랜덤한 가격을 활용 (고가에 매수할 확률이 높음)
  * 매도할때는 종가와 저가 사이의 가겨중 랜덤한 가격을 활용 (저가에 매도할 확율이 높음)
  * @author macle
  */
-public class SlippageRandomSymbolPrice implements SymbolPrice {
+public class SlippageRandomSymbolPrice implements CandleSymbolPrice {
 
     private final Map<String, Candle> candleMap = new HashMap<>();
 
+    @Override
     public void setCandle(String symbol, Candle candle){
         candleMap.put(symbol, candle);
     }

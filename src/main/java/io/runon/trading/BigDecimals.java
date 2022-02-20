@@ -97,4 +97,14 @@ public class BigDecimals {
         return sum;
     }
 
+    public static BigDecimal getChangePercent(BigDecimal previous , BigDecimal close){
+        int compare = previous.compareTo(close);
+
+        if(compare == 0){
+            return BigDecimal.ZERO;
+        }
+        BigDecimal change = close.subtract(previous);
+        return change.divide(previous,4, RoundingMode.HALF_UP).multiply(DECIMAL_100).stripTrailingZeros();
+    }
+
 }

@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.runon.trading</groupId>
-    <artifactId>chart-view</artifactId>
-    <version>0.1.3</version>
+    <artifactId>backtesting</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
-    <name>chart-view</name>
-    <description>trading chart view</description>
+    <name>technical-analysis</name>
+    <description>trading technical analysis</description>
     <url>https://github.com/runonio/trading</url>
 
     <licenses>
@@ -23,9 +23,9 @@
 
     <developers>
         <developer>
-            <name>ccsweets</name>
-            <email>tramp0102@gmail.com</email>
-            <id>ccsweets</id>
+            <name>macle</name>
+            <email>ysys86a@gmail.com</email>
+            <id>macle86</id>
             <organization>seomse</organization>
         </developer>
     </developers>
@@ -46,8 +46,8 @@
 
     </distributionManagement>
     <properties>
-        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
     </properties>
 
     <build>
@@ -116,30 +116,11 @@
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
     </build>
 
 
     <dependencies>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-access</artifactId>
-            <version>1.2.10</version>
-        </dependency>
 
         <dependency>
             <groupId>com.seomse.commons</groupId>
@@ -147,11 +128,6 @@
             <version>1.2.7</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.1.2</version>
-        </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
@@ -164,6 +140,15 @@
             <artifactId>technical-analysis</artifactId>
             <version>0.1.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+
+
     </dependencies>
 
 </project>
