@@ -1,0 +1,190 @@
+package io.runon.trading.backtesting;
+
+import com.seomse.commons.utils.time.Times;
+import io.runon.trading.BigDecimals;
+import io.runon.trading.account.FuturesAccount;
+import io.runon.trading.strategy.Position;
+import io.runon.trading.strategy.Strategy;
+import io.runon.trading.technical.analysis.candle.CandleTime;
+import lombok.extern.slf4j.Slf4j;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.ZoneId;
+
+/**
+ * 선물 단일종목 벡테스팅
+ * @author macle
+ */
+@Slf4j
+public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
+
+    protected E data;
+
+    protected Strategy<E> strategy;
+
+    protected FuturesAccount account;
+
+    protected CandleSymbolPrice symbolPrice;
+
+    //1분에 한번 판단
+    protected long cycleTime = Times.MINUTE_1;
+    protected ZoneId zoneId =  ZoneId.of("Asia/Seoul");
+    protected int cashScale = 2;
+
+    protected BigDecimal subtractRate = new BigDecimal("0.1");
+    protected BigDecimal leverage = new BigDecimal("1");
+
+    private final long startTime;
+    private final long endTime;
+
+    public FuturesSingleSymbolBacktesting(long startTime, long endTime){
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public FuturesSingleSymbolBacktesting(long startTime){
+        this.startTime = startTime;
+        this.endTime = System.currentTimeMillis();
+    }
+
+    public void setStrategy(Strategy<E> strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setAccount(FuturesAccount account) {
+        this.account = account;
+    }
+
+    public void setSymbolPrice(CandleSymbolPrice symbolPrice) {
+        this.symbolPrice = symbolPrice;
+    }
+
+    public void setCycleTime(long cycleTime) {
+        this.cycleTime = cycleTime;
+    }
+
+    public void setCashScale(int cashScale) {
+        this.cashScale = cashScale;
+    }
+
+    public void setSubtractRate(BigDecimal subtractRate) {
+        this.subtractRate = subtractRate;
+    }
+
+    public BigDecimal getLeverage() {
+        return leverage;
+    }
+
+    public void setLeverage(BigDecimal leverage) {
+        this.leverage = leverage;
+    }
+
+    /**
+     * 계좌에 현금추가
+     * @param cash 현금
+     */
+    public void addCash(BigDecimal cash){
+        if(account == null) {
+            account = new FuturesAccount("test");
+        }
+        account.addCash(cash);
+    }
+
+    private String symbol = "test";
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    //데이터가 없어서 데이터가
+    protected boolean isDataEnd = false;
+
+    public abstract E getData(long time);
+
+    private BigDecimal startCash;
+
+    protected Position lastPosition = Position.NONE;
+    protected long time;
+    //백테스팅 실행
+    //log에 매수매두 시점을 보여줌 // 이후에는 각 차트로 표시
+    public void runLog(){
+        if(account == null) {
+            account = new FuturesAccount("test");
+            account.addCash(new BigDecimal(10000));
+        }else if(account.getCash().compareTo(BigDecimal.ZERO) ==0){
+            //설정하지 않았으면 10000달러로 설정
+            account.addCash(new BigDecimal(10000));
+        }
+
+        if(symbolPrice == null){
+            symbolPrice = new SlippageRandomSymbolPrice();
+        }
+
+        account.setSymbolPrice(symbolPrice);
+        startCash = account.getCash();
+        time = startTime;
+        for(;;) {
+
+            E data = getData(time);
+            if(isDataEnd){
+                //데이터가 종료되었으면
+                log.info("data end: " + getLogMessage());
+                return;
+            }
+
+            symbolPrice.setCandle(symbol, data.getPriceCandle());
+
+            Position position = strategy.getPosition(data);
+
+            if(position == Position.NONE){
+                time = time + cycleTime;
+                continue;
+            }
+
+            if(lastPosition == position){
+                time = time + cycleTime;
+                continue;
+            }
+
+            if(position == Position.LONG){
+                //숏매도 롱매수
+                account.sell(symbol, Position.SHORT);
+                account.buy(account.getBuyAmount(subtractRate, symbol, Position.LONG, leverage));
+                lastPosition = Position.LONG;
+            }else if(position == Position.SHORT){
+                //롱매도 숏매수
+                account.sell(symbol, Position.LONG);
+                account.buy(account.getBuyAmount(subtractRate, symbol, Position.SHORT, leverage));
+                lastPosition = Position.SHORT;
+            }else if(position == Position.SHORT_LIQUIDATION){
+                //숏매도
+                account.sell(symbol, Position.SHORT);
+                lastPosition = Position.SHORT_LIQUIDATION;
+            }else if(position == Position.LONG_LIQUIDATION){
+                //롱매도
+                account.sell(symbol, Position.LONG);
+                lastPosition = Position.LONG_LIQUIDATION;
+            }else if(position == Position.LIQUIDATION){
+                //롱 숏 둘다매도
+                account.sell(symbol, Position.LONG);
+                account.sell(symbol, Position.SHORT);
+                lastPosition = Position.LIQUIDATION;
+
+            }
+
+            log.info(getLogMessage());
+            time = time + cycleTime;
+            if(time >= endTime){
+                log.info("backtesting end");
+                return;
+            }
+        }
+    }
+
+    public String getLogMessage(){
+        BigDecimal assets = account.getAssets();
+        return  CandleTime.ymdhm(time, zoneId) + lastPosition + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets);
+    }
+
+}
