@@ -35,8 +35,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
     protected BigDecimal subtractRate = new BigDecimal("0.1");
     protected BigDecimal leverage = new BigDecimal("1");
 
-    private final long startTime;
-    private final long endTime;
+    protected final long startTime;
+    protected final long endTime;
 
     public FuturesSingleSymbolBacktesting(long startTime, long endTime){
         this.startTime = startTime;
@@ -91,23 +91,30 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         account.addCash(cash);
     }
 
-    private String symbol = "test";
+    protected String symbol = "test";
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
-    //데이터가 없어서 데이터가
-    protected boolean isDataEnd = false;
+    //구현체에서의 종료이벤트 발생
+    protected boolean isEnd = false;
 
-    public abstract E getData(long time);
+    /**
+     * 시간변화에 따라 변해야 하는 데이터구조등의 내용 변경
+     * @param time 기준시간
+     */
+    public abstract void changeTime(long time);
 
-    private BigDecimal startCash;
+    protected BigDecimal startCash;
 
     protected Position lastPosition = Position.NONE;
     protected long time;
+    protected long lastValidTime;
+
     //백테스팅 실행
     //log에 매수매두 시점을 보여줌 // 이후에는 각 차트로 표시
+
     public void runLog(){
         if(account == null) {
             account = new FuturesAccount("test");
@@ -126,23 +133,27 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         time = startTime;
         for(;;) {
 
-            E data = getData(time);
-            if(isDataEnd){
-                //데이터가 종료되었으면
-                log.info("data end: " + getLogMessage());
+            changeTime(time);
+
+            if(isEnd){
+                //구현체에서 종료이벤트가 발생하였으면
+                log.info(getLogMessage());
+                log.info("backtesting end(event) last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
                 return;
             }
 
             symbolPrice.setCandle(symbol, data.getPriceCandle());
 
-            Position position = strategy.getPosition(data);
-
-            if(position == Position.NONE){
+            if(!data.isValid(time)){
                 time = time + cycleTime;
                 continue;
             }
 
-            if(lastPosition == position){
+            lastValidTime = time;
+
+            Position position = strategy.getPosition(data);
+
+            if(lastPosition == position || position == Position.NONE){
                 time = time + cycleTime;
                 continue;
             }
@@ -176,7 +187,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
             log.info(getLogMessage());
             time = time + cycleTime;
             if(time >= endTime){
-                log.info("backtesting end");
+                log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
                 return;
             }
         }
@@ -184,7 +195,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
 
     public String getLogMessage(){
         BigDecimal assets = account.getAssets();
-        return  CandleTime.ymdhm(time, zoneId) + lastPosition + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets);
+        return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + symbolPrice.getPrice(symbol)
+                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
     }
 
 }

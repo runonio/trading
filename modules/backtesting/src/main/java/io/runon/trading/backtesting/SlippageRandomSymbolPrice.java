@@ -51,6 +51,9 @@ public class SlippageRandomSymbolPrice implements CandleSymbolPrice {
         Candle candle = candleMap.get(symbol);
         BigDecimal gap = candle.getHigh().subtract(candle.getClose());
         BigDecimal min = gap.multiply(minRate);
+        if(min.compareTo(BigDecimal.ZERO) == 0){
+            return candle.getClose().add(min);
+        }
         BigDecimal random = BigDecimal.valueOf(new Random().nextDouble(gap.subtract(min).doubleValue()));
         return candle.getClose().add(min).add(random);
     }
@@ -60,6 +63,10 @@ public class SlippageRandomSymbolPrice implements CandleSymbolPrice {
         Candle candle = candleMap.get(symbol);
         BigDecimal gap = candle.getClose().subtract(candle.getLow());
         BigDecimal min = gap.multiply(minRate);
+
+        if(min.compareTo(BigDecimal.ZERO) == 0){
+            return candle.getClose().subtract(min);
+        }
         BigDecimal random = BigDecimal.valueOf(new Random().nextDouble(gap.subtract(min).doubleValue()));
         return candle.getClose().subtract(min).subtract(random);
     }
