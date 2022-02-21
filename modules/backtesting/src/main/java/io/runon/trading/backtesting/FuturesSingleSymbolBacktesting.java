@@ -80,6 +80,10 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         this.leverage = leverage;
     }
 
+    public void setZoneId(ZoneId zoneId) {
+        this.zoneId = zoneId;
+    }
+
     /**
      * 계좌에 현금추가
      * @param cash 현금
@@ -168,20 +172,19 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
                 account.sell(symbol, Position.LONG);
                 account.buy(account.getBuyAmount(subtractRate, symbol, Position.SHORT, leverage));
                 lastPosition = Position.SHORT;
-            }else if(position == Position.SHORT_LIQUIDATION){
-                //숏매도
-                account.sell(symbol, Position.SHORT);
-                lastPosition = Position.SHORT_LIQUIDATION;
-            }else if(position == Position.LONG_LIQUIDATION){
+            }else if(position == Position.LONG_CLOSE){
                 //롱매도
                 account.sell(symbol, Position.LONG);
-                lastPosition = Position.LONG_LIQUIDATION;
-            }else if(position == Position.LIQUIDATION){
+                lastPosition = Position.LONG_CLOSE;
+            }else if(position == Position.SHORT_CLOSE){
+                //숏매도
+                account.sell(symbol, Position.SHORT);
+                lastPosition = Position.SHORT_CLOSE;
+            }else if(position == Position.CLOSE){
                 //롱 숏 둘다매도
                 account.sell(symbol, Position.LONG);
                 account.sell(symbol, Position.SHORT);
-                lastPosition = Position.LIQUIDATION;
-
+                lastPosition = Position.CLOSE;
             }
 
             log.info(getLogMessage());
