@@ -24,7 +24,7 @@ dependencies {
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
     implementation 'io.runon.trading:technical-analysis:0.1.5'
     implementation 'com.seomse.commons:commons:1.2.7'
-    implementation rootProject
+    implementation 'io.runon.trading:trading:0.0.9'
 
 
 }
