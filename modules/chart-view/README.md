@@ -44,7 +44,7 @@
 # 참고
  - https://github.com/tradingview/lightweight-charts
 
-# gradle (예정)
+# gradle
 implementation 'io.runon.trading:chart-view:0.1.4'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.4
