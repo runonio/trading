@@ -34,9 +34,9 @@ implementation 'io.runon.trading:data:0.0.3'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.3
     
-implementation 'io.runon.trading:chart-view:0.1.3'
+implementation 'io.runon.trading:chart-view:0.1.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.3
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.4
 
 # communication
 ### blog, homepage
