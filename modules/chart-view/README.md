@@ -44,10 +44,10 @@
 # 참고
  - https://github.com/tradingview/lightweight-charts
 
-# gradle
-implementation 'io.runon.trading:chart-view:0.1.3'
+# gradle (예정)
+implementation 'io.runon.trading:chart-view:0.1.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.3
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.4
 
 # communication
 ### blog, homepage

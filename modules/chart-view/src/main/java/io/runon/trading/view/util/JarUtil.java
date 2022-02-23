@@ -66,6 +66,10 @@ public class JarUtil {
             byte[] buffer = new byte[is.available()];
             //noinspection ResultOfMethodCallIgnored
             is.read(buffer);
+            File resourceDir = new File(copyPath);
+            if(!resourceDir.exists()){
+                resourceDir.mkdir();
+            }
             File targetFile = new File(copyPath + "/" + filename);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
