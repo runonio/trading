@@ -17,8 +17,8 @@ package io.runon.trading.technical.analysis.candle.candles;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
-import io.runon.trading.TradeAdd;
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 
 /**
  * 여러개의 TradeCandle 정보
@@ -206,6 +205,22 @@ public class TradeCandles {
             addCandle(tradeCandle, false);
         }
         this.candles = candleList.toArray(new TradeCandle[0]);
+        setEnd();
+    }
+
+    /**
+     * 캔들의 종료여부 설정
+     */
+    public void setEnd(){
+        TradeCandle [] candles = this.candles;
+        for (int i = 0; i < candles.length-2 ; i++) {
+            candles[i].setEndTrade();
+        }
+
+        TradeCandle last = candles[candles.length-1];
+        if(last.getCloseTime() <= System.currentTimeMillis()){
+            last.setEndTrade();
+        }
     }
 
 
@@ -234,7 +249,7 @@ public class TradeCandles {
             candleList.remove(candleList.size()-1);
 
         }else {
-            if (candles.length > 0) {
+            if (candles.length > 0 && isCandlesChange) {
 
                 lastEndCandle = candles[candles.length - 1];
 
@@ -302,16 +317,18 @@ public class TradeCandles {
      * trade add
      * @param trade 거래정보
      */
-    public void addTrade(Trade trade){
+    public TradeCandle addTrade(Trade trade){
         lastTime = System.currentTimeMillis();
-        tradeAdd.addTrade(trade);
+        return tradeAdd.addTrade(trade);
     }
 
-    public void addTrade(Trade [] trades){
+    public TradeCandle addTrade(Trade [] trades){
         lastTime = System.currentTimeMillis();
+        TradeCandle last = null;
         for(Trade trade:  trades){
-            tradeAdd.addTrade(trade);
+            last = tradeAdd.addTrade(trade);
         }
+        return last;
     }
 
     /**
@@ -338,13 +355,14 @@ public class TradeCandles {
      * @param startTime long startTime
      * @param endTime long endTime
      */
-    void addTradeNewCandle(Trade trade, long startTime, long endTime){
+    TradeCandle addTradeNewCandle(Trade trade, long startTime, long endTime){
         lastTime = System.currentTimeMillis();
         TradeCandle tradeCandle = new TradeCandle();
         tradeCandle.setOpenTime(startTime);
         tradeCandle.setCloseTime(endTime);
         tradeCandle.addTrade(trade);
         addCandle(tradeCandle);
+        return tradeCandle;
     }
 
     /**
@@ -372,6 +390,65 @@ public class TradeCandles {
      */
     public TradeCandle[] getCandles() {
         return candles;
+    }
+
+    /**
+     * 캔들 배열 얻기
+     * 기존배열에서 end time 이용하여 원하는 캔들만큼 건수생성
+     * @return TradeCandle candles
+     */
+    public TradeCandle[] getCandles(long endTime, int count) {
+        TradeCandle [] candles = this.candles;
+
+        long openTime = candles[0].getOpenTime();
+
+        if(openTime > endTime){
+            return TradeCandle.EMPTY_CANDLES;
+        }
+
+        long time = endTime - openTime;
+
+        int quotient = (int) (time/timeGap);
+
+        if(quotient >= candles.length){
+            return TradeCandle.EMPTY_CANDLES;
+        }
+
+        int end = quotient + 1;
+
+        int startIndex =  end - count;
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        TradeCandle [] newCandles = new TradeCandle[end - startIndex];
+        int index = 0;
+
+        for (int i = startIndex; i < end ; i++) {
+            newCandles[index++] = candles[i];
+        }
+
+        return newCandles;
+    }
+
+    public TradeCandle getCandle(long endTime){
+        TradeCandle [] candles = this.candles;
+
+        long openTime = candles[0].getOpenTime();
+
+        if(openTime > endTime){
+            return null;
+        }
+
+        long time = endTime - openTime;
+
+        int quotient = (int) (time/timeGap);
+
+        if(quotient >= candles.length){
+            return null;
+        }
+        return candles[quotient];
     }
 
     /**

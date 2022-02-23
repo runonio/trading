@@ -16,6 +16,8 @@
 
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.trading.Candle;
+
 import java.math.BigDecimal;
 
 /**
@@ -23,7 +25,7 @@ import java.math.BigDecimal;
  * 다이버전스에 활용됨
  * @author macle
  */
-public class OnePriceCandle implements Candle{
+public class OnePriceCandle implements Candle {
 
     private final BigDecimal price;
 

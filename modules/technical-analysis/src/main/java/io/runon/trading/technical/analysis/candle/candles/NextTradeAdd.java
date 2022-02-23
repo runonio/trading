@@ -17,8 +17,8 @@
 package io.runon.trading.technical.analysis.candle.candles;
 
 import io.runon.trading.Trade;
-import io.runon.trading.TradeAdd;
 import io.runon.trading.technical.analysis.candle.CandleTimeGap;
+import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
@@ -40,18 +40,18 @@ class NextTradeAdd implements TradeAdd {
     }
 
     @Override
-    public void addTrade(Trade trade){
+    public TradeCandle addTrade(Trade trade){
         if(trade.getTime() < tradeCandles.lastCandle.getCloseTime()){
             //트레이드 정보 추가
             tradeCandles.lastCandle.addTrade(trade);
-            return;
+            return tradeCandles.lastCandle;
         }
         long timeGap = tradeCandles.getTimeGap();
         long nextStartTime =  tradeCandles.lastCandle.getCloseTime();
         long nextEndTime  = nextStartTime + timeGap;
         if(trade.getTime() < nextEndTime){
-            tradeCandles.addTradeNewCandle(trade, nextStartTime, nextEndTime);
-            return;
+            TradeCandle tradeCandle =tradeCandles.addTradeNewCandle(trade, nextStartTime, nextEndTime);
+            return tradeCandle;
         }
 
         BigDecimal lastPrice = tradeCandles.lastCandle.getClose();
@@ -72,10 +72,10 @@ class NextTradeAdd implements TradeAdd {
                 nextEndTime = nextStartTime + timeGap;
             } while (trade.getTime() >= nextEndTime);
 
-            tradeCandles.addTradeNewCandle(trade, nextStartTime , nextEndTime);
+            return tradeCandles.addTradeNewCandle(trade, nextStartTime , nextEndTime);
         }else{
             long startTime = CandleTimeGap.getStartTime(timeGap, trade.getTime());
-            tradeCandles.addTradeNewCandle(trade, startTime , startTime + timeGap);
+            return tradeCandles.addTradeNewCandle(trade, startTime , startTime + timeGap);
         }
 
     }

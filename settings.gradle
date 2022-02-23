@@ -1,5 +1,12 @@
 rootProject.name = 'trading'
+
+//개발용 의존성 ( 봇만들면서 직접 모듈소스 추가)
 include 'technical-analysis'
 project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
 include 'chart-view'
 project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
+include 'data'
+project(':data').projectDir = new File(settingsDir,'modules/data')
+include 'modules:backtesting'
+findProject(':modules:backtesting')?.name = 'backtesting'
+

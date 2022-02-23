@@ -15,10 +15,10 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.trading.Trade;
 import io.runon.trading.BigDecimals;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.runon.trading.Trade;
+import io.runon.trading.technical.analysis.Volumes;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -30,9 +30,10 @@ import java.util.List;
  * 기본정보외에 분석에 필요한 거래정보 추가
  * @author macle
  */
+@Slf4j
 public class TradeCandle extends CandleStick {
 
-    private static final Logger logger = LoggerFactory.getLogger(TradeCandle.class);
+    public static final TradeCandle [] EMPTY_CANDLES = new TradeCandle[0];
 
     /**
      * 거래량
@@ -165,13 +166,14 @@ public class TradeCandle extends CandleStick {
      * @param tradeCandle 캔들정보를 활용하여 정보합침
      */
     public void addCandle(TradeCandle tradeCandle){
-
         if(openTime == -1){
             openTime = tradeCandle.getOpenTime();
+            open = tradeCandle.getOpen();
         }
 
         if(closeTime == -1){
             closeTime = tradeCandle.getCloseTime();
+            close = tradeCandle.getClose();
         }
 
         if(lastTradeTime < tradeCandle.getLastTradeTime()){
@@ -230,7 +232,7 @@ public class TradeCandle extends CandleStick {
     public void setCandleToTrade(){
 
         if(tradeList == null  || tradeList.size() == 0){
-            logger.error("trade data not set");
+            log.error("trade data not set");
             return;
         }
 
@@ -239,17 +241,15 @@ public class TradeCandle extends CandleStick {
         }
     }
 
-    //100.0 == 100% , 500.0 == 500%
-    public static final BigDecimal MAX_STRENGTH = new BigDecimal(500);
 
-    private BigDecimal strength = null;
+    private BigDecimal volumePower = null;
 
     /**
      * 체결강도 설정
-     * @param strength 체결강도
+     * @param volumePower 체결강도
      */
-    public void setStrength(BigDecimal strength) {
-        this.strength = strength;
+    public void setVolumePower(BigDecimal volumePower) {
+        this.volumePower = volumePower;
     }
 
     /**
@@ -257,30 +257,14 @@ public class TradeCandle extends CandleStick {
      * max  MAX_STRENGTH
      * @return  체결 강도
      */
-    public BigDecimal strength(){
+    public BigDecimal getVolumePower(){
 
-        if(isEndTrade && strength != null){
-            return strength;
+        if(isEndTrade && volumePower != null){
+            return volumePower;
         }
 
-        if(sellVolume == null && buyVolume == null){
-            return BigDecimal.ONE;
-        }
-
-        if(sellVolume == null || sellVolume.compareTo(BigDecimal.ZERO) == 0){
-            //500%
-            return MAX_STRENGTH;
-        }
-
-        BigDecimal strength = buyVolume.divide(sellVolume, MathContext.DECIMAL128).multiply(BigDecimals.DECIMAL_100);
-
-        if(strength.compareTo(MAX_STRENGTH) > 0){
-            this.strength = MAX_STRENGTH;
-            return MAX_STRENGTH;
-        }
-
-        this.strength = strength;
-        return strength;
+        volumePower = Volumes.getVolumePower(buyVolume, sellVolume);
+        return volumePower;
     }
 
     /**
@@ -439,6 +423,12 @@ public class TradeCandle extends CandleStick {
                 break;
             }
         }
+        tradeCandle.setPrevious(tradeCandle.getOpen());
+        tradeCandle.setChange();
         return tradeCandle;
+    }
+
+    public void addTradingCount(int count){
+        tradeCount += count;
     }
 }
