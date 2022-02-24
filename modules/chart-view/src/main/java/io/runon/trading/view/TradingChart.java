@@ -21,7 +21,8 @@ import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.view.util.BrowserUtil;
 import io.runon.trading.view.util.JarUtil;
 
-import java.io.*;
+import java.io.File;
+
 /**
  * 트레이딩 차트
  * @author ccsweets
@@ -48,6 +49,7 @@ public class TradingChart {
 
     /* html file export path */
     String exportPath = "data";
+
 
     /**
      * 브라우저 타이틀을 설정 한다.
@@ -84,6 +86,7 @@ public class TradingChart {
                 var chart = LightweightCharts.createChart(document.body, {
                     width: %d,
                   height: %d,
+           
                   crosshair: {
                     mode: LightweightCharts.CrosshairMode.Normal,
                   }
@@ -92,26 +95,37 @@ public class TradingChart {
                 const candlestickSeries = chart.addCandlestickSeries({
                   priceScaleId: 'right'
                 });
+
+                
                 """.formatted(width,height));
+
+
+        if(dateType == ChartDateType.MINUTE){
+            createChartStr.append( """
+                chart.applyOptions({
+                        timeScale: {
+                            // Adds hours and minutes to the chart.
+                            timeVisible: true,
+                            secondsVisible: false
+                        }
+                    });
+                """);
+        }
+
+
         createChartStr.append("candlestickSeries.setData([");
         int candleStickArrSize = candleStickArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < candleStickArrSize; i++) {
             CandleStick candleStick = candleStickArr[i];
-
-            String timeStr;
-            if(dateType.equals(ChartDateType.DAY)){
-                timeStr  = DateUtil.getDateYmd(candleStick.getOpenTime(),"yyyy-MM-dd");
-            } else {
-                timeStr  = DateUtil.getDateYmd(candleStick.getOpenTime(),"yyyy-MM-dd HH:mm");
-            }
+            String timeStr = Long.toString(candleStick.getOpenTime()/1000);
             createChartStr.append("""
                     {
                         close: %s,
                         high: %s,
                         low: %s,
                         open: %s,
-                        time: '%s'
+                        time: %s
                       },
                     """.formatted(
                     candleStick.getClose().stripTrailingZeros().toString()
@@ -135,14 +149,9 @@ public class TradingChart {
                 """);
 
         for (MarkerData markerData : markerDataArray) {
-            String timeStr;
-            if(dateType.equals(ChartDateType.DAY)){
-                timeStr  = DateUtil.getDateYmd(markerData.getTime(),"yyyy-MM-dd");
-            } else {
-                timeStr  = DateUtil.getDateYmd(markerData.getTime(),"yyyy-MM-dd HH:mm");
-            }
+            String timeStr = Long.toString(markerData.getTime()/1000);
             createChartStr.append("""
-                markers.push({ time: '%s', position: '%s', color: '%s', shape: '%s', text: '%s'});
+                markers.push({ time: %s, position: '%s', color: '%s', shape: '%s', text: '%s'});
                 """
             .formatted(timeStr,markerData.getMarkerType().name(),markerData.getColor(),markerData.getMarkerShape().name(),markerData.getText())
             );
@@ -175,15 +184,10 @@ public class TradingChart {
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < volumeDataArrSize; i++) {
             VolumeData volumeData = volumeDataArr[i];
-            String timeStr;
-            if(dateType.equals(ChartDateType.DAY)){
-                timeStr  = DateUtil.getDateYmd(volumeData.getTime(),"yyyy-MM-dd");
-            } else {
-                timeStr  = DateUtil.getDateYmd(volumeData.getTime(),"yyyy-MM-dd HH:mm");
-            }
+            String timeStr = Long.toString(volumeData.getTime()/1000);
 
             createChartStr.append("""
-                { time: '%s', value: %.2f, color: '%s' },
+                { time: %s, value: %.2f, color: '%s' },
                 """.formatted(timeStr,volumeData.getVolume() , volumeData.getColor()));
         }
         createChartStr.append("]);");
@@ -210,15 +214,10 @@ public class TradingChart {
             double price = lineData.getPrice();
 
 
-            String timeStr;
-            if(dateType.equals(ChartDateType.DAY)){
-                timeStr  = DateUtil.getDateYmd(lineData.getTime(),"yyyy-MM-dd");
-            } else {
-                timeStr  = DateUtil.getDateYmd(lineData.getTime(),"yyyy-MM-dd HH:mm");
-            }
+            String timeStr = Long.toString(lineData.getTime()/1000);
             createChartStr.append("""
                     {
-                        time: '%s',
+                        time: %s,
                         value: %.2f
                       },
                     """.formatted(
