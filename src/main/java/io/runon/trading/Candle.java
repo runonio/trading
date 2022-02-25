@@ -6,19 +6,13 @@ import java.math.BigDecimal;
 /**
  * @author macle
  */
-public interface Candle {
+public interface Candle extends Price {
 
     /**
      * 시가 얻기
      * @return 시가 (시작가)
      */
     BigDecimal getOpen();
-
-    /**
-     * 종가 얻기
-     * @return 종가
-     */
-    BigDecimal getClose();
 
     /**
      * 고가 얻기
