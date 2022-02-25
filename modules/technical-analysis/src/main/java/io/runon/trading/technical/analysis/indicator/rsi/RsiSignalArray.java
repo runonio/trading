@@ -17,8 +17,6 @@
 package io.runon.trading.technical.analysis.indicator.rsi;
 
 import io.runon.trading.PriceChangeRate;
-import io.runon.trading.technical.analysis.indicator.cross.Cross;
-import io.runon.trading.technical.analysis.indicator.cross.CrossIndex;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -38,8 +36,8 @@ public class RsiSignalArray {
      * 생성자
      */
     public RsiSignalArray(){
-        n = RSI.DEFAULT_N;
-        signalN = RSI.DEFAULT_SIGNAL;
+        n = Rsi.DEFAULT_N;
+        signalN = Rsi.DEFAULT_SIGNAL;
     }
 
     /**
@@ -96,8 +94,8 @@ public class RsiSignalArray {
         }
 
 
-        BigDecimal [] tempRsiArray = RSI.getScores(priceChangeRates, n ,makeLength+ signalN - 1);
-        signalArray = RSI.getSignal(tempRsiArray, signalN, makeLength);
+        BigDecimal [] tempRsiArray = Rsi.getScores(priceChangeRates, n ,makeLength+ signalN - 1);
+        signalArray = Rsi.getSignal(tempRsiArray, signalN, makeLength);
 
         this.rsiArray = Arrays.copyOfRange(tempRsiArray, signalN - 1, tempRsiArray.length);
         
@@ -118,16 +116,6 @@ public class RsiSignalArray {
      */
     public BigDecimal[] getSignalArray() {
         return signalArray;
-    }
-
-    /**
-     * 골든 크로스 혹은 데드크로스 관련정보 생성
-     * 없을경우 null
-     * @param rate 돌파를 확인하는 비율 (겹친 정도로는 돌파로 보기 어려움) 백분율 percent
-     * @return 골든크로스 혹인 데드 크로스 관련정보
-     */
-    public CrossIndex cross(BigDecimal rate){
-        return Cross.getIndex(rsiArray, signalArray, rate);
     }
 
     /**

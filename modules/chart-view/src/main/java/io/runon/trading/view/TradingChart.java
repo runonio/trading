@@ -17,11 +17,15 @@ package io.runon.trading.view;
 
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.DateUtil;
+import io.runon.trading.PriceOpenTime;
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.view.util.BrowserUtil;
 import io.runon.trading.view.util.JarUtil;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 트레이딩 차트
@@ -45,7 +49,7 @@ public class TradingChart {
     String lightWeightJsContents;
 
     /* title */
-    String browserTitle = "Seomse LightWeight-Chart View";
+    String browserTitle = "runon LightWeight-Chart View";
 
     /* html file export path */
     String exportPath = "data";
@@ -78,7 +82,6 @@ public class TradingChart {
 
        pureJsContents = JarUtil.readFromJarFile("pure.js");
        lightWeightJsContents = JarUtil.readFromJarFile("lightweight-charts.standalone.production.js");
-
 
         this.candleStickArr = candleStickArr;
         this.dateType = dateType;
@@ -143,7 +146,7 @@ public class TradingChart {
      * 차트에 마커를 전부 추가 한다.
      * @param markerDataArray 마커 데이터 배열
      */
-    public void addMarkerAll(MarkerData[] markerDataArray) {
+    public void addMarker(MarkerData[] markerDataArray) {
         createChartStr.append("""
               var markers = [];
                 """);
@@ -159,13 +162,35 @@ public class TradingChart {
         createChartStr.append("candlestickSeries.setMarkers(markers);");
     }
 
+    public void addVolume(TradeCandle[] candles){
+
+        VolumeData[] volumeDataArr = new VolumeData[candles.length];
+
+        for (int i = 0; i < candles.length ; i++) {
+            TradeCandle candle = candles[i];
+
+            VolumeData volumeData = new VolumeData();
+            volumeData.volume = candles[i].getVolume();
+            volumeData.time = candles[i].getOpenTime();
+            if(candle.getChange().compareTo(BigDecimal.ZERO) >= 0){
+                volumeData.color = "#26a69a";
+            }else{
+                volumeData.color = "red";
+            }
+
+            volumeDataArr[i] = volumeData;
+        }
+
+        addVolume(volumeDataArr, new BigDecimal("0.85"), BigDecimal.ZERO);
+    }
+
     /**
      * 거래량 데이터를 전부 추가한다.
      * @param volumeDataArr 거래량 데이터 배열
      * @param topMargin topMargin
      * @param bottomMargin bottomMargin
      */
-    public void addVolumeAll(VolumeData[] volumeDataArr, double topMargin , double bottomMargin){
+    public void addVolume(VolumeData[] volumeDataArr, BigDecimal topMargin , BigDecimal bottomMargin){
         createChartStr.append("""
                 var volumeSeries = chart.addHistogramSeries({
                   	color: '#26a69a',
@@ -174,12 +199,14 @@ public class TradingChart {
                   	},
                   	priceScaleId: '',
                   	scaleMargins: {
-                  		top: %.1f,
-                  		bottom: %.1f,
+                  		top: %s,
+                  		bottom: %s,
                   	},
                   });
                   volumeSeries.setData([
-                """.formatted(topMargin,bottomMargin));
+                """.formatted(topMargin.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+                , bottomMargin.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()));
+
         int volumeDataArrSize = volumeDataArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < volumeDataArrSize; i++) {
@@ -187,8 +214,8 @@ public class TradingChart {
             String timeStr = Long.toString(volumeData.getTime()/1000);
 
             createChartStr.append("""
-                { time: %s, value: %.2f, color: '%s' },
-                """.formatted(timeStr,volumeData.getVolume() , volumeData.getColor()));
+                { time: %s, value: %s, color: '%s' },
+                """.formatted(timeStr, volumeData.getVolume().setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() , volumeData.getColor()));
         }
         createChartStr.append("]);");
     }
@@ -199,7 +226,7 @@ public class TradingChart {
      * @param color 색깔
      * @param size 굵기
      */
-    public void addLineAll(LineData[] lineDataArr , String color, int size){
+    public void addLine(PriceOpenTime[] lineDataArr , String color, int size){
         createChartStr.append("""
                 chart.addLineSeries({
                   color: '%s',
@@ -209,19 +236,18 @@ public class TradingChart {
         int lineDataArrSize = lineDataArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < lineDataArrSize; i++) {
-            LineData lineData = lineDataArr[i];
+            PriceOpenTime lineData = lineDataArr[i];
 //            long openTime = lineData.getTime();
-            double price = lineData.getPrice();
+            BigDecimal price = lineData.getClose();
 
-
-            String timeStr = Long.toString(lineData.getTime()/1000);
+            String timeStr = Long.toString(lineData.getOpenTime()/1000);
             createChartStr.append("""
                     {
                         time: %s,
-                        value: %.2f
+                        value: %s
                       },
                     """.formatted(
-                    timeStr,price
+                    timeStr,price.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
             ));
 
         }

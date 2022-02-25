@@ -26,8 +26,6 @@ import java.util.Calendar;
  */
 public class CandleTimeGap {
 
-
-
     public static final long [] DEFAULT_MINUTES = {
 
             Times.MINUTE_1
@@ -42,7 +40,6 @@ public class CandleTimeGap {
             , Times.MINUTE_30
     };
 
-
     public static final long [] DEFAULT_HOURS = {
             Times.HOUR_1 //1시간
             , Times.HOUR_2 // 2시간
@@ -52,13 +49,11 @@ public class CandleTimeGap {
             , Times.HOUR_12 // 12시간
     };
 
-
     public static final long [] DEFAULT_DAYS = {
             Times.DAY_1
             , Times.DAY_3
             , Times.DAY_5
     };
-
 
     public static final long [] DEFAULT_SCALPING =makeScalpingTime();
 
@@ -75,8 +70,6 @@ public class CandleTimeGap {
         return scalpingTimes;
     }
 
-
-
     /**
      * 유효한 설정인지 체크
      * @param timeGap long timeGap
@@ -91,7 +84,6 @@ public class CandleTimeGap {
             //그다음은 하루단위의 봉만 생성
             return timeGap % Times.DAY_1 == 0;
         }
-
     }
 
     /**
@@ -101,7 +93,6 @@ public class CandleTimeGap {
      * @return long startTime
      */
     public static long getStartTime(long timeGap, long firstTradeTime){
-
 
         Calendar calendar = Calendar.getInstance();
 

@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.indicator.ma;
 
-import io.runon.trading.Candle;
+import io.runon.trading.Price;
 import io.runon.trading.technical.analysis.CandleBigDecimalChange;
 
 import java.math.BigDecimal;
@@ -28,14 +28,30 @@ import java.math.MathContext;
 public class MovingAverage {
 
     /**
+     * 이동평균값얻기 
+     * @param array 배열
+     * @param n 평균을 구하기위한 개수 N
+     * @return 이동평균
+     */
+    public static BigDecimal getAverage (Price[] array, int n){
+
+        int averageCount = Math.min(array.length, n);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = array.length - averageCount; i < array.length; i++) {
+            sum = sum.add(array[i].getClose());
+        }
+        return sum.divide(new BigDecimal(averageCount), MathContext.DECIMAL128);
+    }
+
+    /**
      * 평균 배열 얻기
-     * @param candles 캔들 배여
+     * @param array 배열
      * @param n 평균을 구하기위한 개수 N
      * @param averageCount 평균 배열 카운드 (얻고자 하는 수)
      * @return 평균 배열
      */
-    public static BigDecimal[] getArray(Candle[] candles, int n, int averageCount) {
-        return getArray(CandleBigDecimalChange.getCloseArray(candles), n, averageCount);
+    public static BigDecimal[] getArray(Price[] array, int n, int averageCount) {
+        return getArray(CandleBigDecimalChange.getCloseArray(array), n, averageCount);
     }
 
     /**

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.indicator.cross;
+package io.runon.trading.technical.analysis.indicator;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -30,6 +30,35 @@ public class Cross {
         , DEAD // 데드크로스
     }
 
+    Type type;
+    int gap;
+    BigDecimal rete;
+
+    /**
+     * 크로스 유형얻기
+     * @return 골드크로스 or 데드 크로스
+     */
+    public Type type() {
+        return type;
+    }
+
+
+    /**
+     * 교차지점에서 요휴비율 거리
+     * @return 마지막 발생시점으로 부터의 거리
+     */
+    public int gap() {
+        return gap;
+    }
+
+    /**
+     * 비율
+     * @return 발생비율
+     */
+    public BigDecimal getRete() {
+        return rete;
+    }
+
     /**
      * 크로스 지점 얻기
      * shot 5 이면 long 은 10 15 20 등.
@@ -37,65 +66,67 @@ public class Cross {
      * 두 배열의 크기는 반드시 일치 할것
      * @param shotArray 짧은 배열
      * @param longArray 긴배열
-     * @param rate 돌파를 확인하는 비율 (겹친 정도로는 돌파로 보기 어려움) 백분율 percent
+     * @param rate 돌파를 확인하는 비율 1% == 0.01
      * @return 크로스 발생 유형과 위치
      */
-    public static CrossIndex getIndex(BigDecimal[] shotArray, BigDecimal [] longArray, BigDecimal rate ){
-
-
-        int lastIndex = longArray.length -1;
-
-
-        if( shotArray[lastIndex].compareTo( longArray[lastIndex]) > 0){
-            //골득 크로스 검색
-            for (int i = lastIndex ; i > 4 ; i--) {
-                if(shotArray[i].compareTo(longArray[i]) <= 0 ){
-                    return null;
-                }
-                int gap = gap(longArray, shotArray, i);
-
-                if(gap == -1){
-                    continue;
-                }
-
-                if(!isRate(longArray, shotArray, i, rate)){
-                    return null;
-                }
-
-                CrossIndex crossIndex = new CrossIndex();
-                crossIndex.type = Type.GOLDEN;
-                crossIndex.index = i;
-                crossIndex.gap = gap;
-                return crossIndex;
-
-            }
-
-        }else if(shotArray[lastIndex].compareTo( longArray[lastIndex]) < 0){
-            //데드 크로스 검색
-            for (int i = lastIndex ; i > 4 ; i--) {
-                if(shotArray[i].compareTo(longArray[i]) >= 0 ){
-                    return null;
-                }
-
-                int gap = gap(shotArray, longArray, i);
-
-                if(!isRate(shotArray, longArray, i, rate)){
-                    return null;
-                }
-                CrossIndex crossIndex = new CrossIndex();
-                crossIndex.type = Type.DEAD;
-                crossIndex.index = i;
-                crossIndex.gap = gap;
-                return crossIndex;
-
-            }
-        }
+    public static Cross getCross(BigDecimal[] shotArray, BigDecimal [] longArray, BigDecimal rate ){
+//
+//
+//        int lastIndex = longArray.length -1;
+//
+//
+//        if( shotArray[lastIndex].compareTo( longArray[lastIndex]) > 0){
+//            //골득 크로스 검색
+//            for (int i = lastIndex ; i > 4 ; i--) {
+//                if(shotArray[i].compareTo(longArray[i]) <= 0 ){
+//                    return null;
+//                }
+//                int gap = gap(longArray, shotArray, i);
+//
+//                if(gap == -1){
+//                    continue;
+//                }
+//
+//                if(!isRate(longArray, shotArray, i, rate)){
+//                    return null;
+//                }
+//
+//                CrossIndex crossIndex = new CrossIndex();
+//                crossIndex.type = Type.GOLDEN;
+//                crossIndex.index = i;
+//                crossIndex.gap = gap;
+//                return crossIndex;
+//
+//            }
+//
+//        }else if(shotArray[lastIndex].compareTo( longArray[lastIndex]) < 0){
+//            //데드 크로스 검색
+//            for (int i = lastIndex ; i > 4 ; i--) {
+//                if(shotArray[i].compareTo(longArray[i]) >= 0 ){
+//                    return null;
+//                }
+//
+//                int gap = gap(shotArray, longArray, i);
+//
+//                if(!isRate(shotArray, longArray, i, rate)){
+//                    return null;
+//                }
+//                CrossIndex crossIndex = new CrossIndex();
+//                crossIndex.type = Type.DEAD;
+//                crossIndex.index = i;
+//                crossIndex.gap = gap;
+//                return crossIndex;
+//
+//            }
+//        }
 
         return null;
     }
     
     private static boolean isRate(BigDecimal [] small, BigDecimal [] large, int index, BigDecimal rate){
         for (int i = index; i <small.length ; i++) {
+
+
             BigDecimal length = large[i].subtract(small[i]);
             if(length.divide(small[i], MathContext.DECIMAL128).compareTo(rate) >= 0){
                 return true;

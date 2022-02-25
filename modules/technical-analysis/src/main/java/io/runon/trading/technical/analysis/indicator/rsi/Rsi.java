@@ -85,7 +85,7 @@ import java.math.MathContext;
  *
  * @author macle
  */
-public class RSI {
+public class Rsi {
 
     public static final int DEFAULT_N = 14;
     public static final int DEFAULT_SIGNAL = 6;

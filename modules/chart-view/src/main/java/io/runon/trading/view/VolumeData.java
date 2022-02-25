@@ -14,60 +14,18 @@
  * limitations under the License.
  */
 package io.runon.trading.view;
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+
 /**
  * 볼륨 정보
  * @author ccsweets
  */
+@Data
 public class VolumeData {
     long time;
-    double volume;
+    BigDecimal volume;
     String color;
-
-    /**
-     * 시간을 얻는다.
-     * @return 시간
-     */
-    public long getTime() {
-        return time;
-    }
-
-    /**
-     * 시간을 설정한다.
-     * @param time 시간
-     */
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    /**
-     * 거래량을 얻는다.
-     * @return 거래량
-     */
-    public double getVolume() {
-        return volume;
-    }
-
-    /**
-     * 거래량을 설정한다.
-     * @param volume 거래량
-     */
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    /**
-     * 색깔을 얻는다.
-     * @return 색깔
-     */
-    public String getColor() {
-        return color;
-    }
-
-    /**
-     * 색깔을 설정한다.
-     * @param color 색깔
-     */
-    public void setColor(String color) {
-        this.color = color;
-    }
 }
