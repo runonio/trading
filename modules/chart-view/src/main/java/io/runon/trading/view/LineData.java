@@ -14,43 +14,31 @@
  * limitations under the License.
  */
 package io.runon.trading.view;
+
+import io.runon.trading.PriceOpenTime;
+
+import java.math.BigDecimal;
+
 /**
  * 라인 정보
  * @author ccsweets
  */
-public class LineData {
-    double price;
+public class LineData implements PriceOpenTime {
+    BigDecimal price;
     long time;
 
-    /**
-     * 가격을 얻는다.
-     * @return 가격
-     */
-    public double getPrice() {
-        return price;
-    }
-
-    /**
-     * 가격을 설정한다.
-     * @param price 가격
-     */
-    public void setPrice(double price) {
+    public LineData(BigDecimal price, long time){
         this.price = price;
+        this.time = time;
     }
 
-    /**
-     * 시간을 얻는다.
-     * @return 시간
-     */
-    public long getTime() {
+    @Override
+    public long getOpenTime() {
         return time;
     }
 
-    /**
-     * 시간을 설정한다.
-     * @param time 시간
-     */
-    public void setTime(long time) {
-        this.time = time;
+    @Override
+    public BigDecimal getClose() {
+        return price;
     }
 }

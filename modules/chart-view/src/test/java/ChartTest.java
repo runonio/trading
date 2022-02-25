@@ -30,7 +30,7 @@ public class ChartTest {
             candleSticks[i] = candleStick;
         }
 
-        MarkerData[] markerDatas = new MarkerData[12];
+        MarkerData[] markerDataArr = new MarkerData[12];
 
         for (int i = 0; i < 12; i++) {
             MarkerData markerData = new MarkerData(
@@ -39,12 +39,12 @@ public class ChartTest {
                     i%2 == 0? MarkerData.MarkerType.aboveBar : MarkerData.MarkerType.belowBar,
                     i%2 == 0? MarkerData.MarkerShape.arrowDown : MarkerData.MarkerShape.arrowUp
             );
-            markerDatas[i] = markerData;
+            markerDataArr[i] = markerData;
         }
 
 
         TradingChart chart = new TradingChart(candleSticks);
-        chart.addMarkerAll(markerDatas);
+        chart.addMarker(markerDataArr);
         chart.view();
     }
 

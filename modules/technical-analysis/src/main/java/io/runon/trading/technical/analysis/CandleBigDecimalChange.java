@@ -1,7 +1,7 @@
 
 package io.runon.trading.technical.analysis;
 
-import io.runon.trading.Candle;
+import io.runon.trading.Price;
 import io.runon.trading.PriceChangeRate;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -13,11 +13,11 @@ import java.math.BigDecimal;
  */
 public class CandleBigDecimalChange {
 
-    public static BigDecimal [] getCloseArray(Candle[] candles){
+    public static BigDecimal [] getCloseArray(Price[] candles){
         return getCloseArray(candles,0, candles.length);
     }
 
-    public static BigDecimal [] getCloseArray(Candle[] candles,int startIndex, int end){
+    public static BigDecimal [] getCloseArray(Price[] candles,int startIndex, int end){
         BigDecimal [] array = new BigDecimal[end-startIndex];
         int index = 0;
         for (int i = startIndex; i <end ; i++) {

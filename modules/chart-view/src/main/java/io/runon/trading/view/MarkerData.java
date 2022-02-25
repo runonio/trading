@@ -18,6 +18,7 @@ package io.runon.trading.view;
  * 마커 정보
  * @author ccsweets
  */
+@SuppressWarnings("ClassCanBeRecord")
 public class MarkerData {
     /**
      * 마커 유형

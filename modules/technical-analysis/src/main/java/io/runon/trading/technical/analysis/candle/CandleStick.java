@@ -18,6 +18,7 @@ package io.runon.trading.technical.analysis.candle;
 import io.runon.trading.Candle;
 import io.runon.trading.PriceChange;
 import io.runon.trading.PriceChangeType;
+import io.runon.trading.PriceOpenTime;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -28,7 +29,7 @@ import java.math.MathContext;
  * - 더 많은 요소 클래스는 상속받아서 구현
  * @author macle
  */
-public class CandleStick implements PriceChange, Candle {
+public class CandleStick implements PriceChange, Candle, PriceOpenTime {
 
     //자세한 모양은 구글시트 참조
     //https://docs.google.com/spreadsheets/d/13T8OR02ESmGTsD6uAI5alYPdRg6ekrfnVnkCdqpoAvE/edit#gid=1228683334
