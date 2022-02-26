@@ -44,6 +44,22 @@ public class MovingAverage {
     }
 
     /**
+     * 이동평균값얻기
+     * @param array 배열
+     * @param n 평균을 구하기위한 개수 N
+     * @return 이동평균
+     */
+    public static BigDecimal getAverage (BigDecimal[] array, int n){
+        int averageCount = Math.min(array.length, n);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = array.length - averageCount; i < array.length; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum.divide(new BigDecimal(averageCount), MathContext.DECIMAL128);
+    }
+
+
+    /**
      * 평균 배열 얻기
      * @param array 배열
      * @param n 평균을 구하기위한 개수 N
