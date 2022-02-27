@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 선물 단일종목 벡테스팅
@@ -26,6 +28,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
     protected FuturesAccount account;
 
     protected CandleSymbolPrice symbolPrice;
+
+    protected List<TradeHistory> tradeHistoryList = new ArrayList<>();
 
     //1분에 한번 판단
     protected long cycleTime = Times.MINUTE_1;
@@ -187,6 +191,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
                 lastPosition = Position.CLOSE;
             }
 
+            // 트레이드 이력 저장
+            tradeHistoryList.add(new TradeHistory(time, lastPosition));
+
             log.info(getLogMessage());
             time = time + cycleTime;
             if(time >= endTime){
@@ -200,6 +207,10 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         BigDecimal assets = account.getAssets();
         return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + symbolPrice.getPrice(symbol)
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
+    }
+
+    public List<TradeHistory> getTradeHistoryList(){
+        return this.tradeHistoryList;
     }
 
 }
