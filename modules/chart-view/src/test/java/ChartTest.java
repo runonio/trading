@@ -1,5 +1,7 @@
 import com.seomse.commons.utils.time.YmdUtil;
+import io.runon.trading.PriceOpenTime;
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.view.LineData;
 import io.runon.trading.view.MarkerData;
 import io.runon.trading.view.TradingChart;
 
@@ -12,7 +14,8 @@ public class ChartTest {
         List<String> ymdList = YmdUtil.getYmdList("20220101", "20221231");
 
         CandleStick[] candleSticks = new CandleStick[ymdList.size()];
-
+        LineData[] lines = new LineData[ymdList.size()];
+        LineData[] lines2 = new LineData[ymdList.size()];
         for (int i = 0; i < ymdList.size(); i++) {
             String ymd = ymdList.get(i);
 
@@ -30,6 +33,24 @@ public class ChartTest {
             candleSticks[i] = candleStick;
         }
 
+
+        for (int i = 0; i < ymdList.size(); i++) {
+            String ymd = ymdList.get(i);
+
+            int randomNum = randInt(0, 10);
+            LineData lineData = new LineData(new BigDecimal(randomNum),YmdUtil.getTime(ymd));
+            lines[i] = lineData;
+        }
+
+        for (int i = 0; i < ymdList.size(); i++) {
+            String ymd = ymdList.get(i);
+
+            int randomNum = randInt(100,200);
+            LineData lineData = new LineData(new BigDecimal(randomNum),YmdUtil.getTime(ymd));
+            lines2[i] = lineData;
+        }
+
+
         MarkerData[] markerDataArr = new MarkerData[12];
 
         for (int i = 0; i < 12; i++) {
@@ -45,6 +66,8 @@ public class ChartTest {
 
         TradingChart chart = new TradingChart(candleSticks);
         chart.addMarker(markerDataArr);
+        chart.addLine(lines, "blue", 2, false);
+        chart.addLine(lines2, "blue", 1);
         chart.view();
     }
 
