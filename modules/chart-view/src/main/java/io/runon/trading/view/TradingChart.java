@@ -58,6 +58,9 @@ public class TradingChart {
     /* html file export path */
     String exportPath = "data";
 
+    static final String LEFT_LINE_REPLACER = "$$LEFT_LINE_REPLACER$$";
+    boolean leftLineEnabled = false;
+
 
     /**
      * 브라우저 타이틀을 설정 한다.
@@ -93,18 +96,18 @@ public class TradingChart {
                 var chart = LightweightCharts.createChart(document.body, {
                     width: %d,
                   height: %d,
-           
+                  %s
                   crosshair: {
                     mode: LightweightCharts.CrosshairMode.Normal,
                   }
                 });
-                
+                                
                 const candlestickSeries = chart.addCandlestickSeries({
                   priceScaleId: 'right'
                 });
 
-                
-                """.formatted(width,height));
+                                
+                """.formatted(width,height,LEFT_LINE_REPLACER));
 
 
         if(dateType == ChartDateType.MINUTE){
@@ -206,19 +209,27 @@ public class TradingChart {
         createChartStr.append("]);");
     }
 
+    public void addLine(PriceOpenTime[] lineDataArr, String color, int size){
+        addLine(lineDataArr, color, size, true);
+    }
+
     /**
      * 선형 데이터를 전부 추가한다.
      * @param lineDataArr 선형 데이터 배열
      * @param color 색깔
      * @param size 굵기
      */
-    public void addLine(PriceOpenTime[] lineDataArr , String color, int size){
+    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide){
         createChartStr.append("""
                 chart.addLineSeries({
                   color: '%s',
                   lineWidth: %d,
+                  priceScaleId: '%s'
                 }).setData([
-                """.formatted(color,size));
+                """.formatted(color,size, rightSide? "right": "left"));
+        if(!rightSide){
+            createChartStr = new StringBuilder(createChartStr.toString().replace(LEFT_LINE_REPLACER, "leftPriceScale: {visible: true, },"));
+        }
         int lineDataArrSize = lineDataArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < lineDataArrSize; i++) {
@@ -262,7 +273,7 @@ public class TradingChart {
                 """.formatted(browserTitle,pureJsContents,lightWeightJsContents)
         );
 
-        result.append("<script>\n").append(createChartStr.toString()).append("\n</script>\n");
+        result.append("<script>\n").append(createChartStr.toString().replace(LEFT_LINE_REPLACER,"")).append("\n</script>\n");
 
         return result.append("</body></html>").toString();
     }
