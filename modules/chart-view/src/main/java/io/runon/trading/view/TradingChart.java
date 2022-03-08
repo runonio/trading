@@ -209,6 +209,12 @@ public class TradingChart {
         createChartStr.append("]);");
     }
 
+    /**
+     * 선형 데이터를 전부 추가한다.
+     * @param lineDataArr 선형 데이터 배열
+     * @param color 색깔
+     * @param size 굵기
+     */
     public void addLine(PriceOpenTime[] lineDataArr, String color, int size){
         addLine(lineDataArr, color, size, true);
     }
@@ -218,6 +224,7 @@ public class TradingChart {
      * @param lineDataArr 선형 데이터 배열
      * @param color 색깔
      * @param size 굵기
+     * @param rightSide 라인을 오른쪽에 표시할지 여부
      */
     public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide){
         createChartStr.append("""
