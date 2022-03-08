@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 package io.runon.trading.view;
+
+import java.util.Comparator;
+
 /**
  * 마커 정보
  * @author ccsweets
  */
 @SuppressWarnings("ClassCanBeRecord")
 public class MarkerData {
+
+    public final static Comparator<MarkerData> SORT_TIME = Comparator.comparingLong(o -> o.time);
+
     /**
      * 마커 유형
      * lightweight-charts js 사용하는 변수그대로 이므로 소문자 사용

@@ -97,6 +97,24 @@ public class BigDecimals {
         return sum;
     }
 
+    /**
+     * 인덱스 위치를 기준으로 이전 배열의 위치를 복하해서 전달
+     * @param src 원본배열
+     * @param lastIndex 기준 지점 (끝지점)
+     * @param length 건수
+     * @return 복사된 배열
+     */
+    public static BigDecimal [] copy(BigDecimal [] src, int lastIndex, int length){
+        if(length > lastIndex + 1){
+            length = lastIndex +1;
+        }
+        BigDecimal [] array = new BigDecimal[length];
+
+        System.arraycopy(src, lastIndex - length + 1, array, 0, length);
+        return array;
+    }
+
+
     public static BigDecimal getChangePercent(BigDecimal previous , BigDecimal close){
         int compare = previous.compareTo(close);
 
