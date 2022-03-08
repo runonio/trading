@@ -51,7 +51,7 @@ public class Cross {
      * 크로스 유형얻기
      * @return 골드크로스 or 데드 크로스
      */
-    public Type type() {
+    public Type getType() {
         return type;
     }
 
@@ -71,6 +71,11 @@ public class Cross {
      */
     public BigDecimal getDisparity() {
         return disparity;
+    }
+
+
+    public static Cross getCross(BigDecimal[] shotArray, BigDecimal [] longArray, BigDecimal disparity ){
+        return getCross(shotArray, longArray, disparity, MIN_COUNT);
     }
 
     /**
@@ -112,7 +117,7 @@ public class Cross {
             if(lastDisparity.compareTo(disparity) < 0){
                 return NONE;
             }
-            if(isNotBetween(shotArray,longArray, crossIndex, shotArray.length-1, disparity ,true)){
+            if(isBetween(shotArray,longArray, crossIndex, shotArray.length-1, disparity ,true)){
                 return NONE;
             }
             Cross cross = new Cross();
@@ -136,7 +141,7 @@ public class Cross {
                 return NONE;
             }
 
-            if(isNotBetween(shotArray,longArray, crossIndex, shotArray.length-1, disparity ,false)){
+            if(isBetween(shotArray,longArray, crossIndex, shotArray.length-1, disparity ,false)){
                 return NONE;
             }
 
@@ -154,18 +159,18 @@ public class Cross {
     /**
      * 사이에 다른 유효한 지점이 없었는지 여부
      */
-    public static boolean isNotBetween(BigDecimal [] shotArray, BigDecimal [] longArray, int start, int end, BigDecimal disparity, boolean isLong){
+    public static boolean isBetween(BigDecimal [] shotArray, BigDecimal [] longArray, int start, int end, BigDecimal disparity, boolean isLong){
         for (int i = start; i < end ; i++) {
             if(isLong && shotArray[i].divide(longArray[i], 10, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).compareTo(disparity) >= 0){
-                return false;
+                return true;
             }
 
             if(!isLong && shotArray[i].divide(longArray[i], 10, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).compareTo(disparity) <= 0){
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**

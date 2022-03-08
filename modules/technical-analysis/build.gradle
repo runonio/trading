@@ -3,16 +3,12 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.1.6'
+version '0.1.7'
 
 repositories {
     mavenCentral()
 }
-compileJava.options.encoding = 'UTF-8'
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 dependencies {
 
     implementation 'ch.qos.logback:logback-core:1.2.10'

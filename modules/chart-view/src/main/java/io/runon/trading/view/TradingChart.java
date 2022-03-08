@@ -26,6 +26,10 @@ import io.runon.trading.view.util.JarUtil;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 트레이딩 차트
@@ -142,25 +146,7 @@ public class TradingChart {
         createChartStr.append("]);\n");
     }
 
-    /**
-     * 차트에 마커를 전부 추가 한다.
-     * @param markerDataArray 마커 데이터 배열
-     */
-    public void addMarker(MarkerData[] markerDataArray) {
-        createChartStr.append("""
-              var markers = [];
-                """);
 
-        for (MarkerData markerData : markerDataArray) {
-            String timeStr = Long.toString(markerData.getTime()/1000);
-            createChartStr.append("""
-                markers.push({ time: %s, position: '%s', color: '%s', shape: '%s', text: '%s'});
-                """
-            .formatted(timeStr,markerData.getMarkerType().name(),markerData.getColor(),markerData.getMarkerShape().name(),markerData.getText())
-            );
-        }
-        createChartStr.append("candlestickSeries.setMarkers(markers);");
-    }
 
     public void addVolume(TradeCandle[] candles){
 
@@ -281,6 +267,62 @@ public class TradingChart {
         return result.append("</body></html>").toString();
     }
 
+
+
+
+    private List<MarkerData> markerDataList = null;
+
+    /**
+     * 차트에 마커를 전부 추가 한다.
+     * @param markerDataArray 마커 데이터 배열
+     */
+    public void addMarker(MarkerData[] markerDataArray) {
+
+        if(markerDataList == null){
+            markerDataList = new ArrayList<>();
+        }
+        Collections.addAll(markerDataList, markerDataArray);
+    }
+
+    public void addMarker(MarkerData markerData) {
+        if(markerDataList == null){
+            markerDataList = new ArrayList<>();
+        }
+        markerDataList.add(markerData);
+    }
+
+    public void addMarker(List<MarkerData> list) {
+        if(markerDataList == null){
+            markerDataList = new ArrayList<>();
+        }
+        markerDataList.addAll(list);
+    }
+
+    public void setMarker(){
+        if(markerDataList == null || markerDataList.size() == 0){
+            return;
+        }
+
+        MarkerData[] array = markerDataList.toArray(new MarkerData[0]);
+        Arrays.sort(array, MarkerData.SORT_TIME);
+
+        createChartStr.append("""
+              var markers = [];
+                """);
+
+        for (MarkerData markerData : array) {
+            String timeStr = Long.toString(markerData.getTime()/1000);
+            createChartStr.append("""
+                markers.push({ time: %s, position: '%s', color: '%s', shape: '%s', text: '%s'});
+                """
+                    .formatted(timeStr,markerData.getMarkerType().name(),markerData.getColor(),markerData.getMarkerShape().name(),markerData.getText())
+            );
+        }
+        createChartStr.append("candlestickSeries.setMarkers(markers);");
+
+        markerDataList.clear();
+    }
+
     /**
      * 결과를 HTML 파일로 생성 한다.
      * @return html file path
@@ -295,6 +337,8 @@ public class TradingChart {
      * @return html file path
      */
     public String makeHtmlFile(String exportFileName){
+        setMarker();
+
         File exportDir = new File(exportPath);
         if(!exportDir.exists()){
             //noinspection ResultOfMethodCallIgnored
