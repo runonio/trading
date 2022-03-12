@@ -494,6 +494,28 @@ public class TradeCandles {
     }
 
 
+    public TradeCandle [] getCandles(int endIndex, int length){
+        return getCandles(candles, endIndex, length);
+    }
+
+    public static TradeCandle [] getCandles(TradeCandle [] candles, int endIndex, int length){
+        int startIndex = endIndex - length + 1;
+        if(startIndex < 0){
+            startIndex = 0;
+            length = endIndex - startIndex+1;
+        }
+
+        int end = endIndex +1;
+        TradeCandle [] copy = new TradeCandle[length];
+        int idx = 0;
+
+        for (int i = startIndex; i < end ; i++) {
+            copy[idx++] =  candles[i];
+        }
+        return copy;
+    }
+
+
     // 주식쪽에 옮겨갈 소스로 옮기기 전까지는 주석처리
 //    /**
 //     * 빈 캔들을 채운다.
