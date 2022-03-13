@@ -68,6 +68,10 @@ public class Volumes {
     }
 
 
+    public static BigDecimal getVolumePower(TradeCandle [] candles){
+        return getVolumePower(candles, 0 , candles.length);
+    }
+
     public static BigDecimal getVolumePower(TradeCandle [] candles, int startIndex, int end){
 
         BigDecimal buyVolume = BigDecimal.ZERO;
