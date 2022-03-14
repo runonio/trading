@@ -11,6 +11,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'ch.qos.logback:logback-core:1.2.11'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'ch.qos.logback:logback-access:1.2.11'
 
 //    implementation project(path: ':technical-analysis')
     implementation 'io.runon.trading:trading:0.1.0'
