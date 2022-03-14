@@ -29,9 +29,6 @@ import java.util.Set;
  */
 public class CandleManager {
 
-
-
-
     private final Map<Long, TradeCandles> candleMap = new HashMap<>();
 
     private final TradeCandles[] tradeCandles;

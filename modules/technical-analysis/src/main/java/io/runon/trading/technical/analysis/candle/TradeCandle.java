@@ -166,12 +166,12 @@ public class TradeCandle extends CandleStick {
      * @param tradeCandle 캔들정보를 활용하여 정보합침
      */
     public void addCandle(TradeCandle tradeCandle){
-        if(openTime == -1){
+        if(openTime == -1 || openTime > tradeCandle.getOpenTime()) {
             openTime = tradeCandle.getOpenTime();
             open = tradeCandle.getOpen();
         }
 
-        if(closeTime == -1){
+        if(closeTime == -1 || closeTime < tradeCandle.getCloseTime()){
             closeTime = tradeCandle.getCloseTime();
             close = tradeCandle.getClose();
         }

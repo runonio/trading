@@ -21,8 +21,12 @@ sourceSets {
 dependencies {
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
 //    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'ch.qos.logback:logback-core:1.2.11'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'ch.qos.logback:logback-access:1.2.11'
+
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
-    implementation 'io.runon.trading:technical-analysis:0.1.7'
+    implementation 'io.runon.trading:technical-analysis:0.1.8'
     implementation 'com.seomse.commons:commons:1.2.7'
     implementation 'io.runon.trading:trading:0.1.0'
 //    implementation project(path: ':technical-analysis')
