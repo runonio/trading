@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>technical-analysis</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <packaging>jar</packaging>
 
     <name>technical-analysis</name>
@@ -127,19 +127,19 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.11</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.11</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-access</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.11</version>
         </dependency>
 
         <dependency>
