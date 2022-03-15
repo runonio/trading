@@ -34,6 +34,8 @@ public class CandleCombine {
             candle.setOpenTime(candle.getCloseTime() - time);
         }
 
+        candle.setChange();
+
         return candle;
     }
 
@@ -44,7 +46,7 @@ public class CandleCombine {
             return combineCandle;
         }
 
-        return combine(count,candles.length - count,candles.length);
+        return combine(count, count-1, candles.length);
     }
 
     public TradeCandle [] combine(int count, int startIndex, int end){
@@ -65,6 +67,7 @@ public class CandleCombine {
             if(isOpenTimeChange){
                 candle.setOpenTime(candle.getCloseTime() - time);
             }
+            candle.setChange();
             combineCandles[idx++] = candle;
         }
 
