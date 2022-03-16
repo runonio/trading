@@ -216,7 +216,12 @@ public class TradingChart {
      * @param size 굵기
      */
     public void addLine(PriceOpenTime[] lineDataArr, String color, int size){
-        addLine(lineDataArr, color, size, true);
+        addLine(lineDataArr, color, size, true, true);
+    }
+
+
+    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide){
+        addLine(lineDataArr, color, size, rightSide, true);
     }
 
     /**
@@ -226,14 +231,28 @@ public class TradingChart {
      * @param size 굵기
      * @param rightSide 라인을 오른쪽에 표시할지 여부
      */
-    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide){
-        createChartStr.append("""
-                chart.addLineSeries({
-                  color: '%s',
-                  lineWidth: %d,
-                  priceScaleId: '%s'
-                }).setData([
-                """.formatted(color,size, rightSide? "right": "left"));
+    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide, boolean isValueVisible){
+
+
+        if(isValueVisible) {
+            createChartStr.append("""
+                    chart.addLineSeries({
+                      color: '%s',
+                      lineWidth: %d,
+                      priceScaleId: '%s'
+                    }).setData([
+                    """.formatted(color, size, rightSide ? "right" : "left"));
+        }else{
+            createChartStr.append("""
+                    chart.addLineSeries({
+                      color: '%s',
+                      lineWidth: %d,
+                      priceScaleId: '%s',
+                      priceLineVisible: false,
+                      lastValueVisible: false
+                    }).setData([
+                    """.formatted(color, size, rightSide ? "right" : "left"));
+        }
         if(!rightSide){
             createChartStr = new StringBuilder(createChartStr.toString().replace(LEFT_LINE_REPLACER, "leftPriceScale: {visible: true, },"));
         }

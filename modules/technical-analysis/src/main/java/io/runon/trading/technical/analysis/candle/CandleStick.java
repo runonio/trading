@@ -329,6 +329,8 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime {
     public BigDecimal getPrevious() {
         if(previous == null && change != null){
             previous = open.subtract(change);
+        } else if(previous == null && open != null){
+            previous = open;
         }
 
         return previous;
@@ -357,6 +359,8 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime {
      * 직전 가격이 설정되어 있을때 가격변화량 및 변화율을 설정한다.
      */
     public void setChange(){
+
+        BigDecimal previous = getPrevious();
 
         if(close == null || previous == null){
             return;

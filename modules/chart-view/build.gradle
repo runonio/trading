@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.1.7'
+version '0.1.8'
 
 repositories {
     mavenCentral()
@@ -26,9 +26,9 @@ dependencies {
     implementation 'ch.qos.logback:logback-access:1.2.11'
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
-    implementation 'io.runon.trading:technical-analysis:0.1.8'
+    implementation 'io.runon.trading:technical-analysis:0.1.9'
     implementation 'com.seomse.commons:commons:1.2.7'
-    implementation 'io.runon.trading:trading:0.1.0'
+    implementation 'io.runon.trading:trading:0.1.1'
 //    implementation project(path: ':technical-analysis')
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
