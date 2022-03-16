@@ -231,7 +231,9 @@ public class TradingChart {
                 chart.addLineSeries({
                   color: '%s',
                   lineWidth: %d,
-                  priceScaleId: '%s'
+                  priceScaleId: '%s',
+                  priceLineVisible: false,
+                  lastValueVisible: false
                 }).setData([
                 """.formatted(color,size, rightSide? "right": "left"));
         if(!rightSide){

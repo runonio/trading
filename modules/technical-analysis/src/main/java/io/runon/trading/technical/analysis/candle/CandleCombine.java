@@ -62,7 +62,7 @@ public class CandleCombine {
             }
             TradeCandle candle = new TradeCandle();
             for (int j = combineStart; j < combineEnd; j++) {
-                candle.addCandle(candles[i]);
+                candle.addCandle(candles[j]);
             }
             if(isOpenTimeChange){
                 candle.setOpenTime(candle.getCloseTime() - time);
