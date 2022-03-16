@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.1.8'
+implementation 'io.runon.trading:technical-analysis:0.1.9'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.8
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.1.9
 
 # communication
 ### blog, homepage
