@@ -6,6 +6,12 @@ import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.Strategy;
 import io.runon.trading.technical.analysis.candle.CandleTime;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
+import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.view.LineData;
+import io.runon.trading.view.Lines;
+import io.runon.trading.view.MarkerData;
+import io.runon.trading.view.TradingChart;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -19,7 +25,7 @@ import java.util.List;
  * @author macle
  */
 @Slf4j
-public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
+public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> implements Runnable{
 
     protected E data;
 
@@ -28,8 +34,6 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
     protected FuturesAccount account;
 
     protected CandleSymbolPrice symbolPrice;
-
-    protected List<TradeHistory> tradeHistoryList = new ArrayList<>();
 
     //1분에 한번 판단
     protected long cycleTime = Times.MINUTE_1;
@@ -88,6 +92,16 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         this.zoneId = zoneId;
     }
 
+    private boolean isChart = false;
+    private TradeCandle [] candles;
+    public void setChart(TradeCandle [] candles, int length) {
+        isChart = true;
+        if(candles.length > length){
+            candles = TradeCandles.getCandles(candles, candles.length-1 , length);
+        }
+        this.candles = candles;
+    }
+
     /**
      * 계좌에 현금추가
      * @param cash 현금
@@ -122,8 +136,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
 
     //백테스팅 실행
     //log에 매수매두 시점을 보여줌 // 이후에는 각 차트로 표시
-
-    public void runLog(){
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void run(){
         if(account == null) {
             account = new FuturesAccount("test");
             account.addCash(new BigDecimal(10000));
@@ -139,6 +154,20 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
         account.setSymbolPrice(symbolPrice);
         startCash = account.getCash();
         time = startTime;
+
+        List<LineData> assetList = null;
+        List<MarkerData> markerDataList = null;
+        List<Lines> linesList = null;
+
+        List<LineData> lastLines = null;
+
+        if(isChart){
+            assetList = new ArrayList<>();
+            markerDataList = new ArrayList<>();
+            linesList = new ArrayList<>();
+            lastLines = new ArrayList<>();
+        }
+
         for(;;) {
 
             changeTime(time);
@@ -146,7 +175,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
             if(isEnd){
                 //구현체에서 종료이벤트가 발생하였으면
                 log.info(getLogMessage());
-                log.info("backtesting end(event) last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
+                end(assetList, markerDataList, linesList, lastLines);
                 return;
             }
 
@@ -154,15 +183,30 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
 
             if(!data.isValid(time)){
                 time = time + cycleTime;
+                if(time >= endTime){
+                    end(assetList, markerDataList, linesList, lastLines);
+                    return;
+                }
                 continue;
             }
 
             lastValidTime = time;
 
-            Position position = strategy.getPosition(data);
+            BigDecimal price = symbolPrice.getPrice(symbol);
 
+            Position position = strategy.getPosition(data);
             if(lastPosition == position || position == Position.NONE){
                 time = time + cycleTime;
+
+                if(time >= endTime){
+                    end(assetList, markerDataList, linesList, lastLines);
+                    return;
+                }
+
+                if(isChart && time >= candles[0].getOpenTime()) {
+                    assetList.add(new LineData(account.getAssets(), time));
+                    lastLines.add(new LineData(price, time));
+                }
                 continue;
             }
 
@@ -191,16 +235,92 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
                 lastPosition = Position.CLOSE;
             }
 
-            // 트레이드 이력 저장
-            tradeHistoryList.add(new TradeHistory(time, lastPosition));
+            if(isChart && time >= candles[0].getOpenTime()) {
+                assetList.add(new LineData(account.getAssets(), time));
+
+
+                MarkerData.MarkerType markerType = MarkerData.MarkerType.aboveBar;
+                MarkerData.MarkerShape markerShape = MarkerData.MarkerShape.arrowDown;
+
+                MarkerData markerData = new MarkerData(time, "black"
+                        ,lastPosition.toString() +" " + price.stripTrailingZeros().toPlainString()
+                        , Long.toString(time)
+                        , markerType, markerShape
+                        );
+                markerDataList.add(markerData);
+            }
 
             log.info(getLogMessage());
             time = time + cycleTime;
             if(time >= endTime){
-                log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
+                end(assetList, markerDataList, linesList, lastLines);
                 return;
             }
         }
+    }
+
+    private void end(List<LineData> assetList, List<MarkerData> markerDataList, List<Lines> linesList, List<LineData> lastLines){
+        log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
+        if(isChart && candles.length > 0) {
+
+            TradingChart chart = new TradingChart(candles, 1200, 800, TradingChart.ChartDateType.MINUTE);
+            chart.addVolume(candles);
+            addLines(linesList, lastLines);
+
+            if(markerDataList.size() > 0){
+                chart.addMarker(markerDataList.toArray(new MarkerData[0]));
+                markerDataList.clear();
+            }
+
+            if(assetList.size() > 0){
+                chart.addLine(assetList.toArray(new LineData[0]), "3300FF", 2, false);
+                assetList.clear();
+            }
+
+            if(linesList.size() > 0){
+                for(Lines lines : linesList){
+                    chart.addLine(lines);
+                }
+                linesList.clear();
+            }
+
+
+            chart.view();
+
+        }
+    }
+
+    private void addLines(List<Lines> linesList, List<LineData> lastLines){
+        if(lastLines.size() == 0){
+            return;
+        }
+        Lines lines = new Lines();
+        lines.setLines(lastLines.toArray(new LineData[0]));
+        String color;
+        if(lastPosition == Position.LONG){
+            color = "#CCFFCC";
+        }else if(lastPosition == Position.SHORT){
+            color = "#FF9999";
+        }else{
+            color = "#CCCCCC";
+        }
+        lines.setColor(color);
+        lines.setSize(8);
+        lines.setValueVisible(false);
+
+        lastLines.clear();
+    }
+
+    public String getLineColor(){
+        if(lastPosition == Position.LONG){
+
+        }else if(lastPosition == Position.SHORT){
+
+        }else{
+
+        }
+
+        return "";
     }
 
     public String getLogMessage(){
@@ -209,8 +329,5 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> {
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
     }
 
-    public List<TradeHistory> getTradeHistoryList(){
-        return this.tradeHistoryList;
-    }
 
 }
