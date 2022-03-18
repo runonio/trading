@@ -224,6 +224,10 @@ public class TradingChart {
         addLine(lineDataArr, color, size, rightSide, true);
     }
 
+    public void addLine(Lines lines){
+        addLine(lines.lines, lines.color, lines.size, lines.rightSide, lines.isValueVisible);
+    }
+
     /**
      * 선형 데이터를 전부 추가한다.
      * @param lineDataArr 선형 데이터 배열

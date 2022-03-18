@@ -14,14 +14,7 @@ import java.util.Random;
  * 매도할때는 종가와 저가 사이의 가겨중 랜덤한 가격을 활용 (저가에 매도할 확율이 높음)
  * @author macle
  */
-public class SlippageRandomSymbolPrice implements CandleSymbolPrice {
-
-    private final Map<String, Candle> candleMap = new HashMap<>();
-
-    @Override
-    public void setCandle(String symbol, Candle candle){
-        candleMap.put(symbol, candle);
-    }
+public class SlippageRandomSymbolPrice extends CandleSymbolMapPrice {
 
 
     private BigDecimal minRate = new BigDecimal("0.2");
@@ -39,11 +32,6 @@ public class SlippageRandomSymbolPrice implements CandleSymbolPrice {
             throw new IllegalArgumentException("between 0 and 1: " + minRate.toPlainString());
         }
         this.minRate = minRate;
-    }
-
-    @Override
-    public BigDecimal getPrice(String symbol) {
-        return candleMap.get(symbol).getClose();
     }
 
     @Override
