@@ -94,6 +94,11 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
 
     private boolean isChart = false;
     private TradeCandle [] candles;
+    public void setChart(TradeCandle [] candles) {
+        isChart = true;
+        this.candles = candles;
+    }
+
     public void setChart(TradeCandle [] candles, int length) {
         isChart = true;
         if(candles.length > length){
@@ -204,8 +209,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
                 }
 
                 if(isChart && time >= candles[0].getOpenTime()) {
-                    assetList.add(new LineData(account.getAssets(), time));
-                    lastLines.add(new LineData(price, time));
+                    assetList.add(new LineData(BigDecimals.getChangePercent(startCash, account.getAssets()), time));
+                    lastLines.add(new LineData(price,  time));
                 }
                 continue;
             }
@@ -251,8 +256,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
             }
 
             if(isChart && time >= candles[0].getOpenTime()) {
-                assetList.add(new LineData(account.getAssets(), time));
-
+                assetList.add(new LineData(BigDecimals.getChangePercent(startCash, account.getAssets()), time));
+                lastLines.add(new LineData(price, time));
 
                 MarkerData.MarkerType markerType = MarkerData.MarkerType.aboveBar;
                 MarkerData.MarkerShape markerShape = MarkerData.MarkerShape.arrowDown;
@@ -274,24 +279,35 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
         }
     }
 
+    private int chartWidth = 1200;
+    private int chartHeight = 800;
+
+    public void setChartWidth(int chartWidth) {
+        this.chartWidth = chartWidth;
+    }
+
+    public void setChartHeight(int chartHeight) {
+        this.chartHeight = chartHeight;
+    }
+
     private void end(List<LineData> assetList, List<MarkerData> markerDataList, List<Lines> linesList, List<LineData> lastLines){
         log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
         if(isChart && candles.length > 0) {
 
-            TradingChart chart = new TradingChart(candles, 1200, 800, TradingChart.ChartDateType.MINUTE);
+            TradingChart chart = new TradingChart(candles, chartWidth, chartHeight, TradingChart.ChartDateType.MINUTE);
             chart.addVolume(candles);
             addLines(linesList, lastLines);
-
+//
             if(markerDataList.size() > 0){
                 chart.addMarker(markerDataList.toArray(new MarkerData[0]));
                 markerDataList.clear();
             }
-
+//
             if(assetList.size() > 0){
-                chart.addLine(assetList.toArray(new LineData[0]), "3300FF", 2, false);
+                chart.addLine(assetList.toArray(new LineData[0]), "#3300FF", 1, false);
                 assetList.clear();
             }
-
+//
             if(linesList.size() > 0){
                 for(Lines lines : linesList){
                     chart.addLine(lines);
@@ -321,6 +337,8 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
         lines.setColor(color);
         lines.setSize(8);
         lines.setValueVisible(false);
+
+        linesList.add(lines);
 
         lastLines.clear();
     }

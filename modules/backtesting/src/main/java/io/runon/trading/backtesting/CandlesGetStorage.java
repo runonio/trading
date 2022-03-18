@@ -25,4 +25,9 @@ public class CandlesGetStorage implements CandlesGet{
     public TradeCandle[] getCandles(long time, long endTime, int count) {
         return candleStorage.getCandles(time, endTime, count);
     }
+
+    public TradeCandle[] getCandles (long time, int count){
+        return candleStorage.getCandles(time, count);
+    }
+
 }
