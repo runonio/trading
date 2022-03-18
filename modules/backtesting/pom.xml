@@ -144,13 +144,13 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>data</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>technical-analysis</artifactId>
-            <version>0.1.9</version>
+            <version>0.2.1</version>
         </dependency>
 
 

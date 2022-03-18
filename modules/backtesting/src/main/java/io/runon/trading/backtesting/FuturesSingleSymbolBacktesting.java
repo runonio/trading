@@ -210,6 +210,21 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
                 continue;
             }
 
+            //차트 라인변경
+
+            if(isChart && lastLines.size() > 0){
+                if(lastPosition == Position.LONG && position != Position.LONG){
+                    addLines(linesList, lastLines);
+                }else if(lastPosition == Position.SHORT && position != Position.SHORT){
+                    addLines(linesList, lastLines);
+                } else if (
+                        lastPosition != Position.LONG && lastPosition != Position.SHORT
+                                && (position == Position.LONG || position == Position.SHORT)
+                ) {
+                    addLines(linesList, lastLines);
+                }
+            }
+
             if(position == Position.LONG){
                 //숏매도 롱매수
                 account.sell(symbol, Position.SHORT);
@@ -284,7 +299,6 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
                 linesList.clear();
             }
 
-
             chart.view();
 
         }
@@ -311,23 +325,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> impl
         lastLines.clear();
     }
 
-    public String getLineColor(){
-        if(lastPosition == Position.LONG){
-
-        }else if(lastPosition == Position.SHORT){
-
-        }else{
-
-        }
-
-        return "";
-    }
-
     public String getLogMessage(){
         BigDecimal assets = account.getAssets();
         return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + symbolPrice.getPrice(symbol)
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
     }
-
-
 }

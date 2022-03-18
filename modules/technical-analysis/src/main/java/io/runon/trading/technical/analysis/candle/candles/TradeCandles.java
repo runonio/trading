@@ -392,6 +392,17 @@ public class TradeCandles {
         return candles;
     }
 
+
+    /**
+     * 캔들 배열 얻기
+     * candles get
+     * @return TradeCandle candles
+     */
+    public TradeCandle[] getCandles(int count) {
+        TradeCandle[] candles = this.candles;
+        return getCandles(candles, candles.length-1, count);
+    }
+
     /**
      * 캔들 배열 얻기
      * 기존배열에서 end time 이용하여 원하는 캔들만큼 건수생성

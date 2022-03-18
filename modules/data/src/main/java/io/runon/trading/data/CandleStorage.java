@@ -38,4 +38,13 @@ public class CandleStorage {
         return candlesMap.get(time).getCandles(endTime, count);
     }
 
+    public TradeCandle[] getCandles(long time){
+        return candlesMap.get(time).getCandles();
+    }
+
+    public TradeCandle[] getCandles(long time, int count){
+        return candlesMap.get(time).getCandles(count);
+    }
+
+
 }
