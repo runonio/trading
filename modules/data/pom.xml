@@ -9,8 +9,8 @@
     <version>0.0.6</version>
     <packaging>jar</packaging>
 
-    <name>technical-analysis</name>
-    <description>trading technical analysis</description>
+    <name>trading data</name>
+    <description>trading data</description>
     <url>https://github.com/runonio/trading</url>
 
     <licenses>
