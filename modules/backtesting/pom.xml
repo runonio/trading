@@ -131,7 +131,7 @@
         <dependency>
             <groupId>com.seomse.commons</groupId>
             <artifactId>commons</artifactId>
-            <version>1.2.7</version>
+            <version>1.2.8</version>
         </dependency>
 
 

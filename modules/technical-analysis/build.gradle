@@ -15,7 +15,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.11'
     implementation 'ch.qos.logback:logback-access:1.2.11'
 
-    implementation 'com.seomse.commons:commons:1.2.7'
+    implementation 'com.seomse.commons:commons:1.2.8'
     implementation 'io.runon.trading:trading:0.1.1'
 
 //    implementation( rootProject)
