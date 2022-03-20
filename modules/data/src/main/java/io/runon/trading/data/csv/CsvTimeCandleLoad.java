@@ -17,6 +17,23 @@ public abstract class CsvTimeCandleLoad {
      public void load(String path, long time){
         File [] files = FileUtil.getFiles(path);
 
+        int dirCount = 0;
+        for(File checkFile : files){
+            if(checkFile.isDirectory()){
+                dirCount++;
+            }
+        }
+        if(dirCount > 0) {
+            int index = 0;
+            File [] array = new File[files.length-dirCount];
+            for(File file : files){
+                if(file.isFile()) {
+                    array[index++] = file;
+                }
+            }
+            files = array;
+        }
+
         if(files.length == 0){
             log.debug("file length 0: " + path);
             return;
