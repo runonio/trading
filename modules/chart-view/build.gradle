@@ -26,8 +26,8 @@ dependencies {
     implementation 'ch.qos.logback:logback-access:1.2.11'
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
-    implementation 'io.runon.trading:technical-analysis:0.2.1'
-    implementation 'com.seomse.commons:commons:1.2.8'
+    implementation 'io.runon.trading:technical-analysis:0.2.2'
+    implementation 'com.seomse.commons:commons:1.2.9'
     implementation 'io.runon.trading:trading:0.1.1'
 //    implementation project(path: ':technical-analysis')
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'

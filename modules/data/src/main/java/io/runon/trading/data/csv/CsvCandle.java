@@ -2,6 +2,7 @@ package io.runon.trading.data.csv;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
+import io.runon.trading.technical.analysis.candle.TimeCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.io.BufferedReader;
@@ -66,6 +67,17 @@ public class CsvCandle {
         return sb.toString();
     }
 
+
+    public static String value(long time, TradeCandle tradeCandle){
+        return time + "," + value(tradeCandle);
+    }
+
+    public static TimeCandle makeTimeCandle(String csv, long time){
+        int index = csv.indexOf(',');
+        long initTime = Long.parseLong( csv.substring(0, index));
+        return new TimeCandle(initTime, make(csv.substring(index+1), time));
+    }
+
     /**
      *
      * @param csv 캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
@@ -103,5 +115,7 @@ public class CsvCandle {
         tradeCandle.setChange();
         return tradeCandle;
     }
+
+
 
 }
