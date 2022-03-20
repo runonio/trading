@@ -17,9 +17,9 @@
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
 # gradle
-implementation 'io.runon.trading:data:0.0.6'
+implementation 'io.runon.trading:data:0.0.8'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.6
+    - https://mvnrepository.com/artifact/io.runon.trading/data/0.0.8
 
 # communication
 ### blog, homepage
