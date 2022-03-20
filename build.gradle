@@ -20,7 +20,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-core:1.2.11'
     implementation 'ch.qos.logback:logback-classic:1.2.11'
     implementation 'ch.qos.logback:logback-access:1.2.11'
-    implementation 'com.seomse.commons:commons:1.2.7'
+    implementation 'com.seomse.commons:commons:1.2.8'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 }
 

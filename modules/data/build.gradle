@@ -18,7 +18,7 @@ dependencies {
 //    implementation project(path: ':technical-analysis')
     implementation 'io.runon.trading:trading:0.1.1'
     implementation 'io.runon.trading:technical-analysis:0.2.1'
-    implementation 'com.seomse.commons:commons:1.2.7'
+    implementation 'com.seomse.commons:commons:1.2.8'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
 }
