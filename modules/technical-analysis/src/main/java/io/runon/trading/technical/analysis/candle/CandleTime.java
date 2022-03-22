@@ -27,7 +27,7 @@ public class CandleTime {
         return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue()) + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + " " + DateUtil.getDateText(zonedDateTime.getHour()) + DateUtil.getDateText(zonedDateTime.getMinute()) ;
     }
 
-    public long getIntervalTime(String interval){
+    public static long getIntervalTime(String interval){
         char timeUnit = interval.charAt(interval.length()-1);
         String timeNumber = interval.substring(0, interval.length()-1);
         
