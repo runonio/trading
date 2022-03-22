@@ -4,8 +4,8 @@ include 'technical-analysis'
 project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
 include 'chart-view'
 project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
-include 'data'
-project(':data').projectDir = new File(settingsDir,'modules/data')
+include 'trading-data'
+project(':trading-data').projectDir = new File(settingsDir,'modules/trading-data')
 include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 

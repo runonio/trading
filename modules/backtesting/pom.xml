@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>backtesting</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <packaging>jar</packaging>
 
     <name>backtesting</name>
@@ -143,8 +143,8 @@
 
         <dependency>
             <groupId>io.runon.trading</groupId>
-            <artifactId>data</artifactId>
-            <version>0.0.8</version>
+            <artifactId>trading-data</artifactId>
+            <version>0.0.9</version>
         </dependency>
 
         <dependency>
