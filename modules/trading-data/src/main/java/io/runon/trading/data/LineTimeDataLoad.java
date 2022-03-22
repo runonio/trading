@@ -1,21 +1,20 @@
-package io.runon.trading.data.csv;
+package io.runon.trading.data;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
-import io.runon.trading.technical.analysis.candle.TimeCandle;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
 /**
- * csv 파일을 활용한 캔들 생성
+ * data
  * @author macle
  */
 @Slf4j
-public abstract class CsvTimeCandleLoad {
+public abstract class LineTimeDataLoad {
 
-     public void load(String path, long time){
-        File [] files = FileUtil.getFiles(path);
+    public void load(String path){
+        File[] files = FileUtil.getFiles(path);
 
         int dirCount = 0;
         for(File checkFile : files){
@@ -49,7 +48,7 @@ public abstract class CsvTimeCandleLoad {
                     if("".equals(line)){
                         continue;
                     }
-                    addTimeCandle(CsvCandle.makeTimeCandle(line, time));
+                    addLine(line);
                 }
             }catch(IOException e){
                 throw new IORuntimeException(e);
@@ -57,6 +56,5 @@ public abstract class CsvTimeCandleLoad {
         }
     }
 
-    public abstract void addTimeCandle(TimeCandle timeCandle);
-
+    public abstract void addLine(String line);
 }

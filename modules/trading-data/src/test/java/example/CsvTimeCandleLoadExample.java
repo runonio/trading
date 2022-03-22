@@ -12,14 +12,18 @@ import io.runon.trading.technical.analysis.candle.TimeCandle;
  */
 public class CsvTimeCandleLoadExample extends CsvTimeCandleLoad {
 
+    public CsvTimeCandleLoadExample(long time) {
+        super(time);
+    }
+
     @Override
     public void addTimeCandle(TimeCandle timeCandle) {
         System.out.println(timeCandle.getTime() + " " + CsvCandle.value(timeCandle.getCandle()));
     }
 
     public static void main(String[] args) {
-        CsvTimeCandleLoadExample example = new CsvTimeCandleLoadExample();
-        example.load("data/cr", Times.MINUTE_1);
+        CsvTimeCandleLoadExample example = new CsvTimeCandleLoadExample(Times.MINUTE_1);
+        example.load("data/cr");
     }
 
 }

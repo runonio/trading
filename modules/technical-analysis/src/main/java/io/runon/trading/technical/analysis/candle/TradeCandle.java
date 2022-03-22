@@ -17,6 +17,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
+import io.runon.trading.Volume;
 import io.runon.trading.technical.analysis.Volumes;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * @author macle
  */
 @Slf4j
-public class TradeCandle extends CandleStick {
+public class TradeCandle extends CandleStick implements Volume {
 
     public static final TradeCandle [] EMPTY_CANDLES = new TradeCandle[0];
 
