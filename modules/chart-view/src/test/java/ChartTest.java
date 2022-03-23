@@ -68,6 +68,16 @@ public class ChartTest {
         chart.addMarker(markerDataArr);
         chart.addLine(lines, "blue", 2, false);
         chart.addLine(lines2, "blue", 1);
+
+
+        /*
+        TradingChart chart2 = new TradingChart(candleSticks);
+        chart2.addMarker(markerDataArr);
+        chart.addAnotherChart(chart2);
+
+        TradingChart chart3 = new TradingChart(candleSticks);
+        chart.addAnotherChart(chart3);
+         */
         chart.view();
     }
 
