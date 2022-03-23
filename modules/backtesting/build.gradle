@@ -10,8 +10,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
 //    implementation( rootProject)
 //    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
@@ -19,7 +17,7 @@ dependencies {
 
     implementation 'io.runon.trading:trading:0.1.2'
     implementation 'io.runon.trading:technical-analysis:0.2.4'
-    implementation 'io.runon.trading:trading-data:0.0.9'
+    implementation 'io.runon.trading:trading-data:0.1.0'
     implementation 'io.runon.trading:chart-view:0.1.9'
 
     implementation 'com.seomse.commons:commons:1.2.9'
