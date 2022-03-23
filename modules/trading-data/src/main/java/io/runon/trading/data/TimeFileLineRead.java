@@ -11,9 +11,11 @@ import java.io.*;
  * @author macle
  */
 @Slf4j
-public abstract class LineTimeDataLoad {
+public abstract class TimeFileLineRead {
 
-    public void load(String path){
+    private boolean isEnd = false;
+
+    public void read(String path){
         File[] files = FileUtil.getFiles(path);
 
         int dirCount = 0;
@@ -54,6 +56,18 @@ public abstract class LineTimeDataLoad {
                 throw new IORuntimeException(e);
             }
         }
+        end();
+
+        isEnd = true;
+    }
+    
+    //완료이벤트
+    public void end(){
+        
+    }
+
+    public boolean isEnd() {
+        return isEnd;
     }
 
     public abstract void addLine(String line);

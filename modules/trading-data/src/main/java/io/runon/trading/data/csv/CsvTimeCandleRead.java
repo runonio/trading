@@ -1,6 +1,6 @@
 package io.runon.trading.data.csv;
 
-import io.runon.trading.data.LineTimeDataLoad;
+import io.runon.trading.data.TimeFileLineRead;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,13 +9,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author macle
  */
 @Slf4j
-public abstract class CsvTimeCandleLoad extends LineTimeDataLoad {
+public abstract class CsvTimeCandleRead extends TimeFileLineRead {
 
     protected final long time;
-    public CsvTimeCandleLoad(long time){
+    public CsvTimeCandleRead(long time){
         this.time = time;
     }
-
 
     @Override
     public void addLine(String line){

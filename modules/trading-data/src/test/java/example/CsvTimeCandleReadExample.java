@@ -2,7 +2,7 @@ package example;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.data.csv.CsvCandle;
-import io.runon.trading.data.csv.CsvTimeCandleLoad;
+import io.runon.trading.data.csv.CsvTimeCandleRead;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 
 
@@ -10,9 +10,9 @@ import io.runon.trading.technical.analysis.candle.TimeCandle;
  * csv 파일을 활용한 캔들 생성
  * @author macle
  */
-public class CsvTimeCandleLoadExample extends CsvTimeCandleLoad {
+public class CsvTimeCandleReadExample extends CsvTimeCandleRead {
 
-    public CsvTimeCandleLoadExample(long time) {
+    public CsvTimeCandleReadExample(long time) {
         super(time);
     }
 
@@ -22,8 +22,8 @@ public class CsvTimeCandleLoadExample extends CsvTimeCandleLoad {
     }
 
     public static void main(String[] args) {
-        CsvTimeCandleLoadExample example = new CsvTimeCandleLoadExample(Times.MINUTE_1);
-        example.load("data/cr");
+        CsvTimeCandleReadExample example = new CsvTimeCandleReadExample(Times.MINUTE_1);
+        example.read("C:\\data\\trd\\cr");
     }
 
 }
