@@ -86,7 +86,7 @@ public class BigDecimals {
         if( num == null){
             return "";
         }
-        return num.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+        return num.setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
     public static BigDecimal add(BigDecimal [] array){
@@ -98,7 +98,7 @@ public class BigDecimals {
     }
 
     /**
-     * 인덱스 위치를 기준으로 이전 배열의 위치를 복하해서 전달
+     * 인덱스 위치를 기준으로 이전 배열의 위치를 복사해서 전달
      * @param src 원본배열
      * @param lastIndex 기준 지점 (끝지점)
      * @param length 건수

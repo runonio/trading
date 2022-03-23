@@ -18,7 +18,7 @@ package io.runon.trading.technical.analysis.candle;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
 import io.runon.trading.Volume;
-import io.runon.trading.technical.analysis.Volumes;
+import io.runon.trading.technical.analysis.volume.Volumes;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -242,7 +242,6 @@ public class TradeCandle extends CandleStick implements Volume {
         }
     }
 
-
     private BigDecimal volumePower = null;
 
     /**
@@ -401,7 +400,6 @@ public class TradeCandle extends CandleStick implements Volume {
     public long getLastTradeTime() {
         return lastTradeTime;
     }
-
 
     public void setLastTradeTime(long lastTradeTime) {
         this.lastTradeTime = lastTradeTime;

@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis;
+package io.runon.trading.technical.analysis.volume;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -37,6 +37,10 @@ public class Volumes {
         }
 
         return strength;
+    }
+
+    public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal highestExclusionRate) {
+        return getAverage(candles, candles.length, highestExclusionRate);
     }
 
 
