@@ -26,10 +26,7 @@ import io.runon.trading.view.util.JarUtil;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 트레이딩 차트
@@ -44,6 +41,11 @@ public class TradingChart {
     CandleStick[] candleStickArr;
     /* HTML chart create String */
     StringBuilder createChartStr = new StringBuilder();
+
+    public StringBuilder getCreateChartStr() {
+        return createChartStr;
+    }
+
     /* 차트 날짜유형 */
     ChartDateType dateType;
 
@@ -59,7 +61,31 @@ public class TradingChart {
     String exportPath = "data";
 
     static final String LEFT_LINE_REPLACER = "$$LEFT_LINE_REPLACER$$";
+    static final String JS_CHART_VALUE = "$chart";
+    static final String JS_CANDLE_VALUE = "$candlestickSeries";
+    static final String JS_VOLUME_VALUE = "$volumeSeries";
+    static final String JS_MARKER_VALUE = "$markers";
     boolean leftLineEnabled = false;
+    int chartCount = 1;
+
+    /**
+     * 차트에 다른 차트를 임포트 해서
+     * 같이 동작
+     * @param anotherChart
+     */
+    public void addAnotherChart(TradingChart anotherChart){
+        chartCount++;
+        if(markerMap == null){
+            markerMap = new HashMap<>();
+        }
+        String anotherChartStr = anotherChart.getCreateChartStr().toString();
+        anotherChartStr = anotherChartStr.replace(JS_CHART_VALUE, JS_CHART_VALUE + chartCount);
+        anotherChartStr = anotherChartStr.replace(JS_CANDLE_VALUE, JS_CANDLE_VALUE + chartCount);
+        anotherChartStr = anotherChartStr.replace(JS_VOLUME_VALUE, JS_VOLUME_VALUE + chartCount);
+        anotherChartStr = anotherChartStr.replace(JS_MARKER_VALUE, JS_MARKER_VALUE + chartCount);
+        createChartStr.append(anotherChartStr);
+        markerMap.put(chartCount, anotherChart.markerDataList);
+    }
 
 
     /**
@@ -93,7 +119,7 @@ public class TradingChart {
         this.candleStickArr = candleStickArr;
         this.dateType = dateType;
         createChartStr.append( """
-                var chart = LightweightCharts.createChart(document.body, {
+                var $chart = LightweightCharts.createChart(document.body, {
                     width: %d,
                   height: %d,
                   %s
@@ -102,7 +128,7 @@ public class TradingChart {
                   }
                 });
                                 
-                const candlestickSeries = chart.addCandlestickSeries({
+                const $candlestickSeries = $chart.addCandlestickSeries({
                   priceScaleId: 'right'
                 });
 
@@ -112,7 +138,7 @@ public class TradingChart {
 
         if(dateType == ChartDateType.MINUTE){
             createChartStr.append( """
-                chart.applyOptions({
+                $chart.applyOptions({
                         timeScale: {
                             // Adds hours and minutes to the chart.
                             timeVisible: true,
@@ -123,7 +149,7 @@ public class TradingChart {
         }
 
 
-        createChartStr.append("candlestickSeries.setData([");
+        createChartStr.append("$candlestickSeries.setData([");
         int candleStickArrSize = candleStickArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < candleStickArrSize; i++) {
@@ -181,7 +207,7 @@ public class TradingChart {
      */
     public void addVolume(VolumeData[] volumeDataArr, BigDecimal topMargin , BigDecimal bottomMargin){
         createChartStr.append("""
-                var volumeSeries = chart.addHistogramSeries({
+                var $volumeSeries = $chart.addHistogramSeries({
                   	color: '#26a69a',
                   	priceFormat: {
                   		type: 'volume',
@@ -192,7 +218,7 @@ public class TradingChart {
                   		bottom: %s,
                   	},
                   });
-                  volumeSeries.setData([
+                  $volumeSeries.setData([
                 """.formatted(topMargin.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
                 , bottomMargin.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()));
 
@@ -240,7 +266,7 @@ public class TradingChart {
 
         if(isValueVisible) {
             createChartStr.append("""
-                    chart.addLineSeries({
+                    $chart.addLineSeries({
                       color: '%s',
                       lineWidth: %d,
                       priceScaleId: '%s'
@@ -248,7 +274,7 @@ public class TradingChart {
                     """.formatted(color, size, rightSide ? "right" : "left"));
         }else{
             createChartStr.append("""
-                    chart.addLineSeries({
+                    $chart.addLineSeries({
                       color: '%s',
                       lineWidth: %d,
                       priceScaleId: '%s',
@@ -303,6 +329,25 @@ public class TradingChart {
                 """.formatted(browserTitle,pureJsContents,lightWeightJsContents)
         );
 
+        if(chartCount > 1){
+            // 멀티 차트 옵션 선택
+
+            for (int i = 2; i <= chartCount; i++) {
+                createChartStr.append("""
+                        
+                        $chart.timeScale().subscribeVisibleLogicalRangeChange(range => {
+                          %s.timeScale().setVisibleLogicalRange(range)
+                        });
+                        
+                        %s.timeScale().subscribeVisibleLogicalRangeChange(range => {
+                          $chart.timeScale().setVisibleLogicalRange(range)
+                        });
+                        
+                        """.formatted(JS_CHART_VALUE + i , JS_CHART_VALUE + i));
+            }
+
+        }
+
         result.append("<script>\n").append(createChartStr.toString().replace(LEFT_LINE_REPLACER,"")).append("\n</script>\n");
 
         return result.append("</body></html>").toString();
@@ -312,6 +357,10 @@ public class TradingChart {
 
 
     private List<MarkerData> markerDataList = null;
+    private Map<Integer, List<MarkerData>> markerMap = null;
+    public List<MarkerData> getMarkerDataList() {
+        return markerDataList;
+    }
 
     /**
      * 차트에 마커를 전부 추가 한다.
@@ -340,28 +389,49 @@ public class TradingChart {
     }
 
     public void setMarker(){
-        if(markerDataList == null || markerDataList.size() == 0){
-            return;
+
+        if(markerMap == null){
+            markerMap = new HashMap<>();
         }
+        markerMap.put(1, markerDataList);
 
-        MarkerData[] array = markerDataList.toArray(new MarkerData[0]);
-        Arrays.sort(array, MarkerData.SORT_TIME);
+        for (int i = 1; i < chartCount; i++) {
 
-        createChartStr.append("""
-              var markers = [];
-                """);
+            List<MarkerData> chartMarkerList = markerMap.get(i);
 
-        for (MarkerData markerData : array) {
-            String timeStr = Long.toString(markerData.getTime()/1000);
+            if(chartMarkerList == null || chartMarkerList.size() == 0){
+                return;
+            }
+
+            MarkerData[] array = chartMarkerList.toArray(new MarkerData[0]);
+            Arrays.sort(array, MarkerData.SORT_TIME);
+
+            String chartMarkerValue = JS_MARKER_VALUE + i;
+            String candleValue = JS_CANDLE_VALUE;
+            if(i > 1){
+                candleValue = candleValue + i;
+            }
+
             createChartStr.append("""
-                markers.push({ time: %s, position: '%s', color: '%s', shape: '%s', text: '%s'});
-                """
-                    .formatted(timeStr,markerData.getMarkerType().name(),markerData.getColor(),markerData.getMarkerShape().name(),markerData.getText())
-            );
-        }
-        createChartStr.append("candlestickSeries.setMarkers(markers);");
+              var %s = [];
+                """.formatted(chartMarkerValue));
 
-        markerDataList.clear();
+            for (MarkerData markerData : array) {
+                String timeStr = Long.toString(markerData.getTime()/1000);
+                createChartStr.append("""
+                %s.push({ time: %s, position: '%s', color: '%s', shape: '%s', text: '%s'});
+                """
+                        .formatted(chartMarkerValue,timeStr,markerData.getMarkerType().name(),markerData.getColor(),markerData.getMarkerShape().name(),markerData.getText())
+                );
+            }
+            createChartStr.append("""
+            %s.setMarkers(%s);
+            """.formatted(candleValue, chartMarkerValue));
+
+            markerDataList.clear();
+        }
+
+
     }
 
     /**
