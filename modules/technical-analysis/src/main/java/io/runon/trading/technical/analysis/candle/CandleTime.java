@@ -39,6 +39,9 @@ public class CandleTime {
             time = Times.HOUR_1 * Long.parseLong(timeNumber);
         }else if(timeUnit == 'd'){
             time = Times.DAY_1 * Long.parseLong(timeNumber);
+        }else if(timeUnit == 's') {
+            //초데이터는 잘 사용하지않기 때문에
+            time = 1000 * Long.parseLong(timeNumber);
         }else if(timeUnit == 'w'){
             time = Times.WEEK_1 * Long.parseLong(timeNumber);
         }else if(timeUnit == 'M'){
