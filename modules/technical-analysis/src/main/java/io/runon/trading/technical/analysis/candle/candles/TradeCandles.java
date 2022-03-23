@@ -410,6 +410,13 @@ public class TradeCandles {
      */
     public TradeCandle[] getCandles(long endTime, int count) {
         TradeCandle [] candles = this.candles;
+        return getCandles(timeGap, candles, endTime, count);
+    }
+
+    public static TradeCandle[] getCandles( TradeCandle [] candles, long endTime, int count){
+        return getCandles(candles[0].getCloseTime()- candles[0].getOpenTime(), candles, endTime, count);
+    }
+    public static TradeCandle[] getCandles(long timeGap, TradeCandle [] candles, long endTime, int count){
 
         long openTime = candles[0].getOpenTime();
 
@@ -505,19 +512,19 @@ public class TradeCandles {
     }
 
 
-    public TradeCandle [] getCandles(int endIndex, int length){
-        return getCandles(candles, endIndex, length);
+    public TradeCandle [] getCandles(int endIndex, int count){
+        return getCandles(candles, endIndex, count);
     }
 
-    public static TradeCandle [] getCandles(TradeCandle [] candles, int endIndex, int length){
-        int startIndex = endIndex - length + 1;
+    public static TradeCandle [] getCandles(TradeCandle [] candles, int endIndex, int count){
+        int startIndex = endIndex - count + 1;
         if(startIndex < 0){
             startIndex = 0;
-            length = endIndex - startIndex+1;
+            count = endIndex - startIndex+1;
         }
 
         int end = endIndex +1;
-        TradeCandle [] copy = new TradeCandle[length];
+        TradeCandle [] copy = new TradeCandle[count];
         int idx = 0;
 
         for (int i = startIndex; i < end ; i++) {

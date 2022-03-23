@@ -1,13 +1,15 @@
-package io.runon.trading;
+package io.runon.trading.technical.analysis.candle;
 
+import io.runon.trading.Candle;
 import lombok.Data;
 
 import java.math.BigDecimal;
+
 /**
  * @author macle
  */
 @Data
-public class CandleData implements Candle{
+public class CandleData implements Candle {
 
     /**
      * 시가
