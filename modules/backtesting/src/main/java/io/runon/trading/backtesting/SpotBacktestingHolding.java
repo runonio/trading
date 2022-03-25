@@ -1,4 +1,4 @@
-package io.runon.trading.account;
+package io.runon.trading.backtesting;
 
 import io.runon.trading.Trade;
 import lombok.Data;
@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 현물 보유 종목
+ * 백테스팅 현물 보유 종목
  * @author macle
  */
 @Data
-public class SpotHolding {
+public class SpotBacktestingHolding {
 
     protected String symbol;
     protected BigDecimal amount = BigDecimal.ZERO;

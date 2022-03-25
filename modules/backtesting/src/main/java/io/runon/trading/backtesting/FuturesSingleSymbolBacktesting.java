@@ -61,13 +61,11 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
         super.init();
 
-
         if(symbolPrice == null){
             symbolPrice = new SlippageRandomSymbolPrice();
         }
 
         account.setSymbolPrice(symbolPrice);
-
         time = startTime;
 
         for(;;) {
@@ -114,12 +112,12 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             if(position == Position.LONG){
                 //숏매도 롱매수
                 account.sell(symbol, Position.SHORT);
-                account.buy(account.getBuyAmount(subtractRate, symbol, Position.LONG, leverage));
+                account.buy(account.getBuyQuantity(subtractRate, symbol, Position.LONG, leverage));
                 lastPosition = Position.LONG;
             }else if(position == Position.SHORT){
                 //롱매도 숏매수
                 account.sell(symbol, Position.LONG);
-                account.buy(account.getBuyAmount(subtractRate, symbol, Position.SHORT, leverage));
+                account.buy(account.getBuyQuantity(subtractRate, symbol, Position.SHORT, leverage));
                 lastPosition = Position.SHORT;
             }else if(position == Position.LONG_CLOSE){
                 //롱매도
