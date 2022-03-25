@@ -1,7 +1,8 @@
-package io.runon.trading.account;
+package io.runon.trading.backtesting;
 
 import io.runon.trading.SymbolPrice;
 import io.runon.trading.Trade;
+import io.runon.trading.account.Account;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -9,15 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 현뮬 계좌
+ * 현뮬 백테스팅 계좌
  * @author macle
  */
-public class SpotAccount implements Account{
+public class SpotBacktestingAccount implements Account {
 
     //현금
     protected BigDecimal cash = BigDecimal.ZERO;
     //보유종목
-
 
     //국내 주식 2022 기준 구매수수료
     protected BigDecimal buyFee = new BigDecimal("0.00245");
@@ -53,7 +53,7 @@ public class SpotAccount implements Account{
         this.sellFee = sellFee;
     }
 
-    protected final Map<String, SpotHolding> holdingMap = new HashMap<>();
+    protected final Map<String, SpotBacktestingHolding> holdingMap = new HashMap<>();
 
     public void setCash(BigDecimal cash) {
         this.cash = cash;
@@ -66,16 +66,16 @@ public class SpotAccount implements Account{
     protected final Object lock = new Object();
 
     private final String id;
-    public SpotAccount(String id){
+    public SpotBacktestingAccount(String id){
         this.id = id;
     }
 
     public void trade(String symbol, Trade trade){
-        SpotHolding holding;
+        SpotBacktestingHolding holding;
         synchronized (lock){
             holding = holdingMap.get(symbol);
             if(holding == null){
-                holding = new SpotHolding();
+                holding = new SpotBacktestingHolding();
                 holdingMap.put(symbol, holding);
             }
             if(trade.getType() == Trade.Type.BUY){
@@ -106,7 +106,7 @@ public class SpotAccount implements Account{
      * @param volume 거래량
      * @return 수수료
      */
-    public BigDecimal getBuyFee(SpotHolding holding, BigDecimal price, BigDecimal volume){
+    public BigDecimal getBuyFee(SpotBacktestingHolding holding, BigDecimal price, BigDecimal volume){
         return price.multiply(volume).multiply(buyFee);
     }
 
@@ -119,7 +119,7 @@ public class SpotAccount implements Account{
      * @param volume 거래량
      * @return 수수료
      */
-    public BigDecimal getSellFee(SpotHolding holding, BigDecimal price, BigDecimal volume){
+    public BigDecimal getSellFee(SpotBacktestingHolding holding, BigDecimal price, BigDecimal volume){
         return  price.multiply(volume).multiply(sellFee);
     }
 
@@ -139,8 +139,8 @@ public class SpotAccount implements Account{
         synchronized (lock) {
             BigDecimal assets = cash;
 
-            Collection<SpotHolding> holdings =  holdingMap.values();
-            for(SpotHolding holding: holdings){
+            Collection<SpotBacktestingHolding> holdings =  holdingMap.values();
+            for(SpotBacktestingHolding holding: holdings){
                 BigDecimal price = symbolPrice.getPrice(holding.getSymbol());
                 assets = assets.add(holding.getAmount().multiply(price).subtract(getSellFee(holding, price, holding.getAmount())));
             }

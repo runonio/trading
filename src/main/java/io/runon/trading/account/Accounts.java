@@ -54,4 +54,18 @@ public class Accounts implements Account{
             return assets;
         }
     }
+
+    @Override
+    public BigDecimal getCash() {
+        synchronized (lock){
+            BigDecimal cash = BigDecimal.ZERO;
+            Collection<Account> accounts = accountMap.values();
+            for(Account account : accounts){
+                cash = cash.add(account.getCash());
+            }
+            return cash;
+        }
+
+
+    }
 }

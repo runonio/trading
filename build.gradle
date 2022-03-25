@@ -8,7 +8,7 @@ ext {
 
 
 group 'io.runon.trading'
-version '0.1.2'
+version '0.1.4'
 
 
 repositories {
@@ -19,6 +19,10 @@ dependencies {
 
     implementation 'com.seomse.commons:commons:1.2.9'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+
+    //바이낸스 계좌 개발용 (임시)
+//    implementation 'io.runon.cryptocurrency:exchange-binance-futures:1.0.91'
+
 }
 
 test {
