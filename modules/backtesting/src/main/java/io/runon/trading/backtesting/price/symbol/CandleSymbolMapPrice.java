@@ -14,7 +14,7 @@ public abstract class CandleSymbolMapPrice implements CandleSymbolPrice {
     protected final Map<String, Candle> candleMap = new HashMap<>();
 
     @Override
-    public void setCandle(String symbol, Candle candle){
+    public void setPrice(String symbol, Candle candle){
         candleMap.put(symbol, candle);
     }
 

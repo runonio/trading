@@ -8,5 +8,5 @@ import io.runon.trading.Candle;
  */
 public interface CandleSymbolPrice extends SymbolPrice {
 
-    void setCandle(String symbol, Candle candle);
+    void setPrice(String symbol, Candle candle);
 }

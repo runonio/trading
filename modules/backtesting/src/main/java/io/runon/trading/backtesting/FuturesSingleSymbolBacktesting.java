@@ -82,7 +82,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
                 return;
             }
 
-            symbolPrice.setCandle(symbol, data.getPriceCandle());
+            symbolPrice.setPrice(symbol, data.getPriceCandle());
 
             if(!data.isValid(time)){
                 time = time + cycleTime;

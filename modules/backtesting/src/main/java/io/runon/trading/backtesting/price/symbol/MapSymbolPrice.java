@@ -12,7 +12,6 @@ public abstract class MapSymbolPrice<E extends Price> implements SymbolPrice{
 
     protected final Map<String, E> priceMap = new HashMap<>();
 
-
-
+    
 
 }
