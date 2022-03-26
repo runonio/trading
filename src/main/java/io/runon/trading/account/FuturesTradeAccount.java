@@ -10,7 +10,6 @@ import java.math.BigDecimal;
  * @author macle
  */
 public interface FuturesTradeAccount extends FuturesAccount{
-    //시장가주문
 
     /**
      * 시장가주문

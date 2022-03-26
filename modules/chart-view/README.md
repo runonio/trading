@@ -45,9 +45,9 @@
  - https://github.com/tradingview/lightweight-charts
 
 # gradle
-implementation 'io.runon.trading:chart-view:0.1.9'
+implementation 'io.runon.trading:chart-view:0.2.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.1.9
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.1
   
 # communication
 ### blog, homepage
