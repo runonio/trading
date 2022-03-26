@@ -1,4 +1,4 @@
-package io.runon.trading;
+package io.runon.trading.backtesting.price.symbol;
 
 import java.math.BigDecimal;
 

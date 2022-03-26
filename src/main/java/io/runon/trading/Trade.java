@@ -28,8 +28,10 @@ public class Trade {
      * 거래유형 정의
      */
     public enum Type{
-        BUY //구매
+        NONE //알수없음
+        , BUY //구매
         , SELL //판매
+        
     }
 
     /**

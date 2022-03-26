@@ -1,5 +1,6 @@
 package io.runon.trading.order;
 
+import io.runon.trading.Trade;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,11 +11,8 @@ import java.math.BigDecimal;
  */
 @Data
 public class MarketPriceOrderData implements MarketPriceOrder{
-
     protected BigDecimal tradePrice;
+    protected BigDecimal quantity;
+    protected Trade.Type tradeType;
 
-    @Override
-    public BigDecimal getTradePrice() {
-        return tradePrice;
-    }
 }
