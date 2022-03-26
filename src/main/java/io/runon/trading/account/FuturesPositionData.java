@@ -25,9 +25,9 @@ public class FuturesPositionData implements FuturesPosition{
     @Override
     public String toString(){
         return  symbol + ": position: " +  position
-                + ", leverage: " +  leverage.stripTrailingZeros().setScale(2, RoundingMode.DOWN).toPlainString()
-                + ", size: " +  size.stripTrailingZeros().setScale(6, RoundingMode.DOWN).toPlainString()
-                + ", price: " + price.stripTrailingZeros().setScale(2, RoundingMode.DOWN).toPlainString()
+                + ", leverage: " +  leverage.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
+                + ", size: " +  size.setScale(6, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
+                + ", price: " + price.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
                 ;
     }
 
