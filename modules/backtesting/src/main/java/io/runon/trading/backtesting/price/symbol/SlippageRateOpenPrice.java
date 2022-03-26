@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.price.symbol;
 
 import io.runon.trading.Candle;
 
@@ -7,9 +7,12 @@ import java.math.BigDecimal;
 /**
  * 슬리피지를 특정 비율로만 계산할때
  * 종가 활용
+ * 이전 캔들을 보고 바로 다음 시가에 들어간다고 가정한 방식
+ * 1분봉 분석시 다음 시가가 슬리피지가 적음
+ * (이전종가와 비슷한 가격에 선택될 확율이 높음)
  * @author macle
  */
-public class SlippageRateClosePrice extends CandleSymbolMapPrice {
+public class SlippageRateOpenPrice extends CandleSymbolMapPrice {
 
     //기본값 0.25%
     private BigDecimal rate = new BigDecimal("0.0025");
@@ -21,7 +24,7 @@ public class SlippageRateClosePrice extends CandleSymbolMapPrice {
     @Override
     public BigDecimal getBuyPrice(String symbol) {
         Candle candle = candleMap.get(symbol);
-        BigDecimal price = candle.getClose();
+        BigDecimal price = candle.getOpen();
 
         if(rate.compareTo(BigDecimal.ZERO) == 0){
             return price;
@@ -33,7 +36,7 @@ public class SlippageRateClosePrice extends CandleSymbolMapPrice {
     public BigDecimal getSellPrice(String symbol) {
 
         Candle candle = candleMap.get(symbol);
-        BigDecimal price = candle.getClose();
+        BigDecimal price = candle.getOpen();
         if(rate.compareTo(BigDecimal.ZERO) == 0){
             return price;
         }

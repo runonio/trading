@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.price.symbol;
 
 import io.runon.trading.Candle;
 

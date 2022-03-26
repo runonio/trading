@@ -1,8 +1,8 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.account;
 
-import io.runon.trading.SymbolPrice;
 import io.runon.trading.Trade;
 import io.runon.trading.account.Account;
+import io.runon.trading.backtesting.price.symbol.SymbolPrice;
 
 import java.math.BigDecimal;
 import java.util.Collection;

@@ -1,6 +1,7 @@
 package io.runon.trading.backtesting;
 
 import io.runon.trading.BigDecimals;
+import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.Strategy;
 import io.runon.trading.technical.analysis.candle.TradeCandle;

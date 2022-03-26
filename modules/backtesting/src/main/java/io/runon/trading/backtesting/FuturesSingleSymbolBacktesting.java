@@ -2,6 +2,9 @@ package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.backtesting.price.PriceCandle;
+import io.runon.trading.backtesting.price.symbol.CandleSymbolPrice;
+import io.runon.trading.backtesting.price.symbol.SlippageRandomSymbolPrice;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.CandleTime;
 import io.runon.trading.view.LineData;
