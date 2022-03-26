@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.2.5'
+version '0.2.6'
 
 repositories {
     mavenCentral()
@@ -12,7 +12,7 @@ repositories {
 dependencies {
 
     implementation 'com.seomse.commons:commons:1.2.9'
-    implementation 'io.runon.trading:trading:0.1.4'
+    implementation 'io.runon.trading:trading:0.1.5'
 //    implementation( rootProject)
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
