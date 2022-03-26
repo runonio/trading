@@ -10,8 +10,11 @@ repositories {
 }
 
 sourceSets {
+    //noinspection GroovyAssignabilityCheck
     main {
+        //noinspection GroovyAssignabilityCheck
         resources {
+            //noinspection GrUnresolvedAccess
             srcDirs "src/main/resources"
         }
     }
@@ -19,16 +22,12 @@ sourceSets {
 
 
 dependencies {
-//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    implementation 'ch.qos.logback:logback-core:1.2.11'
-    implementation 'ch.qos.logback:logback-classic:1.2.11'
-    implementation 'ch.qos.logback:logback-access:1.2.11'
+
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
-    implementation 'io.runon.trading:technical-analysis:0.2.4'
+    implementation 'io.runon.trading:technical-analysis:0.2.7'
     implementation 'com.seomse.commons:commons:1.2.9'
-    implementation 'io.runon.trading:trading:0.1.4'
+    implementation 'io.runon.trading:trading:0.1.5'
 //    implementation project(path: ':technical-analysis')
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 

@@ -1,6 +1,5 @@
 package io.runon.trading.data;
 
-import com.seomse.commons.utils.time.Times;
 import io.runon.trading.data.csv.CsvCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 

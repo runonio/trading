@@ -1,5 +1,7 @@
 package io.runon.trading.technical.analysis.volume;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
  * 시간대별 거래량 정보
  * @author macle
  */
+@Data
 public class TimeVolumes {
 
     long time;
