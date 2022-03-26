@@ -4,6 +4,7 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.Strategy;
+import io.runon.trading.technical.analysis.candle.CandleTime;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 import io.runon.trading.view.LineData;
@@ -12,6 +13,7 @@ import io.runon.trading.view.MarkerData;
 import io.runon.trading.view.TradingChart;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,10 @@ public abstract class FuturesBacktesting<E> {
     protected Position lastPosition = Position.NONE;
 
     protected BigDecimal startCash;
+
+    public void setData(E data) {
+        this.data = data;
+    }
 
     /**
      * 계좌에 현금추가
@@ -222,10 +228,50 @@ public abstract class FuturesBacktesting<E> {
         }
     }
 
-    /**
-     * 시간변화에 따라 변해야 하는 데이터구조등의 내용 변경
-     * @param time 기준시간
-     */
-    public abstract void changeTime(long time);
 
+    protected void trade(BigDecimal price, Position position){
+
+        //차트 라인변경
+        changeChartLine(position);
+
+        if(position == Position.LONG){
+            //숏매도 롱매수
+            account.sell(symbol, Position.SHORT);
+            account.buy(account.getBuyQuantity(subtractRate, symbol, Position.LONG, leverage));
+            lastPosition = Position.LONG;
+        }else if(position == Position.SHORT){
+            //롱매도 숏매수
+            account.sell(symbol, Position.LONG);
+            account.buy(account.getBuyQuantity(subtractRate, symbol, Position.SHORT, leverage));
+            lastPosition = Position.SHORT;
+        }else if(position == Position.LONG_CLOSE){
+            //롱매도
+            account.sell(symbol, Position.LONG);
+            lastPosition = Position.LONG_CLOSE;
+        }else if(position == Position.SHORT_CLOSE){
+            //숏매도
+            account.sell(symbol, Position.SHORT);
+            lastPosition = Position.SHORT_CLOSE;
+        }else if(position == Position.CLOSE){
+            //롱 숏 둘다매도
+            account.sell(symbol, Position.LONG);
+            account.sell(symbol, Position.SHORT);
+            lastPosition = Position.CLOSE;
+        }
+
+        addChartLine(price);
+        addChartMark(price);
+    }
+
+
+    public FuturesBacktestingAccount getAccount(){
+        return account;
+    }
+
+
+    public String getLogMessage(BigDecimal price){
+        BigDecimal assets = account.getAssets();
+        return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
+                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
+    }
 }

@@ -1,7 +1,6 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.BigDecimals;
 import io.runon.trading.backtesting.price.PriceCandle;
 import io.runon.trading.backtesting.price.symbol.CandleSymbolPrice;
 import io.runon.trading.backtesting.price.symbol.SlippageRandomSymbolPrice;
@@ -13,7 +12,6 @@ import io.runon.trading.view.MarkerData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -54,7 +52,6 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
     //구현체에서의 종료이벤트 발생
     protected boolean isEnd = false;
 
-
     protected long lastValidTime;
 
     //백테스팅 실행
@@ -77,7 +74,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
             if(isEnd){
                 //구현체에서 종료이벤트가 발생하였으면
-                log.info(getLogMessage());
+                log.info(getLogMessage(symbolPrice.getPrice(symbol)));
                 end(assetList, markerDataList, linesList, lastLines);
                 return;
             }
@@ -109,38 +106,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
                 continue;
             }
 
-            //차트 라인변경
-            changeChartLine(position);
+            trade(price, position);
 
-            if(position == Position.LONG){
-                //숏매도 롱매수
-                account.sell(symbol, Position.SHORT);
-                account.buy(account.getBuyQuantity(subtractRate, symbol, Position.LONG, leverage));
-                lastPosition = Position.LONG;
-            }else if(position == Position.SHORT){
-                //롱매도 숏매수
-                account.sell(symbol, Position.LONG);
-                account.buy(account.getBuyQuantity(subtractRate, symbol, Position.SHORT, leverage));
-                lastPosition = Position.SHORT;
-            }else if(position == Position.LONG_CLOSE){
-                //롱매도
-                account.sell(symbol, Position.LONG);
-                lastPosition = Position.LONG_CLOSE;
-            }else if(position == Position.SHORT_CLOSE){
-                //숏매도
-                account.sell(symbol, Position.SHORT);
-                lastPosition = Position.SHORT_CLOSE;
-            }else if(position == Position.CLOSE){
-                //롱 숏 둘다매도
-                account.sell(symbol, Position.LONG);
-                account.sell(symbol, Position.SHORT);
-                lastPosition = Position.CLOSE;
-            }
-
-            addChartLine(price);
-            addChartMark(price);
-
-            log.info(getLogMessage());
+            log.info(getLogMessage(price));
             time = time + cycleTime;
             if(time >= endTime){
                 end(assetList, markerDataList, linesList, lastLines);
@@ -149,6 +117,12 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
         }
     }
 
+    /**
+     * 시간변화에 따라 변해야 하는 데이터구조등의 내용 변경
+     * @param time 기준시간
+     */
+    public abstract void changeTime(long time);
+
     @Override
     protected void end(List<LineData> assetList, List<MarkerData> markerDataList, List<Lines> linesList, List<LineData> lastLines){
         log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
@@ -156,9 +130,5 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
     }
 
 
-    public String getLogMessage(){
-        BigDecimal assets = account.getAssets();
-        return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + symbolPrice.getPrice(symbol)
-                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
-    }
+
 }
