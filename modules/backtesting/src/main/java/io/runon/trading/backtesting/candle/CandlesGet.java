@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.candle;
 
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 

@@ -5,13 +5,14 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import io.runon.trading.TimePrice;
 
 /**
  * 시간대별 거래량 정보
  * @author macle
  */
 @Data
-public class TimeVolumes {
+public class TimeVolumes implements TimePrice{
 
     long time;
     BigDecimal price;
@@ -34,11 +35,13 @@ public class TimeVolumes {
     public VolumeData get(long standardTime){
         return volumeDataMap.get(standardTime);
     }
-
+    @Override
     public long getTime() {
         return time;
     }
 
+    @Override
+    public BigDecimal getClose(){return price;}
     public BigDecimal getPrice() {
         return price;
     }

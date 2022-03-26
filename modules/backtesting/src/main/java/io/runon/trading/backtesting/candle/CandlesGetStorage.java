@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.candle;
 
 import io.runon.trading.data.CandleStorage;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -10,7 +10,7 @@ import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
  * 백테스팅 결과를 빠르게 얻기위해 활용
  * @author macle
  */
-public class CandlesGetStorage implements CandlesGet{
+public class CandlesGetStorage implements CandlesGet {
 
     private final CandleStorage candleStorage;
     public CandlesGetStorage(){

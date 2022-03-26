@@ -1,10 +1,8 @@
-package io.runon.trading.backtesting;
+package io.runon.trading.backtesting.price.symbol;
 
 import io.runon.trading.Candle;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
