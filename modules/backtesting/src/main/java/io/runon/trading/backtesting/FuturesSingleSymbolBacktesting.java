@@ -5,6 +5,7 @@ import io.runon.trading.backtesting.price.PriceCandle;
 import io.runon.trading.backtesting.price.symbol.CandleSymbolPrice;
 import io.runon.trading.backtesting.price.symbol.SlippageRandomSymbolPrice;
 import io.runon.trading.strategy.Position;
+import io.runon.trading.strategy.Strategy;
 import io.runon.trading.technical.analysis.candle.CandleTime;
 import io.runon.trading.view.LineData;
 import io.runon.trading.view.Lines;
@@ -17,10 +18,17 @@ import java.util.List;
 
 /**
  * 선물 단일종목 벡테스팅
+ * 한번에 전부 포지션 전환한다는 가정의전략
+ *
  * @author macle
  */
 @Slf4j
 public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> extends FuturesBacktesting<E> implements Runnable{
+
+    protected Strategy<E> strategy;
+    public void setStrategy(Strategy<E> strategy) {
+        this.strategy = strategy;
+    }
 
     protected CandleSymbolPrice symbolPrice;
 
@@ -91,9 +99,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             }
 
             lastValidTime = time;
-
             BigDecimal price = symbolPrice.getPrice(symbol);
-
             Position position = strategy.getPosition(data);
             if(lastPosition == position || position == Position.NONE){
                 time = time + cycleTime;
@@ -106,7 +112,28 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
                 continue;
             }
 
-            trade(price, position);
+            changeChartLine(position);
+            if(position == Position.LONG){
+                //숏매도 롱매수
+                account.buyAll(symbol);
+            }else if(position == Position.SHORT){
+                //롱매도 숏매수
+                account.sellAll(symbol);
+            }else if(position == Position.LONG_CLOSE){
+                //롱매도
+                account.longClose(symbol);
+            }else if(position == Position.SHORT_CLOSE){
+                //숏매도
+                account.shortClose(symbol);
+            }else if(position == Position.CLOSE){
+                //롱 숏 둘다매도
+                account.close(symbol);
+            }
+
+            lastPosition = position;
+
+            addChartLine(price);
+            addChartMark(price);
 
             log.info(getLogMessage(price));
             time = time + cycleTime;
@@ -128,7 +155,5 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
         log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
         super.end(assetList, markerDataList, linesList, lastLines);
     }
-
-
 
 }

@@ -3,7 +3,6 @@ package io.runon.trading.backtesting;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
-import io.runon.trading.strategy.Strategy;
 import io.runon.trading.technical.analysis.candle.CandleTime;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
@@ -25,7 +24,6 @@ import java.util.List;
 public abstract class FuturesBacktesting<E> {
 
     protected E data;
-    protected Strategy<E> strategy;
     protected FuturesBacktestingAccount account;
 
     protected String symbol = "test";
@@ -38,11 +36,6 @@ public abstract class FuturesBacktesting<E> {
     protected int cashScale = 2;
 
     protected BigDecimal subtractRate = new BigDecimal("0.1");
-    protected BigDecimal leverage = new BigDecimal("1");
-
-    public void setStrategy(Strategy<E> strategy) {
-        this.strategy = strategy;
-    }
 
     public void setAccount(FuturesBacktestingAccount account) {
         this.account = account;
@@ -52,14 +45,6 @@ public abstract class FuturesBacktesting<E> {
 
     public void setCashScale(int cashScale) {
         this.cashScale = cashScale;
-    }
-
-    public BigDecimal getLeverage() {
-        return leverage;
-    }
-
-    public void setLeverage(BigDecimal leverage) {
-        this.leverage = leverage;
     }
 
     public void setZoneId(ZoneId zoneId) {
@@ -86,6 +71,7 @@ public abstract class FuturesBacktesting<E> {
     }
 
     protected boolean isChart = false;
+    protected boolean isPositionLine = true;
     protected TradeCandle[] candles;
     public void setChart(TradeCandle [] candles) {
         isChart = true;
@@ -136,7 +122,7 @@ public abstract class FuturesBacktesting<E> {
                 assetList.clear();
             }
 //
-            if(linesList.size() > 0){
+            if(isPositionLine && linesList.size() > 0){
                 for(Lines lines : linesList){
                     chart.addLine(lines);
                 }
@@ -149,6 +135,10 @@ public abstract class FuturesBacktesting<E> {
     }
 
     protected void addLines(List<Lines> linesList, List<LineData> lastLines){
+        if(!isChart || !isPositionLine){
+            return;
+        }
+
         if(lastLines.size() == 0){
             return;
         }
@@ -186,21 +176,31 @@ public abstract class FuturesBacktesting<E> {
         if(isChart){
             assetList = new ArrayList<>();
             markerDataList = new ArrayList<>();
-            linesList = new ArrayList<>();
-            lastLines = new ArrayList<>();
+
+            if(isPositionLine) {
+                linesList = new ArrayList<>();
+                lastLines = new ArrayList<>();
+            }
         }
+    }
+
+    public void setPositionLine(boolean positionLine) {
+        isPositionLine = positionLine;
     }
 
     protected void addChartLine(BigDecimal price){
         if(isChart && time >= candles[0].getOpenTime()) {
             assetList.add(new LineData(BigDecimals.getChangePercent(startCash, account.getAssets()), time));
-            lastLines.add(new LineData(price,  time));
+
+            if(isPositionLine) {
+                lastLines.add(new LineData(price, time));
+            }
         }
     }
 
 
     public void changeChartLine(Position position){
-        if(isChart && lastLines.size() > 0){
+        if(isChart && isPositionLine && lastLines.size() > 0){
             if(lastPosition == Position.LONG && position != Position.LONG){
                 addLines(linesList, lastLines);
             }else if(lastPosition == Position.SHORT && position != Position.SHORT){
@@ -228,41 +228,11 @@ public abstract class FuturesBacktesting<E> {
         }
     }
 
-
-    protected void trade(BigDecimal price, Position position){
-
-        //차트 라인변경
-        changeChartLine(position);
-
-        if(position == Position.LONG){
-            //숏매도 롱매수
-            account.sell(symbol, Position.SHORT);
-            account.buy(account.getBuyQuantity(subtractRate, symbol, Position.LONG, leverage));
-            lastPosition = Position.LONG;
-        }else if(position == Position.SHORT){
-            //롱매도 숏매수
-            account.sell(symbol, Position.LONG);
-            account.buy(account.getBuyQuantity(subtractRate, symbol, Position.SHORT, leverage));
-            lastPosition = Position.SHORT;
-        }else if(position == Position.LONG_CLOSE){
-            //롱매도
-            account.sell(symbol, Position.LONG);
-            lastPosition = Position.LONG_CLOSE;
-        }else if(position == Position.SHORT_CLOSE){
-            //숏매도
-            account.sell(symbol, Position.SHORT);
-            lastPosition = Position.SHORT_CLOSE;
-        }else if(position == Position.CLOSE){
-            //롱 숏 둘다매도
-            account.sell(symbol, Position.LONG);
-            account.sell(symbol, Position.SHORT);
-            lastPosition = Position.CLOSE;
+    public void addChartMark(MarkerData markerData){
+        if(isChart && time >= markerData.getTime()){
+            markerDataList.add(markerData);
         }
-
-        addChartLine(price);
-        addChartMark(price);
     }
-
 
     public FuturesBacktestingAccount getAccount(){
         return account;

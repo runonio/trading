@@ -9,4 +9,5 @@ import io.runon.trading.TimePrice;
 public interface TimePriceData<E extends TimePrice> {
 
     void setData(E data);
+
 }

@@ -1,9 +1,11 @@
 package io.runon.trading.backtesting.account;
 
 import io.runon.trading.account.FuturesAccount;
+import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
 import io.runon.trading.backtesting.price.symbol.SymbolPrice;
 import io.runon.trading.strategy.Position;
+import io.runon.trading.strategy.TradingPositionPrice;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -15,32 +17,26 @@ import java.util.Map;
 
 /**
  * 선물백테스팅 거래 계좌
+ * 레버리지 1배고정
  * @author macle
  */
 @Slf4j
 public class FuturesBacktestingAccount implements FuturesAccount {
 
     protected BigDecimal cash = BigDecimal.ZERO;
-
     protected final String id;
     public FuturesBacktestingAccount(String id){
         this.id = id;
     }
-
     public FuturesBacktestingAccount(){
         this.id = "backtesting";
     }
-
     public void setCash(BigDecimal cash) {
         this.cash = cash;
     }
-
     public void addCash(BigDecimal cash){
         this.cash = this.cash.add(cash);
     }
-
-    protected final Object lock = new Object();
-
     protected final Map<String, FuturesPositionData> positionMap = new HashMap<>();
     protected SymbolPrice symbolPrice;
     public void setSymbolPrice(SymbolPrice symbolPrice) {
@@ -53,7 +49,23 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.minPrice = minPrice;
     }
 
+    //최소 수량
+    protected final Map<String, Integer> symbolQuantityPrecision = new HashMap<>();
+
     protected int scale = 6;
+
+    public void setQuantityPrecision(String symbol, Integer quantityPrecision){
+        symbolQuantityPrecision.put(symbol, quantityPrecision);
+    }
+
+    public int getQuantityPrecision(String symbol){
+        Integer quantityPrecision = symbolQuantityPrecision.get(symbol);
+        if(quantityPrecision == null){
+            symbolQuantityPrecision.put(symbol,4);
+            return 4;
+        }
+        return quantityPrecision;
+    }
 
     /**
      * AmountType DECIMAL 일떄만 사용
@@ -102,151 +114,294 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.sellFee = fee;
     }
 
-    /**
-     *
-     * @param subtractRate 제외비율
-     * @param symbol 심볼
-     * @param position 롱숏 표지션
-     * @param leverage 레버리지
-     * @return 레버리지를 포함한 포지션, 캐시가 부족하면 null
-     */
-    public FuturesPositionData getBuyQuantity(BigDecimal subtractRate, String symbol, Position position, BigDecimal leverage){
+    public void trade(String symbol, TradingPositionPrice tradingPositionPrice){
+        Position position = tradingPositionPrice.getPosition();
 
-        if(this.cash.subtract(this.cash.multiply(subtractRate)).compareTo(minPrice) < 0){
-            return null;
+        if(position == Position.LONG){
+            BigDecimal price = symbolPrice.getBuyPrice(symbol);
+            BigDecimal tradingPrice = shortClose(symbol, tradingPositionPrice.getTradingPrice(), price);
+            if(tradingPrice.compareTo(cash) > 0){
+                tradingPrice = cash;
+            }
+            buy(symbol, tradingPrice.subtract(tradingPrice.multiply(buyFee)), price);
+        }else if (position == Position.SHORT){
+            BigDecimal price = symbolPrice.getSellPrice(symbol);
+            BigDecimal tradingPrice = longClose(symbol, tradingPositionPrice.getTradingPrice(), price);
+            if(tradingPrice.compareTo(cash) > 0){
+                tradingPrice = cash;
+            }
+            sell(symbol, tradingPrice.subtract(tradingPrice.multiply(sellFee)), price);
+        }else if (position == Position.LONG_CLOSE){
+            longClose(symbol, tradingPositionPrice.getTradingPrice(), null);
+        }else if (position == Position.SHORT_CLOSE){
+            shortClose(symbol, tradingPositionPrice.getTradingPrice(), null);
         }
-
-        BigDecimal price = symbolPrice.getBuyPrice(symbol);
-
-        BigDecimal cash = this.cash.multiply(leverage).multiply(subtractRate);
-        BigDecimal size = cash.divide(price, scale, RoundingMode.DOWN);
-
-
-        if(price.multiply(size).divide(leverage, priceScale, RoundingMode.DOWN).compareTo(minPrice) < 0){
-            return null;
-        }
-
-
-        FuturesPositionData futuresPosition = new FuturesPositionData();
-
-        futuresPosition.setSymbol(symbol);
-        futuresPosition.setPrice(price);
-        futuresPosition.setSize(size);
-        futuresPosition.setLeverage(leverage);
-        futuresPosition.setPosition(position);
-
-        return futuresPosition;
     }
 
-    /**
-     * 종목과 방향성 추가
-     * 포지션 율 변경 같은 부분은 신경쓰지않고 전량매수 전량매도로만 작업
-     * 추후에 업데이트
-     * @param futuresPosition 포지션
-     */
-    public void buy(FuturesPositionData futuresPosition){
-        if(futuresPosition == null){
+    public void buyAll(String symbol){
+        //롱포지션 전체매수
+        shortClose(symbol);
+        buy(symbol, cash.subtract(cash.multiply(buyFee)), null);
+    }
+
+    public void buy(String symbol, BigDecimal buyCash, BigDecimal price){
+        if(buyCash.compareTo(BigDecimal.ZERO) == 0){
             return;
         }
 
-        FuturesPositionData last;
-        synchronized (lock){
-            String key = futuresPosition.getSymbol() + "," + futuresPosition.getPosition();
-            //기존에 다른값이 있는경우
-            last = positionMap.get(key);
-            if(last != null){
-                //매도 (초기에는 중복 지원안함)
-//                log.error("duplication key: " + key);
-                return;
-            }
-            positionMap.put(key, futuresPosition);
-
-            BigDecimal cash = futuresPosition.getPrice().multiply(futuresPosition.getSize());
-            BigDecimal fee = getBuyFee(futuresPosition, futuresPosition.getPrice(), futuresPosition.getSize());
-
-            cash = cash.divide(futuresPosition.getLeverage(), MathContext.DECIMAL128).add(fee);
-            
-            this.cash = this.cash.subtract(cash);
-
+        if(price == null) {
+            price = symbolPrice.getBuyPrice(symbol);
         }
-    }
-
-    public void sell(String key){
-        sell(positionMap.get(key));
-    }
-
-    public void sell(String symbol, Position position){
-        sell(positionMap.get(symbol+ "," + position));
-    }
-
-    public void sell(FuturesPositionData futuresPosition){
-        if(futuresPosition == null){
+        BigDecimal quantity = buyCash.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
+        if(quantity.compareTo(BigDecimal.ZERO) == 0){
             return;
         }
 
-        BigDecimal c = getSellPrice(futuresPosition);
-        synchronized (lock){
-            if(c.compareTo(BigDecimal.ZERO) > 0) {
-                //청산당하지 않았으면
-                cash = cash.add(c);
-            }
-            positionMap.remove(futuresPosition.getSymbol() + "," + futuresPosition.getPosition());
-        }
-    }
-
-    //매각대금 계산하기
-    public BigDecimal getSellPrice(FuturesPositionData futuresPosition){
-        BigDecimal price = symbolPrice.getSellPrice(futuresPosition.getSymbol());
-        BigDecimal gap = price.subtract(futuresPosition.getPrice());
-        BigDecimal rate;
-
-        if(futuresPosition.getPosition() ==  Position.LONG){
-            rate = gap.divide(futuresPosition.getPrice(), MathContext.DECIMAL128);
-
-        }else if(futuresPosition.getPosition() ==  Position.SHORT){
-            rate = gap.divide(futuresPosition.getPrice(), MathContext.DECIMAL128).multiply(new BigDecimal(-1));
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        BigDecimal tradingPrice = price.multiply(quantity);
+        
+        if(futuresPositionData == null){
+            futuresPositionData = new FuturesPositionData();
+            futuresPositionData.setSymbol(symbol);
+            futuresPositionData.setPrice(price);
+            futuresPositionData.setQuantity(quantity);
+            futuresPositionData.setTradingPrice(tradingPrice);
+            futuresPositionData.setPosition(Position.LONG);
+            futuresPositionData.setLeverage(BigDecimal.ONE);
+            positionMap.put(symbol, futuresPositionData);
 
         }else{
-            throw new IllegalArgumentException("Position LONG or SHORT: " + futuresPosition.getPosition());
+            //롱포지션인경우만 들어옴
+            //숏포지션인경우는 들어오지 않음
+            //누적수량변경
+            futuresPositionData.setQuantity(futuresPositionData.getQuantity().add(quantity));
+            //누적금액변경
+            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().add(tradingPrice));
+            //평단가변경
+            futuresPositionData.setPrice(futuresPositionData.getTradingPrice().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
         }
 
-        //순이익율
-        rate = rate.multiply(futuresPosition.getLeverage());
+        cash = cash.subtract(tradingPrice).subtract(tradingPrice.multiply(buyFee));
 
-        //구매대금
-        BigDecimal cash = futuresPosition.getSize().multiply(futuresPosition.getPrice()).divide(futuresPosition.getLeverage(), MathContext.DECIMAL128);
-
-        BigDecimal change = cash.multiply(rate);
-        BigDecimal fee = getSellFee(futuresPosition, price, futuresPosition.getSize());
-
-        cash = cash.add(change).subtract(fee);
-        return cash;
     }
 
-    /**
-     * 매수 수수료
-     * 구현된 내용은 종목별로 수수료가 다른경우는 구현되어 있지않음
-     * 종목별로 수수료가 다른경우 Override 해서 구현
-     * @param holding 종목별 수수료가 다른경우 아래 메소드를 오버라이딩 해서 구현 (종목 정보를 얻기위한 용도)
-     * @param price 가격
-     * @param volume 거래량
-     * @return 수수료
-     */
-    public BigDecimal getBuyFee(FuturesPositionData holding, BigDecimal price, BigDecimal volume){
-        return price.multiply(volume).multiply(buyFee);
+    public void sellAll(String symbol){
+        //숏포지션 전체매수
+        longClose(symbol);
+        sell(symbol, cash.subtract(cash.multiply(sellFee)), null);
     }
 
-    /**
-     * 매도 수수료
-     * 구현된 내용은 종목별로 수수료가 다른경우는 구현되어 있지않음
-     * 종목별로 수수료가 다른경우 Override 해서 구현
-     * @param holding 종목별 수수료가 다른경우 아래 메소드를 오버라이딩 해서 구현 (종목 정보를 얻기위한 용도)
-     * @param price 가격
-     * @param volume 거래량
-     * @return 수수료
-     */
-    public BigDecimal getSellFee(FuturesPositionData holding, BigDecimal price, BigDecimal volume){
-        return  price.multiply(volume).multiply(sellFee);
+    public void sell(String symbol, BigDecimal sellCash, BigDecimal price){
+        if(sellCash.compareTo(BigDecimal.ZERO) == 0){
+            return;
+        }
+
+        if(price == null) {
+            price = symbolPrice.getBuyPrice(symbol);
+        }
+
+        BigDecimal quantity = sellCash.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
+        if(quantity.compareTo(BigDecimal.ZERO) == 0){
+            return;
+        }
+        BigDecimal tradingPrice = price.multiply(quantity);
+
+
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        quantity = quantity.multiply(new BigDecimal(-1));
+
+        if(futuresPositionData == null){
+            futuresPositionData = new FuturesPositionData();
+            futuresPositionData.setSymbol(symbol);
+            futuresPositionData.setPrice(price);
+            futuresPositionData.setQuantity(quantity);
+            futuresPositionData.setTradingPrice(tradingPrice);
+            futuresPositionData.setPosition(Position.SHORT);
+            futuresPositionData.setLeverage(BigDecimal.ONE);
+            positionMap.put(symbol, futuresPositionData);
+        }else{
+            //누적수량변경
+            futuresPositionData.setQuantity(futuresPositionData.getQuantity().add(quantity));
+            //누적금액변경
+            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().add(tradingPrice));
+            //평단가변경
+            futuresPositionData.setPrice(futuresPositionData.getTradingPrice().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
+        }
+
+        cash = cash.subtract(tradingPrice).subtract(tradingPrice.multiply(sellFee));
+    }
+
+    public void close(String symbol){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return ;
+        }
+        positionMap.remove(symbol);
+        BigDecimal closePrice = closePrice(futuresPositionData);
+        cash = cash.add(closePrice);
+    }
+
+    public void shortClose(String symbol){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return ;
+        }
+        if(futuresPositionData.getPosition() != Position.SHORT){
+            return;
+        }
+
+        positionMap.remove(symbol);
+        BigDecimal closePrice = closePrice(futuresPositionData);
+        cash = cash.add(closePrice);
+    }
+
+    public BigDecimal shortClose(String symbol, BigDecimal tradingPrice, BigDecimal price){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return tradingPrice;
+        }
+        if(futuresPositionData.getPosition() != Position.SHORT){
+            return tradingPrice;
+        }
+
+        if(price == null || price.compareTo(BigDecimal.ZERO) == 0){
+            price = symbolPrice.getBuyPrice(symbol);
+        }
+
+        BigDecimal quantity = tradingPrice.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
+        int compare = futuresPositionData.getQuantity().compareTo(quantity);
+
+        if(compare == 0 || compare < 0){
+
+            //매각대금
+            positionMap.remove(symbol);
+            BigDecimal closePrice = closePrice(futuresPositionData);
+            cash = cash.add(closePrice);
+            if(compare == 0){
+                return BigDecimal.ZERO;
+            }
+
+            return tradingPrice.subtract(buyPrice(price, quantity));
+        }else {
+            //건수 만큼만 닫기
+            BigDecimal positionPrice = futuresPositionData.getPrice();
+            BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
+            rate = rate.multiply(new BigDecimal(-1));
+            
+            BigDecimal closePrice = futuresPositionData.getPrice().multiply(quantity);
+            
+            futuresPositionData.setQuantity( futuresPositionData.getQuantity().subtract(quantity));
+            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().subtract(closePrice));
+
+            closePrice = tradingPrice.add(tradingPrice.multiply(rate));
+            closePrice = closePrice.subtract(tradingPrice.multiply(buyFee)); //사는것이므로 구매 수수료료
+            
+            cash = cash.add(closePrice);
+            return BigDecimal.ZERO;
+        }
+
+    }
+
+    public BigDecimal buyPrice(BigDecimal price, BigDecimal quantity){
+        BigDecimal tradingPrice = price.multiply(quantity);
+        return tradingPrice.add(tradingPrice.multiply(buyFee));
+    }
+    public BigDecimal sellPrice(BigDecimal price, BigDecimal quantity){
+        BigDecimal tradingPrice = price.multiply(quantity);
+        return tradingPrice.add(tradingPrice.multiply(sellFee));
+    }
+
+    public BigDecimal longClose(String symbol, BigDecimal tradingPrice, BigDecimal price){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return tradingPrice;
+        }
+        if(futuresPositionData.getPosition() != Position.LONG){
+            return tradingPrice;
+        }
+
+        if(price == null || price.compareTo(BigDecimal.ZERO) == 0){
+            price = symbolPrice.getSellPrice(symbol);
+        }
+
+        BigDecimal quantity = tradingPrice.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
+        int compare = futuresPositionData.getQuantity().compareTo(quantity);
+
+        if(compare == 0 || compare < 0){
+
+            //매각대금
+            positionMap.remove(symbol);
+            BigDecimal closePrice = closePrice(futuresPositionData);
+            cash = cash.add(closePrice);
+            if(compare == 0){
+                return BigDecimal.ZERO;
+            }
+
+            return tradingPrice.subtract(sellPrice(price, quantity));
+        }else {
+            //건수 만큼만 닫기
+            BigDecimal positionPrice = futuresPositionData.getPrice();
+            BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
+
+            BigDecimal closePrice = futuresPositionData.getPrice().multiply(quantity);
+
+            futuresPositionData.setQuantity( futuresPositionData.getQuantity().subtract(quantity));
+            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().subtract(closePrice));
+
+            closePrice = tradingPrice.add(tradingPrice.multiply(rate));
+            closePrice = closePrice.subtract(tradingPrice.multiply(sellFee)); //사는것이므로 구매 수수료료
+
+            cash = cash.add(closePrice);
+            return BigDecimal.ZERO;
+        }
+
+    }
+    public void longClose(String symbol){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return ;
+        }
+        if(futuresPositionData.getPosition() != Position.LONG){
+            return;
+        }
+        positionMap.remove(symbol);
+        BigDecimal closePrice = closePrice(futuresPositionData);
+        cash = cash.add(closePrice);
+    }
+
+    public BigDecimal closePrice(String symbol){
+        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        if(futuresPositionData == null){
+            return BigDecimal.ZERO;
+        }
+        return closePrice(futuresPositionData);
+    }
+
+    public BigDecimal closePrice(FuturesPositionData futuresPosition){
+        if(futuresPosition.getPrice().compareTo(BigDecimal.ZERO) == 0){
+            return BigDecimal.ZERO;
+        }
+
+        Position position = futuresPosition.getPosition();
+        //평단가
+        BigDecimal positionPrice = futuresPosition.getPrice();
+        BigDecimal tradingPrice = futuresPosition.getTradingPrice();
+        //손실율 혹은 이익율
+        if(position == Position.LONG){
+            
+            //매매대금
+            BigDecimal price = symbolPrice.getSellPrice(futuresPosition.getSymbol());
+            BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
+            tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
+            return tradingPrice.subtract(tradingPrice.multiply(sellFee)); //파는것이므로 판매 수수료
+        }else if(position == Position.SHORT){
+            BigDecimal price = symbolPrice.getBuyPrice(futuresPosition.getSymbol());
+            BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
+            rate = rate.multiply(new BigDecimal(-1));
+            tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
+            return tradingPrice.subtract(tradingPrice.multiply(buyFee)); //사는것이므로 구매 수수료료
+       }
+        return BigDecimal.ZERO;
     }
 
     @Override
@@ -256,27 +411,27 @@ public class FuturesBacktestingAccount implements FuturesAccount {
 
     @Override
     public BigDecimal getAssets() {
-        synchronized (lock){
-            BigDecimal assets = cash;
-            Collection<FuturesPositionData> holdings = positionMap.values();
-            for(FuturesPositionData holding: holdings){
-                assets = assets.add(getSellPrice(holding));
-            }
-            return assets;
+        BigDecimal assets = cash;
+        Collection<FuturesPositionData> holdings = positionMap.values();
+        for(FuturesPositionData holding: holdings){
+            assets = assets.add(closePrice(holding));
         }
+        return assets;
     }
+
 
     public BigDecimal getCash() {
         return cash;
     }
 
     @Override
-    public FuturesPositionData getPosition(String symbol) {
+    public FuturesPosition getPosition(String symbol) {
         return positionMap.get(symbol);
     }
 
     @Override
     public void setLeverage(String symbol, BigDecimal leverage) {
+        //사용하지 않음
         FuturesPositionData futuresPosition = positionMap.get(symbol);
         if(futuresPosition == null){
             return;
@@ -287,11 +442,39 @@ public class FuturesBacktestingAccount implements FuturesAccount {
 
     @Override
     public BigDecimal getLeverage(String symbol) {
+        //사용하지 않음
         FuturesPositionData futuresPosition = positionMap.get(symbol);
         if(futuresPosition == null){
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return futuresPosition.getLeverage();
+    }
+
+    @Override
+    public BigDecimal getAvailableBuyPrice(String symbol) {
+        BigDecimal price = cash;
+        if(getSymbolPosition(symbol) == Position.SHORT){
+            price = price.add(closePrice(symbol));
+        }
+        return price.subtract(price.multiply(buyFee));
+    }
+
+    @Override
+    public BigDecimal getAvailableSellPrice(String symbol) {
+        BigDecimal price = cash;
+        if(getSymbolPosition(symbol) == Position.LONG){
+            price = price.add(closePrice(symbol));
+        }
+        return price.subtract(price.multiply(buyFee));
+    }
+
+    public Position getSymbolPosition(String symbol){
+        FuturesPosition futuresPosition = positionMap.get(symbol);
+        if(futuresPosition == null){
+            return Position.NONE;
+        }
+
+        return futuresPosition.getPosition();
     }
 }

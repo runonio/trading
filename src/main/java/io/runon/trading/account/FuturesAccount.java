@@ -10,4 +10,7 @@ public interface FuturesAccount extends Account{
     FuturesPosition getPosition(String symbol);
     void setLeverage(String symbol, BigDecimal leverage);
     BigDecimal getLeverage(String symbol);
+
+    BigDecimal getAvailableBuyPrice(String symbol);
+    BigDecimal getAvailableSellPrice(String symbol);
 }
