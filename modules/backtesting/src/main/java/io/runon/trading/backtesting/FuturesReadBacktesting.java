@@ -6,9 +6,9 @@ import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
 
 import io.runon.trading.data.TimeFileLineRead;
+import io.runon.trading.strategy.Order;
 import io.runon.trading.strategy.Position;
-import io.runon.trading.strategy.StrategyTradingPrice;
-import io.runon.trading.strategy.TradingPositionPrice;
+import io.runon.trading.strategy.StrategyOrder;
 import io.runon.trading.view.MarkerData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
     protected final SlippageRatePrice slippageRatePrice = new SlippageRatePrice();
 
-    protected StrategyTradingPrice<T> strategy;
+    protected StrategyOrder<T> strategy;
 
     public FuturesReadBacktesting(){
         account = new FuturesBacktestingAccount("test");
@@ -33,7 +33,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
         account.setSymbolPrice(slippageRatePrice);
     }
 
-    public void setStrategy(StrategyTradingPrice<T> strategy) {
+    public void setStrategy(StrategyOrder<T> strategy) {
         this.strategy = strategy;
     }
 
@@ -64,21 +64,21 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
         BigDecimal price = timePrice.getClose();
         addChartLine(price);
 
-        TradingPositionPrice tradingPositionPrice = strategy.getPosition(data);
+        Order order = strategy.getPosition(data);
 
-        if(tradingPositionPrice.getTradingPrice().compareTo(BigDecimal.ZERO) == 0 || tradingPositionPrice.getPosition() == Position.NONE){
+        if(order.getPrice().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
             lastPosition = account.getSymbolPosition(symbol);
             return ;
         }
 
-        account.trade(symbol, tradingPositionPrice);
+        account.order(symbol, order);
         lastPosition = account.getSymbolPosition(symbol);
         if(isChart){
             MarkerData.MarkerType markerType = MarkerData.MarkerType.aboveBar;
             MarkerData.MarkerShape markerShape = MarkerData.MarkerShape.arrowDown;
 
             MarkerData markerData = new MarkerData(time, "black"
-                    ,tradingPositionPrice.getPosition().toString() +" " + tradingPositionPrice.getTradingPrice().toPlainString() + " " + lastPosition.toString()
+                    ,order.getPosition().toString() +" " + order.getPrice().toPlainString() + " " + lastPosition.toString()
                     , Long.toString(time)
                     , markerType, markerShape
             );

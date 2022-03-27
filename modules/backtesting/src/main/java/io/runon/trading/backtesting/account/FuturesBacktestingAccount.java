@@ -4,8 +4,8 @@ import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
 import io.runon.trading.backtesting.price.symbol.SymbolPrice;
+import io.runon.trading.strategy.Order;
 import io.runon.trading.strategy.Position;
-import io.runon.trading.strategy.TradingPositionPrice;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -114,27 +114,27 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.sellFee = fee;
     }
 
-    public void trade(String symbol, TradingPositionPrice tradingPositionPrice){
-        Position position = tradingPositionPrice.getPosition();
+    public void order(String symbol, Order order){
+        Position position = order.getPosition();
 
         if(position == Position.LONG){
             BigDecimal price = symbolPrice.getBuyPrice(symbol);
-            BigDecimal tradingPrice = shortClose(symbol, tradingPositionPrice.getTradingPrice(), price);
+            BigDecimal tradingPrice = shortClose(symbol, order.getPrice(), price);
             if(tradingPrice.compareTo(cash) > 0){
                 tradingPrice = cash;
             }
             buy(symbol, tradingPrice.subtract(tradingPrice.multiply(buyFee)), price);
         }else if (position == Position.SHORT){
             BigDecimal price = symbolPrice.getSellPrice(symbol);
-            BigDecimal tradingPrice = longClose(symbol, tradingPositionPrice.getTradingPrice(), price);
+            BigDecimal tradingPrice = longClose(symbol, order.getPrice(), price);
             if(tradingPrice.compareTo(cash) > 0){
                 tradingPrice = cash;
             }
             sell(symbol, tradingPrice.subtract(tradingPrice.multiply(sellFee)), price);
         }else if (position == Position.LONG_CLOSE){
-            longClose(symbol, tradingPositionPrice.getTradingPrice(), null);
+            longClose(symbol, order.getPrice(), null);
         }else if (position == Position.SHORT_CLOSE){
-            shortClose(symbol, tradingPositionPrice.getTradingPrice(), null);
+            shortClose(symbol, order.getPrice(), null);
         }
     }
 

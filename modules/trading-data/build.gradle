@@ -13,7 +13,7 @@ repositories {
 dependencies {
 //    implementation project(path: ':technical-analysis')
     implementation group: 'org.json', name: 'json', version: '20220320'
-    implementation 'io.runon.trading:trading:0.1.9'
+    implementation 'io.runon.trading:trading:0.2.0'
     implementation 'io.runon.trading:technical-analysis:0.2.8'
     implementation 'com.seomse.commons:commons:1.2.9'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
