@@ -15,7 +15,7 @@ dependencies {
 //    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
 //    implementation project(path: ':technical-analysis')
 
-    implementation 'io.runon.trading:trading:0.Z.0'
+    implementation 'io.runon.trading:trading:0.2.0'
     implementation 'io.runon.trading:technical-analysis:0.2.8'
     implementation 'io.runon.trading:trading-data:0.1.1'
     implementation 'io.runon.trading:chart-view:0.2.1'
