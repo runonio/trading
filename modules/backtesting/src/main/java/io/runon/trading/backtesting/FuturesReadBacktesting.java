@@ -6,7 +6,7 @@ import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
 
 import io.runon.trading.data.TimeFileLineRead;
-import io.runon.trading.strategy.Order;
+import io.runon.trading.order.Order;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.StrategyOrder;
 import io.runon.trading.view.MarkerData;

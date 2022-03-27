@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.0.8'
+version '0.0.9'
 
 repositories {
     mavenCentral()
@@ -11,11 +11,11 @@ repositories {
 
 dependencies {
 
-//    implementation( rootProject)
+    implementation( rootProject)
 //    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
 //    implementation project(path: ':technical-analysis')
 
-    implementation 'io.runon.trading:trading:0.2.0'
+//    implementation 'io.runon.trading:trading:0.2.1'
     implementation 'io.runon.trading:technical-analysis:0.2.8'
     implementation 'io.runon.trading:trading-data:0.1.1'
     implementation 'io.runon.trading:chart-view:0.2.1'

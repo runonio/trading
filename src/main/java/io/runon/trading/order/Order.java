@@ -1,4 +1,6 @@
-package io.runon.trading.strategy;
+package io.runon.trading.order;
+
+import io.runon.trading.strategy.Position;
 
 import java.math.BigDecimal;
 

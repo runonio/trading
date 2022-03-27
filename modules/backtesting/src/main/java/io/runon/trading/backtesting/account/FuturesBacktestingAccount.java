@@ -4,7 +4,7 @@ import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
 import io.runon.trading.backtesting.price.symbol.SymbolPrice;
-import io.runon.trading.strategy.Order;
+import io.runon.trading.order.Order;
 import io.runon.trading.strategy.Position;
 import lombok.extern.slf4j.Slf4j;
 

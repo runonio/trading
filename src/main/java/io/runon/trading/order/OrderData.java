@@ -1,5 +1,6 @@
-package io.runon.trading.strategy;
+package io.runon.trading.order;
 
+import io.runon.trading.strategy.Position;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class OrderData implements Order{
+public class OrderData implements Order {
 
     protected Position position = Position.NONE;
     protected BigDecimal price = BigDecimal.ZERO;
