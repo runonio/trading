@@ -83,7 +83,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             if(isEnd){
                 //구현체에서 종료이벤트가 발생하였으면
                 log.info(getLogMessage(symbolPrice.getPrice(symbol)));
-                end(assetList, markerDataList, linesList, lastLines);
+                end();
                 return;
             }
 
@@ -92,7 +92,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             if(!data.isValid(time)){
                 time = time + cycleTime;
                 if(time >= endTime){
-                    end(assetList, markerDataList, linesList, lastLines);
+                    end();
                     return;
                 }
                 continue;
@@ -105,7 +105,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
                 time = time + cycleTime;
 
                 if(time >= endTime){
-                    end(assetList, markerDataList, linesList, lastLines);
+                    end();
                     return;
                 }
                 addChartLine(price);
@@ -138,7 +138,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             log.info(getLogMessage(price));
             time = time + cycleTime;
             if(time >= endTime){
-                end(assetList, markerDataList, linesList, lastLines);
+                end();
                 return;
             }
         }
@@ -151,9 +151,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
     public abstract void changeTime(long time);
 
     @Override
-    protected void end(List<LineData> assetList, List<MarkerData> markerDataList, List<Lines> linesList, List<LineData> lastLines){
+    protected void end(){
         log.info("backtesting end last valid time: " + CandleTime.ymdhm(lastValidTime, zoneId));
-        super.end(assetList, markerDataList, linesList, lastLines);
+        super.end();
     }
 
 }
