@@ -135,7 +135,6 @@ public class FuturesBacktestingAccount implements FuturesAccount {
                 return;
             }
 
-            System.out.println("orderp: " + orderPrice.toPlainString());
             if(orderPrice.compareTo(cash) > 0){
                 orderPrice = cash;
             }

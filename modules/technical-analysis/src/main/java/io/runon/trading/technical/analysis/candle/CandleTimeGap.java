@@ -17,6 +17,7 @@ package io.runon.trading.technical.analysis.candle;
 
 
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.CandleTimes;
 
 import java.util.Calendar;
 
@@ -88,33 +89,18 @@ public class CandleTimeGap {
 
     /**
      * 처음 시작할때의 시작시간 얻기
+     * 
+     * 아래 빙방법으로 사용 2022 3월 29일 Deprecated 됨
+     * CandleTimes.getOpenTime(timeGap, firstTradeTime);
+     * 
      * @param timeGap long timeGap
      * @param firstTradeTime long tradeStartTime
      * @return long startTime
      */
+    @Deprecated
     public static long getStartTime(long timeGap, long firstTradeTime){
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.setTimeInMillis(firstTradeTime);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        if(timeGap < Times.DAY_1){
-            long gap = firstTradeTime - calendar.getTimeInMillis();
-            return calendar.getTimeInMillis() + gap - gap%timeGap;
-        }else{
-            //이건 주봉 월봉 년봉 쓰기시작하면 하기
-            //우선은 일단위 봉생성 타임만 저장
-            //주
-//            calendar.set(Calendar.DAY_OF_WEEK, 0);
-            //월
-//            calendar.set(Calendar.DAY_OF_WEEK, 0);
-            //년
-//            calendar.set(Calendar.DAY_OF_YEAR, 1);
-            return calendar.getTimeInMillis();
-        }
+        return CandleTimes.getOpenTime(timeGap, firstTradeTime);
+        
 
     }
 
