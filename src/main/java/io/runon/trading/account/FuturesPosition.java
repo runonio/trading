@@ -1,6 +1,5 @@
 package io.runon.trading.account;
 
-import io.runon.trading.TradingPrice;
 import io.runon.trading.strategy.Position;
 
 import java.math.BigDecimal;
@@ -9,7 +8,7 @@ import java.math.BigDecimal;
  * 선물 포지션
  * @author macle
  */
-public interface FuturesPosition extends TradingPrice {
+public interface FuturesPosition {
     /***
      * 심볼얻기
      * @return 심볼
@@ -39,4 +38,6 @@ public interface FuturesPosition extends TradingPrice {
      * @return LONG(BUY), SHORT(sell)
      */
     Position getPosition();
+
+    BigDecimal getTradingPrice();
 }
