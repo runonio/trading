@@ -41,7 +41,7 @@ public class TimeVolumes implements TimePrice{
     }
 
     @Override
-    public BigDecimal getClose(){return price;}
+    public BigDecimal getClose(){return priceFutures;}
     public BigDecimal getPrice() {
         return price;
     }

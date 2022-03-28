@@ -1,18 +1,23 @@
 package io.runon.trading.backtesting;
 
+import com.seomse.commons.utils.time.Times;
 import io.runon.trading.TimePrice;
+import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
 
 import io.runon.trading.data.TimeFileLineRead;
 import io.runon.trading.order.Order;
+import io.runon.trading.order.OrderData;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.StrategyOrder;
+import io.runon.trading.technical.analysis.candle.CandleTimeGap;
 import io.runon.trading.view.MarkerData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 실시간정보를 (초단위) 백테스팅하기위해 만든도구
@@ -38,6 +43,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
     }
 
     public void start(String path){
+        init();
         FuturesReadBacktesting obj = this;
         TimeFileLineRead lineRead = new TimeFileLineRead() {
             @Override
@@ -47,45 +53,64 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
             @Override
             public void end(){
-                //noinspection unchecked
-                obj.end(assetList, markerDataList, linesList, lastLines);
+                obj.end();
             }
 
         };
         lineRead.read(path);
-
     }
 
+    private long candleOpenTime = 0;
+
     public void putData(E timePrice){
+
+        time = timePrice.getTime();
+
+        long openTime = CandleTimeGap.getStartTime(Times.MINUTE_1, time);
+
         //noinspection unchecked
         data.setData(timePrice);
+
         slippageRatePrice.setPrice(symbol, timePrice);
 
         BigDecimal price = timePrice.getClose();
-        addChartLine(price);
+        if(openTime != candleOpenTime) {
+            addChartLine(price);
+            candleOpenTime = openTime;
+        }
 
         Order order = strategy.getPosition(data);
-
         if(order.getPrice().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
             lastPosition = account.getSymbolPosition(symbol);
             return ;
         }
 
         account.order(symbol, order);
+
         lastPosition = account.getSymbolPosition(symbol);
         if(isChart){
             MarkerData.MarkerType markerType = MarkerData.MarkerType.aboveBar;
             MarkerData.MarkerShape markerShape = MarkerData.MarkerShape.arrowDown;
 
-            MarkerData markerData = new MarkerData(time, "black"
-                    ,order.getPosition().toString() +" " + order.getPrice().toPlainString() + " " + lastPosition.toString()
-                    , Long.toString(time)
+            String color;
+            if(order.getPosition() == Position.LONG){
+                color = "#003300";
+            }else{
+                color = "#990000";
+            }
+
+            MarkerData markerData = new MarkerData(time, color
+                    ,order.getPosition().toString() + " " + order.getPrice() +" "+ account.getAssets().setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
+                    , Long.toString(openTime)
                     , markerType, markerShape
             );
 
             addChartMark(markerData);
         }
 
+
+
+        FuturesPosition futuresPosition  = account.getPosition(symbol);
 
         log.info(getLogMessage(price));
     }

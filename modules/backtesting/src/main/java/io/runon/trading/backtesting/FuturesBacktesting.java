@@ -104,24 +104,25 @@ public abstract class FuturesBacktesting<E> {
         this.chartHeight = chartHeight;
     }
 
-    protected void end(List<LineData> assetList, List<MarkerData> markerDataList, List<Lines> linesList, List<LineData> lastLines){
+    protected void end(){
 
         if(isChart && candles.length > 0) {
 
             TradingChart chart = new TradingChart(candles, chartWidth, chartHeight, TradingChart.ChartDateType.MINUTE);
             chart.addVolume(candles);
             addLines(linesList, lastLines);
-//
+
             if(markerDataList.size() > 0){
-                chart.addMarker(markerDataList.toArray(new MarkerData[0]));
+                chart.addMarker(markerDataList);
+                chart.setMarker();
                 markerDataList.clear();
             }
-//
+
             if(assetList.size() > 0){
                 chart.addLine(assetList.toArray(new LineData[0]), "#3300FF", 1, false);
                 assetList.clear();
             }
-//
+
             if(isPositionLine && linesList.size() > 0){
                 for(Lines lines : linesList){
                     chart.addLine(lines);
@@ -229,7 +230,7 @@ public abstract class FuturesBacktesting<E> {
     }
 
     public void addChartMark(MarkerData markerData){
-        if(isChart && time >= markerData.getTime()){
+        if(isChart && time >= candles[0].getOpenTime()){
             markerDataList.add(markerData);
         }
     }

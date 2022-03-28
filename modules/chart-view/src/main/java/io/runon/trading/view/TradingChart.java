@@ -71,7 +71,7 @@ public class TradingChart {
     /**
      * 차트에 다른 차트를 임포트 해서
      * 같이 동작
-     * @param anotherChart
+     * @param anotherChart 차트 추가
      */
     public void addAnotherChart(TradingChart anotherChart){
         chartCount++;
@@ -314,7 +314,7 @@ public class TradingChart {
      * @return HTML
      */
     public String getHtml(){
-        //noinspection StringBufferReplaceableByString
+
         StringBuilder result = new StringBuilder("""
                 <!DOCTYPE html>
                 <html>
@@ -393,15 +393,16 @@ public class TradingChart {
         if(markerMap == null){
             markerMap = new HashMap<>();
         }
-        markerMap.put(1, markerDataList);
+        markerMap.put(0, markerDataList);
 
-        for (int i = 1; i < chartCount; i++) {
+        for (int i = 0; i < chartCount; i++) {
 
             List<MarkerData> chartMarkerList = markerMap.get(i);
 
             if(chartMarkerList == null || chartMarkerList.size() == 0){
-                return;
+                continue;
             }
+
 
             MarkerData[] array = chartMarkerList.toArray(new MarkerData[0]);
             Arrays.sort(array, MarkerData.SORT_TIME);
@@ -427,7 +428,6 @@ public class TradingChart {
             createChartStr.append("""
             %s.setMarkers(%s);
             """.formatted(candleValue, chartMarkerValue));
-
             markerDataList.clear();
         }
 
