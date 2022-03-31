@@ -1,18 +1,16 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.CandleTimes;
 import io.runon.trading.TimePrice;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
-
 import io.runon.trading.data.TimeFileLineRead;
 import io.runon.trading.order.Order;
-import io.runon.trading.order.OrderData;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.StrategyOrder;
-import io.runon.trading.technical.analysis.candle.CandleTimeGap;
 import io.runon.trading.view.MarkerData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +29,8 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
     protected final SlippageRatePrice slippageRatePrice = new SlippageRatePrice();
 
     protected StrategyOrder<T> strategy;
+
+
 
     public FuturesReadBacktesting(){
         account = new FuturesBacktestingAccount("test");
@@ -66,7 +66,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
         time = timePrice.getTime();
 
-        long openTime = CandleTimeGap.getStartTime(Times.MINUTE_1, time);
+        long openTime = CandleTimes.getOpenTime(Times.MINUTE_1, time);
 
         //noinspection unchecked
         data.setData(timePrice);

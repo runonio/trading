@@ -1,9 +1,9 @@
 package io.runon.trading.backtesting;
 
 import io.runon.trading.BigDecimals;
+import io.runon.trading.CandleTimes;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
-import io.runon.trading.technical.analysis.candle.CandleTime;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 import io.runon.trading.view.LineData;
@@ -57,6 +57,32 @@ public abstract class FuturesBacktesting<E> {
 
     public void setData(E data) {
         this.data = data;
+    }
+
+    /**
+     * 구매 수수료 설정
+     * @param buyFee 구매수수료
+     */
+    public void setBuyFee(BigDecimal buyFee) {
+        account.setBuyFee(buyFee);
+    }
+
+    /**
+     * 판매수수료 설정
+     * @param sellFee 판매수수료
+     */
+    public void setSellFee(BigDecimal sellFee) {
+        account.setSellFee(sellFee);
+    }
+
+    /**
+     * 수수료 설정
+     * 구매수수료와 판매수수료가 같은경우
+     * 다른경우는 각각 설정
+     * @param fee 수수료
+     */
+    public void setFee(BigDecimal fee){
+        account.setFee(fee);
     }
 
     /**
@@ -242,7 +268,7 @@ public abstract class FuturesBacktesting<E> {
 
     public String getLogMessage(BigDecimal price){
         BigDecimal assets = account.getAssets();
-        return  CandleTime.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
+        return  CandleTimes.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
     }
 }
