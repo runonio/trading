@@ -344,10 +344,6 @@ public class FuturesBacktestingAccount implements FuturesAccount {
                 return BigDecimal.ZERO;
             }
 
-            System.out.println("sellPrice order price : " + orderPrice);
-            System.out.println("sellPrice(price, quantity) " + sellPrice(price, futuresPositionData.getQuantity()));
-            System.out.println(" orderPrice.subtract(sellPrice(price, quantity)) " +  orderPrice.subtract(sellPrice(price, quantity)));
-
             return orderPrice.subtract(sellPrice(price, futuresPositionData.getQuantity()));
         }else {
             //건수 만큼만 닫기
