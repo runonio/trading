@@ -82,7 +82,7 @@ public class SpotBacktestingAccount implements Account {
                 //구매대금
                 BigDecimal buyCash = trade.getPrice().multiply(trade.getVolume()).add(getBuyFee(holding, trade.getPrice(), trade.getVolume()));
                 cash = cash.subtract(buyCash);
-            }else{
+            }else if(trade.getType() == Trade.Type.SELL){
                 //판매대금
                 BigDecimal sellCash = trade.getPrice().multiply(trade.getVolume()).subtract(getSellFee(holding, trade.getPrice(), trade.getVolume()));
                 cash = cash.add(sellCash);
