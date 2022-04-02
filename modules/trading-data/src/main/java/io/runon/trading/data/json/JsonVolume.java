@@ -1,6 +1,6 @@
 package io.runon.trading.data.json;
 
-import io.runon.trading.technical.analysis.candle.CandleTime;
+import io.runon.trading.CandleTimes;
 import io.runon.trading.technical.analysis.volume.TimeVolumes;
 import io.runon.trading.technical.analysis.volume.VolumeData;
 import org.json.JSONArray;
@@ -47,7 +47,7 @@ public class JsonVolume {
             volumeData.setVolume(array.getBigDecimal(0));
             volumeData.setTradingPrice(array.getBigDecimal(1));
             volumeData.setVolumePower(array.getBigDecimal(2));
-            timeVolumes.put(CandleTime.getIntervalTime(interval), volumeData);
+            timeVolumes.put(CandleTimes.getIntervalTime(interval), volumeData);
         }
 
         obj.clear();
