@@ -18,6 +18,10 @@ public class TimeVolumes implements TimePrice{
     BigDecimal price;
     BigDecimal priceFutures;
 
+    BigDecimal changeRate;
+    BigDecimal changeRateFutures;
+
+
     BigDecimal avg5s;
     BigDecimal avg1m;
 
@@ -42,23 +46,5 @@ public class TimeVolumes implements TimePrice{
 
     @Override
     public BigDecimal getClose(){return priceFutures;}
-    public BigDecimal getPrice() {
-        return price;
-    }
 
-    public BigDecimal getPriceFutures() {
-        return priceFutures;
-    }
-
-    public BigDecimal getAvg5s() {
-        return avg5s;
-    }
-
-    public BigDecimal getAvg1m() {
-        return avg1m;
-    }
-
-    public Map<Long, VolumeData> getVolumeDataMap() {
-        return volumeDataMap;
-    }
 }

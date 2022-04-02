@@ -6,6 +6,8 @@ import io.runon.trading.technical.analysis.volume.VolumeData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 
 /**
@@ -14,7 +16,12 @@ import java.util.Set;
  */
 public class JsonVolume {
 
+
     public static TimeVolumes makeTimeVolumes(String jsonText){
+        return makeTimeVolumes(jsonText, null);
+    }
+
+    public static TimeVolumes makeTimeVolumes(String jsonText, TimeVolumes last){
         JSONObject obj = new JSONObject(jsonText);
 
         TimeVolumes timeVolumes = new TimeVolumes();
@@ -22,20 +29,39 @@ public class JsonVolume {
         timeVolumes.setTime(obj.getLong("t"));
         timeVolumes.setPrice(obj.getBigDecimal("p"));
 
+
         obj.remove("t");
         obj.remove("p");
 
-        if(!obj.isNull("pf")){
+        if(obj.has("pf")){
             timeVolumes.setPriceFutures( obj.getBigDecimal("pf"));
             obj.remove("pf");
         }
 
-        if(!obj.isNull("avg_5s")){
+        if(obj.has("p_cr")){
+            timeVolumes.setChangeRate(obj.getBigDecimal("p_cr"));
+            obj.remove("p_cr");
+        }else if(last != null){
+            BigDecimal lastPrice = last.getPrice();
+            BigDecimal price = timeVolumes.getPrice();
+            timeVolumes.setChangeRate(lastPrice.subtract(price).divide(lastPrice,8, RoundingMode.HALF_UP).stripTrailingZeros());
+        }
+
+        if(obj.has("pf_cr")){
+            timeVolumes.setChangeRateFutures(obj.getBigDecimal("pf_cr"));
+            obj.remove("pf_cr");
+        }else if(last != null){
+            BigDecimal lastPriceFutures = last.getPriceFutures();
+            BigDecimal priceFutures = timeVolumes.getPriceFutures();
+            timeVolumes.setChangeRateFutures(lastPriceFutures.subtract(priceFutures).divide(lastPriceFutures,8, RoundingMode.HALF_UP).stripTrailingZeros());
+        }
+
+        if(obj.has("avg_5s")){
             timeVolumes.setAvg5s(obj.getBigDecimal("avg_5s"));
             obj.remove("avg_5s");
         }
 
-        if(!obj.isNull("avg_1m")){
+        if(obj.has("avg_1m")){
             timeVolumes.setAvg1m(obj.getBigDecimal("avg_1m"));
             obj.remove("avg_1m");
         }
