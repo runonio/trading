@@ -17,6 +17,7 @@
 package io.runon.trading;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -89,12 +90,69 @@ public class BigDecimals {
         return num.setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
-    public static BigDecimal add(BigDecimal [] array){
-        BigDecimal sum = BigDecimal.ZERO;
+    public static BigDecimal sum( BigDecimal [] array){
+        return add(BigDecimal.ZERO, array);
+    }
+
+    public static BigDecimal add(BigDecimal num, BigDecimal [] array){
         for(BigDecimal decimal : array){
-            sum = sum.add(decimal);
+            num = num.add(decimal);
         }
-        return sum;
+        return num;
+    }
+
+    /**
+     * 평균구하기
+     * @param sortNumbers 정렬된 숫자 반드시 정렬된 객체를 보내야함
+     * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
+     * @return 상위제외 평균
+     */
+    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal highestExclusionRate) {
+
+        int count = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
+
+        if(count == 0 || sortNumbers.length == 0){
+            throw new IllegalArgumentException("count: " + count +" length " + sortNumbers.length);
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+
+        for (int i = 0; i < count; i++) {
+            sum = sum.add(sortNumbers[i]);
+        }
+
+        return sum.divide(new BigDecimal(count), MathContext.DECIMAL128);
+    }
+
+    /**
+     * 중간평균 구하기
+     * @param sortNumbers 정렬된 숫자 반드시 정렬된 객체를 보내야함
+     * @param lowestExclusionRate 하위 제외비율 0.1 = 10%제외
+     * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
+     * @return 하위 상위를 제외한 중간평균
+     */
+    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+
+        int end = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
+        int start = new BigDecimal(sortNumbers.length).multiply(highestExclusionRate).intValue();
+        int size = end - start;
+
+        if(size < 1){
+            throw new IllegalArgumentException("start: " + start +" end " + end +" length " + sortNumbers.length);
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(sortNumbers[i]);
+        }
+
+        return sum.divide(new BigDecimal(size), MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal getAverage(BigDecimal[] numbers) {
+        BigDecimal sum = sum(numbers);
+        return sum.divide(new BigDecimal(numbers.length), MathContext.DECIMAL128);
     }
 
     /**

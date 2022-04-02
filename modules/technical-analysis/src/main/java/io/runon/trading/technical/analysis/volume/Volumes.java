@@ -43,9 +43,24 @@ public class Volumes {
         return getAverage(candles, candles.length, highestExclusionRate);
     }
 
+    public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+        return getAverage(candles, candles.length, lowestExclusionRate, highestExclusionRate);
+    }
 
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal highestExclusionRate) {
+        BigDecimal[] volumes = getVolumes(candles, count);
+        Arrays.sort(volumes);
+        return BigDecimals.getAverage(volumes, highestExclusionRate);
+    }
 
+    public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+        BigDecimal[] volumes = getVolumes(candles, count);
+        Arrays.sort(volumes);
+        return BigDecimals.getAverage(volumes,lowestExclusionRate, highestExclusionRate);
+    }
+
+
+    public static BigDecimal [] getVolumes(TradeCandle [] candles, int count){
         if (count > candles.length) {
             count = candles.length;
         }
@@ -58,17 +73,7 @@ public class Volumes {
             volumes[index++] = candles[i].getVolume();
         }
 
-        count = new BigDecimal(volumes.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
-
-        Arrays.sort(volumes);
-
-        BigDecimal sum = BigDecimal.ZERO;
-
-        for (int i = 0; i < count; i++) {
-            sum = sum.add(volumes[i]);
-        }
-
-        return sum.divide(new BigDecimal(count), MathContext.DECIMAL128);
+        return volumes;
     }
 
 
@@ -124,7 +129,7 @@ public class Volumes {
             int end = i +1;
             array[index++] = getVolumePower(candles,end - count, end );
         }
-        BigDecimal sum = BigDecimals.add(array);
+        BigDecimal sum = BigDecimals.sum(array);
         return sum.divide(new BigDecimal(maCount),MathContext.DECIMAL128);
     }
 
