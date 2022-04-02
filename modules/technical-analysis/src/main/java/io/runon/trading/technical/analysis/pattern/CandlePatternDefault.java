@@ -17,7 +17,6 @@ package io.runon.trading.technical.analysis.pattern;
 
 
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.CandleChangeObserver;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
 import java.math.BigDecimal;
@@ -60,31 +59,8 @@ public abstract class CandlePatternDefault implements CandlePattern{
                 return ;
             }
         }
-
-        setObserver();
     }
 
-
-    protected CandleChangeObserver candleChangeObserver = null;
-
-    /**
-     * 옵져버 설정
-     */
-    public void setObserver(){
-        candleChangeObserver = (lastEndCandle, newCandle) -> changeLastCandle(lastEndCandle);
-        tradeCandles.addChangeObserver(candleChangeObserver);
-    }
-
-    /**
-     * 옵져버 제거
-     */
-    public void removeObserver(){
-        if(candleChangeObserver == null){
-            return ;
-        }
-
-        tradeCandles.removeObserver(candleChangeObserver);
-    }
 
 
     /**

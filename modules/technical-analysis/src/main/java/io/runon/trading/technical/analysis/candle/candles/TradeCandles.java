@@ -59,9 +59,6 @@ public class TradeCandles {
     boolean isEmptyCandleContinue = false;
 
     private final Object observerLock = new Object();
-    private CandleChangeObserver[] observers = EMPTY_OBSERVER;
-
-    private final List<CandleChangeObserver> observerList = new LinkedList<>();
 
     private boolean isTradeRecord = false;
 
@@ -87,19 +84,7 @@ public class TradeCandles {
         isTradeRecord = tradeRecord;
     }
 
-    /**
-     *  캔들 변화 인지 옵져버 추가
-     * @param candleChangeObserver CandleChangeObserver  candle change observer
-     */
-    public void addChangeObserver(CandleChangeObserver candleChangeObserver){
-        synchronized (observerLock) {
-            if (observerList.contains(candleChangeObserver)) {
-                return;
-            }
-            observerList.add(candleChangeObserver);
-            observers = observerList.toArray(new CandleChangeObserver[0]);
-        }
-    }
+
 
     /**
      * 캔들 배열의 유형을 설정
@@ -118,20 +103,6 @@ public class TradeCandles {
             candle.setType(shortGapRatio, steadyGapRatio);
         }
 
-    }
-
-    /**
-     * 캔들 변화 인지 옵저버 제거
-     * @param candleChangeObserver CandleChangeObserver candle change observer
-     */
-    public void removeObserver(CandleChangeObserver candleChangeObserver){
-        synchronized (observerLock) {
-            if (!observerList.contains(candleChangeObserver)) {
-                return;
-            }
-            observerList.remove(candleChangeObserver);
-            observers = observerList.toArray(new CandleChangeObserver[0]);
-        }
     }
 
     /**
@@ -240,14 +211,25 @@ public class TradeCandles {
     public void addCandle(TradeCandle tradeCandle, boolean isCandlesChange){
         lastTime = System.currentTimeMillis();
         tradeCandle.setTradeRecord(isTradeRecord);
-        TradeCandle lastEndCandle = null;
+        TradeCandle lastEndCandle;
 
 
         if(lastCandle != null && lastCandle.getOpenTime() == tradeCandle.getOpenTime()){
             //마지막 캔들 교체
 
             candleList.remove(candleList.size()-1);
+            candleList.add(tradeCandle);
 
+            if(candles.length > 0 && candles[candles.length-1].getOpenTime() == tradeCandle.getOpenTime()){
+                candles[candles.length-1] = tradeCandle;
+            }else{
+                if(isCandlesChange) {
+                    this.candles = candleList.toArray(new TradeCandle[0]);
+                }
+            }
+            lastCandle = tradeCandle;
+
+            return;
         }else {
             if (candles.length > 0 && isCandlesChange) {
 
@@ -266,7 +248,6 @@ public class TradeCandles {
                     if (shortGapRatio != null && steadyGapRatio != null && tradeCandle.getType() == CandleStick.Type.UNDEFINED) {
                         tradeCandle.setType(tradeCandle.getOpen().multiply(shortGapRatio), tradeCandle.getOpen().multiply(steadyGapRatio));
                     }
-                    lastEndCandle = tradeCandle;
                 }
             }
 
@@ -305,11 +286,6 @@ public class TradeCandles {
         }
         lastCandle = tradeCandle;
 
-        CandleChangeObserver[] observers = this.observers;
-
-        for(CandleChangeObserver observer : observers){
-            observer.changeCandle(lastEndCandle, tradeCandle);
-        }
     }
 
     /**
