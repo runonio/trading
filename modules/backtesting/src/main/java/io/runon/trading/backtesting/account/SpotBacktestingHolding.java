@@ -26,7 +26,7 @@ public class SpotBacktestingHolding {
             if (trade.getType() == Trade.Type.BUY) {
                 //매수
                 amount = amount.add(trade.getVolume());
-            } else {
+            } else if(trade.getType() == Trade.Type.SELL){
                 //매도
                 amount = amount.subtract(trade.getVolume());
             }

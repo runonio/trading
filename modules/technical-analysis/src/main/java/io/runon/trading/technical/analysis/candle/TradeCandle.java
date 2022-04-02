@@ -153,7 +153,7 @@ public class TradeCandle extends CandleStick implements Volume {
         if(trade.getType() == Trade.Type.BUY){
             buyVolume = buyVolume.add(trade.getVolume());
             buyTradingPrice = buyTradingPrice.add(trade.getTradingPrice());
-        }else{
+        }else if(trade.getType() == Trade.Type.SELL){
             sellVolume = sellVolume.add(trade.getVolume());
             sellTradingPrice = sellTradingPrice.add(trade.getTradingPrice());
         }
