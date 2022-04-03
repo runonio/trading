@@ -38,22 +38,22 @@ public class JsonVolume {
             obj.remove("pf");
         }
 
-        if(obj.has("p_cr")){
-            timeVolumes.setChangeRate(obj.getBigDecimal("p_cr"));
-            obj.remove("p_cr");
-        }else if(last != null){
+        if(last != null){
             BigDecimal lastPrice = last.getPrice();
             BigDecimal price = timeVolumes.getPrice();
-            timeVolumes.setChangeRate(lastPrice.subtract(price).divide(lastPrice,8, RoundingMode.HALF_UP).stripTrailingZeros());
+            timeVolumes.setChangeRate(price.subtract(lastPrice).divide(lastPrice,8, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else if(obj.has("p_cr")){
+            timeVolumes.setChangeRate(obj.getBigDecimal("p_cr"));
+            obj.remove("p_cr");
         }
 
-        if(obj.has("pf_cr")){
-            timeVolumes.setChangeRateFutures(obj.getBigDecimal("pf_cr"));
-            obj.remove("pf_cr");
-        }else if(last != null){
+        if(last != null){
             BigDecimal lastPriceFutures = last.getPriceFutures();
             BigDecimal priceFutures = timeVolumes.getPriceFutures();
-            timeVolumes.setChangeRateFutures(lastPriceFutures.subtract(priceFutures).divide(lastPriceFutures,8, RoundingMode.HALF_UP).stripTrailingZeros());
+            timeVolumes.setChangeRateFutures(priceFutures.subtract(lastPriceFutures).divide(lastPriceFutures,8, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else if(obj.has("pf_cr")){
+            timeVolumes.setChangeRateFutures(obj.getBigDecimal("pf_cr"));
+            obj.remove("pf_cr");
         }
 
         if(obj.has("avg_5s")){
