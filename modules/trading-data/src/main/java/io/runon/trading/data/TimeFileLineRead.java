@@ -13,6 +13,19 @@ import java.io.*;
 @Slf4j
 public abstract class TimeFileLineRead {
 
+
+    private long startName= -1;
+    private long endName = -1;
+
+
+    public void setStartName(long startName) {
+        this.startName = startName;
+    }
+
+    public void setEndName(long endName) {
+        this.endName = endName;
+    }
+
     private boolean isEnd = false;
 
     public void read(String path){
@@ -43,6 +56,18 @@ public abstract class TimeFileLineRead {
         FileUtil.sortToNameLong(files, true);
 
         for(File file : files){
+
+            if(startName != -1 || endName != -1 ){
+                long name = Long.parseLong(file.getName());
+                if(startName != -1 && name < startName){
+                    continue;
+                }
+
+                if(endName != -1 && name > endName){
+                    continue;
+                }
+            }
+
             try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))){
                 String line;
                 while ((line = br.readLine()) != null) {
