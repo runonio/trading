@@ -27,6 +27,20 @@ public class CandleTimes {
         return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue()) + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + " " + DateUtil.getDateText(zonedDateTime.getHour()) + DateUtil.getDateText(zonedDateTime.getMinute()) ;
     }
 
+    /**
+     * 년월일시
+     * @param time unix time
+     * @param zoneId example ZoneId.of("Asia/Seoul")
+     * @return yyyyMMddHH
+     */
+    public static String ymdh(long time, ZoneId zoneId){
+        Instant intent = Instant.ofEpochMilli(time);
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(intent, zoneId);
+        return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour());
+    }
+
+
     public static long getIntervalTime(String interval){
         char timeUnit = interval.charAt(interval.length()-1);
         String timeNumber = interval.substring(0, interval.length()-1);

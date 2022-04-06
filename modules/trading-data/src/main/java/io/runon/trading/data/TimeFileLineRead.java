@@ -29,6 +29,8 @@ public abstract class TimeFileLineRead {
     private boolean isEnd = false;
 
     public void read(String path){
+        isEnd = false;
+
         File[] files = FileUtil.getFiles(path);
 
         int dirCount = 0;
