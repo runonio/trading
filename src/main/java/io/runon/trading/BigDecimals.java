@@ -34,6 +34,9 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_4 = new BigDecimal(4);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
 
+    //0.1
+    public final static BigDecimal DECIMAL_0_1 = new BigDecimal("0.1");
+
 
     //0.5
     public final static BigDecimal DECIMAL_0_5 = new BigDecimal("0.5");

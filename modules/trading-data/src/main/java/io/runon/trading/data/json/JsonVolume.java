@@ -42,8 +42,11 @@ public class JsonVolume {
             BigDecimal lastPrice = last.getPrice();
             BigDecimal price = timeVolumes.getPrice();
             timeVolumes.setChangeRate(price.subtract(lastPrice).divide(lastPrice,8, RoundingMode.HALF_UP).stripTrailingZeros());
-        }else if(obj.has("p_cr")){
-            timeVolumes.setChangeRate(obj.getBigDecimal("p_cr"));
+        }
+        if(obj.has("p_cr")){
+            if(last == null) {
+                timeVolumes.setChangeRate(obj.getBigDecimal("p_cr"));
+            }
             obj.remove("p_cr");
         }
 
@@ -51,8 +54,11 @@ public class JsonVolume {
             BigDecimal lastPriceFutures = last.getPriceFutures();
             BigDecimal priceFutures = timeVolumes.getPriceFutures();
             timeVolumes.setChangeRateFutures(priceFutures.subtract(lastPriceFutures).divide(lastPriceFutures,8, RoundingMode.HALF_UP).stripTrailingZeros());
-        }else if(obj.has("pf_cr")){
-            timeVolumes.setChangeRateFutures(obj.getBigDecimal("pf_cr"));
+        }
+        if(obj.has("pf_cr")){
+            if(last == null) {
+                timeVolumes.setChangeRateFutures(obj.getBigDecimal("pf_cr"));
+            }
             obj.remove("pf_cr");
         }
 
@@ -68,12 +74,17 @@ public class JsonVolume {
 
         Set<String> keys = obj.keySet();
         for(String interval : keys){
+            long time = -1;
+            try{
+                time = CandleTimes.getIntervalTime(interval);
+            }catch(IllegalArgumentException ignore){}
+
             JSONArray array = obj.getJSONArray(interval);
             VolumeData volumeData = new VolumeData();
             volumeData.setVolume(array.getBigDecimal(0));
             volumeData.setTradingPrice(array.getBigDecimal(1));
             volumeData.setVolumePower(array.getBigDecimal(2));
-            timeVolumes.put(CandleTimes.getIntervalTime(interval), volumeData);
+            timeVolumes.put(time, volumeData);
         }
 
         obj.clear();
