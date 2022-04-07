@@ -1,7 +1,6 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.CandleTimes;
 import io.runon.trading.backtesting.price.PriceCandle;
 import io.runon.trading.backtesting.price.symbol.CandleSymbolPrice;
 import io.runon.trading.backtesting.price.symbol.SlippageRandomSymbolPrice;
@@ -146,7 +145,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
     @Override
     protected void end(){
-        log.info("backtesting end last valid time: " + CandleTimes.ymdhm(lastValidTime, zoneId));
+        log.info("backtesting end last valid time: " + Times.ymdhm(lastValidTime, zoneId));
         super.end();
     }
 

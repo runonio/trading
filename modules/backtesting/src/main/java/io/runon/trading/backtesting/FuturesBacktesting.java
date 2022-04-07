@@ -1,7 +1,7 @@
 package io.runon.trading.backtesting;
 
+import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.CandleTimes;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -268,7 +268,7 @@ public abstract class FuturesBacktesting<E> {
 
     public String getLogMessage(BigDecimal price){
         BigDecimal assets = account.getAssets();
-        return  CandleTimes.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
+        return Times.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
     }
 }
