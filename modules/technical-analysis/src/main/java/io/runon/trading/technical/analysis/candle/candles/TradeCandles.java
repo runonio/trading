@@ -499,13 +499,15 @@ public class TradeCandles {
             count = endIndex - startIndex+1;
         }
 
-        int end = endIndex +1;
+//        int end = endIndex +1;
         TradeCandle [] copy = new TradeCandle[count];
-        int idx = 0;
+//        int idx = 0;
 
-        for (int i = startIndex; i < end ; i++) {
-            copy[idx++] =  candles[i];
-        }
+//        for (int i = startIndex; i < end ; i++) {
+//            copy[idx++] =  candles[i];
+//        }
+        // 속도 개선 작업으로 교체
+        System.arraycopy(candles, startIndex, copy, 0, count);
         return copy;
     }
 
