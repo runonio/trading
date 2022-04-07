@@ -32,6 +32,7 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_2 = new BigDecimal(2);
     public final static BigDecimal DECIMAL_3 = new BigDecimal(3);
     public final static BigDecimal DECIMAL_4 = new BigDecimal(4);
+    public static final BigDecimal DECIMAL_5 = new BigDecimal(5);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
 
     //0.1
@@ -185,5 +186,27 @@ public class BigDecimals {
         BigDecimal change = close.subtract(previous);
         return change.divide(previous,4, RoundingMode.HALF_UP).multiply(DECIMAL_100).stripTrailingZeros();
     }
+
+    public static BigDecimal max(BigDecimal [] array){
+        BigDecimal max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if(max.compareTo(array[i]) < 0){
+                max = array[i];
+            }
+        }
+        return max;
+    }
+
+    public BigDecimal min(BigDecimal [] array){
+        BigDecimal min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if(min.compareTo(array[i]) > 0){
+                min = array[i];
+            }
+        }
+
+        return min;
+    }
+
 
 }
