@@ -1,45 +1,13 @@
 package io.runon.trading;
 
-import com.seomse.commons.utils.time.DateUtil;
 import com.seomse.commons.utils.time.Times;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 
 /**
  * @author macle
  */
 public class CandleTimes {
-
-    /**
-     * 년원일시분
-     *
-     * @param time unix time
-     * @param zoneId example ZoneId.of("Asia/Seoul")
-     * @return yyyyMMdd HHmm
-     */
-    public static String ymdhm(long time, ZoneId zoneId){
-        Instant i = Instant.ofEpochMilli(time);
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);
-
-        return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue()) + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + " " + DateUtil.getDateText(zonedDateTime.getHour()) + DateUtil.getDateText(zonedDateTime.getMinute()) ;
-    }
-
-    /**
-     * 년월일시
-     * @param time unix time
-     * @param zoneId example ZoneId.of("Asia/Seoul")
-     * @return yyyyMMddHH
-     */
-    public static String ymdh(long time, ZoneId zoneId){
-        Instant intent = Instant.ofEpochMilli(time);
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(intent, zoneId);
-        return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
-                + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour());
-    }
-
 
     public static long getIntervalTime(String interval){
         char timeUnit = interval.charAt(interval.length()-1);
