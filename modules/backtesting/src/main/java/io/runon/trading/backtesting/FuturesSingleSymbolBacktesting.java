@@ -23,6 +23,12 @@ import java.math.BigDecimal;
 @Slf4j
 public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> extends FuturesBacktesting<E> implements Runnable{
 
+    boolean isLogging = true;
+
+    public void setLogging(boolean logging) {
+        isLogging = logging;
+    }
+
     protected TradingStrategy<E> strategy;
     public void setStrategy(Object strategy) {
         if(strategy instanceof Strategy){
@@ -88,7 +94,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
             if(isEnd){
                 //구현체에서 종료이벤트가 발생하였으면
-                log.info(getLogMessage(symbolPrice.getPrice(symbol)));
+                if(isLogging) {
+                    log.info(getLogMessage(symbolPrice.getPrice(symbol)));
+                }
                 end();
                 return;
             }
@@ -127,8 +135,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
             addChartLine(price);
             addChartMark(price);
-
-            log.info(getLogMessage(price));
+            if(isLogging) {
+                log.info(getLogMessage(price));
+            }
             time = time + cycleTime;
             if(time >= endTime){
                 end();
@@ -145,7 +154,9 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
     @Override
     protected void end(){
-        log.info("backtesting end last valid time: " + Times.ymdhm(lastValidTime, zoneId));
+        if(isLogging) {
+            log.info("backtesting end last valid time: " + Times.ymdhm(lastValidTime, zoneId));
+        }
         super.end();
     }
 
