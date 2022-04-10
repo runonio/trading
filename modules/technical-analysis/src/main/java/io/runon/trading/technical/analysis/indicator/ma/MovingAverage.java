@@ -16,7 +16,7 @@
 package io.runon.trading.technical.analysis.indicator.ma;
 
 import io.runon.trading.Price;
-import io.runon.trading.technical.analysis.CandleBigDecimalChange;
+import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -67,7 +67,7 @@ public class MovingAverage {
      * @return 평균 배열
      */
     public static BigDecimal[] getArray(Price[] array, int n, int averageCount) {
-        return getArray(CandleBigDecimalChange.getCloseArray(array), n, averageCount);
+        return getArray(CandleBigDecimals.getCloseArray(array), n, averageCount);
     }
 
     /**
