@@ -19,6 +19,11 @@ public class BigDecimals {
     public static final BigDecimal DECIMAL_5 = new BigDecimal(5);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
 
+    public final static BigDecimal DECIMAL_1000 = new BigDecimal(1000);
+    public final static BigDecimal DECIMAL_10000 = new BigDecimal(10000);
+    public final static BigDecimal DECIMAL_100000 = new BigDecimal(100000);
+    public final static BigDecimal DECIMAL_1000000 = new BigDecimal(1000000);
+
     //0.1
     public final static BigDecimal DECIMAL_0_1 = new BigDecimal("0.1");
 
@@ -33,7 +38,7 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_2_5 = new BigDecimal("2.5");
 
 
-    public static BigDecimal getMin(BigDecimal num1, BigDecimal num2){
+    public static BigDecimal min(BigDecimal num1, BigDecimal num2){
         if(num1 == null){
             return num2;
         }
@@ -49,7 +54,7 @@ public class BigDecimals {
         return num1;
     }
 
-    public static BigDecimal getMax(BigDecimal num1, BigDecimal num2){
+    public static BigDecimal max(BigDecimal num1, BigDecimal num2){
         if(num1 == null){
             return num2;
         }
@@ -95,7 +100,7 @@ public class BigDecimals {
      * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
      * @return 상위제외 평균
      */
-    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal highestExclusionRate) {
+    public static BigDecimal average(BigDecimal[] sortNumbers, BigDecimal highestExclusionRate) {
 
         int count = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
 
@@ -119,7 +124,7 @@ public class BigDecimals {
      * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
      * @return 하위 상위를 제외한 중간평균
      */
-    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+    public static BigDecimal average(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
 
         int end = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
         int start = new BigDecimal(sortNumbers.length).multiply(highestExclusionRate).intValue();
@@ -138,7 +143,7 @@ public class BigDecimals {
         return sum.divide(new BigDecimal(size), MathContext.DECIMAL128);
     }
 
-    public static BigDecimal getAverage(BigDecimal[] numbers) {
+    public static BigDecimal average(BigDecimal[] numbers) {
         BigDecimal sum = sum(numbers);
         return sum.divide(new BigDecimal(numbers.length), MathContext.DECIMAL128);
     }

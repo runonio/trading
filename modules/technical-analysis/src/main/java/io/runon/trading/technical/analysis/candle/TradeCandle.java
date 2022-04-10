@@ -186,8 +186,8 @@ public class TradeCandle extends CandleStick implements Volume {
             }
         }
 
-        low = BigDecimals.getMax(low, tradeCandle.getLow());
-        high = BigDecimals.getMax(high, tradeCandle.getHigh());
+        low = BigDecimals.min(low, tradeCandle.getLow());
+        high = BigDecimals.max(high, tradeCandle.getHigh());
 
         if(isTradeRecord && tradeCandle.getTradeList() != null){
             if(tradeList == null){

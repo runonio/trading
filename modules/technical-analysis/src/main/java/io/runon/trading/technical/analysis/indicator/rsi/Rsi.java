@@ -18,7 +18,7 @@ package io.runon.trading.technical.analysis.indicator.rsi;
 
 import io.runon.trading.PriceChangeRate;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.technical.analysis.CandleBigDecimalChange;
+import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 import io.runon.trading.technical.analysis.indicator.ma.MovingAverage;
 
 import java.math.BigDecimal;
@@ -99,7 +99,7 @@ public class Rsi {
      */
     public static BigDecimal getScore(PriceChangeRate[] priceChangeRates) {
 
-        BigDecimal[] array= CandleBigDecimalChange.getChangeRateArray(priceChangeRates);
+        BigDecimal[] array= CandleBigDecimals.getChangeRateArray(priceChangeRates);
         return getScore(array, DEFAULT_N, array.length);
     }
 
@@ -114,7 +114,7 @@ public class Rsi {
      */
 
     public static BigDecimal getScore(PriceChangeRate [] priceChangeRates, int n, int end){
-        BigDecimal [] array= CandleBigDecimalChange.getChangeRateArray(priceChangeRates);
+        BigDecimal [] array= CandleBigDecimals.getChangeRateArray(priceChangeRates);
         return getScore(array, n, end);
     }
     /**

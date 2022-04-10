@@ -50,13 +50,13 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.getAverage(volumes, highestExclusionRate);
+        return BigDecimals.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.getAverage(volumes,lowestExclusionRate, highestExclusionRate);
+        return BigDecimals.average(volumes,lowestExclusionRate, highestExclusionRate);
     }
 
 
@@ -131,6 +131,32 @@ public class Volumes {
         }
         BigDecimal sum = BigDecimals.sum(array);
         return sum.divide(new BigDecimal(maCount),MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal[] getVolumes(TradeCandle[] candles){
+        return getVolumes(candles, 0, candles.length);
+    }
+
+    public static BigDecimal[] getVolumes(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getVolume() ;
+        }
+        return array;
+    }
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles){
+        return getVolumePowers(candles, 0, candles.length);
+    }
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getVolumePower() ;
+        }
+        return array;
     }
 
 
