@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.2.2'
+version '0.2.3'
 
 repositories {
     mavenCentral()
@@ -25,9 +25,9 @@ dependencies {
 
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.3'
-    implementation 'io.runon.trading:technical-analysis:0.3.4'
+    implementation 'io.runon.trading:technical-analysis:0.3.5'
     implementation 'com.seomse.commons:commons:1.3.0'
-    implementation 'io.runon.trading:trading:0.2.8'
+    implementation 'io.runon.trading:trading:0.2.9'
 //    implementation project(path: ':technical-analysis')
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 

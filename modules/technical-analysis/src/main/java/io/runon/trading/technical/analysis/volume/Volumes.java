@@ -159,6 +159,26 @@ public class Volumes {
         return array;
     }
 
+    public static BigDecimal sum(TradeCandle[] candles, int count){
+        return sum(candles, candles.length - count, candles.length);
+    }
+
+    public static BigDecimal sum(TradeCandle[] candles, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > candles.length){
+            end = candles.length;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = startIndex; i < end ; i++) {
+            sum = sum.add(candles[i].getVolume());
+        }
+        return sum;
+    }
+
 
     public static void main(String[] args) {
         int count = new BigDecimal(100).multiply(BigDecimal.ONE.subtract(new BigDecimal("0.1"))).intValue();
