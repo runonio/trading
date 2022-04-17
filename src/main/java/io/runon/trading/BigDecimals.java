@@ -83,6 +83,26 @@ public class BigDecimals {
         return num.setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
+    public static BigDecimal sum(BigDecimal[] array, int count){
+        return sum(array, array.length - count, array.length);
+    }
+
+    public static BigDecimal sum(BigDecimal[] array, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = startIndex; i < end ; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum;
+    }
+
     public static BigDecimal sum( BigDecimal [] array){
         return add(BigDecimal.ZERO, array);
     }
@@ -92,6 +112,10 @@ public class BigDecimals {
             num = num.add(decimal);
         }
         return num;
+    }
+
+    public static BigDecimal average(BigDecimal[] sortNumbers, String highestExclusionRate) {
+        return  average(sortNumbers, new BigDecimal(highestExclusionRate));
     }
 
     /**
@@ -196,5 +220,13 @@ public class BigDecimals {
 
         return min;
     }
+
+    public static BigDecimal abs( BigDecimal number){
+        if(number.compareTo(BigDecimal.ZERO) < 0){
+            return number.multiply(DECIMAL_M_1);
+        }
+        return number;
+    }
+
 
 }

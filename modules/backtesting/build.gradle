@@ -16,8 +16,8 @@ dependencies {
 //    implementation project(path: ':chart-view')
 //    implementation project(path: ':technical-analysis')
 
-    implementation 'io.runon.trading:trading:0.2.8'
-    implementation 'io.runon.trading:technical-analysis:0.3.4'
+    implementation 'io.runon.trading:trading:0.2.9'
+    implementation 'io.runon.trading:technical-analysis:0.3.5'
     implementation 'io.runon.trading:trading-data:0.1.6'
     implementation 'io.runon.trading:chart-view:0.2.2'
 
