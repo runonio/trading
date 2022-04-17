@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
+import io.runon.trading.TimeNumber;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import io.runon.trading.TimePrice;
  * @author macle
  */
 @Data
-public class TimeVolumes implements TimePrice{
+public class TimeVolumes implements TimePrice, TimeNumber {
 
     long time;
     BigDecimal price;
@@ -42,6 +43,11 @@ public class TimeVolumes implements TimePrice{
     @Override
     public long getTime() {
         return time;
+    }
+
+    @Override
+    public BigDecimal getNumber() {
+        return priceFutures;
     }
 
     @Override

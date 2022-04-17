@@ -26,7 +26,7 @@ import java.math.MathContext;
  * - 더 많은 요소 클래스는 상속받아서 구현
  * @author macle
  */
-public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice {
+public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber {
 
 
 
@@ -490,6 +490,11 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     @Override
     public long getTime() {
         return openTime;
+    }
+
+    @Override
+    public BigDecimal getNumber() {
+        return close;
     }
 }
 
