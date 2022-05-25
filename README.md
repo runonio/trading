@@ -38,6 +38,13 @@ implementation 'io.runon.trading:chart-view:0.2.3'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.3
 
+# 구현예정 항목정리
+- 매물대 분석
+- 박스권
+- 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
+
+
+
 # communication
 ### blog, homepage
 - [www.seomse.com](https://www.seomse.com/)
