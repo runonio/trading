@@ -2,13 +2,11 @@ package io.runon.trading.data.csv;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
+import com.seomse.commons.utils.string.Check;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,22 +17,50 @@ import java.util.List;
 public class CsvCandle {
 
 
-    public static TradeCandle [] load(String filePath, long time){
+    public static TradeCandle [] load(String path, long time){
+        return load(new File(path),time);
+    }
+
+    public static TradeCandle [] load(File file, long time){
         List<TradeCandle> list = new ArrayList<>();
 
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))){
-            String line;
-            while ((line = br.readLine()) != null) {
-                list.add(make(line, time));
+        if(file.isFile()) {
+            addFile(list, file, time);
+        }else{
+
+            List<File> fileList = FileUtil.getFileList(file.getAbsolutePath());
+            List<File> candleFileList = new ArrayList<>();
+
+            for(File f : fileList){
+                if(f.isDirectory()){
+                    continue;
+                }
+                if(Check.isNumber(f.getName())){
+                    candleFileList.add(f);
+                }
             }
-        }catch(IOException e){
-            throw new IORuntimeException(e);
+            File [] files = candleFileList.toArray(new File[0]);
+            FileUtil.sortToNameLong(files, true);
+            for(File f : files){
+                addFile(list, f, time);
+            }
         }
 
         TradeCandle [] candles = list.toArray(new TradeCandle[0]);
         list.clear();
 
         return candles;
+    }
+
+    public static void addFile(List<TradeCandle> list, File file, long time){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                list.add(make(line, time));
+            }
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
     }
 
     public static void out(String path, TradeCandle[] candles){
@@ -67,6 +93,10 @@ public class CsvCandle {
         return sb.toString();
     }
 
+    public static long getOpenTime(String csvLine){
+        int index = csvLine.indexOf(',');
+        return Long.parseLong(csvLine.substring(0,index));
+    }
 
     public static String value(long time, TradeCandle tradeCandle){
         return time + "," + value(tradeCandle);
@@ -115,7 +145,6 @@ public class CsvCandle {
         tradeCandle.setChange();
         return tradeCandle;
     }
-
 
 
 }
