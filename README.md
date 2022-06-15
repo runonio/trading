@@ -30,9 +30,9 @@ implementation 'io.runon.trading:backtesting:0.1.4'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.4
 
-implementation 'io.runon.trading:trading-data:0.1.6'
+implementation 'io.runon.trading:trading-data:0.1.7'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.6
+    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.7
     
 implementation 'io.runon.trading:chart-view:0.2.3'
 - etc
