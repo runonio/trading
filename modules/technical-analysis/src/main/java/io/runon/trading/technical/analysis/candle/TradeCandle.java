@@ -41,7 +41,7 @@ public class TradeCandle extends CandleStick implements Volume {
      */
     private BigDecimal volume = BigDecimal.ZERO;
 
-    /**
+    /**trading aomunt
      * 매수량
      */
     private BigDecimal buyVolume = BigDecimal.ZERO;
