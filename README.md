@@ -22,10 +22,16 @@
 ## open interest (미체결 약정) 금액이 없는경우
 시간(밀리초 유닉스타임)[0],미체결약정[1]
 
+## long short ratio (롱숏 비율) long account / short account
+시간(밀리초 유닉스타임)[0],ratio[1],long account[2],short account[3]
+
+## long short ratio (롱숏 비율) 계좌정보를 모를경우
+시간(밀리초 유닉스타임)[0],ratio[1]
+
 # gradle
-implementation 'io.runon.trading:trading:0.3.0'
+implementation 'io.runon.trading:trading:0.3.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.0
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.1
 
 implementation 'io.runon.trading:technical-analysis:0.3.5'
 - etc

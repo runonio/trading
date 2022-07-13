@@ -6,15 +6,14 @@ import java.math.BigDecimal;
  * 롱숏비율
  * @author macle
  */
-public interface LongShortRatio {
+public interface LongShortRatio extends Time{
 
-    long getTime();
     BigDecimal getLongAccount();
     BigDecimal getShortAccount();
 
     /**
      * long short ratio
-     * @return short account / long account
+     * @return long account / short account
      */
     BigDecimal getRatio();
 

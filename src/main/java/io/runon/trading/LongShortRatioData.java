@@ -24,7 +24,7 @@ public class LongShortRatioData implements LongShortRatio{
         this.time = time;
         this.longAccount = longAccount;
         this.shortAccount = shortAccount;
-        ratio = shortAccount.divide(longAccount, MathContext.DECIMAL128);
+        ratio = longAccount.divide(shortAccount, MathContext.DECIMAL128);
 
     }
     public LongShortRatioData(long time, BigDecimal longAccount, BigDecimal shortAccount, BigDecimal ratio){
