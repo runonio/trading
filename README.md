@@ -17,10 +17,15 @@
 ### 거래대금이 설정되어 있는 경우
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
+## open interest (미체결 약정) 
+시간(밀리초 유닉스타임)[0],미체결약정[1],미체결약정금액(Notional Value of Open Interest)[2]
+## open interest (미체결 약정) 금액이 없는경우
+시간(밀리초 유닉스타임)[0],미체결약정[1]
+
 # gradle
-implementation 'io.runon.trading:trading:0.2.9'
+implementation 'io.runon.trading:trading:0.3.0'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.2.9
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.0
 
 implementation 'io.runon.trading:technical-analysis:0.3.5'
 - etc
