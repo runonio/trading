@@ -45,9 +45,9 @@ implementation 'io.runon.trading:trading-data:0.1.9'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.9
     
-implementation 'io.runon.trading:chart-view:0.2.3'
+implementation 'io.runon.trading:chart-view:0.2.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.3
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.4
 
 # 구현예정 항목정리
 - 매물대 분석
