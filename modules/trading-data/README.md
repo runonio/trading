@@ -18,7 +18,7 @@
 
 
 ## open interest (미체결 약정)
-시간(밀리초 유닉스타임)[0],미체결약정[1],미체결약정금액(Notional Value of Open Interest)[2]
+시간(밀리초 유닉스타임)[0],미체결약정[1],미체결약정명목가치(Notional Value of Open Interest)[2]
 ## open interest (미체결 약정) 금액이 없는경우
 시간(밀리초 유닉스타임)[0],미체결약정[1]
 
@@ -29,9 +29,9 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading-data:0.1.8'
+implementation 'io.runon.trading:trading-data:0.1.9'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.8
+    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.9
 
 # communication
 ### blog, homepage

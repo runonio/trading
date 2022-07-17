@@ -3,10 +3,12 @@ package io.runon.trading.data.csv;
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.string.Check;
+import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,30 +29,30 @@ public class CsvCandle {
         if(file.isFile()) {
             addFile(list, file, time);
         }else{
-
-            List<File> fileList = FileUtil.getFileList(file.getAbsolutePath());
-            List<File> candleFileList = new ArrayList<>();
-
-            for(File f : fileList){
-                if(f.isDirectory()){
-                    continue;
-                }
-                if(Check.isNumber(f.getName())){
-                    candleFileList.add(f);
-                }
-            }
-            File [] files = candleFileList.toArray(new File[0]);
-            FileUtil.sortToNameLong(files, true);
+            File [] files = FileUtil.getFiles(file.getAbsolutePath(), new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
             for(File f : files){
                 addFile(list, f, time);
             }
         }
-
         TradeCandle [] candles = list.toArray(new TradeCandle[0]);
         list.clear();
-
         return candles;
     }
+
+    public static TradeCandle [] load(String path, long time, int limit){
+        if(limit < 1) {
+            return load(new File(path), time);
+        }
+        String [] lines = FileUtil.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG, limit);
+
+        TradeCandle [] candles = new TradeCandle[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            candles[i] = make(lines[i], time);
+        }
+        return candles;
+    }
+
+//    public static TradeCandle [] load(String path, long time, )
 
     public static void addFile(List<TradeCandle> list, File file, long time){
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
