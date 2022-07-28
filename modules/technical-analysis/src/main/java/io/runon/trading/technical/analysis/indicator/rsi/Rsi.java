@@ -77,7 +77,7 @@ import java.math.MathContext;
  * 주가가 장기적인 하락추세일때는 50%를 밑도는 경우가 많으므로 50%를 초과할 때 매수
  *
  * 참고자료
- *  - https://md2biz.tistory.com/400
+ *  - md2biz.tistory.com/400
  *
  *
  *  rsi score 를 먼저 메소드화 하고
