@@ -13,9 +13,15 @@ import java.math.BigDecimal;
 @Data
 public class NhnlData {
 
+    public NhnlData(){
+
+    }
     int validSymbolCount = 0;
-    BigDecimal index;
-    SymbolCandle [] lowSymbolCandles;
-    SymbolCandle [] highSymbolCandles;
+    BigDecimal index = BigDecimal.ZERO;
+
+    SymbolCandle [] highs = SymbolCandle.EMPTY_ARRAY;
+    SymbolCandle [] lows = SymbolCandle.EMPTY_ARRAY;
+
+
 
 }

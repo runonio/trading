@@ -7,5 +7,7 @@ import io.runon.trading.technical.analysis.candle.Candles;
  * @author macle
  */
 public interface SymbolCandle extends Candles {
+    SymbolCandle [] EMPTY_ARRAY = new SymbolCandle[0];
+
     String getSymbol();
 }
