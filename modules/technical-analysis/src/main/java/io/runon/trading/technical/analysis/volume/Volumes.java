@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
+import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class Volumes {
 
     //100.0 == 100% , 500.0 == 500%
-    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(500);
+    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(Config.getConfig("max.volume.power", "500"));
 
     /**
      * 체결강도
@@ -178,12 +179,5 @@ public class Volumes {
         }
         return sum;
     }
-
-
-    public static void main(String[] args) {
-        int count = new BigDecimal(100).multiply(BigDecimal.ONE.subtract(new BigDecimal("0.1"))).intValue();
-        System.out.println(count);
-    }
-
 
 }

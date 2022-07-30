@@ -29,7 +29,7 @@ public class SmaTimeExample {
             System.out.println(Times.ymdhm(num.getTime(),zoneId) +": " + num.getNumber().toPlainString());
         }
 
-        TimeNumber[] result = Sma.getTimeMaArray(array, 2,10);
+        TimeNumber[] result = Sma.getTimeNumbers(array, 2,10);
 
 //        TimeNumber[] result = Sma.getTimeMaArray(array, 2,5,9);
 

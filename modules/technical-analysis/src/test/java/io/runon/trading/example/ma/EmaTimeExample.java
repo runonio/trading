@@ -25,7 +25,7 @@ public class EmaTimeExample {
 
         ZoneId zoneId = ZoneId.of("Asia/Seoul");
 
-        TimeNumber[] result = Ema.getTimeMaArray(array,14,50);
+        TimeNumber[] result = Ema.getTimeNumbers(array,14,50);
 
         for(TimeNumber avg : result){
             System.out.println(Times.ymdhm(avg.getTime(),zoneId) + " avg: " + avg.getNumber().setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString());

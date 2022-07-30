@@ -109,34 +109,19 @@ public class Sma {
 
         int resultLength = end - startIndex;
 
-        int gap = startIndex+1;
-
         BigDecimal[] averages = new BigDecimal[resultLength];
         for (int i = 0; i < resultLength; i++) {
-            int endJ = gap + i; //6
-            int start = endJ - n; // 6 -2  = 4
-
-            int avgN = n; // 2
-            if (start < 0) {
-                start = 0;
-                avgN = endJ - start;
-            }
-            BigDecimal sum = BigDecimal.ZERO;
-
-            for (int j = start; j < endJ; j++) {
-                sum = sum.add(array[j]);
-            }
-            averages[i] = sum.divide(new BigDecimal(avgN), MathContext.DECIMAL128);
+            averages[i] = get(array,n, startIndex+i);
         }
         return averages;
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber [] array, int n, int resultLength){
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int resultLength){
 
-        return getTimeMaArray(array, n, array.length - resultLength, array.length);
+        return getTimeNumbers(array, n, array.length - resultLength, array.length);
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber [] array, int n, int startIndex, int end){
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }
