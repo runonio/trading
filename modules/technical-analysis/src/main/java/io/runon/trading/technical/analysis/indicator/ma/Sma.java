@@ -30,6 +30,21 @@ public class Sma {
         return sum.divide(new BigDecimal(averageCount), MathContext.DECIMAL128);
     }
 
+    public static BigDecimal get(Price[] array, int n, int index){
+        BigDecimal sum = BigDecimal.ZERO;
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(array[i].getClose());
+        }
+        return sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
+    }
+
+
     /**
      * 이동평균값얻기
      * @param array 배열
@@ -64,11 +79,11 @@ public class Sma {
      * 평균 배열 얻기
      * @param array 배열
      * @param n 평균을 구하기위한 개수 N
-     * @param averageCount 평균 배열 카운드 (얻고자 하는 수)
+     * @param resultLength 결과 배열 카운드 (얻고자 하는 수)
      * @return 평균 배열
      */
-    public static BigDecimal[] getArray(Price[] array, int n, int averageCount) {
-        return getArray(CandleBigDecimals.getCloseArray(array), n, averageCount);
+    public static BigDecimal[] getArray(Price[] array, int n, int resultLength) {
+        return getArray(CandleBigDecimals.getCloseArray(array), n, array.length - resultLength, array.length);
     }
 
     /**
@@ -76,68 +91,87 @@ public class Sma {
      *
      * @param array      보통 종가 배열을 많이사용 함
      * @param n            평균을 구하기위한 개수 N
-     * @param averageCount 평균 배열 카운드 (얻고자 하는 수)
+     * @param resultLength 결과 배열 카운드 (얻고자 하는 수)
      * @return 평균 배열
      */
-    public static BigDecimal[] getArray(BigDecimal[] array, int n, int averageCount) {
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int resultLength) {
+       return getArray(array, n, array.length - resultLength, array.length);
+    }
 
-        if (averageCount > array.length) {
-            averageCount = array.length;
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int startIndex, int end) {
+        if(startIndex < 0){
+            startIndex = 0;
         }
 
-        BigDecimal[] averages = new BigDecimal[averageCount];
+        if(end > array.length){
+            end = array.length;
+        }
 
-        //i를 포함해야 하기때문에 + 1을한다
-        int arrayGap = array.length - averageCount + 1;
+        int resultLength = end - startIndex;
 
-        for (int i = 0; i < averageCount; i++) {
-            int end = arrayGap + i;
-            int start = end - n;
+        int gap = startIndex+1;
 
-            int length = n;
+        BigDecimal[] averages = new BigDecimal[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            int endJ = gap + i; //6
+            int start = endJ - n; // 6 -2  = 4
+
+            int avgN = n; // 2
             if (start < 0) {
                 start = 0;
-                length = end;
+                avgN = endJ - start;
             }
             BigDecimal sum = BigDecimal.ZERO;
 
-            for (int j = start; j < end; j++) {
+            for (int j = start; j < endJ; j++) {
                 sum = sum.add(array[j]);
             }
-            averages[i] = sum.divide(new BigDecimal(length), MathContext.DECIMAL128);
+            averages[i] = sum.divide(new BigDecimal(avgN), MathContext.DECIMAL128);
         }
         return averages;
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber [] timeNumbers, int n, int averageCount){
-        if (averageCount > timeNumbers.length) {
-            averageCount = timeNumbers.length;
+    public static TimeNumber[] getTimeMaArray(TimeNumber [] array, int n, int resultLength){
+
+        return getTimeMaArray(array, n, array.length - resultLength, array.length);
+    }
+
+    public static TimeNumber[] getTimeMaArray(TimeNumber [] array, int n, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
         }
-        TimeNumber [] array = new TimeNumber[averageCount];
 
-        int arrayGap = timeNumbers.length - averageCount + 1;
-        for (int i = 0; i < averageCount; i++) {
-            int end = arrayGap + i;
-            int start = end - n;
+        if(end > array.length){
+            end = array.length;
+        }
 
-            int length = n;
+        int resultLength = end - startIndex;
+
+        int gap = startIndex+1;
+
+        TimeNumber [] averages = new TimeNumber[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            int endJ = gap + i;
+            int start = endJ - n;
+            int avgN = n;
             if (start < 0) {
                 start = 0;
-                length = end;
+                avgN = endJ - start;
             }
+
             BigDecimal sum = BigDecimal.ZERO;
-
-            for (int j = start; j < end; j++) {
-                sum = sum.add(timeNumbers[j].getNumber());
+            for (int j = start; j < endJ; j++) {
+                sum = sum.add(array[j].getNumber());
             }
-            TimeNumberData timeNumber = new TimeNumberData();
-            timeNumber.setTime(timeNumbers[end-1].getTime());
-            timeNumber.setNumber(sum.divide(new BigDecimal(length), MathContext.DECIMAL128));
-            array[i] = timeNumber;
 
+            TimeNumberData timeNumber = new TimeNumberData();
+            timeNumber.setTime(array[endJ-1].getTime());
+            timeNumber.setNumber(sum.divide(new BigDecimal(avgN), MathContext.DECIMAL128));
+
+            averages[i] = timeNumber;
         }
 
-        return array;
+        return averages;
     }
 
 }

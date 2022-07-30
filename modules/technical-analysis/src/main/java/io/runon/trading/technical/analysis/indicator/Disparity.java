@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.indicator;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Price;
-import io.runon.trading.technical.analysis.indicator.ma.MovingAverage;
+import io.runon.trading.technical.analysis.indicator.ma.Sma;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,43 +13,47 @@ import java.math.RoundingMode;
  */
 public class Disparity {
     /**
-     * 이격도 얻기
+     * SMA 와 이격도
      */
-    public static BigDecimal get(Price[] prices, int avgCount){
+    public static BigDecimal getSmaDisparity(Price[] prices, int avgCount){
 
-        return get(prices[prices.length-1], prices, avgCount);
+        return getSmaDisparity(prices[prices.length-1], prices, avgCount);
     }
 
     /**
-     * 이격도 얻기
+     *  SMA 와 이격도
      */
-    public static BigDecimal get(Price price, Price[] prices, int avgCount){
-        return price.getClose().divide(MovingAverage.getAverage(prices, avgCount) , 4, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+    public static BigDecimal getSmaDisparity(Price price, Price[] prices, int avgCount){
+        return price.getClose().divide(Sma.get(prices, avgCount) , 4, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
     }
 
 
     /**
-     * 이격도 얻기
+     *  SMA 와 이격도
      */
-    public static BigDecimal get(BigDecimal[] prices, int avgCount){
-        return get(prices[prices.length-1], prices, avgCount).multiply(BigDecimals.DECIMAL_100);
+    public static BigDecimal getSmaDisparity(BigDecimal[] prices, int avgCount){
+        return getSmaDisparity(prices[prices.length-1], prices, avgCount).multiply(BigDecimals.DECIMAL_100);
     }
 
     /**
-     * 이격도 얻기
+     *  SMA 와 이격도
      */
-    public static BigDecimal get(BigDecimal price, BigDecimal[] prices, int avgCount){
-        return price.divide(MovingAverage.getAverage(prices, avgCount) , 4, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+    public static BigDecimal getSmaDisparity(BigDecimal price, BigDecimal[] prices, int avgCount){
+        return price.divide(Sma.get(prices, avgCount) , 4, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
     }
 
     /**
      * 이격도 얻기
      */
     public static BigDecimal get(BigDecimal shortValue, BigDecimal longValue){
-        return shortValue.divide( longValue, 4, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+        return get(shortValue, longValue, 4);
     }
 
-
-
+    /**
+     * 이격도 얻기
+     */
+    public static BigDecimal get(BigDecimal shortValue, BigDecimal longValue, int scale){
+        return shortValue.divide( longValue, scale, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+    }
 
 }

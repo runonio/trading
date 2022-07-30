@@ -3,6 +3,8 @@ package io.runon.trading.technical.analysis.indicator.ma;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Price;
 import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
+import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -16,6 +18,10 @@ import java.math.MathContext;
  */
 public class Ema {
 
+    public static BigDecimal multiplier(int n){
+        // 2 / (1 + n)
+        return BigDecimals.DECIMAL_2.divide(new BigDecimal(1+n), MathContext.DECIMAL128);
+    }
     public static BigDecimal get(Price close, Price previousEma,  int n){
         return get(close.getClose(), previousEma.getClose(), multiplier(n));
     }
@@ -37,12 +43,124 @@ public class Ema {
         return ema.add(add);
     }
 
-//    public static BigDecimal[] getArray(TimeNumber[] closeArray, BigDecimal initPreviousEmaEma, int n, int averageCount) {
-//
-//    }
-
-    public static BigDecimal multiplier(int n){
-        // 2 / (1 + n)
-        return BigDecimals.DECIMAL_2.divide(new BigDecimal(1+n), MathContext.DECIMAL128);
+    public static BigDecimal[] getArray(Price[] array, int n, int resultLength) {
+        return getArray(CandleBigDecimals.getCloseArray(array), n, resultLength);
     }
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int resultLength) {
+        int startIndex = array.length - resultLength;
+
+        int initIndex = startIndex -1;
+
+        BigDecimal initEma;
+        if(initIndex < 1){
+            initEma = array[0];
+        }else{
+            initEma = Sma.get(array, n, initIndex);
+        }
+
+        return getArray(array, initEma, multiplier(n), array.length - resultLength, array.length);
+
+    }
+
+
+    public static BigDecimal[] getArray(Price[] array, BigDecimal initPreviousEma, int n, int resultLength) {
+        return getArray(CandleBigDecimals.getCloseArray(array), initPreviousEma, multiplier(n), array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(Price[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int resultLength) {
+        return getArray(CandleBigDecimals.getCloseArray(array), initPreviousEma, multiplier, array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, BigDecimal initPreviousEma, int n, int resultLength) {
+        return getArray(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int resultLength) {
+        return getArray(array,initPreviousEma,multiplier, array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, BigDecimal initPreviousEma, int n, int startIndex, int end) {
+        return getArray(array,initPreviousEma, multiplier(n), startIndex, end);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int startIndex, int end) {
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+        BigDecimal[] averages = new BigDecimal[resultLength];
+
+        BigDecimal previousEma = initPreviousEma;
+
+        for (int i = 0; i < resultLength; i++) {
+            BigDecimal ema = get(array[i+startIndex], previousEma, multiplier);
+            averages[i] = ema;
+            previousEma = ema;
+        }
+        return averages;
+    }
+
+    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma, int n, int resultLength) {
+        return getTimeMaArray(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
+    }
+
+    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma,  BigDecimal multiplier, int resultLength) {
+        return getTimeMaArray(array, initPreviousEma, multiplier,array.length - resultLength, array.length);
+    }
+    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, int n, int resultLength) {
+        int startIndex = array.length - resultLength;
+
+        int initIndex = startIndex -1;
+
+        BigDecimal initEma;
+        if(initIndex < 1){
+            initEma = array[0].getNumber();
+        }else{
+
+            BigDecimal sum = BigDecimal.ZERO;
+            int end = initIndex +1;
+            int start = end -n;
+            if(start < 0) {
+                start = 0;
+            }
+
+            for (int i = start; i < end; i++) {
+                sum = sum.add(array[i].getNumber());
+            }
+
+            initEma = sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
+        }
+
+        return getTimeMaArray(array, initEma, multiplier(n), array.length - resultLength, array.length);
+    }
+
+    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma,  BigDecimal multiplier, int startIndex, int end) {
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+        TimeNumber[] averages = new TimeNumber[resultLength];
+
+        BigDecimal previousEma = initPreviousEma;
+
+        for (int i = 0; i < resultLength; i++) {
+            int arrayIndex = i+startIndex;
+            BigDecimal ema = get(array[arrayIndex].getNumber(), previousEma, multiplier);
+            averages[i] = new TimeNumberData(array[arrayIndex].getTime(), ema);
+            previousEma = ema;
+        }
+        return averages;
+
+    }
+
 }
