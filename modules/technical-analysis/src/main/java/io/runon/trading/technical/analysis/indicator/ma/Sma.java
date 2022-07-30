@@ -1,6 +1,8 @@
 package io.runon.trading.technical.analysis.indicator.ma;
 
 import io.runon.trading.Price;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 
 import java.math.BigDecimal;
@@ -41,6 +43,20 @@ public class Sma {
             sum = sum.add(array[i]);
         }
         return sum.divide(new BigDecimal(averageCount), MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal get(BigDecimal[] array, int n, int index){
+        BigDecimal sum = BigDecimal.ZERO;
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
     }
 
 
@@ -92,4 +108,36 @@ public class Sma {
         }
         return averages;
     }
+
+    public static TimeNumber[] getTimeMaArray(TimeNumber [] timeNumbers, int n, int averageCount){
+        if (averageCount > timeNumbers.length) {
+            averageCount = timeNumbers.length;
+        }
+        TimeNumber [] array = new TimeNumber[averageCount];
+
+        int arrayGap = timeNumbers.length - averageCount + 1;
+        for (int i = 0; i < averageCount; i++) {
+            int end = arrayGap + i;
+            int start = end - n;
+
+            int length = n;
+            if (start < 0) {
+                start = 0;
+                length = end;
+            }
+            BigDecimal sum = BigDecimal.ZERO;
+
+            for (int j = start; j < end; j++) {
+                sum = sum.add(timeNumbers[j].getNumber());
+            }
+            TimeNumberData timeNumber = new TimeNumberData();
+            timeNumber.setTime(timeNumbers[end-1].getTime());
+            timeNumber.setNumber(sum.divide(new BigDecimal(length), MathContext.DECIMAL128));
+            array[i] = timeNumber;
+
+        }
+
+        return array;
+    }
+
 }

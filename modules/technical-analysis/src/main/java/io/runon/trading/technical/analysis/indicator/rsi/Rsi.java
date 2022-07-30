@@ -16,10 +16,10 @@
 
 package io.runon.trading.technical.analysis.indicator.rsi;
 
-import io.runon.trading.PriceChangeRate;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.PriceChangeRate;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
-import io.runon.trading.technical.analysis.indicator.ma.MovingAverage;
+import io.runon.trading.technical.analysis.indicator.ma.Sma;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -48,7 +48,7 @@ import java.math.MathContext;
  * 유사한 지표로는 스토캐스틱이 있다. RSI 그래프의 형태는 fast stochastic 과 비슷하게 나온다.
  *
  * 참고자료
- *  -https://ko.wikipedia.org/wiki/RSI_(%ED%88%AC%EC%9E%90%EC%A7%80%ED%91%9C)
+ *  -ko.wikipedia.org/wiki/RSI_(%ED%88%AC%EC%9E%90%EC%A7%80%ED%91%9C)
  *
  *
  *
@@ -212,7 +212,7 @@ public class Rsi {
      * @return rsi signal 배열
      */
     public static BigDecimal [] getSignal(BigDecimal [] rsiArray){
-        return MovingAverage.getArray(rsiArray, 6, rsiArray.length-5);
+        return Sma.getArray(rsiArray, 6, rsiArray.length-5);
     }
 
     /**
@@ -225,7 +225,7 @@ public class Rsi {
      * @return rsi signal 배열
      */
     public static BigDecimal [] getSignal(BigDecimal [] rsiArray, int n, int signalCount){
-        return MovingAverage.getArray(rsiArray, n, signalCount);
+        return Sma.getArray(rsiArray, n, signalCount);
     }
 
 
