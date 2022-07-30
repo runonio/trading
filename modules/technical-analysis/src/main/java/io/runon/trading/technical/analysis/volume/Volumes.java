@@ -76,6 +76,21 @@ public class Volumes {
 
         return volumes;
     }
+    public static BigDecimal [] getVolumes(TradeCandle [] candles, int startIndex, int end){
+        if (end > candles.length) {
+            end = candles.length;
+        }
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+        BigDecimal [] volumes = new BigDecimal[length];
+        for (int i = 0; i < length; i++) {
+            volumes[i] = candles[i+startIndex].getVolume();
+        }
+        return volumes;
+    }
 
 
     public static BigDecimal getVolumePower(TradeCandle [] candles){
@@ -138,14 +153,6 @@ public class Volumes {
         return getVolumes(candles, 0, candles.length);
     }
 
-    public static BigDecimal[] getVolumes(TradeCandle[] candles, int startIndex, int end){
-        BigDecimal [] array = new BigDecimal[end-startIndex];
-        int index = 0;
-        for (int i = startIndex; i <end ; i++) {
-            array[index++] = candles[i].getVolume() ;
-        }
-        return array;
-    }
 
     public static BigDecimal[] getVolumePowers(TradeCandle[] candles){
         return getVolumePowers(candles, 0, candles.length);

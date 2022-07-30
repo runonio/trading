@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * 신고가 신저가 지수
  * New High New Low
+ * - 100 ~ 100
+ *
  * @author macle
  */
 public class Nhnl {
@@ -177,7 +179,7 @@ public class Nhnl {
             lowList.clear();
         }
 
-        nhnlData.index = new BigDecimal(nhnlData.highs.length - nhnlData.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP);
+        nhnlData.index = new BigDecimal(nhnlData.highs.length - nhnlData.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return nhnlData;
     }
 

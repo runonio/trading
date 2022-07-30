@@ -16,12 +16,19 @@ public class NhnlData {
     public NhnlData(){
 
     }
+
     int validSymbolCount = 0;
     BigDecimal index = BigDecimal.ZERO;
 
     SymbolCandle [] highs = SymbolCandle.EMPTY_ARRAY;
     SymbolCandle [] lows = SymbolCandle.EMPTY_ARRAY;
 
+    public int getHighLength(){
+        return highs.length;
+    }
+    public int getLowLength(){
+        return lows.length;
+    }
 
 
 }
