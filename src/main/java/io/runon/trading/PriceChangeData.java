@@ -16,6 +16,9 @@
 
 package io.runon.trading;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
+
 import java.math.BigDecimal;
 
 /**
@@ -68,5 +71,8 @@ public class PriceChangeData implements PriceChange{
     public BigDecimal getPrevious() {
         return previous;
     }
-
+    @Override
+    public String toString(){
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+    }
 }

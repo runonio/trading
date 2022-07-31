@@ -114,6 +114,21 @@ public class BigDecimals {
         return num;
     }
 
+
+    public static BigDecimal average(BigDecimal[] array, int n, int index){
+        BigDecimal sum = BigDecimal.ZERO;
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
+    }
+
     public static BigDecimal average(BigDecimal[] sortNumbers, String highestExclusionRate) {
         return  average(sortNumbers, new BigDecimal(highestExclusionRate));
     }
@@ -168,6 +183,10 @@ public class BigDecimals {
     }
 
     public static BigDecimal average(BigDecimal[] numbers) {
+        if(numbers == null || numbers.length == 0){
+            return BigDecimal.ZERO;
+        }
+
         BigDecimal sum = sum(numbers);
         return sum.divide(new BigDecimal(numbers.length), MathContext.DECIMAL128);
     }
