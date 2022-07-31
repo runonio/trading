@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.indicator.nhnl;
+package io.runon.trading.technical.analysis.indicator.volume;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,40 +9,28 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * 신고가 신저가 
- * 결과 데이터
+ * 거래량이 급등하는 종목의 수를 지수화 결과 데이터
+ *
  * @author macle
  */
 @Data
-public class NhnlData {
+public class SoaringTradingVolumeData {
 
-    public NhnlData(){
-
-    }
-
-    long time;
-    int length = 0;
+    SymbolCandle [] soaringArray = SymbolCandle.EMPTY_ARRAY;
     BigDecimal index = BigDecimal.ZERO;
 
-    SymbolCandle [] highs = SymbolCandle.EMPTY_ARRAY;
-    SymbolCandle [] lows = SymbolCandle.EMPTY_ARRAY;
+    int length = 0;
 
-    public int getHighLength(){
-        return highs.length;
+    public int length(){
+        return soaringArray.length;
     }
-    public int getLowLength(){
-        return lows.length;
-    }
-
     @Override
     public String toString(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject object = new JsonObject();
-        object.addProperty("time", time);
         object.addProperty("index", index);
+        object.addProperty("soaring_length", soaringArray.length);
         object.addProperty("length", length);
-        object.addProperty("high_length", highs.length);
-        object.addProperty("low_length", lows.length);
         return gson.toJson(object);
     }
 

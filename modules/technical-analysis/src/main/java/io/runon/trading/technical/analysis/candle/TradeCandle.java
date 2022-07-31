@@ -15,6 +15,8 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
 import io.runon.trading.Volume;
@@ -68,9 +70,16 @@ public class TradeCandle extends CandleStick implements Volume {
 
     /**
      * 평균가격 얻기
+     * 거래대금이 있을때는 거래대금 활용
+     *  거래대금 없을떄는 대표가격이라고 보르는 (종가 + 고가 +저가 )/3
+     *
      * @return  평균가격
      */
     public BigDecimal getAverage() {
+        if(tradingPrice.compareTo(BigDecimal.ZERO) == 0){
+            return close.add(high).add(low).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
+        }
+
         return tradingPrice.divide(volume, MathContext.DECIMAL128);
     }
 
@@ -308,9 +317,15 @@ public class TradeCandle extends CandleStick implements Volume {
 
     /**
      * 거래대금 얻기
-     * @return 거래대금
+     * 거래대금이 설정된 경우 거래대금
+     * 거래대금이 설정되지 않은경우 (종가 + 고가 + 저가 )/3 * 거래량
+     * @return 거래대금볼린저바티
      */
     public BigDecimal getTradingPrice() {
+        if(tradingPrice.compareTo(BigDecimal.ZERO) == 0 && volume.compareTo(BigDecimal.ZERO) > 0){
+            return close.add(high).add(low).multiply(volume).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
+        }
+
         return tradingPrice;
     }
 
@@ -429,5 +444,10 @@ public class TradeCandle extends CandleStick implements Volume {
 
     public void addTradingCount(int count){
         tradeCount += count;
+    }
+
+    @Override
+    public String toString(){
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
 }

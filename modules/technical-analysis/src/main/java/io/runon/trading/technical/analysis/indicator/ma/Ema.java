@@ -105,14 +105,14 @@ public class Ema {
         return averages;
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma, int n, int resultLength) {
-        return getTimeMaArray(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, int n, int resultLength) {
+        return getTimeNumbers(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma,  BigDecimal multiplier, int resultLength) {
-        return getTimeMaArray(array, initPreviousEma, multiplier,array.length - resultLength, array.length);
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int resultLength) {
+        return getTimeNumbers(array, initPreviousEma, multiplier,array.length - resultLength, array.length);
     }
-    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, int n, int resultLength) {
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, int n, int resultLength) {
         int startIndex = array.length - resultLength;
 
         int initIndex = startIndex -1;
@@ -136,10 +136,10 @@ public class Ema {
             initEma = sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
         }
 
-        return getTimeMaArray(array, initEma, multiplier(n), array.length - resultLength, array.length);
+        return getTimeNumbers(array, initEma, multiplier(n), array.length - resultLength, array.length);
     }
 
-    public static TimeNumber[] getTimeMaArray(TimeNumber[] array, BigDecimal initPreviousEma,  BigDecimal multiplier, int startIndex, int end) {
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int startIndex, int end) {
         if(startIndex < 0){
             startIndex = 0;
         }

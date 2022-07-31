@@ -14,17 +14,20 @@ import java.math.RoundingMode;
 public class FuturesPositionData implements FuturesPosition{
 
     protected String symbol;
-    //평단가
-    protected BigDecimal price = BigDecimal.ZERO;
+    //포지션
+    protected Position position =  Position.NONE;
     //매매대금 (실제 달러)
     protected BigDecimal tradingPrice = BigDecimal.ZERO;
+    //평단가
+    protected BigDecimal price = BigDecimal.ZERO;
+
     //수량
     protected BigDecimal quantity = BigDecimal.ZERO;
     
     //레버리지
     protected BigDecimal leverage= BigDecimal.ZERO;
-    //포지션
-    protected Position position =  Position.NONE;
+
+
 
     @Override
     public String toString(){

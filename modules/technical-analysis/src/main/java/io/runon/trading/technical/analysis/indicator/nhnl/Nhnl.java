@@ -14,11 +14,12 @@ import java.util.List;
 /**
  * 신고가 신저가 지수
  * New High New Low
+ * - 100 ~ 100
+ *
  * @author macle
  */
 public class Nhnl {
 
-    public static final NhnlData NULL_DATA = new NullNhnlData();
     private SymbolCandle[] symbolCandles;
 
     /**
@@ -159,13 +160,14 @@ public class Nhnl {
         }
 
 
-
+        NhnlData nhnlData = new NhnlData();
+        nhnlData.time = candleOpenTime;
         if(validSymbolCount == 0){
-            return NULL_DATA;
+            return nhnlData;
         }
 
-        NhnlData nhnlData = new NhnlData();
-        nhnlData.validSymbolCount = validSymbolCount;
+
+        nhnlData.length = validSymbolCount;
 
         if(highList.size() > 0){
             nhnlData.highs = highList.toArray(new SymbolCandle[0]);
@@ -177,7 +179,7 @@ public class Nhnl {
             lowList.clear();
         }
 
-        nhnlData.index = new BigDecimal(nhnlData.highs.length - nhnlData.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP);
+        nhnlData.index = new BigDecimal(nhnlData.highs.length - nhnlData.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return nhnlData;
     }
 

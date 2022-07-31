@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
+import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class Volumes {
 
     //100.0 == 100% , 500.0 == 500%
-    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(500);
+    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(Config.getConfig("max.volume.power", "500"));
 
     /**
      * 체결강도
@@ -73,6 +74,21 @@ public class Volumes {
             volumes[index++] = candles[i].getVolume();
         }
 
+        return volumes;
+    }
+    public static BigDecimal [] getVolumes(TradeCandle [] candles, int startIndex, int end){
+        if (end > candles.length) {
+            end = candles.length;
+        }
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+        BigDecimal [] volumes = new BigDecimal[length];
+        for (int i = 0; i < length; i++) {
+            volumes[i] = candles[i+startIndex].getVolume();
+        }
         return volumes;
     }
 
@@ -137,14 +153,6 @@ public class Volumes {
         return getVolumes(candles, 0, candles.length);
     }
 
-    public static BigDecimal[] getVolumes(TradeCandle[] candles, int startIndex, int end){
-        BigDecimal [] array = new BigDecimal[end-startIndex];
-        int index = 0;
-        for (int i = startIndex; i <end ; i++) {
-            array[index++] = candles[i].getVolume() ;
-        }
-        return array;
-    }
 
     public static BigDecimal[] getVolumePowers(TradeCandle[] candles){
         return getVolumePowers(candles, 0, candles.length);
@@ -178,12 +186,5 @@ public class Volumes {
         }
         return sum;
     }
-
-
-    public static void main(String[] args) {
-        int count = new BigDecimal(100).multiply(BigDecimal.ONE.subtract(new BigDecimal("0.1"))).intValue();
-        System.out.println(count);
-    }
-
 
 }
