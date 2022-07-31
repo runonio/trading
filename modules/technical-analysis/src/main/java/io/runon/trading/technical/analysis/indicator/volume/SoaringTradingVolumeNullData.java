@@ -12,7 +12,7 @@ class SoaringTradingVolumeNullData extends SoaringTradingVolumeData{
     SoaringTradingVolumeNullData(){
         soaringArray = SymbolCandle.EMPTY_ARRAY;
         index = BigDecimal.ZERO;
-        validSymbolCount = 0;
+        length = 0;
     }
 
     public void setSoaringArray(SymbolCandle[] soaringArray) {
@@ -23,7 +23,7 @@ class SoaringTradingVolumeNullData extends SoaringTradingVolumeData{
         throw new UnsupportedOperationException();
     }
 
-    public void setValidSymbolCount(int validSymbolCount) {
+    public void setLength(int length) {
         throw new UnsupportedOperationException();
     }
 }

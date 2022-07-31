@@ -4,6 +4,7 @@ import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.SymbolCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
+import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.indicator.Disparity;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
@@ -35,11 +36,17 @@ public class SoaringTradingVolume {
     private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.default.highest.exclusion.rate", "300"));
 
     public SoaringTradingVolume(SymbolCandle[] symbolCandles){
-        this.symbolCandles = symbolCandles;
+        setSymbolCandles(symbolCandles);
     }
 
+    private long [] times;
     public void setSymbolCandles(SymbolCandle[] symbolCandles) {
         this.symbolCandles = symbolCandles;
+        times = TaCandles.getTimes(symbolCandles);
+    }
+
+    public void setTimes(long[] times) {
+        this.times = times;
     }
 
     public void setAverageCount(int averageCount) {
@@ -100,7 +107,7 @@ public class SoaringTradingVolume {
         }
 
         SoaringTradingVolumeData data = new SoaringTradingVolumeData();
-        data.validSymbolCount = validSymbolCount;
+        data.length = validSymbolCount;
         data.soaringArray = list.toArray(new SymbolCandle[0]);
         data.index = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
@@ -145,14 +152,12 @@ public class SoaringTradingVolume {
                 continue;
             }
             SoaringTradingVolumeData data = new SoaringTradingVolumeData();
-            data.validSymbolCount = validSymbolCount;
+            data.length = validSymbolCount;
             data.soaringArray = list.toArray(new SymbolCandle[0]);
             data.index = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
             array[i] = data;
         }
-
         return  array;
-
     }
 
     public SymbolCandle[] getSymbolCandles() {

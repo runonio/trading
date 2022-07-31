@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class Nhnl {
 
-    public static final NhnlData NULL_DATA = new NullNhnlData();
     private SymbolCandle[] symbolCandles;
 
     /**
@@ -161,13 +160,14 @@ public class Nhnl {
         }
 
 
-
+        NhnlData nhnlData = new NhnlData();
+        nhnlData.time = candleOpenTime;
         if(validSymbolCount == 0){
-            return NULL_DATA;
+            return nhnlData;
         }
 
-        NhnlData nhnlData = new NhnlData();
-        nhnlData.validSymbolCount = validSymbolCount;
+
+        nhnlData.length = validSymbolCount;
 
         if(highList.size() > 0){
             nhnlData.highs = highList.toArray(new SymbolCandle[0]);

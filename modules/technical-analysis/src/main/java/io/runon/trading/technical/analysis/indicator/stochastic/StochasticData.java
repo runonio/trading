@@ -1,25 +1,22 @@
-package io.runon.trading.technical.analysis.candle;
+package io.runon.trading.technical.analysis.indicator.stochastic;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
- * 시간과 캔들값
+ * 스토캐스틱 결과 데이터
  * @author macle
  */
 @Data
-public class TimeCandle {
+public class StochasticData {
 
-    private long time;
-    private TradeCandle candle;
-
-    public TimeCandle(){}
-
-    public TimeCandle(long time, TradeCandle candle){
-        this.time = time;
-        this.candle = candle;
-    }
+    long time;
+    BigDecimal k;
+    BigDecimal d;
+    BigDecimal slowD;
 
     @Override
     public String toString(){

@@ -5,4 +5,5 @@ package io.runon.trading.technical.analysis.candle;
  */
 public interface Candles {
     TradeCandle [] getCandles();
+
 }

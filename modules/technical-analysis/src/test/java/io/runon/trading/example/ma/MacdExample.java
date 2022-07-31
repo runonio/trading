@@ -4,17 +4,17 @@ import com.seomse.commons.utils.time.Times;
 import io.runon.trading.CandleTimes;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.indicator.ma.Ema;
+import io.runon.trading.technical.analysis.indicator.ma.Macd;
+import io.runon.trading.technical.analysis.indicator.ma.MacdData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.ZoneId;
-
 /**
- * EMA 예제
+ * Macd 에제
  * @author macle
  */
-public class EmaTimeExample {
+public class MacdExample {
     public static void main(String[] args) {
         long time = CandleTimes.getOpenTime(Times.MINUTE_1, System.currentTimeMillis());
 
@@ -25,10 +25,13 @@ public class EmaTimeExample {
 
         ZoneId zoneId = ZoneId.of("Asia/Seoul");
 
-        TimeNumber[] result = Ema.getTimeNumbers(array,14,100);
+        MacdData[] result = Macd.get(array);
 
-        for(TimeNumber avg : result){
-            System.out.println(Times.ymdhm(avg.getTime(),zoneId) + " avg: " + avg.getNumber().setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString());
+        for(MacdData data : result){
+            System.out.println(Times.ymdhm(data.getTime(),zoneId) + " macd: " + data.getMacd().setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+            + ", signal: " + data.getSignal().setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + ", oscillator: " + data.getOscillator().setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+
+            );
         }
 
         System.out.println("length: " + result.length);

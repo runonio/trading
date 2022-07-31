@@ -1,4 +1,9 @@
 package io.runon.trading.technical.analysis.indicator.ma;
+
+import io.runon.trading.TimeNumber;
+
+import java.math.BigDecimal;
+
 /**
  *
  * MACD
@@ -20,6 +25,7 @@ package io.runon.trading.technical.analysis.indicator.ma;
  * MACD : 12일 지수이동평균 - 26일 지수이동평균
  * 시그널 : MACD의 9일 지수이동평균
  * 오실레이터 : MACD값 - 시그널값
+ *  12, 26, 9 를 많이사용하지만  5, 34, 7 도 믾이 사용된다.
  *
  * 1.2. 추세의 지속과 전환[편집]
  * 일반적으로 주가의 추세와 MACD오실레이터의 크기가 역행하는 경우에 곧 추세의 전환이 일어난다고 알려져 있다. 주가가 상승하는 추세이지만 전고점과 비교해서 지금고점에서의 오실레이터값이 작으면 슬슬 하락세로 돌아설것에 대비하여야 한다. 당연히 주가가 하락추세이어도 전저점의 오실레이터값에 비해서 지금의 저점에서의 오실레이터값이 작으면 곧 상승추세로 돌아설것에 대비하여야 한다.
@@ -41,4 +47,57 @@ package io.runon.trading.technical.analysis.indicator.ma;
  * @author macle
  */
 public class Macd {
+
+    public static final int DEFAULT_SHORT_N = 12;
+    public static final int DEFAULT_LONG_N = 26;
+    public static final int DEFAULT_SIGNAL_N = 9;
+
+    public static MacdData [] get(BigDecimal [] array){
+        return get(Ema.getArray(array, DEFAULT_SHORT_N, array.length), Ema.getArray(array, DEFAULT_LONG_N, array.length), DEFAULT_SIGNAL_N);
+    }
+    public static MacdData [] get(BigDecimal [] shortEmaArray, BigDecimal [] longEmaArray, int signalN){
+
+        int length = shortEmaArray.length;
+
+        BigDecimal [] macdArray = new BigDecimal[length];
+        for (int i = 0; i < length ; i++) {
+            macdArray[i] = shortEmaArray[i].subtract(longEmaArray[i]);
+        }
+        BigDecimal [] signalArray = Ema.getArray(macdArray, signalN, length);
+
+        MacdData [] dataArray = new MacdData[length];
+        for (int i = 0; i < length ; i++) {
+            MacdData macdData = new MacdData();
+            macdData.macd = macdArray[i];
+            macdData.signal = signalArray[i];
+            dataArray[i] = macdData;
+        }
+        return dataArray;
+    }
+
+    public static MacdData [] get(TimeNumber [] array){
+        return get(Ema.getTimeNumbers(array, DEFAULT_SHORT_N, array.length), Ema.getTimeNumbers(array, DEFAULT_LONG_N, array.length), DEFAULT_SIGNAL_N);
+    }
+
+    public static MacdData [] get(TimeNumber[] shortEmaArray, TimeNumber [] longEmaArray, int signalN){
+
+        int length = shortEmaArray.length;
+
+        BigDecimal [] macdArray = new BigDecimal[length];
+        for (int i = 0; i < length ; i++) {
+            macdArray[i] = shortEmaArray[i].getNumber().subtract(longEmaArray[i].getNumber());
+        }
+        BigDecimal [] signalArray = Ema.getArray(macdArray, signalN, length);
+
+        MacdData [] dataArray = new MacdData[length];
+        for (int i = 0; i < length ; i++) {
+            MacdData macdData = new MacdData();
+            macdData.setTime(shortEmaArray[i].getTime());
+            macdData.macd = macdArray[i];
+            macdData.signal = signalArray[i];
+            dataArray[i] = macdData;
+        }
+        return dataArray;
+    }
+
 }

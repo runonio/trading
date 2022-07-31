@@ -15,6 +15,8 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
 import io.runon.trading.Volume;
@@ -442,5 +444,10 @@ public class TradeCandle extends CandleStick implements Volume {
 
     public void addTradingCount(int count){
         tradeCount += count;
+    }
+
+    @Override
+    public String toString(){
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
 }

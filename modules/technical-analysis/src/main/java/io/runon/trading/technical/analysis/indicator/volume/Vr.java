@@ -2,10 +2,8 @@ package io.runon.trading.technical.analysis.indicator.volume;
 
 import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.Price;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;

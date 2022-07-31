@@ -1,29 +1,29 @@
-package io.runon.trading.technical.analysis.candle;
+package io.runon.trading.technical.analysis.indicator.ma;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
- * 시간과 캔들값
+ * macd 결과 데이터
  * @author macle
  */
 @Data
-public class TimeCandle {
+public class MacdData {
 
-    private long time;
-    private TradeCandle candle;
+    long time = -1L;
 
-    public TimeCandle(){}
+    BigDecimal macd;
+    BigDecimal signal;
 
-    public TimeCandle(long time, TradeCandle candle){
-        this.time = time;
-        this.candle = candle;
+    public BigDecimal getOscillator(){
+        return macd.subtract(signal).stripTrailingZeros();
     }
 
     @Override
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
-
 }
