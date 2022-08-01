@@ -1,11 +1,11 @@
-package io.runon.trading.technical.analysis.indicator.volume;
+package io.runon.trading.technical.analysis.market.stv;
 
 import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.technical.analysis.SymbolCandle;
-import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicator.Disparity;
+import io.runon.trading.technical.analysis.market.SymbolCandle;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class SoaringTradingVolume {
 
-    public static final SoaringTradingVolumeNullData NULL_DATA = new SoaringTradingVolumeNullData();
+
     private SymbolCandle[] symbolCandles;
 
     private int averageCount = 50;
@@ -39,9 +39,13 @@ public class SoaringTradingVolume {
         setSymbolCandles(symbolCandles);
     }
 
-    private long [] times;
+    private long [] times = null;
     public void setSymbolCandles(SymbolCandle[] symbolCandles) {
         this.symbolCandles = symbolCandles;
+
+    }
+
+    public void setTimes(){
         times = TaCandles.getTimes(symbolCandles);
     }
 
@@ -71,14 +75,38 @@ public class SoaringTradingVolume {
     }
 
     public SoaringTradingVolumeData getData(){
+        return getData(times.length-1);
+    }
+
+    public SoaringTradingVolumeData getData(int index){
+        if(times == null){
+            setTimes();
+        }
+
         int minCount = minAverageCount + 1;
         if(minCount > averageCount + 1){
             minCount = averageCount + 1 ;
         }
+        SoaringTradingVolumeData data = new SoaringTradingVolumeData();
+        data.time = times[index];
+        int length = index + 1;
+        if( length < minCount){
+            return data;
+        }
+
+        int avgStartIndex = times.length - averageCount -1;
+        if(avgStartIndex < 0){
+            avgStartIndex = 0;
+        }
+
+        long avgStartTime = times[avgStartIndex];
 
         int validSymbolCount = 0;
 
         List<SymbolCandle> list = new ArrayList<>();
+        List<SymbolCandle> upList = new ArrayList<>();
+        List<SymbolCandle> downList = new ArrayList<>();
+        int searchLength = (times.length - index) + averageCount;
 
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle[] candles =symbolCandle.getCandles();
@@ -86,7 +114,29 @@ public class SoaringTradingVolume {
                 continue;
             }
 
-            BigDecimal [] volumes = Volumes.getVolumes(candles, candles.length - averageCount-1 , candles.length-1);
+            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, data.time, searchLength);
+            if(openTimeIndex == -1){
+                continue;
+            }
+
+            if(openTimeIndex +1 < minCount){
+                continue;
+            }
+
+            int averageStartIndex =  TaCandles.getStartIndex(candles, avgStartTime, searchLength);
+            if (averageStartIndex == -1){
+                continue;
+            }
+
+            if(averageStartIndex >= openTimeIndex){
+                continue;
+            }
+
+            if(openTimeIndex - averageStartIndex +1 < minCount){
+                continue;
+            }
+
+            BigDecimal [] volumes = Volumes.getVolumes(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(volumes);
             BigDecimal avg = BigDecimals.average(volumes, highestExclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
@@ -94,69 +144,67 @@ public class SoaringTradingVolume {
             }
 
             validSymbolCount++;
-            BigDecimal d = Disparity.get(candles[candles.length-1].getVolume(), avg);
+
+            TradeCandle tradeCandle = candles[candles.length-1];
+            BigDecimal d = Disparity.get(tradeCandle.getVolume(), avg);
 
             if(d.compareTo(disparity) >= 0){
                 list.add(symbolCandle);
+
+                if(tradeCandle.getChange().compareTo(BigDecimal.ZERO) > 0){
+                    upList.add(symbolCandle);
+                }else if(tradeCandle.getChange().compareTo(BigDecimal.ZERO) < 0){
+                    downList.add(symbolCandle);
+                }
+
             }
 
         }
 
         if(validSymbolCount == 0){
-            return NULL_DATA;
+            return data;
         }
 
-        SoaringTradingVolumeData data = new SoaringTradingVolumeData();
         data.length = validSymbolCount;
         data.soaringArray = list.toArray(new SymbolCandle[0]);
+        data.ups = upList.toArray(new SymbolCandle[0]);
+        data.downs = downList.toArray(new SymbolCandle[0]);
         data.index = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
     }
 
-    public SoaringTradingVolumeData [] getArray(int dataCount){
-        int minCount = minAverageCount + 1;
-        if(minCount > averageCount + 1){
-            minCount = averageCount + 1 ;
+
+    public SoaringTradingVolumeData[] getArray(int resultLength){
+        if(times == null){
+            setTimes();
         }
 
-        SoaringTradingVolumeData [] array = new SoaringTradingVolumeData[dataCount];
+        return getArray(times.length - resultLength, times.length);
+    }
 
-        for (int i = 0; i <dataCount ; i++) {
-            int validSymbolCount = 0;
-            List<SymbolCandle> list = new ArrayList<>();
-
-            int gap = dataCount - (i +1);
-
-            for(SymbolCandle symbolCandle : symbolCandles){
-                TradeCandle[] candles =symbolCandle.getCandles();
-                int end = candles.length - gap;
-                if(end < minCount){
-                    continue;
-                }
-                BigDecimal [] volumes = Volumes.getVolumes(candles, end - averageCount - 1 , end - 1);
-                Arrays.sort(volumes);
-                BigDecimal avg = BigDecimals.average(volumes, highestExclusionRate);
-                if(avg.compareTo(BigDecimal.ZERO) == 0){
-                    continue;
-                }
-                validSymbolCount++;
-                BigDecimal d = Disparity.get(candles[end-1].getVolume(), avg);
-
-                if(d.compareTo(disparity) >= 0){
-                    list.add(symbolCandle);
-                }
-            }
-
-            if(validSymbolCount == 0){
-                array[i] = NULL_DATA;
-                continue;
-            }
-            SoaringTradingVolumeData data = new SoaringTradingVolumeData();
-            data.length = validSymbolCount;
-            data.soaringArray = list.toArray(new SymbolCandle[0]);
-            data.index = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
-            array[i] = data;
+    public SoaringTradingVolumeData[] getArray(int startIndex, int end){
+        if(times == null){
+            setTimes();
         }
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > times.length){
+            end = times.length;
+        }
+
+        if(startIndex >= end){
+            //옵션을 잘 못 보
+            throw new IllegalArgumentException("startIndex >= end  startIndex: " + startIndex +", end: " + end );
+        }
+
+        SoaringTradingVolumeData[] array = new SoaringTradingVolumeData[end - startIndex];
+        for (int i = 0; i < array.length ; i++) {
+            array[i] = getData(i + startIndex);
+        }
+
         return  array;
     }
 

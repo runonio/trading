@@ -1,9 +1,9 @@
-package io.runon.trading.technical.analysis.indicator.nhnl;
+package io.runon.trading.technical.analysis.market.nhnl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.runon.trading.technical.analysis.SymbolCandle;
+import io.runon.trading.technical.analysis.market.SymbolCandle;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,7 +24,7 @@ public class NhnlData {
     int length = 0;
     BigDecimal index = BigDecimal.ZERO;
 
-    SymbolCandle [] highs = SymbolCandle.EMPTY_ARRAY;
+    SymbolCandle[] highs = SymbolCandle.EMPTY_ARRAY;
     SymbolCandle [] lows = SymbolCandle.EMPTY_ARRAY;
 
     public int getHighLength(){

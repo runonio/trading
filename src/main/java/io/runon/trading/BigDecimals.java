@@ -38,6 +38,8 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_2_5 = new BigDecimal("2.5");
 
 
+    public static final MathContext MC_10 = new MathContext(10);
+
     public static BigDecimal min(BigDecimal num1, BigDecimal num2){
         if(num1 == null){
             return num2;
@@ -245,6 +247,59 @@ public class BigDecimals {
             return number.multiply(DECIMAL_M_1);
         }
         return number;
+    }
+
+
+    public static BigDecimal sd( BigDecimal [] array){
+        int index = array.length-1;
+        return sd(array, average(array, array.length, index), array.length, index );
+    }
+    public static BigDecimal sd( BigDecimal [] array , int n){
+        int index = array.length-1;
+        return sd(array, average(array, n, index), n, index );
+    }
+
+    public static BigDecimal sd( BigDecimal [] array , int n, int index){
+        return sd(array, average(array, n, index), n, index );
+    }
+
+    public static BigDecimal sd( BigDecimal [] array ,BigDecimal avg, int n){
+        return sd(array, avg, n, array.length-1 );
+    }
+
+
+    /**
+     * 표준편차
+     * 표준 편차(標準 偏差, 영어: standard deviation, SD)는 통계집단의 분산의 정도 또는 자료의 산포도를 나타내는 수치
+     */
+    public static BigDecimal sd( BigDecimal [] array, BigDecimal avg , int n, int index){
+
+
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+        int length = end - start ;
+
+        if(length < 1){
+            return BigDecimal.ZERO;
+        }
+
+        if(avg == null){
+            avg = average(array, n, index);
+        }
+
+        BigDecimal d = BigDecimal.ZERO;
+
+        for (int i = start; i < end; i++) {
+            d = d.add(array[i].subtract(avg).pow(2));
+        }
+
+        d = d.divide(new BigDecimal(length), MathContext.DECIMAL128);
+
+
+        return d.sqrt(MC_10);
     }
 
 

@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis;
+package io.runon.trading.technical.analysis.market;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
