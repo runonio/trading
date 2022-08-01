@@ -5,6 +5,7 @@ import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.indicator.ma.Ema;
 import io.runon.trading.technical.analysis.indicator.ma.MovingAverage;
 import io.runon.trading.technical.analysis.indicator.ma.Sma;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -37,6 +38,7 @@ import java.math.MathContext;
  *
  * @author macle
  */
+@Setter
 public class Stochastic {
 
     public static final int DEFAULT_K = 5;
@@ -44,6 +46,20 @@ public class Stochastic {
     public static final int DEFAULT_D = 3;
 
     public static final int DEFAULT_SLOW_D = 3;
+
+    private int k = DEFAULT_K;
+    private int d = DEFAULT_D;
+    private int slowD = DEFAULT_SLOW_D;
+    private MovingAverage.Type type = MovingAverage.Type.EMA;
+    public Stochastic(){
+    }
+
+    public StochasticData [] get(CandleStick [] array, int resultLength){
+        return get(array, k, d, slowD, array.length - resultLength, array.length, type);
+    }
+    public StochasticData [] get(CandleStick [] array, int startIndex, int end){
+        return get(array, k, d, slowD, startIndex, end, type);
+    }
 
 
     public StochasticData [] getEma(CandleStick [] array){

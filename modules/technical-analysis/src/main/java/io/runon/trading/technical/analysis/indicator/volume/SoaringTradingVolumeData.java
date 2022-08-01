@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @Data
 public class SoaringTradingVolumeData {
 
+    long time;
     SymbolCandle [] soaringArray = SymbolCandle.EMPTY_ARRAY;
     BigDecimal index = BigDecimal.ZERO;
 
@@ -28,6 +29,8 @@ public class SoaringTradingVolumeData {
     public String toString(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject object = new JsonObject();
+        object.addProperty("time", time);
+
         object.addProperty("index", index);
         object.addProperty("soaring_length", soaringArray.length);
         object.addProperty("length", length);

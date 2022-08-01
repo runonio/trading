@@ -32,7 +32,17 @@ public class TaCandles {
     }
 
     public static int getOpenTimeIndex(TradeCandle [] candles, long openTime){
-        for (int i = 0; i < candles.length; i++) {
+        return getOpenTimeIndex(candles, openTime, candles.length);
+    }
+
+    public static int getOpenTimeIndex(TradeCandle [] candles, long openTime, int searchLength){
+
+        int startIndex = candles.length - searchLength;
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        for (int i = startIndex; i < candles.length; i++) {
             if(candles[i].getOpenTime() == openTime){
                 return i;
             }
@@ -41,8 +51,14 @@ public class TaCandles {
         return -1;
     }
 
-    public static int getStartIndex(TradeCandle [] candles, long openTime){
-        for (int i = 0; i < candles.length; i++) {
+    public static int getStartIndex(TradeCandle [] candles, long openTime, int searchLength){
+
+        int startIndex = candles.length - searchLength;
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        for (int i = startIndex; i < candles.length; i++) {
             if(candles[i].getOpenTime() >= openTime){
                 return i;
             }
