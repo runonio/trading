@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * technical analysis candle 관련 유틸성 클래스
- * 기술적 분석 캔들 관련 시간 유틸성 매소드 정리
+ * 기술적 분석 캔들 관련  유틸성 매소드 정리
  * @author macle
  */
 public class TaCandles {
