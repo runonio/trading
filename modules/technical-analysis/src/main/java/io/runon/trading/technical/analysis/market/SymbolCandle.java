@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis;
+package io.runon.trading.technical.analysis.market;
 
 import io.runon.trading.technical.analysis.candle.Candles;
 
