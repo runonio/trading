@@ -319,7 +319,7 @@ public class TradeCandle extends CandleStick implements Volume {
      * 거래대금 얻기
      * 거래대금이 설정된 경우 거래대금
      * 거래대금이 설정되지 않은경우 (종가 + 고가 + 저가 )/3 * 거래량
-     * @return 거래대금볼린저바티
+     * @return 거래대금
      */
     public BigDecimal getTradingPrice() {
         if(tradingPrice.compareTo(BigDecimal.ZERO) == 0 && volume.compareTo(BigDecimal.ZERO) > 0){

@@ -1,5 +1,14 @@
 package io.runon.trading.technical.analysis.indicator.band;
 
+import io.runon.trading.BigDecimals;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
+import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.indicator.ma.Sma;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 /**
  * 볼린저밴드
  *
@@ -65,4 +74,162 @@ package io.runon.trading.technical.analysis.indicator.band;
  * @author macle
  */
 public class BollingerBands {
+
+    public static int DEFAULT_N = 20;
+    public static int DEFAULT_SD = 2;
+
+
+
+    public static BollingerBandsData [] getArray(CandleStick [] array, int resultLength){
+
+        return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD),array.length - resultLength, array.length);
+    }
+
+    public static BollingerBandsData [] getArray(CandleStick [] array, int startIndex, int end){
+
+        return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), startIndex,end);
+    }
+    public static BollingerBandsData [] getArray(CandleStick [] array, int n, BigDecimal sdm, int resultLength){
+        return getArray(array, n, sdm, array.length - resultLength, array.length);
+    }
+
+
+
+    public static BollingerBandsData [] getArray(CandleStick [] array, int n, BigDecimal sdm, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+
+        BollingerBandsData [] dataArray = new BollingerBandsData[length];
+
+        for (int i = 0; i < length; i++) {
+            dataArray[i] = get(array,n, sdm, i+startIndex);
+        }
+
+        return dataArray;
+    }
+
+    public static BollingerBandsData [] getArray(BigDecimal [] array, int resultLength){
+
+        return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD),array.length - resultLength, array.length);
+    }
+
+    public static BollingerBandsData [] getArray(BigDecimal [] array, int startIndex, int end){
+
+        return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), startIndex,end);
+    }
+    public static BollingerBandsData [] getArray(BigDecimal [] array, int n, BigDecimal sdm, int resultLength){
+        return getArray(array, n, sdm, array.length - resultLength, array.length);
+    }
+
+    public static BollingerBandsData [] getArray(BigDecimal [] array, int n, BigDecimal sdm, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+
+        BollingerBandsData [] dataArray = new BollingerBandsData[length];
+
+        for (int i = 0; i < length; i++) {
+            dataArray[i] = get(array,n, sdm, i+startIndex);
+        }
+
+        return dataArray;
+    }
+
+    public static BollingerBandsData [] getArray(CandleStick [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int resultLength){
+        return getArray(array, maArray, n, sdm, array.length - resultLength, array.length);
+    }
+
+
+    /**
+     * EMA를 사용할 수 있는 경우에 사용 한다.
+     */
+    public static BollingerBandsData [] getArray(CandleStick [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+        BollingerBandsData [] dataArray = new BollingerBandsData[length];
+        for (int i = 0; i < length; i++) {
+            int index = i + startIndex;
+
+            dataArray[i] = get(array[index], maArray[index], CandleBigDecimals.sd(array,maArray[index],n, index) ,sdm);
+        }
+        return dataArray;
+    }
+
+    public static BollingerBandsData [] getArray(BigDecimal [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int resultLength){
+        return getArray(array, maArray, n, sdm, array.length - resultLength, array.length);
+    }
+
+
+    /**
+     * EMA를 사용할 수 있는 경우에 사용 한다.
+     */
+    public static BollingerBandsData [] getArray(BigDecimal [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+        BollingerBandsData [] dataArray = new BollingerBandsData[length];
+        for (int i = 0; i < length; i++) {
+            int index = i + startIndex;
+
+            dataArray[i] = get(array[index], maArray[index], BigDecimals.sd(array,maArray[index],n, index) ,sdm);
+        }
+        return dataArray;
+    }
+
+    public static BollingerBandsData get(CandleStick[] array){
+        return get(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), array.length-1);
+    }
+
+    public static BollingerBandsData get(CandleStick [] array, int n, int sd){
+        return get(array, n, new BigDecimal(sd), array.length-1);
+    }
+    public static BollingerBandsData get(CandleStick [] array, int n, BigDecimal sdm, int index){
+        BigDecimal ma = Sma.get(array, n, index);
+        BigDecimal sd = CandleBigDecimals.sd(array,ma,n, index);
+        return get(array[array.length -1], ma,sd, sdm);
+    }
+    public static BollingerBandsData get(BigDecimal [] array){
+        return get(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), array.length-1);
+    }
+
+    public static BollingerBandsData get(BigDecimal [] array, int n, int sd){
+        return get(array, n, new BigDecimal(sd), array.length-1);
+    }
+    public static BollingerBandsData get(BigDecimal [] array, int n, BigDecimal sdm, int index){
+        BigDecimal ma = Sma.get(array, n, index);
+        BigDecimal sd = BigDecimals.sd(array,ma,n, index);
+        return get(array[array.length -1], ma,sd, sdm);
+    }
+
+    public static BollingerBandsData get(TimeNumber timeNumber, BigDecimal ma, BigDecimal sd, BigDecimal sdMultiply){
+        BollingerBandsData data = get(timeNumber.getNumber(), ma, sd, sdMultiply);
+        data.time = timeNumber.getTime();
+        return data;
+    }
+
+    public static BollingerBandsData get(BigDecimal close, BigDecimal ma, BigDecimal sd, BigDecimal sdMultiply){
+        BollingerBandsData data = new BollingerBandsData();
+
+        BigDecimal sdm = sd.multiply(sdMultiply);
+        data.mbb = ma;
+        data.ubb = ma.add(sdm);
+        data.lbb = ma.subtract(sdm);
+
+        BigDecimal height =data.ubb.subtract(data.lbb);
+
+        data.perb = close.subtract(data.lbb).divide(height, MathContext.DECIMAL128);
+        data.bw = height.divide(data.mbb, MathContext.DECIMAL128);
+        return data;
+    }
+
 }
