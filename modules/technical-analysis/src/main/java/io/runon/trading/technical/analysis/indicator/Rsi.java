@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.indicator.rsi;
+package io.runon.trading.technical.analysis.indicator;
 
-import io.runon.trading.PriceChangeRate;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.technical.analysis.CandleBigDecimalChange;
-import io.runon.trading.technical.analysis.indicator.ma.MovingAverage;
+import io.runon.trading.PriceChangeRate;
+import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
+import io.runon.trading.technical.analysis.indicator.ma.Sma;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -48,7 +48,7 @@ import java.math.MathContext;
  * 유사한 지표로는 스토캐스틱이 있다. RSI 그래프의 형태는 fast stochastic 과 비슷하게 나온다.
  *
  * 참고자료
- *  -https://ko.wikipedia.org/wiki/RSI_(%ED%88%AC%EC%9E%90%EC%A7%80%ED%91%9C)
+ *  -ko.wikipedia.org/wiki/RSI_(%ED%88%AC%EC%9E%90%EC%A7%80%ED%91%9C)
  *
  *
  *
@@ -77,7 +77,7 @@ import java.math.MathContext;
  * 주가가 장기적인 하락추세일때는 50%를 밑도는 경우가 많으므로 50%를 초과할 때 매수
  *
  * 참고자료
- *  - https://md2biz.tistory.com/400
+ *  - md2biz.tistory.com/400
  *
  *
  *  rsi score 를 먼저 메소드화 하고
@@ -97,10 +97,10 @@ public class Rsi {
      * @param priceChangeRates 가격 변화율 배열
      * @return rsi score (0~100)
      */
-    public static BigDecimal getScore(PriceChangeRate[] priceChangeRates) {
+    public static BigDecimal get(PriceChangeRate[] priceChangeRates) {
 
-        BigDecimal[] array= CandleBigDecimalChange.getChangeRateArray(priceChangeRates);
-        return getScore(array, DEFAULT_N, array.length);
+        BigDecimal[] array= CandleBigDecimals.getChangeRateArray(priceChangeRates);
+        return get(array, DEFAULT_N, array.length);
     }
 
 
@@ -113,9 +113,9 @@ public class Rsi {
      * @return rsi score ( 0~100)
      */
 
-    public static BigDecimal getScore(PriceChangeRate [] priceChangeRates, int n, int end){
-        BigDecimal [] array= CandleBigDecimalChange.getChangeRateArray(priceChangeRates);
-        return getScore(array, n, end);
+    public static BigDecimal get(PriceChangeRate [] priceChangeRates, int n, int end){
+        BigDecimal [] array= CandleBigDecimals.getChangeRateArray(priceChangeRates);
+        return get(array, n, end);
     }
     /**
      * rsi 점수 얻기
@@ -124,8 +124,8 @@ public class Rsi {
      * @param priceChangeRates 가격 변화율 배열
      * @return rsi score (0~100)
      */
-    public static BigDecimal getScore(BigDecimal [] priceChangeRates) {
-        return getScore(priceChangeRates, 14, priceChangeRates.length);
+    public static BigDecimal get(BigDecimal [] priceChangeRates) {
+        return get(priceChangeRates, DEFAULT_N, priceChangeRates.length);
     }
 
     /**
@@ -136,7 +136,7 @@ public class Rsi {
      * @param end 배열의 끝지점
      * @return rsi score ( 0~100)
      */
-    public static BigDecimal getScore(BigDecimal [] priceChangeRates, int n, int end){
+    public static BigDecimal get(BigDecimal [] priceChangeRates, int n, int end){
         int upCount = 0;
         int downCount = 0;
 
@@ -185,24 +185,46 @@ public class Rsi {
      *
      * @param priceChangeRates 가격 변화율 배열
      * @param n 특정기간
-     * @param rsiCount 얻고 싶은 rsi 개수
+     * @param resultLength 얻고 싶은 rsi 개수
      * @return rsi 배열
      */
-    public static BigDecimal [] getScores(BigDecimal[] priceChangeRates, int n, int rsiCount){
+    public static BigDecimal [] getArray(BigDecimal[] priceChangeRates, int n, int resultLength){
 
-        if(rsiCount > priceChangeRates.length){
-            rsiCount = priceChangeRates.length;
+        if(resultLength > priceChangeRates.length){
+            resultLength = priceChangeRates.length;
         }
 
-        BigDecimal [] rsiScores = new BigDecimal[rsiCount];
+        BigDecimal [] rsiScores = new BigDecimal[resultLength];
         
-        int endGap = rsiCount;
-        for (int i = 0; i <rsiCount ; i++) {
-            rsiScores[i] = getScore(priceChangeRates, n, priceChangeRates.length - endGap--);
+        int endGap = resultLength;
+        for (int i = 0; i <resultLength ; i++) {
+            rsiScores[i] = get(priceChangeRates, n, priceChangeRates.length - endGap--);
         }
         
         return rsiScores;
     }
+
+
+    public static BigDecimal [] getArray(BigDecimal[] priceChangeRates, int n, int startIndex, int end){
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > priceChangeRates.length){
+            end = priceChangeRates.length;
+        }
+
+        int resultLength = end - startIndex;
+        BigDecimal [] rsiScores = new BigDecimal[resultLength];
+
+        for (int i = 0; i <resultLength ; i++) {
+            rsiScores[i] = get(priceChangeRates, n, i + startIndex + 1);
+        }
+
+        return rsiScores;
+    }
+
 
     /**
      * rsi signal
@@ -212,7 +234,7 @@ public class Rsi {
      * @return rsi signal 배열
      */
     public static BigDecimal [] getSignal(BigDecimal [] rsiArray){
-        return MovingAverage.getArray(rsiArray, 6, rsiArray.length-5);
+        return Sma.getArray(rsiArray, DEFAULT_SIGNAL, rsiArray.length - (DEFAULT_SIGNAL - 1));
     }
 
     /**
@@ -225,7 +247,7 @@ public class Rsi {
      * @return rsi signal 배열
      */
     public static BigDecimal [] getSignal(BigDecimal [] rsiArray, int n, int signalCount){
-        return MovingAverage.getArray(rsiArray, n, signalCount);
+        return Sma.getArray(rsiArray, n, signalCount);
     }
 
 

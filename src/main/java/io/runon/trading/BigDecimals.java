@@ -1,18 +1,3 @@
-/*
- * Copyright 2021 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package io.runon.trading;
 
@@ -21,7 +6,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
- * 가격변화유형
  * @author macle
  */
 public class BigDecimals {
@@ -34,6 +18,11 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_4 = new BigDecimal(4);
     public static final BigDecimal DECIMAL_5 = new BigDecimal(5);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
+
+    public final static BigDecimal DECIMAL_1000 = new BigDecimal(1000);
+    public final static BigDecimal DECIMAL_10000 = new BigDecimal(10000);
+    public final static BigDecimal DECIMAL_100000 = new BigDecimal(100000);
+    public final static BigDecimal DECIMAL_1000000 = new BigDecimal(1000000);
 
     //0.1
     public final static BigDecimal DECIMAL_0_1 = new BigDecimal("0.1");
@@ -49,7 +38,9 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_2_5 = new BigDecimal("2.5");
 
 
-    public static BigDecimal getMin(BigDecimal num1, BigDecimal num2){
+    public static final MathContext MC_10 = new MathContext(10);
+
+    public static BigDecimal min(BigDecimal num1, BigDecimal num2){
         if(num1 == null){
             return num2;
         }
@@ -65,7 +56,7 @@ public class BigDecimals {
         return num1;
     }
 
-    public static BigDecimal getMax(BigDecimal num1, BigDecimal num2){
+    public static BigDecimal max(BigDecimal num1, BigDecimal num2){
         if(num1 == null){
             return num2;
         }
@@ -94,6 +85,26 @@ public class BigDecimals {
         return num.setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
+    public static BigDecimal sum(BigDecimal[] array, int count){
+        return sum(array, array.length - count, array.length);
+    }
+
+    public static BigDecimal sum(BigDecimal[] array, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = startIndex; i < end ; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum;
+    }
+
     public static BigDecimal sum( BigDecimal [] array){
         return add(BigDecimal.ZERO, array);
     }
@@ -105,13 +116,32 @@ public class BigDecimals {
         return num;
     }
 
+
+    public static BigDecimal average(BigDecimal[] array, int n, int index){
+        BigDecimal sum = BigDecimal.ZERO;
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(array[i]);
+        }
+        return sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal average(BigDecimal[] sortNumbers, String highestExclusionRate) {
+        return  average(sortNumbers, new BigDecimal(highestExclusionRate));
+    }
+
     /**
      * 평균구하기
      * @param sortNumbers 정렬된 숫자 반드시 정렬된 객체를 보내야함
      * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
      * @return 상위제외 평균
      */
-    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal highestExclusionRate) {
+    public static BigDecimal average(BigDecimal[] sortNumbers, BigDecimal highestExclusionRate) {
 
         int count = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
 
@@ -135,7 +165,7 @@ public class BigDecimals {
      * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
      * @return 하위 상위를 제외한 중간평균
      */
-    public static BigDecimal getAverage(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+    public static BigDecimal average(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
 
         int end = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
         int start = new BigDecimal(sortNumbers.length).multiply(highestExclusionRate).intValue();
@@ -154,7 +184,11 @@ public class BigDecimals {
         return sum.divide(new BigDecimal(size), MathContext.DECIMAL128);
     }
 
-    public static BigDecimal getAverage(BigDecimal[] numbers) {
+    public static BigDecimal average(BigDecimal[] numbers) {
+        if(numbers == null || numbers.length == 0){
+            return BigDecimal.ZERO;
+        }
+
         BigDecimal sum = sum(numbers);
         return sum.divide(new BigDecimal(numbers.length), MathContext.DECIMAL128);
     }
@@ -197,7 +231,7 @@ public class BigDecimals {
         return max;
     }
 
-    public BigDecimal min(BigDecimal [] array){
+    public static BigDecimal min(BigDecimal [] array){
         BigDecimal min = array[0];
         for (int i = 1; i < array.length; i++) {
             if(min.compareTo(array[i]) > 0){
@@ -206,6 +240,66 @@ public class BigDecimals {
         }
 
         return min;
+    }
+
+    public static BigDecimal abs( BigDecimal number){
+        if(number.compareTo(BigDecimal.ZERO) < 0){
+            return number.multiply(DECIMAL_M_1);
+        }
+        return number;
+    }
+
+
+    public static BigDecimal sd( BigDecimal [] array){
+        int index = array.length-1;
+        return sd(array, average(array, array.length, index), array.length, index );
+    }
+    public static BigDecimal sd( BigDecimal [] array , int n){
+        int index = array.length-1;
+        return sd(array, average(array, n, index), n, index );
+    }
+
+    public static BigDecimal sd( BigDecimal [] array , int n, int index){
+        return sd(array, average(array, n, index), n, index );
+    }
+
+    public static BigDecimal sd( BigDecimal [] array ,BigDecimal avg, int n){
+        return sd(array, avg, n, array.length-1 );
+    }
+
+
+    /**
+     * 표준편차
+     * 표준 편차(標準 偏差, 영어: standard deviation, SD)는 통계집단의 분산의 정도 또는 자료의 산포도를 나타내는 수치
+     */
+    public static BigDecimal sd( BigDecimal [] array, BigDecimal avg , int n, int index){
+
+
+        int end = index +1;
+        int start = end -n;
+        if(start < 0) {
+            start = 0;
+        }
+        int length = end - start ;
+
+        if(length < 1){
+            return BigDecimal.ZERO;
+        }
+
+        if(avg == null){
+            avg = average(array, n, index);
+        }
+
+        BigDecimal d = BigDecimal.ZERO;
+
+        for (int i = start; i < end; i++) {
+            d = d.add(array[i].subtract(avg).pow(2));
+        }
+
+        d = d.divide(new BigDecimal(length), MathContext.DECIMAL128);
+
+
+        return d.sqrt(MC_10);
     }
 
 

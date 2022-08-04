@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- *
  * 골든 크로스 데드 크로스 잡기
  * @author macle
  */

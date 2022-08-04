@@ -32,7 +32,8 @@ import java.util.*;
  * 트레이딩 차트
  * @author ccsweets
  */
-public class TradingChart {
+public class
+TradingChart {
 
     /* 차트 데이터 타입 */
     public enum ChartDateType {MINUTE, DAY}

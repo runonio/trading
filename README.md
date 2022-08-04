@@ -17,26 +17,44 @@
 ### 거래대금이 설정되어 있는 경우
 시간(밀리초 유닉스타임)[0],유형[1],가격[2],거래량[3]
 
+## open interest (미체결 약정) 
+시간(밀리초 유닉스타임)[0],미체결약정[1],미체결약정명목가치(Notional Value of Open Interest)[2]
+## open interest (미체결 약정) 금액이 없는경우
+시간(밀리초 유닉스타임)[0],미체결약정[1]
+
+## long short ratio (롱숏 비율) long account / short account
+시간(밀리초 유닉스타임)[0],ratio[1],long account[2],short account[3]
+
+## long short ratio (롱숏 비율) 계좌정보를 모를경우
+시간(밀리초 유닉스타임)[0],ratio[1]
+
 # gradle
-implementation 'io.runon.trading:trading:0.2.6'
+implementation 'io.runon.trading:trading:0.3.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.2.6
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.4
 
-implementation 'io.runon.trading:technical-analysis:0.3.3'
+implementation 'io.runon.trading:technical-analysis:0.3.7'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.3.3
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.3.7
 
-implementation 'io.runon.trading:backtesting:0.1.3'
+implementation 'io.runon.trading:backtesting:0.1.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.3
+    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.4
 
-implementation 'io.runon.trading:trading-data:0.1.6'
+implementation 'io.runon.trading:trading-data:0.1.9'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.6
+    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.1.9
     
-implementation 'io.runon.trading:chart-view:0.2.2'
+implementation 'io.runon.trading:chart-view:0.2.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.2
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.4
+
+# 구현예정 항목정리
+- 매물대 분석
+- 박스권
+- 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
+
+
 
 # communication
 ### blog, homepage

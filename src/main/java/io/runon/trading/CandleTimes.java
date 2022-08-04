@@ -9,6 +9,20 @@ import java.util.Calendar;
  */
 public class CandleTimes {
 
+    public static String getInterval(long time){
+        if(time >= Times.WEEK_1 && time%Times.WEEK_1 == 0 ) {
+            return time/Times.WEEK_1 + "w";
+        }else if(time >= Times.DAY_1){
+            return time/Times.DAY_1 + "d";
+        }else if(time >= Times.HOUR_1){
+            return time/Times.HOUR_1 + "h";
+        }else if(time >= Times.MINUTE_1){
+            return time/Times.MINUTE_1 + "m";
+        }else{
+            return time/1000L + "s";
+        }
+    }
+
     public static long getIntervalTime(String interval){
         char timeUnit = interval.charAt(interval.length()-1);
         String timeNumber = interval.substring(0, interval.length()-1);

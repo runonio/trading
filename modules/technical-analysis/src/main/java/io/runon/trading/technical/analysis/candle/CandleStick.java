@@ -15,10 +15,9 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.trading.Candle;
-import io.runon.trading.PriceChange;
-import io.runon.trading.PriceChangeType;
-import io.runon.trading.PriceOpenTime;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
+import io.runon.trading.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -29,7 +28,9 @@ import java.math.MathContext;
  * - 더 많은 요소 클래스는 상속받아서 구현
  * @author macle
  */
-public class CandleStick implements PriceChange, Candle, PriceOpenTime {
+public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber {
+
+
 
     //자세한 모양은 구글시트 참조
     //https://docs.google.com/spreadsheets/d/13T8OR02ESmGTsD6uAI5alYPdRg6ekrfnVnkCdqpoAvE/edit#gid=1228683334
@@ -486,6 +487,21 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime {
      */
     public void setEndTrade() {
         isEndTrade = true;
+    }
+
+    @Override
+    public long getTime() {
+        return openTime;
+    }
+
+    @Override
+    public BigDecimal getNumber() {
+        return close;
+    }
+
+    @Override
+    public String toString(){
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
 }
 

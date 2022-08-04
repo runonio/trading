@@ -46,9 +46,9 @@
  - https://chromedriver.chromium.org/downloads
  - https://pure-js.com/
 # gradle
-implementation 'io.runon.trading:chart-view:0.2.2'
+implementation 'io.runon.trading:chart-view:0.2.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.2
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.4
   
 # communication
 ### blog, homepage

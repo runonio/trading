@@ -16,13 +16,16 @@
 
 package io.runon.trading;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
+
 import java.math.BigDecimal;
 
 /**
  * 가격 변화 구현체
  * @author macle
  */
-public class PriceChangeImpl implements PriceChange{
+public class PriceChangeData implements PriceChange{
 
     BigDecimal close;
     BigDecimal change;
@@ -37,7 +40,7 @@ public class PriceChangeImpl implements PriceChange{
      * @param changeRate 변화율
      * @param previous 전일가
      */
-    public PriceChangeImpl(
+    public PriceChangeData(
             BigDecimal close
             , BigDecimal change
             , BigDecimal changeRate
@@ -68,5 +71,8 @@ public class PriceChangeImpl implements PriceChange{
     public BigDecimal getPrevious() {
         return previous;
     }
-
+    @Override
+    public String toString(){
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+    }
 }

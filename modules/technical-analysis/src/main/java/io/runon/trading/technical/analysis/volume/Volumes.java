@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
+import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class Volumes {
 
     //100.0 == 100% , 500.0 == 500%
-    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(500);
+    public static final BigDecimal MAX_VOLUME_POWER = new BigDecimal(Config.getConfig("max.volume.power", "500"));
 
     /**
      * 체결강도
@@ -50,13 +51,13 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.getAverage(volumes, highestExclusionRate);
+        return BigDecimals.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.getAverage(volumes,lowestExclusionRate, highestExclusionRate);
+        return BigDecimals.average(volumes,lowestExclusionRate, highestExclusionRate);
     }
 
 
@@ -73,6 +74,21 @@ public class Volumes {
             volumes[index++] = candles[i].getVolume();
         }
 
+        return volumes;
+    }
+    public static BigDecimal [] getVolumes(TradeCandle [] candles, int startIndex, int end){
+        if (end > candles.length) {
+            end = candles.length;
+        }
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        int length = end - startIndex;
+        BigDecimal [] volumes = new BigDecimal[length];
+        for (int i = 0; i < length; i++) {
+            volumes[i] = candles[i+startIndex].getVolume();
+        }
         return volumes;
     }
 
@@ -133,11 +149,42 @@ public class Volumes {
         return sum.divide(new BigDecimal(maCount),MathContext.DECIMAL128);
     }
 
-
-    public static void main(String[] args) {
-        int count = new BigDecimal(100).multiply(BigDecimal.ONE.subtract(new BigDecimal("0.1"))).intValue();
-        System.out.println(count);
+    public static BigDecimal[] getVolumes(TradeCandle[] candles){
+        return getVolumes(candles, 0, candles.length);
     }
 
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles){
+        return getVolumePowers(candles, 0, candles.length);
+    }
+
+    public static BigDecimal[] getVolumePowers(TradeCandle[] candles, int startIndex, int end){
+        BigDecimal [] array = new BigDecimal[end-startIndex];
+        int index = 0;
+        for (int i = startIndex; i <end ; i++) {
+            array[index++] = candles[i].getVolumePower() ;
+        }
+        return array;
+    }
+
+    public static BigDecimal sum(TradeCandle[] candles, int count){
+        return sum(candles, candles.length - count, candles.length);
+    }
+
+    public static BigDecimal sum(TradeCandle[] candles, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > candles.length){
+            end = candles.length;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = startIndex; i < end ; i++) {
+            sum = sum.add(candles[i].getVolume());
+        }
+        return sum;
+    }
 
 }

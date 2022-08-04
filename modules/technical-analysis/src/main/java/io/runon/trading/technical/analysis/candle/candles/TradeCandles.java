@@ -18,10 +18,10 @@ package io.runon.trading.technical.analysis.candle.candles;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -32,9 +32,10 @@ import java.util.List;
  * 여러개의 TradeCandle 정보
  * @author macle
  */
-public class TradeCandles {
+@Slf4j
+@SuppressWarnings("ConstantForZeroLengthArrayAllocation")
+public class TradeCandles implements Candles {
 
-    private static final Logger logger = LoggerFactory.getLogger(TradeCandles.class);
 
     public static final int DEFAULT_COUNT = 1000;
 
@@ -94,7 +95,7 @@ public class TradeCandles {
      */
     public void setCandleType(){
         if(steadyGapRatio == null || shortGapRatio == null){
-            logger.error("shortGapPercent, steadyGapPercent set: " + shortGapRatio +", " + steadyGapRatio);
+            log.error("shortGapPercent, steadyGapPercent set: " + shortGapRatio +", " + steadyGapRatio);
             return;
         }
 
@@ -364,6 +365,7 @@ public class TradeCandles {
      * candles get
      * @return TradeCandle candles
      */
+    @Override
     public TradeCandle[] getCandles() {
         return candles;
     }
