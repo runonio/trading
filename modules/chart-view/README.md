@@ -43,7 +43,8 @@
 
 # 참고
  - https://github.com/tradingview/lightweight-charts
-
+ - https://chromedriver.chromium.org/downloads
+ - https://pure-js.com/
 # gradle
 implementation 'io.runon.trading:chart-view:0.2.4'
 - etc
