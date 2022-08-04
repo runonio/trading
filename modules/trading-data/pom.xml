@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>trading-data</artifactId>
-    <version>0.1.9</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <name>trading data</name>
@@ -26,6 +26,12 @@
             <name>macle</name>
             <email>ysys86a@gmail.com</email>
             <id>macle86</id>
+            <organization>seomse</organization>
+        </developer>
+        <developer>
+            <name>ccsweets</name>
+            <email>tramp0102@gmail.com</email>
+            <id>ccsweets</id>
             <organization>seomse</organization>
         </developer>
     </developers>

@@ -117,7 +117,7 @@ public class CsvCandle {
      * @return TradeCandle
      */
     public static TradeCandle make(String csv, long time){
-        String [] values = csv.split(",");
+        String [] values = csv.split(",",-1);
 //                캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
         long openTime = Long.parseLong(values[0]);
 
@@ -131,16 +131,19 @@ public class CsvCandle {
         tradeCandle.setPrevious(CsvCommon.getBigDecimal(values[5]));
         tradeCandle.setVolume(CsvCommon.getBigDecimal(values[6]));
         tradeCandle.setTradingPrice(CsvCommon.getBigDecimal(values[7]));
-        if(values[8] != null){
+        if(values[8] != null && !values[8].equals("")){
             tradeCandle.setTradeCount(Integer.parseInt(values[8]));
         }
 
         if(tradeCandle.getPrevious() == null){
             tradeCandle.setPrevious(tradeCandle.getOpen());
         }
-
-        tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
-        tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
+        if(values[9] != null && !values[9].equals("")) {
+            tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
+        }
+        if(values[10] != null && !values[10].equals("")) {
+            tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
+        }
         tradeCandle.setSellVolume();
         tradeCandle.setSellTradingPrice();
         //직전가로 변화량과 변화율 설정
