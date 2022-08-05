@@ -74,14 +74,4 @@ public class CsvTimeName {
 
     }
 
-
-    public static void main(String[] args) {
-//        TimeZone zone = TimeZone.ad
-
-//        ZoneId zoneId = ZoneId.of("US/Eastern");
-//        System.out.println(zoneId.getId());
-
-        System.out.println(getName(System.currentTimeMillis() , 1000, ZoneId.of("Asia/Seoul")));
-
-    }
 }
