@@ -19,7 +19,6 @@ package io.runon.trading.example;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
 import io.runon.trading.technical.analysis.candle.CandleManager;
-import io.runon.trading.technical.analysis.candle.CandleTimeGap;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
@@ -38,7 +37,11 @@ public class CandleManagerExample {
 
     public static CandleManager makeCandleManager(){
 
-        CandleManager candleManager = new CandleManager(CandleTimeGap.DEFAULT_SCALPING);
+        long [] times = {
+                Times.DAY_1
+        };
+
+        CandleManager candleManager = new CandleManager(times);
 
         String tradeFilePath = "meta/trades";
 
