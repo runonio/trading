@@ -15,7 +15,7 @@ implementation 'io.runon.trading:technical-analysis:0.3.7'
 
 # 목차
 ## 이동평균
-### SMA: 단순 이동 평군
+### SMA: 단순 이동 평군 
 io.runon.trading.technical.analysis.indicator.ma.Sma
 ### EMA: 지수 이동 평균
 io.runon.trading.technical.analysis.indicator.ma.Ema
@@ -49,7 +49,7 @@ io.runon.trading.technical.analysis.market.stv.SoaringTradingVolume
 직접 개발하여 연구중인 지표
 
 # 구현 예정 목록
-- 파라볼릭 시스템
+- 파라볼릭 시스템 (손실제한 구현 후)
 - 헤릭정산지수
 - 방향성지표 (ADX)
 - ROC

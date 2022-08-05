@@ -2,12 +2,18 @@ package io.runon.trading;
 
 import com.seomse.commons.utils.time.Times;
 
+import java.time.ZoneId;
 import java.util.Calendar;
 
 /**
  * @author macle
  */
 public class CandleTimes {
+
+    //기본 타임 존은 뉴욕증시 시간으로 설정 (동부 표준시)
+    //America/New_York == US/Eastern 서머타임에는 1시간 빠른시간을 활용
+    public static ZoneId US_STOCK_ZONE_ID = ZoneId.of("America/New_York");
+    public static ZoneId KOREAN_STOCK_ZONE_ID = ZoneId.of("Asia/Seoul");
 
     public static String getInterval(long time){
         if(time >= Times.WEEK_1 && time%Times.WEEK_1 == 0 ) {
@@ -81,5 +87,13 @@ public class CandleTimes {
             return calendar.getTimeInMillis();
         }
 
+    }
+
+    public static void main(String[] args) {
+        long time = System.currentTimeMillis();
+
+        System.out.println(Times.ymdhm(time, ZoneId.of( "America/New_York" )));
+        System.out.println(Times.ymdhm(time, US_STOCK_ZONE_ID));
+        System.out.println(Times.ymdhm(time, KOREAN_STOCK_ZONE_ID));
     }
 }

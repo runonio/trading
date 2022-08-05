@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.exception;
+package io.runon.trading.exception;
 /**
  * 캔들 시간 관련 오류
  * @author macle
