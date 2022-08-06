@@ -16,54 +16,70 @@ import java.math.MathContext;
  */
 public class CandleBigDecimals {
 
-    public static BigDecimal [] getCloseArray(Price[] candles){
-        return getCloseArray(candles,0, candles.length);
+    public static BigDecimal [] getCloseArray(Price[] array){
+        return getCloseArray(array,0, array.length);
     }
 
-    public static BigDecimal [] getCloseArray(Price[] candles, int length){
-        return getCloseArray(candles, candles.length- length, candles.length);
+    public static BigDecimal [] getCloseArray(Price[] array, int resultLength){
+        return getCloseArray(array, array.length- resultLength, array.length);
 
     }
 
-    public static BigDecimal [] getCloseArray(Price[] candles,int startIndex, int end){
+    public static BigDecimal [] getCloseArray(Price[] array,int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }
 
-        BigDecimal [] array = new BigDecimal[end-startIndex];
+        BigDecimal [] result = new BigDecimal[end-startIndex];
         int index = 0;
         for (int i = startIndex; i <end ; i++) {
-            array[index++] = candles[i].getClose() ;
+            result[index++] = array[i].getClose() ;
         }
-        return array;
+        return result;
 
     }
 
-    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] priceChangeRateArray){
-        return getChangeRateArray(priceChangeRateArray, 0, priceChangeRateArray.length);
+    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array){
+        return getChangeRateArray(array, 0, array.length);
     }
 
-    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] priceChangeRateArray, int startIndex, int end){
-        BigDecimal [] array = new BigDecimal[end-startIndex];
+
+    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array, int resultLength){
+        return getChangeRateArray(array,array.length - resultLength, array.length);
+    }
+
+
+    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+        BigDecimal [] result = new BigDecimal[end-startIndex];
         int index = 0;
         for (int i = startIndex; i <end ; i++) {
-            array[index++] = priceChangeRateArray[i].getChangeRate() ;
+            result[index++] = array[i].getChangeRate() ;
         }
-        return array;
+        return result;
     }
 
 
-    public static BigDecimal[] getTradingPriceArray(TradeCandle[] candles){
-        return getTradingPriceArray(candles, 0 , candles.length);
+    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array){
+        return getTradingPriceArray(array, 0 , array.length);
+    }
+    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array, int resultLength){
+        return getTradingPriceArray(array, array.length - resultLength, array.length);
     }
 
-    public static BigDecimal[] getTradingPriceArray(TradeCandle[] candles, int startIndex, int end){
-        BigDecimal [] array = new BigDecimal[end-startIndex];
+    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        BigDecimal [] result = new BigDecimal[end-startIndex];
         int index = 0;
         for (int i = startIndex; i <end ; i++) {
-            array[index++] = candles[i].getTradingPrice() ;
+            result[index++] = array[i].getTradingPrice() ;
         }
-        return array;
+        return result;
     }
 
 
