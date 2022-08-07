@@ -25,6 +25,10 @@ import java.time.ZonedDateTime;
  */
 public class CsvTimeName {
 
+    public static String getPath(String dirPath, String symbol, long standardTime, ZoneId zoneId, long time){
+        return dirPath +"/" + symbol +"/" + CandleTimes.getInterval(standardTime) + "/" + getName(time, standardTime, zoneId);
+    }
+
     //기본 타임 존은 뉴욕증시 시간으로 설정
     public static String getName(long time, long standardTime){
         return getName(time, standardTime, CandleTimes.US_STOCK_ZONE_ID);
