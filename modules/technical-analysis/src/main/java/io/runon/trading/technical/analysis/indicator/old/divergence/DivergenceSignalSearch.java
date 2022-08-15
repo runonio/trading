@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.runon.trading.technical.analysis.indicator.divergence;
+package io.runon.trading.technical.analysis.indicator.old.divergence;
 
 import io.runon.trading.Candle;
 

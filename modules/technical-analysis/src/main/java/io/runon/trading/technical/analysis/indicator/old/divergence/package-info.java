@@ -38,4 +38,4 @@
  *
  * @author macle
  */
-package io.runon.trading.technical.analysis.indicator.divergence;
+package io.runon.trading.technical.analysis.indicator.old.divergence;
