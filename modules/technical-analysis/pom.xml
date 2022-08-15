@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>technical-analysis</artifactId>
-    <version>0.3.7</version>
+    <version>0.3.8</version>
     <packaging>jar</packaging>
 
     <name>technical-analysis</name>
