@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.3.7'
+implementation 'io.runon.trading:technical-analysis:0.3.9'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.3.7
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.3.9
 
 # 목차
 ## 이동평균
@@ -21,6 +21,9 @@ io.runon.trading.technical.analysis.indicator.ma.Sma
 io.runon.trading.technical.analysis.indicator.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicator.ma.Vwma
+
+## 다이버전스
+io.runon.trading.technical.analysis.indicator.divergence.Divergence
 
 ## 가격지표
 ### 스토캐스틱
@@ -57,7 +60,6 @@ io.runon.trading.technical.analysis.market.stv.SoaringTradingVolume
 - 지지선, 저항선
 - 매물대분석
 - 피보나치
-- 다이버전스
 - 차트패턴
   - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
 

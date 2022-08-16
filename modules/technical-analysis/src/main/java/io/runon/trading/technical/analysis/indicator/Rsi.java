@@ -203,11 +203,11 @@ public class Rsi {
         //  AD = 일정기간 (N) D의 평균값
         //  RS = AU / AD
         //  RSI =  RS / (1 + RS) =  AU / (AU + AD)
-        BigDecimal averageUps = upSum.divide(new BigDecimal(upCount), MathContext.DECIMAL128);
+        BigDecimal au = upSum.divide(new BigDecimal(upCount), MathContext.DECIMAL128);
         //- 값이므로 -를 곲함 양수전환
-        BigDecimal averageDowns = downSum.multiply(BigDecimals.DECIMAL_M_1).divide(new BigDecimal(downCount),MathContext.DECIMAL128);
+        BigDecimal ad = downSum.multiply(BigDecimals.DECIMAL_M_1).divide(new BigDecimal(downCount),MathContext.DECIMAL128);
 
-        BigDecimal rs = averageUps.divide(averageDowns, MathContext.DECIMAL128);
+        BigDecimal rs = au.divide(ad, MathContext.DECIMAL128);
         BigDecimal rsi = rs.divide(BigDecimal.ONE.add(rs), MathContext.DECIMAL128);
 
         //소수점 4재짜리 까지만 사용하기
