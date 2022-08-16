@@ -16,7 +16,9 @@
 
 package io.runon.trading.technical.analysis.indicator.divergence;
 
-import io.runon.trading.Candle;
+import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimePrice;
+import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -55,50 +57,122 @@ import java.util.Arrays;
  * @author ccsweets
  */
 public class Divergence {
+
     /**
-     * 다이버전스 Array를 돌려준다. 캔들
+     * 다이버전스 Array를 돌려준다.
      * @param candleArr 캔들 배열
      * @param compareArr 지표 배열
      * @param minLength 최소 탐색 길이
      * @param maxLength 최대 탐색 길이
      * @param size 최대 배열 개수
-     * @return
+     * @return 다이버전스 배열
      */
-    public static DivergenceData[] getArray(Candle[] candleArr, BigDecimal[] compareArr, int minLength, int maxLength, int size){
-
-        Candle[] newPriceArr = Arrays.copyOfRange(candleArr, candleArr.length - size,  candleArr.length);
+    public static DivergenceData[] getArray(TradeCandle[] candleArr, BigDecimal[] compareArr, int minLength, int maxLength, int size){
+        TradeCandle[] newPriceArr = Arrays.copyOfRange(candleArr, candleArr.length - size,  candleArr.length);
         BigDecimal[] newCompareArr = Arrays.copyOfRange(compareArr, compareArr.length - size, compareArr.length);
 
-        return getArray(newPriceArr, newCompareArr, minLength, maxLength);
-    }
-
-    /**
-     * 다이버전스 Array를 돌려준다. 캔들
-     * @param candleArr 캔들 배열
-     * @param compareArr 지표 배열
-     * @param minLength 최소 탐색 길이
-     * @param maxLength 최대 탐색 길이
-     * @return
-     */
-    public static DivergenceData[] getArray(Candle[] candleArr, BigDecimal[] compareArr, int minLength, int maxLength){
-
-        int lastBearIndex = candleArr.length;
-        int lastBullIndex = candleArr.length;
-        DivergenceData[] divergenceDataArr = new DivergenceData[candleArr.length];
-
-        for (int i = 0; i < candleArr.length; i++) {
-            divergenceDataArr[i] = new DivergenceData();
-        }
-        BigDecimal[] highArr = new BigDecimal[candleArr.length];
-        BigDecimal[] lowArr = new BigDecimal[candleArr.length];
-        for (int i = 0; i < candleArr.length; i++) {
-            Candle candle = candleArr[i];
-            BigDecimal high = candle.getHigh();
-            BigDecimal low = candle.getLow();
+        TimeNumberData[] highArr = new TimeNumberData[newPriceArr.length];
+        TimeNumberData[] lowArr = new TimeNumberData[newPriceArr.length];
+        for (int i = 0; i < newPriceArr.length; i++) {
+            TradeCandle candle = newPriceArr[i];
+            TimeNumberData high = new TimeNumberData(candle.getTime(), candle.getHigh());
+            TimeNumberData low = new TimeNumberData(candle.getTime(), candle.getLow());
 
             highArr[i] = high;
             lowArr[i] = low;
 
+        }
+        return getArray(highArr, lowArr, newCompareArr, minLength, maxLength);
+    }
+    /**
+     * 다이버전스 Array를 돌려준다.
+     * @param candleArr 캔들 배열
+     * @param compareArr 지표 배열
+     * @param minLength 최소 탐색 길이
+     * @param maxLength 최대 탐색 길이
+     * @return 다이버전스 배열
+     */
+    public static DivergenceData[] getArray(TradeCandle[] candleArr, BigDecimal[] compareArr, int minLength, int maxLength){
+        return getArray(candleArr, compareArr, minLength, maxLength, candleArr.length);
+    }
+
+    /**
+     * 다이버전스 Array를 돌려준다.
+     * @param indicatorArr 지표 배열
+     * @param compareArr 비교 지표 배열
+     * @param minLength 최소 탐색 길이
+     * @param maxLength 최대 탐색 길이
+     * @return 다이버전스 배열
+     */
+    public static DivergenceData[] getArray(BigDecimal[] indicatorArr, BigDecimal[] compareArr, int minLength, int maxLength){
+        TimeNumberData[] highArr = new TimeNumberData[indicatorArr.length];
+        TimeNumberData[] lowArr = new TimeNumberData[indicatorArr.length];
+        for (int i = 0; i < indicatorArr.length; i++) {
+            TimeNumberData high = new TimeNumberData(-1L, indicatorArr[i]);
+            TimeNumberData low = new TimeNumberData(-1L, indicatorArr[i]);
+
+            highArr[i] = high;
+            lowArr[i] = low;
+        }
+        return getArray(highArr, lowArr, compareArr, minLength, maxLength);
+    }
+    /**
+     * 다이버전스 Array를 돌려준다.
+     * @param indicatorArr 지표 배열
+     * @param compareArr 비교 지표 배열
+     * @param minLength 최소 탐색 길이
+     * @param maxLength 최대 탐색 길이
+     * @param size 최대 배열 개수
+     * @return 다이버전스 배열
+     */
+    public static DivergenceData[] getArray(BigDecimal[] indicatorArr, BigDecimal[] compareArr, int minLength, int maxLength, int size){
+        BigDecimal[] newIndicatorArr = Arrays.copyOfRange(indicatorArr, indicatorArr.length - size,  indicatorArr.length);
+        BigDecimal[] newCompareArr = Arrays.copyOfRange(compareArr, compareArr.length - size, compareArr.length);
+        return getArray(newIndicatorArr, newCompareArr, minLength, maxLength);
+    }
+
+    /**
+     * 다이버전스 Array를 돌려준다.
+     * @param highTimePriceArr 고가 배열
+     * @param lowTimePriceArr 저가 배열
+     * @param compareArr 비교지표배열
+     * @param minLength 최소길이
+     * @param maxLength 최대길이
+     * @param size 최대 배열 길이
+     * @return 다이버전스 배열
+     */
+    public static DivergenceData[] getArray(TimePrice[] highTimePriceArr, TimePrice[] lowTimePriceArr, BigDecimal[] compareArr, int minLength, int maxLength, int size){
+        TimePrice[] newHighTimePriceArr = Arrays.copyOfRange(highTimePriceArr, highTimePriceArr.length - size,  highTimePriceArr.length);
+        TimePrice[] newLowTimePriceArr = Arrays.copyOfRange(lowTimePriceArr, lowTimePriceArr.length - size,  lowTimePriceArr.length);
+        BigDecimal[] newCompareArr = Arrays.copyOfRange(compareArr, compareArr.length - size, compareArr.length);
+        return getArray(newHighTimePriceArr, newLowTimePriceArr, newCompareArr, minLength, maxLength);
+    }
+
+    /**
+     * 다이버전스 Array를 돌려준다.
+     * @param highTimePriceArr 고가 배열
+     * @param lowTimePriceArr 저가 배열
+     * @param compareArr 비교지표배열
+     * @param minLength 최소길이
+     * @param maxLength 최대길이
+     * @return 다이버전스 배열
+     */
+    public static DivergenceData[] getArray(TimePrice[] highTimePriceArr, TimePrice[] lowTimePriceArr, BigDecimal[] compareArr, int minLength, int maxLength){
+
+        BigDecimal[] highArr = new BigDecimal[highTimePriceArr.length];
+        BigDecimal[] lowArr = new BigDecimal[lowTimePriceArr.length];
+
+        int lastBearIndex = highArr.length;
+        int lastBullIndex = highArr.length;
+        DivergenceData[] divergenceDataArr = new DivergenceData[highArr.length];
+
+        for (int i = 0; i < highTimePriceArr.length; i++) {
+            DivergenceData divergenceData = new DivergenceData();
+            divergenceData.setTime(highTimePriceArr[i].getTime());
+            divergenceDataArr[i] = divergenceData;
+
+            highArr[i] = highTimePriceArr[i].getClose();
+            lowArr[i] = lowTimePriceArr[i].getClose();
         }
 
         // find normal bear
@@ -150,7 +224,6 @@ public class Divergence {
             }
 
             // 비교 지표의 Bearish 찾기 완료
-
             prevPriceArr = Arrays.copyOfRange(highArr, maxI, i);
             BigDecimal prevArrPriceMax = getMax(prevPriceArr);
 
@@ -160,7 +233,7 @@ public class Divergence {
             }
 
             // 탐색 완료
-            DivergenceData divergenceData = new DivergenceData();
+            DivergenceData divergenceData = divergenceDataArr[i];
             divergenceData.setDivergenceType(DivergenceType.REGULAR);
             divergenceData.setDivergenceUpDownType(DivergenceUpDownType.BEARISH);
             divergenceData.setDivergenceLength(i - maxI);
@@ -184,12 +257,10 @@ public class Divergence {
             BigDecimal prevPrice = lowArr[i-1];
             BigDecimal compare = compareArr[i];
 
-
             // 이전 값이 같거나 작으면 스킵
             if(prevPrice.compareTo(price) == 0 || prevPrice.compareTo(price) < 0){
                 continue;
             }
-
 
             BigDecimal[] prevCompareArr = Arrays.copyOfRange(compareArr, i - maxLength, i);
             BigDecimal[] prevPriceArr = Arrays.copyOfRange(lowArr, i - maxLength, i);
@@ -210,6 +281,7 @@ public class Divergence {
 
             BigDecimal[] prevBullCompareArr = Arrays.copyOfRange(prevCompareArr, minIndex+1, prevCompareArr.length);
             BigDecimal[] prevBullPriceArr = Arrays.copyOfRange(prevPriceArr, minIndex+1, prevCompareArr.length);
+
             //최소단위 비교
             if(prevBullCompareArr.length + 2 < minLength){
                 continue;
@@ -246,8 +318,8 @@ public class Divergence {
             divergenceDataArr[i] = divergenceData;
         }
 
-        lastBearIndex = candleArr.length;
-        lastBullIndex = candleArr.length;
+        lastBearIndex = highArr.length;
+        lastBullIndex = highArr.length;
 
         // find hidden bear
         for (int i = highArr.length -1 ; i-maxLength >= 0  ; i--) {
@@ -321,12 +393,10 @@ public class Divergence {
             BigDecimal prevPrice = lowArr[i-1];
             BigDecimal compare = compareArr[i];
 
-
             // 이전 값이 같거나 크면 스킵
             if(prevPrice.compareTo(price) == 0 || prevPrice.compareTo(price) < 0){
                 continue;
             }
-
 
             BigDecimal[] prevCompareArr = Arrays.copyOfRange(compareArr, i - maxLength, i);
             BigDecimal[] prevPriceArr = Arrays.copyOfRange(lowArr, i - maxLength, i);
@@ -361,10 +431,8 @@ public class Divergence {
                 continue;
             }
 
-            // 비교 지표의 Bearish 찾기 완료
-
             // 탐색 완료
-            DivergenceData divergenceData = new DivergenceData();
+            DivergenceData divergenceData = divergenceDataArr[i];
             divergenceData.setDivergenceType(DivergenceType.HIDDEN);
             divergenceData.setDivergenceUpDownType(DivergenceUpDownType.BULLISH);
             divergenceData.setDivergenceLength(i - maxI);
@@ -384,11 +452,11 @@ public class Divergence {
 
     /**
      * 다이버전스 선 체크를 위한 값 체크
-     * @param checkArr
-     * @param start
-     * @param end
-     * @param isBear
-     * @return
+     * @param checkArr 체크할 배열
+     * @param start 시작
+     * @param end 종료
+     * @param isBear 하락여부
+     * @return 체크
      */
     private static boolean checkLineOver(BigDecimal[] checkArr, BigDecimal start, BigDecimal end, boolean isBear) {
 
@@ -412,8 +480,8 @@ public class Divergence {
 
     /**
      * 배열의 최소값을 구한다
-     * @param priceArr
-     * @return
+     * @param priceArr 가격배열
+     * @return 최소값
      */
     private static BigDecimal getMin(BigDecimal[] priceArr){
         BigDecimal minPrice = BigDecimal.valueOf(Double.MAX_VALUE);
@@ -427,8 +495,8 @@ public class Divergence {
 
     /**
      * 배열의 최대값을 구한다
-     * @param priceArr
-     * @return
+     * @param priceArr 가격배열
+     * @return 최대값
      */
     private static BigDecimal getMax(BigDecimal[] priceArr){
         BigDecimal maxPrice = new BigDecimal("0.0");
@@ -442,8 +510,8 @@ public class Divergence {
 
     /**
      * 배열의 최대값의 인덱스를 구한다
-     * @param priceArr
-     * @return
+     * @param priceArr 가격배열
+     * @return 인덱스
      */
     private static int getMaxIndex(BigDecimal[] priceArr){
         int max = 0;
@@ -460,8 +528,8 @@ public class Divergence {
 
     /**
      * 배열의 최소값의 인덱스를 구한다
-     * @param priceArr
-     * @return
+     * @param priceArr 가격배열
+     * @return 인덱스
      */
     private static int getMinIndex(BigDecimal[] priceArr){
         int min = 0;
@@ -475,5 +543,4 @@ public class Divergence {
         }
         return min;
     }
-
 }

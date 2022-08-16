@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class DivergenceData {
+    long time;
     DivergenceType divergenceType = DivergenceType.NONE;
     DivergenceUpDownType divergenceUpDownType = DivergenceUpDownType.NONE;
 
