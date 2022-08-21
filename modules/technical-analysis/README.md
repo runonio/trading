@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.3.9'
+implementation 'io.runon.trading:technical-analysis:0.4.0'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.3.9
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.0
 
 # 목차
 ## 이동평균
@@ -41,7 +41,9 @@ io.runon.trading.technical.analysis.indicator.ichimoku.IchimokuBalance
 ### 매집분산지표 (A/D Line)
 io.runon.trading.technical.analysis.indicator.volume.AdLine
 ### VR (Volume Ratio)
-io.runon.trading.technical.analysis.indicator.volume.vr
+io.runon.trading.technical.analysis.indicator.volume.Vr
+### 매물대분석 (Volume Profile)
+io.runon.trading.technical.analysis.indicator.volume.profile.VolumeProfile
 
 ## 시장 지표
 ### 신고가 신저가 
@@ -58,7 +60,6 @@ io.runon.trading.technical.analysis.market.stv.SoaringTradingVolume
 - ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
 - 지지선, 저항선
-- 매물대분석
 - 피보나치
 - 차트패턴
   - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
