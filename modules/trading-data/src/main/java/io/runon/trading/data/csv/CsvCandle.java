@@ -2,7 +2,6 @@ package io.runon.trading.data.csv;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
-import com.seomse.commons.utils.string.Check;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -150,6 +149,4 @@ public class CsvCandle {
         tradeCandle.setChange();
         return tradeCandle;
     }
-
-
 }
