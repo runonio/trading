@@ -4,7 +4,7 @@ import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.market.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

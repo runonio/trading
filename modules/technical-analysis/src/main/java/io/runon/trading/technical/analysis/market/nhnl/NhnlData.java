@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.market.nhnl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.runon.trading.technical.analysis.market.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ public class NhnlData {
     BigDecimal index = BigDecimal.ZERO;
 
     SymbolCandle[] highs = SymbolCandle.EMPTY_ARRAY;
-    SymbolCandle [] lows = SymbolCandle.EMPTY_ARRAY;
+    SymbolCandle[] lows = SymbolCandle.EMPTY_ARRAY;
 
     public int getHighLength(){
         return highs.length;

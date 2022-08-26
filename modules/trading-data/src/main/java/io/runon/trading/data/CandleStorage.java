@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 전체 캔들을 메모리에 올려놓고 사용하는방식
+ * 시장지표를 사용하는환경에서는 사용을 추천하지 않는다.
  * data
  * @author macle
  */

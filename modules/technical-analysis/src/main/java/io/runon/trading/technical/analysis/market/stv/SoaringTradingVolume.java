@@ -5,7 +5,7 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicator.Disparity;
-import io.runon.trading.technical.analysis.market.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
