@@ -35,7 +35,7 @@ public class CsvSymbolCandle {
         this.zoneId = zoneId;
     }
 
-    public SymbolCandle [] read(long startTime, long endTime){
+    public SymbolCandle [] load(long startTime, long endTime){
         if(startTime == -1 || endTime == -1 || startTime >= endTime){
             throw new IllegalArgumentException("time error start time: " + startTime + ", end time: " + endTime);
         }
@@ -61,6 +61,7 @@ public class CsvSymbolCandle {
 
             String symbol = file.getName();
             TradeCandle[] candles = CsvCandle.load(file.getAbsolutePath() + "/" + interval, candleTime, startTime, endTime, zoneId);
+
             if(candles.length == 0){
                 continue;
             }
@@ -73,8 +74,8 @@ public class CsvSymbolCandle {
         }
 
         SymbolCandle [] array = list.toArray(new SymbolCandle[0]);
-
-        return SymbolCandle.EMPTY_ARRAY;
+        list.clear();
+        return array;
     }
 
 }
