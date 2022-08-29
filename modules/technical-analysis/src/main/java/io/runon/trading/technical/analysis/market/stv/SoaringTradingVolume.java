@@ -5,7 +5,8 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicator.Disparity;
-import io.runon.trading.technical.analysis.market.SymbolCandle;
+import io.runon.trading.technical.analysis.market.MarketIndicator;
+import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -19,39 +20,21 @@ import java.util.List;
  * 0 ~ 100
  * @author macle
  */
-public class SoaringTradingVolume {
+public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeData> {
 
-
-    private SymbolCandle[] symbolCandles;
 
     private int averageCount = 50;
 
     private int minAverageCount = 10;
-    private int scale = 4;
-    public void setScale(int scale) {
-        this.scale = scale;
-    }
+
     private BigDecimal highestExclusionRate = new BigDecimal(Config.getConfig("soaring.trading.volume.default.highest.exclusion.rate", "0.1"));
 
     private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.default.highest.exclusion.rate", "300"));
 
     public SoaringTradingVolume(SymbolCandle[] symbolCandles){
-        setSymbolCandles(symbolCandles);
+        super(symbolCandles);
     }
 
-    private long [] times = null;
-    public void setSymbolCandles(SymbolCandle[] symbolCandles) {
-        this.symbolCandles = symbolCandles;
-
-    }
-
-    public void setTimes(){
-        times = TaCandles.getTimes(symbolCandles);
-    }
-
-    public void setTimes(long[] times) {
-        this.times = times;
-    }
 
     public void setAverageCount(int averageCount) {
         this.averageCount = averageCount;
@@ -78,11 +61,8 @@ public class SoaringTradingVolume {
         return getData(times.length-1);
     }
 
+    @Override
     public SoaringTradingVolumeData getData(int index){
-        if(times == null){
-            setTimes();
-        }
-
         int minCount = minAverageCount + 1;
         if(minCount > averageCount + 1){
             minCount = averageCount + 1 ;
@@ -106,10 +86,10 @@ public class SoaringTradingVolume {
         List<SymbolCandle> list = new ArrayList<>();
         List<SymbolCandle> upList = new ArrayList<>();
         List<SymbolCandle> downList = new ArrayList<>();
-        int searchLength = (times.length - index) + averageCount;
+        int searchLength = (times.length - index) + this.searchLength;
 
         for(SymbolCandle symbolCandle : symbolCandles){
-            TradeCandle[] candles =symbolCandle.getCandles();
+            TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
                 continue;
             }
@@ -173,42 +153,14 @@ public class SoaringTradingVolume {
         return data;
     }
 
-
-    public SoaringTradingVolumeData[] getArray(int resultLength){
-        if(times == null){
-            setTimes();
-        }
-
-        return getArray(times.length - resultLength, times.length);
-    }
-
-    public SoaringTradingVolumeData[] getArray(int startIndex, int end){
-        if(times == null){
-            setTimes();
-        }
-
-        if(startIndex < 0){
-            startIndex = 0;
-        }
-
-        if(end > times.length){
-            end = times.length;
-        }
-
-        if(startIndex >= end){
-            //옵션을 잘 못 보
-            throw new IllegalArgumentException("startIndex >= end  startIndex: " + startIndex +", end: " + end );
-        }
-
+    @Override
+    public SoaringTradingVolumeData[] newArray(int startIndex, int end) {
         SoaringTradingVolumeData[] array = new SoaringTradingVolumeData[end - startIndex];
         for (int i = 0; i < array.length ; i++) {
             array[i] = getData(i + startIndex);
         }
-
-        return  array;
+        return array;
     }
 
-    public SymbolCandle[] getSymbolCandles() {
-        return symbolCandles;
-    }
+
 }

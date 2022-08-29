@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.market;
+package io.runon.trading.technical.analysis.symbol;
 
 import io.runon.trading.technical.analysis.candle.Candles;
 
@@ -7,7 +7,7 @@ import io.runon.trading.technical.analysis.candle.Candles;
  * @author macle
  */
 public interface SymbolCandle extends Candles {
-    SymbolCandle [] EMPTY_ARRAY = new SymbolCandle[0];
+    SymbolCandle[] EMPTY_ARRAY = new SymbolCandle[0];
 
     String getSymbol();
 }

@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.market.stv;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.runon.trading.technical.analysis.market.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,10 +17,10 @@ import java.math.BigDecimal;
 public class SoaringTradingVolumeData {
 
     long time;
-    SymbolCandle [] soaringArray = SymbolCandle.EMPTY_ARRAY;
+    SymbolCandle[] soaringArray = SymbolCandle.EMPTY_ARRAY;
     BigDecimal index = BigDecimal.ZERO;
 
-    SymbolCandle [] ups = SymbolCandle.EMPTY_ARRAY;
+    SymbolCandle[] ups = SymbolCandle.EMPTY_ARRAY;
     SymbolCandle[] downs = SymbolCandle.EMPTY_ARRAY;
     int length = 0;
 

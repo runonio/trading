@@ -8,6 +8,8 @@ import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,9 +119,12 @@ public class CsvCandle {
      */
     public static TradeCandle make(String csv, long time){
         String [] values = csv.split(",",-1);
-//                캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
-        long openTime = Long.parseLong(values[0]);
+        return make(values, time);
+    }
 
+    public static TradeCandle make(String [] values, long time){
+        long openTime = Long.parseLong(values[0]);
+//                캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
         TradeCandle tradeCandle = new TradeCandle();
         tradeCandle.setOpenTime(openTime);
         tradeCandle.setCloseTime(openTime + time);
@@ -148,5 +153,59 @@ public class CsvCandle {
         //직전가로 변화량과 변화율 설정
         tradeCandle.setChange();
         return tradeCandle;
+    }
+
+
+    public static TradeCandle [] load(String path, long candleTime, long startTime, long endTime, ZoneId zoneId){
+
+        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+
+        if(files.length == 0){
+            return TradeCandle.EMPTY_CANDLES;
+        }
+
+        String startName = CsvTimeName.getName(startTime , candleTime, zoneId);
+        String endName = CsvTimeName.getName(startTime , candleTime, zoneId);
+
+        int startFileNum = Integer.parseInt(startName);
+        int endFileNum = Integer.parseInt(endName);
+
+        List<TradeCandle> candleList = new ArrayList<>();
+
+        outer:
+        for(File file : files){
+            int fileNum = Integer.parseInt(file.getName());
+
+            if(fileNum < startFileNum){
+                continue;
+            }
+
+            if(fileNum > endFileNum){
+                break;
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String [] values = line.split(",");
+                    long openTime = Long.parseLong(values[0]);
+                    long closeTime = openTime + candleTime;
+                    if(openTime < startTime){
+                        continue;
+                    }
+
+                    if(closeTime > endTime){
+                        break outer;
+                    }
+                    candleList.add(make(values, candleTime));
+                }
+            } catch (IOException e) {
+                throw new IORuntimeException(e);
+            }
+        }
+
+        TradeCandle [] candles = candleList.toArray(new TradeCandle[0]);
+        candleList.clear();
+        return candles;
     }
 }
