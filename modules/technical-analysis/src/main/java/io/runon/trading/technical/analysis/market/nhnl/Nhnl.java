@@ -3,7 +3,9 @@ package io.runon.trading.technical.analysis.market.nhnl;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
+import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
+import io.runon.trading.technical.analysis.market.MarketIndicator;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 
 import java.math.BigDecimal;
@@ -18,28 +20,21 @@ import java.util.List;
  *
  * @author macle
  */
-public class Nhnl {
-
-    private SymbolCandle[] symbolCandles;
+public class Nhnl extends MarketIndicator<NhnlData> {
 
     /**
      * 캔들 정보를 활용한 분석
      */
     public Nhnl(SymbolCandle[] symbolCandles){
-        setSymbolCandles(symbolCandles, true);
+        super(symbolCandles);
     }
 
-    private int scale = 4;
 
     private long candleTime = -1;
     private long searchTime = Times.DAY_1;
     private long timeRange = Times.WEEK_52;
 
     private BigDecimal minTradingPrice = null;
-
-    public void setScale(int scale) {
-        this.scale = scale;
-    }
 
     public void setCandleTime(long candleTime) {
         this.candleTime = candleTime;
@@ -60,11 +55,18 @@ public class Nhnl {
         this.minTradingPrice = minTradingPrice;
     }
 
-    public NhnlData getData(long candleOpenTime){
+
+    @Override
+    public NhnlData getData(int index){
 
         if(candleTime < 1){
             throw new CandleTimeException("candle time error: " + candleTime);
         }
+
+        long candleOpenTime = times[index];
+
+        NhnlData data = new NhnlData();
+        data.time = candleOpenTime;
 
         int validSymbolCount = 0;
 
@@ -73,35 +75,30 @@ public class Nhnl {
 
         long searchEndTime = candleOpenTime - searchTime + candleTime;
         long rangeEndTime = candleOpenTime - timeRange + candleTime;
+        int searchLength = (times.length - index) + this.searchLength;
 
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle [] candles = symbolCandle.getCandles();
 
-            int candleIndex = -1;
-            for (int i = candles.length-1; i > -1; i--) {
-                TradeCandle candle = candles[i];
-                if(candle.getOpenTime() <= candleOpenTime){
-                    candleIndex = i;
-                    break;
-                }
-            }
+            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, data.time, searchLength);
 
-            if(candleIndex == -1){
+
+            if(openTimeIndex == -1){
                 continue;
             }
 
             //적어도 searchTime 의 2배 이상은 되어야함함
-            long timeMax = candles[candleIndex].getCloseTime() * candles[0].getOpenTime();
+            long timeMax = candles[openTimeIndex].getCloseTime() * candles[0].getOpenTime();
             if(timeMax < searchTime * 2){
                 continue;
             }
 
-            BigDecimal high = candles[candleIndex].getHigh();
-            BigDecimal low = candles[candleIndex].getLow();
+            BigDecimal high = candles[openTimeIndex].getHigh();
+            BigDecimal low = candles[openTimeIndex].getLow();
 
             int rangeEndIndex = -1;
 
-            for (int i = candleIndex-1; i > -1; i--) {
+            for (int i = openTimeIndex-1; i > -1; i--) {
                 TradeCandle candle = candles[i];
                 if(candle.getCloseTime() < searchEndTime || candle.getOpenTime() < searchEndTime){
                     rangeEndIndex = i;
@@ -123,7 +120,7 @@ public class Nhnl {
             if(minTradingPrice != null) {
                 BigDecimal tradingPrice = BigDecimal.ZERO;
 
-                for (int i = rangeEndIndex+1; i <= candleIndex ; i++) {
+                for (int i = rangeEndIndex+1; i <= openTimeIndex ; i++) {
                     tradingPrice = tradingPrice.add(candles[i].getTradingPrice());
                 }
 
@@ -159,52 +156,33 @@ public class Nhnl {
             validSymbolCount++;
         }
 
-
-        NhnlData nhnlData = new NhnlData();
-        nhnlData.time = candleOpenTime;
         if(validSymbolCount == 0){
-            return nhnlData;
+            return data;
         }
 
-
-        nhnlData.length = validSymbolCount;
+        data.length = validSymbolCount;
 
         if(highList.size() > 0){
-            nhnlData.highs = highList.toArray(new SymbolCandle[0]);
+            data.highs = highList.toArray(new SymbolCandle[0]);
             highList.clear();
         }
 
         if(lowList.size() > 0){
-            nhnlData.lows = lowList.toArray(new SymbolCandle[0]);
+            data.lows = lowList.toArray(new SymbolCandle[0]);
             lowList.clear();
         }
 
-        nhnlData.index = new BigDecimal(nhnlData.highs.length - nhnlData.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
-        return nhnlData;
+        data.index = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        return data;
     }
 
+    @Override
+    public NhnlData[] newArray(int startIndex, int end) {
+        NhnlData [] array = new NhnlData[end - startIndex];
 
-    public SymbolCandle[] getSymbolCandles() {
-        return symbolCandles;
-    }
-
-    public void setSymbolCandles(SymbolCandle[] symbolCandles){
-        setSymbolCandles(symbolCandles, true);
-    }
-
-    public void setSymbolCandles(SymbolCandle[] symbolCandles, boolean isCandleTimeUpdate) {
-        this.symbolCandles = symbolCandles;
-
-        if(isCandleTimeUpdate) {
-            for (SymbolCandle symbolCandle : symbolCandles) {
-                TradeCandle[] candles = symbolCandle.getCandles();
-                if (candles.length > 2) {
-                    break;
-                }
-                candleTime = candles[1].getTime() - candles[0].getTime();
-            }
+        for (int i = 0; i < array.length ; i++) {
+            array[i] = getData(i + startIndex);
         }
+        return array;
     }
-
-
 }
