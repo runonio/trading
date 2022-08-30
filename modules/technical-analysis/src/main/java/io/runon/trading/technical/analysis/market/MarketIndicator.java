@@ -3,6 +3,8 @@ package io.runon.trading.technical.analysis.market;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 
+import java.math.BigDecimal;
+
 /**
  * 시장 관련 지표
  * @author macle
@@ -31,6 +33,13 @@ public abstract class MarketIndicator<T> {
     protected int scale = 4;
     public void setScale(int scale) {
         this.scale = scale;
+    }
+
+
+    protected BigDecimal minTradingPrice = null;
+
+    public void setMinTradingPrice(BigDecimal minTradingPrice) {
+        this.minTradingPrice = minTradingPrice;
     }
 
     public SymbolCandle[] getSymbolCandles() {
@@ -70,4 +79,9 @@ public abstract class MarketIndicator<T> {
     }
 
     public abstract T [] newArray(int startIndex, int end);
+
+
+    protected int searchIndex(int index){
+        return (times.length - index) + this.searchLength;
+    }
 }

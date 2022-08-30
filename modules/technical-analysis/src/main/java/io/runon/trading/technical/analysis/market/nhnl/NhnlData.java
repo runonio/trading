@@ -22,7 +22,7 @@ public class NhnlData {
 
     long time;
     int length = 0;
-    BigDecimal index = BigDecimal.ZERO;
+    BigDecimal ratio = BigDecimal.ZERO;
 
     SymbolCandle[] highs = SymbolCandle.EMPTY_ARRAY;
     SymbolCandle[] lows = SymbolCandle.EMPTY_ARRAY;
@@ -39,7 +39,7 @@ public class NhnlData {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject object = new JsonObject();
         object.addProperty("time", time);
-        object.addProperty("index", index);
+        object.addProperty("ratio", ratio);
         object.addProperty("length", length);
         object.addProperty("high_length", highs.length);
         object.addProperty("low_length", lows.length);

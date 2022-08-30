@@ -48,10 +48,20 @@ io.runon.trading.technical.analysis.indicator.volume.profile.VolumeProfile
 ## 시장 지표
 ### 신고가 신저가 
 io.runon.trading.technical.analysis.market.nhnl.Nhnl
+- 다른부분은 비율값을 제공하는데 이는 전체 값에서 전체건수로 나눈값. -100 ~ 100 사이의 값을 만들어서 사용하기위해 추가
 ### STV (soaring trading volume)
 io.runon.trading.technical.analysis.market.stv.SoaringTradingVolume
-
-직접 개발하여 연구중인 지표
+- 비율값을 제공하는데 이는 전체 값에서 전체건수로 나눈값. 0 ~ 100 사이의 값을 만들어서 사용하기위해 추가
+- 거래량 급증 종목의 수를 지표화 해서 사용
+- 자체개발
+### ADR
+io.runon.trading.technical.analysis.market.Adr
+### ADMR
+io.runon.trading.technical.analysis.market.Admr
+- (A - D) / Market 종목의수 * 100
+- AD 수치를 0 ~ 100의 값으로 만들어서 사용해보기 위해 추가
+- 급등 급락종목만 사용할 수 있는 최소 변화율 설정을 지원
+- 자체개발
 
 # 구현 예정 목록
 - 파라볼릭 시스템 (손실제한 구현 후)
