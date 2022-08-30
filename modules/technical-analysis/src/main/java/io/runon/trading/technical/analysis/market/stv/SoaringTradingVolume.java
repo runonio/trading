@@ -86,7 +86,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         List<SymbolCandle> list = new ArrayList<>();
         List<SymbolCandle> upList = new ArrayList<>();
         List<SymbolCandle> downList = new ArrayList<>();
-        int searchLength = (times.length - index) + this.searchLength;
+        int searchLength = searchIndex(index);
 
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
@@ -116,6 +116,11 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
                 continue;
             }
 
+            TradeCandle candle = candles[openTimeIndex];
+            if(minTradingPrice != null &&  candle.getTradingPrice().compareTo(minTradingPrice) < 0) {
+                continue;
+            }
+
             BigDecimal [] volumes = Volumes.getVolumes(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(volumes);
             BigDecimal avg = BigDecimals.average(volumes, highestExclusionRate);
@@ -136,9 +141,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
                 }else if(tradeCandle.getChange().compareTo(BigDecimal.ZERO) < 0){
                     downList.add(symbolCandle);
                 }
-
             }
-
         }
 
         if(validSymbolCount == 0){
@@ -149,7 +152,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         data.soaringArray = list.toArray(new SymbolCandle[0]);
         data.ups = upList.toArray(new SymbolCandle[0]);
         data.downs = downList.toArray(new SymbolCandle[0]);
-        data.index = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        data.ratio = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
     }
 
@@ -161,6 +164,5 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         }
         return array;
     }
-
 
 }

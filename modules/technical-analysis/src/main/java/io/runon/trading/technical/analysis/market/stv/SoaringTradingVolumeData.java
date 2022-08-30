@@ -18,7 +18,7 @@ public class SoaringTradingVolumeData {
 
     long time;
     SymbolCandle[] soaringArray = SymbolCandle.EMPTY_ARRAY;
-    BigDecimal index = BigDecimal.ZERO;
+    BigDecimal ratio = BigDecimal.ZERO;
 
     SymbolCandle[] ups = SymbolCandle.EMPTY_ARRAY;
     SymbolCandle[] downs = SymbolCandle.EMPTY_ARRAY;
@@ -27,16 +27,20 @@ public class SoaringTradingVolumeData {
     public int length(){
         return soaringArray.length;
     }
+
+
+
     @Override
     public String toString(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject object = new JsonObject();
         object.addProperty("time", time);
 
-        object.addProperty("index", index);
+        object.addProperty("ratio", ratio);
         object.addProperty("soaring_length", soaringArray.length);
         object.addProperty("up_length", soaringArray.length);
         object.addProperty("down_length", soaringArray.length);
+
         object.addProperty("length", length);
         return gson.toJson(object);
     }

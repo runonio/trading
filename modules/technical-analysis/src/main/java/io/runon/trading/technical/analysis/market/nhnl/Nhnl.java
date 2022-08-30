@@ -34,7 +34,6 @@ public class Nhnl extends MarketIndicator<NhnlData> {
     private long searchTime = Times.DAY_1;
     private long timeRange = Times.WEEK_52;
 
-    private BigDecimal minTradingPrice = null;
 
     public void setCandleTime(long candleTime) {
         this.candleTime = candleTime;
@@ -48,12 +47,6 @@ public class Nhnl extends MarketIndicator<NhnlData> {
         this.timeRange = timeRange;
     }
 
-    /**
-     * 최소 가래대금 설정
-     */
-    public void setMinTradingPrice(BigDecimal minTradingPrice) {
-        this.minTradingPrice = minTradingPrice;
-    }
 
 
     @Override
@@ -75,7 +68,7 @@ public class Nhnl extends MarketIndicator<NhnlData> {
 
         long searchEndTime = candleOpenTime - searchTime + candleTime;
         long rangeEndTime = candleOpenTime - timeRange + candleTime;
-        int searchLength = (times.length - index) + this.searchLength;
+        int searchLength = searchIndex(index);
 
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle [] candles = symbolCandle.getCandles();
@@ -172,7 +165,7 @@ public class Nhnl extends MarketIndicator<NhnlData> {
             lowList.clear();
         }
 
-        data.index = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        data.ratio = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
     }
 
