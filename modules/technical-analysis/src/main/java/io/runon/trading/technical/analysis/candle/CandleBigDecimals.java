@@ -4,7 +4,7 @@ package io.runon.trading.technical.analysis.candle;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Price;
 import io.runon.trading.PriceChangeRate;
-import io.runon.trading.technical.analysis.indicator.ma.Sma;
+import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

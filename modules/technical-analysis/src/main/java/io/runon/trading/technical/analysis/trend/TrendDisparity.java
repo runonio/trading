@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.trend;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimePrice;
-import io.runon.trading.technical.analysis.indicator.Disparity;
+import io.runon.trading.technical.analysis.indicators.Disparity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

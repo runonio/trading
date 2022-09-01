@@ -33,9 +33,9 @@ implementation 'io.runon.trading:trading:0.3.6'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.6
 
-implementation 'io.runon.trading:technical-analysis:0.4.0'
+implementation 'io.runon.trading:technical-analysis:0.4.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.0
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.1
 
 implementation 'io.runon.trading:backtesting:0.1.4'
 - etc
@@ -53,48 +53,48 @@ implementation 'io.runon.trading:chart-view:0.2.4'
 # 목차
 ## 이동평균
 ### SMA: 단순 이동 평군
-io.runon.trading.technical.analysis.indicator.ma.Sma
+io.runon.trading.technical.analysis.indicators.ma.Sma
 ### EMA: 지수 이동 평균
-io.runon.trading.technical.analysis.indicator.ma.Ema
+io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
-io.runon.trading.technical.analysis.indicator.ma.Vwma
+io.runon.trading.technical.analysis.indicators.ma.Vwma
 
 ## 다이버전스
-io.runon.trading.technical.analysis.indicator.divergence.Divergence
+io.runon.trading.technical.analysis.indicators.divergence.Divergence
 
 ## 가격지표
 ### 스토캐스틱
-io.runon.trading.technical.analysis.indicator.stochastic.Stochastic
+io.runon.trading.technical.analysis.indicators.stochastic.Stochastic
 ### 볼린저밴드
-io.runon.trading.technical.analysis.indicator.band.BollingerBands
+io.runon.trading.technical.analysis.indicators.band.BollingerBands
 ### MACD
-io.runon.trading.technical.analysis.indicator.ma.Macd
+io.runon.trading.technical.analysis.indicators.ma.Macd
 ### RSI
-io.runon.trading.technical.analysis.indicator.Rsi
+io.runon.trading.technical.analysis.indicators.Rsi
 ### 일목 균형표
-io.runon.trading.technical.analysis.indicator.ichimoku.IchimokuBalance
+io.runon.trading.technical.analysis.indicators.ichimoku.IchimokuBalance
 
 ## 거래량 지표
 ### 매집분산지표 (A/D Line)
-io.runon.trading.technical.analysis.indicator.volume.AdLine
+io.runon.trading.technical.analysis.indicators.volume.AdLine
 ### VR (Volume Ratio)
-io.runon.trading.technical.analysis.indicator.volume.Vr
+io.runon.trading.technical.analysis.indicators.volume.Vr
 ### 매물대분석 (Volume Profile)
-io.runon.trading.technical.analysis.indicator.volume.profile.VolumeProfile
+io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
 
 ## 시장 지표
 ### 신고가 신저가
-io.runon.trading.technical.analysis.market.nhnl.Nhnl
+io.runon.trading.technical.analysis.indicators.market.nhnl.Nhnl
 - 다른부분은 비율값을 제공하는데 이는 전체 값에서 전체건수로 나눈값. -100 ~ 100 사이의 값을 만들어서 사용하기위해 추가
 ### STV (soaring trading volume)
-io.runon.trading.technical.analysis.market.stv.SoaringTradingVolume
+io.runon.trading.technical.analysis.indicators.market.stv.SoaringTradingVolume
 - 비율값을 제공하는데 이는 전체 값에서 전체건수로 나눈값. 0 ~ 100 사이의 값을 만들어서 사용하기위해 추가
 - 거래량 급증 종목의 수를 지표화 해서 사용
 - 자체개발
 ### ADR
-io.runon.trading.technical.analysis.market.Adr
+io.runon.trading.technical.analysis.indicators.market.Adr
 ### ADMR
-io.runon.trading.technical.analysis.market.Admr
+io.runon.trading.technical.analysis.indicators.market.Admr
 - (A - D) / Market 종목의수 * 100
 - AD 수치를 0 ~ 100의 값으로 만들어서 사용해보기 위해 추가
 - 급등 급락종목만 사용할 수 있는 최소 변화율 설정을 지원
