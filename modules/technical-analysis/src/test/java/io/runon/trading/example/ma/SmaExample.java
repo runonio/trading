@@ -1,6 +1,6 @@
 package io.runon.trading.example.ma;
 
-import io.runon.trading.technical.analysis.indicator.ma.Sma;
+import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
 

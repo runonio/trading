@@ -4,7 +4,7 @@ import com.seomse.commons.utils.time.Times;
 import io.runon.trading.CandleTimes;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.indicator.ma.Sma;
+import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;

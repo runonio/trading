@@ -1,6 +1,6 @@
 package io.runon.trading.example.ma;
 
-import io.runon.trading.technical.analysis.indicator.ma.Ema;
+import io.runon.trading.technical.analysis.indicators.ma.Ema;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
