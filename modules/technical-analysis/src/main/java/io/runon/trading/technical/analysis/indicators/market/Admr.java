@@ -6,6 +6,7 @@ import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -25,6 +26,11 @@ public class Admr extends MarketIndicator<TimeNumber> {
 
     public Admr(SymbolCandle[] symbolCandles) {
         super(symbolCandles);
+    }
+
+    public Admr(SymbolCandleTimes symbolCandleTimes) {
+        super(symbolCandleTimes);
+
     }
 
     private BigDecimal minChangeRate = null;

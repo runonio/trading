@@ -2,6 +2,7 @@ package io.runon.trading.technical.analysis.indicators.market;
 
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 
@@ -29,6 +30,12 @@ public abstract class MarketIndicator<T> {
         this.symbolCandles = symbolCandles;
         times = TaCandles.getTimes(symbolCandles);
     }
+
+    public MarketIndicator(SymbolCandleTimes symbolCandleTimes){
+        this.symbolCandles = symbolCandleTimes.getSymbolCandles();
+        times = symbolCandleTimes.getTimes();
+    }
+
 
     protected int scale = 4;
     public void setScale(int scale) {

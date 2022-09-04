@@ -7,6 +7,7 @@ import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicator;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -34,7 +35,9 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
     public SoaringTradingVolume(SymbolCandle[] symbolCandles){
         super(symbolCandles);
     }
-
+    public SoaringTradingVolume(SymbolCandleTimes symbolCandleTimes){
+        super(symbolCandleTimes);
+    }
 
     public void setAverageCount(int averageCount) {
         this.averageCount = averageCount;

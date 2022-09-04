@@ -7,6 +7,7 @@ import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
+import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -39,7 +40,10 @@ public class Adr extends MarketIndicator<TimeNumber> {
         super(symbolCandles);
 
     }
+    public Adr(SymbolCandleTimes symbolCandleTimes) {
+        super(symbolCandleTimes);
 
+    }
     @Override
     public TimeNumber getData(int index) {
         TimeNumberData data = new TimeNumberData();
