@@ -165,7 +165,7 @@ public class CsvCandle {
         }
 
         String startName = CsvTimeName.getName(startTime , candleTime, zoneId);
-        String endName = CsvTimeName.getName(startTime , candleTime, zoneId);
+        String endName = CsvTimeName.getName(endTime , candleTime, zoneId);
 
         int startFileNum = Integer.parseInt(startName);
         int endFileNum = Integer.parseInt(endName);

@@ -36,15 +36,25 @@ public class CsvSymbolCandle {
     }
 
     public SymbolCandle [] load(long startTime, long endTime){
+        //형지정
+        String [] nullArray = null;
+
+        //noinspection ConstantConditions
+        return load(startTime,endTime, nullArray, null);
+    }
+
+
+    public SymbolCandle [] load(long startTime, long endTime, String startWith, String endWith){
+        String [] startWiths = {startWith};
+        String [] endWiths = {endWith};
+        return load(startTime,endTime,startWiths,endWiths);
+    }
+
+    public SymbolCandle [] load(long startTime, long endTime, String [] startWiths, String [] endWiths){
         if(startTime == -1 || endTime == -1 || startTime >= endTime){
             throw new IllegalArgumentException("time error start time: " + startTime + ", end time: " + endTime);
         }
 
-        String startName = CsvTimeName.getName(startTime , candleTime, zoneId);
-        String endName = CsvTimeName.getName(startTime , candleTime, zoneId);
-
-        int startFileNum = Integer.parseInt(startName);
-        int endFileNum = Integer.parseInt(endName);
 
         File[] files = new File(path).listFiles();
         if(files == null){
@@ -60,6 +70,33 @@ public class CsvSymbolCandle {
             }
 
             String symbol = file.getName();
+            if (startWiths != null) {
+                boolean isLike = false;
+                for(String startWith : startWiths){
+                    if(symbol.startsWith(startWith)){
+                        isLike =true;
+                        break;
+                    }
+                }
+                if(!isLike){
+                   continue;
+                }
+            }
+
+            if (endWiths != null) {
+                boolean isLike = false;
+                for(String endWith : endWiths){
+                    if(symbol.endsWith(endWith)){
+                        isLike =true;
+                        break;
+                    }
+                }
+                if(!isLike){
+                    continue;
+                }
+            }
+
+
             TradeCandle[] candles = CsvCandle.load(file.getAbsolutePath() + "/" + interval, candleTime, startTime, endTime, zoneId);
 
             if(candles.length == 0){
