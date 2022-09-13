@@ -1,7 +1,7 @@
 package io.runon.trading.backtesting.strategy;
 
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
-import io.runon.trading.order.Order;
+import io.runon.trading.order.MarketOrderCash;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.StrategyOrder;
 
@@ -15,7 +15,7 @@ public class OrderStrategy<E> implements TradingStrategy<E>{
         this.strategy = strategy;
     }
 
-    private Order last = Order.NONE;
+    private MarketOrderCash last = MarketOrderCash.NONE;
 
     @Override
     public Position getPosition(E data) {

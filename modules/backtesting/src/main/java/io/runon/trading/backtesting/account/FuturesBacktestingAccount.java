@@ -4,7 +4,7 @@ import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
 import io.runon.trading.backtesting.price.symbol.SymbolPrice;
-import io.runon.trading.order.Order;
+import io.runon.trading.order.MarketOrderCash;
 import io.runon.trading.strategy.Position;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,12 +114,12 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.sellFee = fee;
     }
 
-    public void order(String symbol, Order order){
+    public void order(String symbol, MarketOrderCash order){
         Position position = order.getPosition();
 
         if(position == Position.LONG){
             BigDecimal price = symbolPrice.getBuyPrice(symbol);
-            BigDecimal orderPrice = shortClose(symbol, order.getPrice(), price);
+            BigDecimal orderPrice = shortClose(symbol, order.getCash(), price);
             if(orderPrice.compareTo(BigDecimal.ZERO) == 0){
                 return;
             }
@@ -130,7 +130,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             buy(symbol, orderPrice.subtract(orderPrice.multiply(buyFee)), price);
         }else if (position == Position.SHORT){
             BigDecimal price = symbolPrice.getSellPrice(symbol);
-            BigDecimal orderPrice = longClose(symbol, order.getPrice(), price);
+            BigDecimal orderPrice = longClose(symbol, order.getCash(), price);
             if(orderPrice.compareTo(BigDecimal.ZERO) == 0){
                 return;
             }
@@ -140,9 +140,9 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             }
             sell(symbol, orderPrice.subtract(orderPrice.multiply(sellFee)), price);
         }else if (position == Position.LONG_CLOSE){
-            longClose(symbol, order.getPrice(), null);
+            longClose(symbol, order.getCash(), null);
         }else if (position == Position.SHORT_CLOSE){
-            shortClose(symbol, order.getPrice(), null);
+            shortClose(symbol, order.getCash(), null);
         }
     }
 

@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>chart-view</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
     <packaging>jar</packaging>
 
     <name>chart-view</name>
@@ -141,7 +141,7 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading</artifactId>
-            <version>0.3.6</version>
+            <version>0.3.7</version>
         </dependency>
 
         <dependency>

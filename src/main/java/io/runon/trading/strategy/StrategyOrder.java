@@ -1,6 +1,6 @@
 package io.runon.trading.strategy;
 
-import io.runon.trading.order.Order;
+import io.runon.trading.order.MarketOrderCash;
 
 /**
  * 전략 
@@ -9,5 +9,5 @@ import io.runon.trading.order.Order;
  */
 public interface StrategyOrder<E> {
 
-    Order getPosition(E data);
+    MarketOrderCash getPosition(E data);
 }

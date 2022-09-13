@@ -8,7 +8,7 @@ import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
 import io.runon.trading.data.TimeFileLineRead;
-import io.runon.trading.order.Order;
+import io.runon.trading.order.MarketOrderCash;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.StrategyOrder;
 import io.runon.trading.view.MarkerData;
@@ -79,8 +79,8 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
             candleOpenTime = openTime;
         }
 
-        Order order = strategy.getPosition(data);
-        if(order.getPrice().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
+        MarketOrderCash order = strategy.getPosition(data);
+        if(order.getCash().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
             lastPosition = account.getSymbolPosition(symbol);
             return ;
         }
@@ -100,7 +100,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
             }
 
             MarkerData markerData = new MarkerData(time, color
-                    ,order.getPosition().toString() + " " + order.getPrice() +" "+ account.getAssets().setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
+                    ,order.getPosition().toString() + " " + order.getCash() +" "+ account.getAssets().setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
                     , Long.toString(openTime)
                     , markerType, markerShape
             );

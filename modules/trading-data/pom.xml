@@ -139,7 +139,7 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading</artifactId>
-            <version>0.3.6</version>
+            <version>0.3.7</version>
         </dependency>
 
         <dependency>

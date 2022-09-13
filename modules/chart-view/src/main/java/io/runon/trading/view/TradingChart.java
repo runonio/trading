@@ -17,7 +17,7 @@ package io.runon.trading.view;
 
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.DateUtil;
-import io.runon.trading.PriceOpenTime;
+import io.runon.trading.TimeNumber;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.view.util.BrowserUtil;
@@ -242,18 +242,21 @@ TradingChart {
      * @param color 색깔
      * @param size 굵기
      */
-    public void addLine(PriceOpenTime[] lineDataArr, String color, int size){
+    public void addLine(TimeNumber[] lineDataArr, String color, int size){
         addLine(lineDataArr, color, size, true, true);
     }
 
 
-    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide){
+    public void addLine(TimeNumber[] lineDataArr , String color, int size, boolean rightSide){
         addLine(lineDataArr, color, size, rightSide, true);
     }
 
     public void addLine(Lines lines){
         addLine(lines.lines, lines.color, lines.size, lines.rightSide, lines.isValueVisible);
     }
+
+
+
 
     /**
      * 선형 데이터를 전부 추가한다.
@@ -262,7 +265,7 @@ TradingChart {
      * @param size 굵기
      * @param rightSide 라인을 오른쪽에 표시할지 여부
      */
-    public void addLine(PriceOpenTime[] lineDataArr , String color, int size, boolean rightSide, boolean isValueVisible){
+    public void addLine(TimeNumber[] lineDataArr , String color, int size, boolean rightSide, boolean isValueVisible){
 
 
         if(isValueVisible) {
@@ -290,18 +293,18 @@ TradingChart {
         int lineDataArrSize = lineDataArr.length;
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < lineDataArrSize; i++) {
-            PriceOpenTime lineData = lineDataArr[i];
+            TimeNumber lineData = lineDataArr[i];
 //            long openTime = lineData.getTime();
-            BigDecimal price = lineData.getClose();
+            BigDecimal lineNumber = lineData.getNumber();
 
-            String timeStr = Long.toString(lineData.getOpenTime()/1000);
+            String timeStr = Long.toString(lineData.getTime()/1000);
             createChartStr.append("""
                     {
                         time: %s,
                         value: %s
                       },
                     """.formatted(
-                    timeStr,price.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+                    timeStr,lineNumber.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
             ));
 
         }
