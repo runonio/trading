@@ -4,9 +4,9 @@
 - open jdk 17
 
 # gradle
-implementation 'io.runon.trading:backtesting:0.1.4'
+implementation 'io.runon.trading:backtesting:0.1.5'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.4
+    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.5
 
 # communication
 ### blog, homepage
