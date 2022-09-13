@@ -1,6 +1,6 @@
 package io.runon.trading.view;
 
-import io.runon.trading.PriceOpenTime;
+import io.runon.trading.TimeNumber;
 import lombok.Data;
 
 /**
@@ -9,11 +9,10 @@ import lombok.Data;
  */
 @Data
 public class Lines {
-    PriceOpenTime [] lines;
+    TimeNumber [] lines;
     String color = "black";
     int size = 2;
     boolean rightSide = true;
     boolean isValueVisible = true;
-
 
 }

@@ -2,11 +2,13 @@ package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
-import io.runon.trading.view.LineData;
+
 import io.runon.trading.view.Lines;
 import io.runon.trading.view.MarkerData;
 import io.runon.trading.view.TradingChart;
@@ -112,11 +114,11 @@ public abstract class FuturesBacktesting<E> {
         this.candles = candles;
     }
 
-    protected List<LineData> assetList = null;
+    protected List<TimeNumber> assetList = null;
     protected List<MarkerData> markerDataList = null;
     protected List<Lines> linesList = null;
 
-    protected List<LineData> lastLines = null;
+    protected List<TimeNumber> lastLines = null;
 
 
     protected int chartWidth = 1200;
@@ -145,7 +147,7 @@ public abstract class FuturesBacktesting<E> {
             }
 
             if(assetList.size() > 0){
-                chart.addLine(assetList.toArray(new LineData[0]), "#3300FF", 1, false);
+                chart.addLine(assetList.toArray(new TimeNumber[0]), "#3300FF", 1, false);
                 assetList.clear();
             }
 
@@ -161,7 +163,7 @@ public abstract class FuturesBacktesting<E> {
         }
     }
 
-    protected void addLines(List<Lines> linesList, List<LineData> lastLines){
+    protected void addLines(List<Lines> linesList, List<TimeNumber> lastLines){
         if(!isChart || !isPositionLine){
             return;
         }
@@ -170,7 +172,7 @@ public abstract class FuturesBacktesting<E> {
             return;
         }
         Lines lines = new Lines();
-        lines.setLines(lastLines.toArray(new LineData[0]));
+        lines.setLines(lastLines.toArray(new TimeNumber[0]));
         String color;
         if(lastPosition == Position.LONG){
             color = "#CCFFCC";
@@ -217,10 +219,10 @@ public abstract class FuturesBacktesting<E> {
 
     protected void addChartLine(BigDecimal price){
         if(isChart && time >= candles[0].getOpenTime()) {
-            assetList.add(new LineData(BigDecimals.getChangePercent(startCash, account.getAssets()), time));
+            assetList.add(new TimeNumberData(time, BigDecimals.getChangePercent(startCash, account.getAssets())));
 
             if(isPositionLine) {
-                lastLines.add(new LineData(price, time));
+                lastLines.add(new TimeNumberData( time,price));
             }
         }
     }
