@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.indicators.market.nhnl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import io.runon.trading.TimeNumber;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class NhnlData {
+public class NhnlData implements TimeNumber {
 
     public NhnlData(){
 
@@ -46,4 +47,8 @@ public class NhnlData {
         return gson.toJson(object);
     }
 
+    @Override
+    public BigDecimal getNumber() {
+        return ratio;
+    }
 }

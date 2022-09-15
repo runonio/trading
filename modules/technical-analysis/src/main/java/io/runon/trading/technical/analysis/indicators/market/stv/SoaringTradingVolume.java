@@ -77,7 +77,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
             return data;
         }
 
-        int avgStartIndex = times.length - averageCount -1;
+        int avgStartIndex = times.length - index- averageCount -1;
         if(avgStartIndex < 0){
             avgStartIndex = 0;
         }
@@ -91,31 +91,43 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         List<SymbolCandle> downList = new ArrayList<>();
         int searchLength = searchIndex(index);
 
+
+        int check = (times.length - index);
+
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
+
                 continue;
             }
 
             int openTimeIndex = TaCandles.getOpenTimeIndex(candles, data.time, searchLength);
             if(openTimeIndex == -1){
+
                 continue;
             }
 
             if(openTimeIndex +1 < minCount){
+
                 continue;
             }
 
-            int averageStartIndex =  TaCandles.getStartIndex(candles, avgStartTime, searchLength);
+            int averageStartIndex =  TaCandles.getStartIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
             if (averageStartIndex == -1){
+
                 continue;
             }
 
             if(averageStartIndex >= openTimeIndex){
+
                 continue;
             }
 
             if(openTimeIndex - averageStartIndex +1 < minCount){
+                if(check == 92) {
+                    System.out.println(137);
+                    System.out.println((searchLength + (index - avgStartIndex)) +"," + (openTimeIndex - averageStartIndex +1)  + ", " + minCount +", " + openTimeIndex +", " + averageStartIndex +", " + avgStartIndex +"," + averageCount + "," + times.length);
+                }
                 continue;
             }
 
@@ -136,6 +148,8 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
             TradeCandle tradeCandle = candles[candles.length-1];
             BigDecimal d = Disparity.get(tradeCandle.getVolume(), avg);
 
+
+
             if(d.compareTo(disparity) >= 0){
                 list.add(symbolCandle);
 
@@ -150,12 +164,12 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         if(validSymbolCount == 0){
             return data;
         }
-
+//        System.out.println("index " + (times.length - index) + " length" + times.length);
         data.length = validSymbolCount;
         data.soaringArray = list.toArray(new SymbolCandle[0]);
         data.ups = upList.toArray(new SymbolCandle[0]);
         data.downs = downList.toArray(new SymbolCandle[0]);
-        data.ratio = new BigDecimal(list.size()).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        data.ratio = new BigDecimal(list.size()).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
     }
 
