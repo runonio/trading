@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.indicators.market.stv;
+package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

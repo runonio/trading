@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.indicators.market.stv;
+package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ *  soaring trading volume : 거래량 급증 종목수/ 전체 종목수  (아이디어로 새로 만들어보고 시험해보고자 하는 지표)
  * 거래량이 급등하는 종목의 수를 지수화 함
  * 0 ~ 100
  * @author macle
@@ -24,13 +25,13 @@ import java.util.List;
 public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeData> {
 
 
-    private int averageCount = 50;
+    private int averageCount =  Config.getInteger("volume.average.count", 50);
 
-    private int minAverageCount = 10;
+    private int minAverageCount = Config.getInteger("volume.average.min.count", 10);
 
-    private BigDecimal highestExclusionRate = new BigDecimal(Config.getConfig("soaring.trading.volume.default.highest.exclusion.rate", "0.1"));
+    private BigDecimal highestExclusionRate = new BigDecimal(Config.getConfig("volume.average.default.highest.exclusion.rate", "0.1"));
 
-    private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.default.highest.exclusion.rate", "300"));
+    private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.disparity", "300"));
 
     public SoaringTradingVolume(SymbolCandle[] symbolCandles){
         super(symbolCandles);
@@ -90,14 +91,11 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         List<SymbolCandle> upList = new ArrayList<>();
         List<SymbolCandle> downList = new ArrayList<>();
         int searchLength = searchIndex(index);
-
-
         int check = (times.length - index);
 
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
-
                 continue;
             }
 
@@ -124,10 +122,6 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
             }
 
             if(openTimeIndex - averageStartIndex +1 < minCount){
-                if(check == 92) {
-                    System.out.println(137);
-                    System.out.println((searchLength + (index - avgStartIndex)) +"," + (openTimeIndex - averageStartIndex +1)  + ", " + minCount +", " + openTimeIndex +", " + averageStartIndex +", " + avgStartIndex +"," + averageCount + "," + times.length);
-                }
                 continue;
             }
 
@@ -145,7 +139,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
 
             validSymbolCount++;
 
-            TradeCandle tradeCandle = candles[candles.length-1];
+            TradeCandle tradeCandle = candles[openTimeIndex];
             BigDecimal d = Disparity.get(tradeCandle.getVolume(), avg);
 
 
@@ -164,7 +158,7 @@ public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeDa
         if(validSymbolCount == 0){
             return data;
         }
-//        System.out.println("index " + (times.length - index) + " length" + times.length);
+
         data.length = validSymbolCount;
         data.soaringArray = list.toArray(new SymbolCandle[0]);
         data.ups = upList.toArray(new SymbolCandle[0]);

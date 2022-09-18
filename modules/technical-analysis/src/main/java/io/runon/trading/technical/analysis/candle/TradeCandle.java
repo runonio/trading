@@ -272,6 +272,11 @@ public class TradeCandle extends CandleStick implements Volume {
             return volumePower;
         }
 
+        if((buyVolume == null ||  buyVolume.compareTo(BigDecimal.ZERO)==0) && (sellVolume == null ||  sellVolume.compareTo(BigDecimal.ZERO)==0) ){
+            //구할 수 없음
+            return null;
+        }
+
         volumePower = Volumes.getVolumePower(buyVolume, sellVolume);
         return volumePower;
     }
