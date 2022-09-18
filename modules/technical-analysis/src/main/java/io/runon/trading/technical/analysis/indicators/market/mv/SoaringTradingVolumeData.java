@@ -1,8 +1,9 @@
-package io.runon.trading.technical.analysis.indicators.market.stv;
+package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import io.runon.trading.TimeNumber;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class SoaringTradingVolumeData {
+public class SoaringTradingVolumeData implements TimeNumber {
 
     long time;
     SymbolCandle[] soaringArray = SymbolCandle.EMPTY_ARRAY;
@@ -27,8 +28,6 @@ public class SoaringTradingVolumeData {
     public int length(){
         return soaringArray.length;
     }
-
-
 
     @Override
     public String toString(){
@@ -45,4 +44,8 @@ public class SoaringTradingVolumeData {
         return gson.toJson(object);
     }
 
+    @Override
+    public BigDecimal getNumber() {
+        return ratio;
+    }
 }

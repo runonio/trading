@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class CsvCandle {
 
-
     public static TradeCandle [] load(String path, long time){
         return load(new File(path),time);
     }
@@ -52,8 +51,6 @@ public class CsvCandle {
         }
         return candles;
     }
-
-//    public static TradeCandle [] load(String path, long time, )
 
     public static void addFile(List<TradeCandle> list, File file, long time){
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
@@ -152,6 +149,7 @@ public class CsvCandle {
         tradeCandle.setSellTradingPrice();
         //직전가로 변화량과 변화율 설정
         tradeCandle.setChange();
+        tradeCandle.setEndTrade();
         return tradeCandle;
     }
 
