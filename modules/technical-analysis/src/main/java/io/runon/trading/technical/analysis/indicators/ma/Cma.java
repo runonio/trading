@@ -1,6 +1,7 @@
 package io.runon.trading.technical.analysis.indicators.ma;
 
 import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -60,5 +61,59 @@ public class Cma {
         }
 
         return sum.divide(new BigDecimal(length), MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int resultLength) {
+        return getArray(array, n, array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int startIndex, int end) {
+        if(startIndex < 1){
+            startIndex = 1;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+
+        if(resultLength < 1){
+            return new BigDecimal[0];
+        }
+
+        BigDecimal[] averages = new BigDecimal[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            averages[i] = get(array,n, startIndex+i);
+        }
+        return averages;
+    }
+
+
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int resultLength){
+        return getTimeNumbers(array, n, array.length - resultLength, array.length);
+    }
+
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int startIndex, int end){
+        if(startIndex < 1){
+            startIndex = 1;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+
+        if(resultLength < 1){
+            return new TimeNumber[0];
+        }
+
+        TimeNumber[] averages = new TimeNumber[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            int index = startIndex+i;
+            averages[i] = new TimeNumberData(array[i].getTime(), get(array,n, index));
+        }
+        return averages;
     }
 }
