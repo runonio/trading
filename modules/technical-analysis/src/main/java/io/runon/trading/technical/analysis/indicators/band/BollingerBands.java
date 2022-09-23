@@ -2,6 +2,7 @@ package io.runon.trading.technical.analysis.indicators.band;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
@@ -105,7 +106,10 @@ public class BollingerBands {
         BollingerBandsData [] dataArray = new BollingerBandsData[length];
 
         for (int i = 0; i < length; i++) {
-            dataArray[i] = get(array,n, sdm, i+startIndex);
+            int index = i+startIndex;
+
+            dataArray[i] = get(array,n, sdm, index);
+            dataArray[i].time = array[index].getTime();
         }
 
         return dataArray;
@@ -182,6 +186,7 @@ public class BollingerBands {
             int index = i + startIndex;
 
             dataArray[i] = get(array[index], maArray[index], BigDecimals.sd(array,maArray[index],n, index) ,sdm);
+
         }
         return dataArray;
     }
@@ -226,10 +231,67 @@ public class BollingerBands {
         data.lbb = ma.subtract(sdm);
 
         BigDecimal height =data.ubb.subtract(data.lbb);
+        if(height.compareTo(BigDecimal.ZERO) == 0){
+            data.perb = BigDecimal.ZERO;
+            data.bw = BigDecimal.ZERO;
+        }else{
+            data.perb = close.subtract(data.lbb).divide(height, MathContext.DECIMAL128);
+            data.bw = height.divide(data.mbb, MathContext.DECIMAL128);
+        }
 
-        data.perb = close.subtract(data.lbb).divide(height, MathContext.DECIMAL128);
-        data.bw = height.divide(data.mbb, MathContext.DECIMAL128);
+
         return data;
     }
+
+    public static TimeNumber [] getMbbArray(BollingerBandsData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            BollingerBandsData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.mbb);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] getUbbArray(BollingerBandsData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            BollingerBandsData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.ubb);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] getLbbArray(BollingerBandsData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            BollingerBandsData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.lbb);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] getPerbArray(BollingerBandsData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            BollingerBandsData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.perb);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] getBwArray(BollingerBandsData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            BollingerBandsData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.bw);
+        }
+
+        return timeNumbers;
+    }
+
 
 }
