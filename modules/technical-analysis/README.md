@@ -22,17 +22,21 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
-## MCMA: Middle Change Moving Average
+### MCMA: Middle Change Moving Average
 io.runon.trading.technical.analysis.indicators.ma.Mcma
 - 중간 가격의 변화량의 이동평균
 - 중간가격은 고가 + 저가 + 종가/3
 - 기울기 측정 지표로 사용하기 위해 연구중
-## CMA: Change Moving Average
+### CMA: Change Moving Average
 io.runon.trading.technical.analysis.indicators.ma.Cma
 - 가격 변화량의 이동평균
 - 기울기 측정 지표를 사용하기 위해 연구중
+
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
+
+## 피보나치 (fibonacci)
+io.runon.trading.technical.analysis.indicators.fibonacci.Fibonacci
 
 ## 가격지표
 ### 스토캐스틱
@@ -96,7 +100,6 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - 자체개발 연구중 지표
 
 # 구현 예정 목록
-- 피보나치
 - ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
 - 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)

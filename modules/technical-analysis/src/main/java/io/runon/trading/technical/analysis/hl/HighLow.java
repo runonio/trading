@@ -15,7 +15,7 @@ public class HighLow {
     int highIndex;
     long highTime;
 
-    BigDecimal row;
+    BigDecimal low;
     int lowIndex;
     long lowTime;
 
