@@ -20,6 +20,8 @@ public class Vr {
 
     public static final BigDecimal MAX_VOLUME_RATIO = new BigDecimal(Config.getConfig("max.volume.ratio", "500"));
 
+    public static final int DEFAULT_N = 25;
+
     public static BigDecimal get(TradeCandle[] array, int n){
         return get(array, n, array.length-1);
     }
@@ -63,7 +65,9 @@ public class Vr {
         return vr;
     }
 
-
+    public static BigDecimal[] getArray(TradeCandle[] array, int resultLength) {
+        return getArray(array, DEFAULT_N, array.length - resultLength, array.length);
+    }
     public static BigDecimal[] getArray(TradeCandle[] array, int n, int resultLength) {
         return getArray(array, n, array.length - resultLength, array.length);
     }
@@ -83,6 +87,10 @@ public class Vr {
             vrArray[i] = get(array,n, startIndex+i);
         }
         return vrArray;
+    }
+
+    public static TimeNumber[] getTimeNumbers(TradeCandle [] array, int resultLength){
+        return getTimeNumbers(array, DEFAULT_N, array.length - resultLength, array.length);
     }
 
     public static TimeNumber[] getTimeNumbers(TradeCandle [] array, int n, int resultLength){
