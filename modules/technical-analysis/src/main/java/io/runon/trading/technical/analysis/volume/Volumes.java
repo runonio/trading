@@ -91,7 +91,21 @@ public class Volumes {
         }
         return volumes;
     }
+    public static BigDecimal [] getTradingPrices(TradeCandle [] candles, int startIndex, int end){
+        if (end > candles.length) {
+            end = candles.length;
+        }
+        if(startIndex < 0){
+            startIndex = 0;
+        }
 
+        int length = end - startIndex;
+        BigDecimal [] tradingPrices = new BigDecimal[length];
+        for (int i = 0; i < length; i++) {
+            tradingPrices[i] = candles[i+startIndex].getTradingPrice();
+        }
+        return tradingPrices;
+    }
 
     public static BigDecimal getVolumePower(TradeCandle [] candles){
         return getVolumePower(candles, 0 , candles.length);

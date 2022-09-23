@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.4.0'
+implementation 'io.runon.trading:technical-analysis:0.4.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.0
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.1
 
 # 목차
 ## 이동평균
@@ -22,6 +22,15 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
+## MCMA: Middle Change Moving Average
+io.runon.trading.technical.analysis.indicators.ma.Mcma
+- 중간 가격의 변화량의 이동평균
+- 중간가격은 고가 + 저가 + 종가/3
+- 기울기 측정 지표로 사용하기 위해 연구중
+## CMA: Change Moving Average
+io.runon.trading.technical.analysis.indicators.ma.Cma
+- 가격 변화량의 이동평균
+- 기울기 측정 지표를 사용하기 위해 연구중
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
 
@@ -62,6 +71,31 @@ io.runon.trading.technical.analysis.indicators.market.Admr
 - AD 수치를 0 ~ 100의 값으로 만들어서 사용해보기 위해 추가
 - 급등 급락종목만 사용할 수 있는 최소 변화율 설정을 지원
 - 자체개발
+### MVD
+io.runon.trading.technical.analysis.indicators.market.Mvd
+- Market Volume Disparity
+- 시장 거래량 이격도
+- 평균 거래량(상위 10%제외)에 따른 이격도
+- Ema와 같이 쓰면서 효과를 측정중
+- 자체개발 연구중 지표
+
+
+### MTPD
+io.runon.trading.technical.analysis.indicators.market.Mtpd
+- Market Trading Price Disparity 
+- 시장 거래대금 이격도
+- 평균 거래대금(상위 10%제외)에 따른 이격도
+- Ema와 같이 쓰면서 효과를 측정중 
+- 자체개발 연구중 지표
+
+### MVP
+io.runon.trading.technical.analysis.indicators.market.Mvp
+- Market Volume Power
+- 시장 체결 강도
+- Ema와 같이 쓰면서 효과를 측정중
+- 자체개발 연구중 지표
+
+
 
 # 구현 예정 목록
 - 파라볼릭 시스템 (손실제한 구현 후)

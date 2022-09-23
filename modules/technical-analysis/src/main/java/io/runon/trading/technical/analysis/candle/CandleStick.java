@@ -307,6 +307,10 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     }
 
 
+    public BigDecimal getMiddle(){
+        return close.add(high).add(low).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
+    }
+
     /**
      * 높이 얻기 (세로길이)
      * @return 높이(세로길이)
