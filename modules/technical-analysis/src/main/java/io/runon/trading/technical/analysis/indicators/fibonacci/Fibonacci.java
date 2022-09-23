@@ -1,5 +1,7 @@
 package io.runon.trading.technical.analysis.indicators.fibonacci;
 
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.hl.HighLow;
 import io.runon.trading.technical.analysis.hl.HighLowLeftSearch;
@@ -70,8 +72,10 @@ public class Fibonacci {
         fibonacciData.lowTime = highLow.getLowTime();
         return fibonacciData;
     }
-
-
+    //벡테스팅용
+    public static FibonacciData [] supportLines(CandleStick[] array, int n, int resultLength) {
+        return supportLines(array,n , array.length - resultLength, array.length);
+    }
     //벡테스팅용
     public static FibonacciData [] supportLines(CandleStick[] array, int n, int startIndex, int end) {
         if(startIndex < 0){
@@ -92,7 +96,11 @@ public class Fibonacci {
         return dataArray;
     }
 
-    public static FibonacciData [] resistanceLine(CandleStick[] array, int n, int startIndex, int end) {
+    public static FibonacciData [] resistanceLines(CandleStick[] array, int n, int resultLength) {
+        return resistanceLines(array,n , array.length - resultLength, array.length);
+    }
+
+    public static FibonacciData [] resistanceLines(CandleStick[] array, int n, int startIndex, int end) {
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -111,5 +119,64 @@ public class Fibonacci {
         return dataArray;
     }
 
+    public static TimeNumber [] get000Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n000);
+        }
 
+        return timeNumbers;
+    }
+
+
+    public static TimeNumber [] get236Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n236);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] get382Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n382);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] get500Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n500);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] get618Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n618);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] get1000Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n1000);
+        }
+
+        return timeNumbers;
+    }
 }

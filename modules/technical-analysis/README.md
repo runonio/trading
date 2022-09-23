@@ -103,6 +103,7 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
 - 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
+- CCI
 - 파라볼릭 시스템 
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
 - 헤릭정산지수 (미체결 약정 활용)

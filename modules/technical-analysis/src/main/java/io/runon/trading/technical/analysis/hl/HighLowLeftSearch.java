@@ -38,7 +38,7 @@ public class HighLowLeftSearch {
 
         int lowIndex = searchLow(array, highIndex, index+1);
 
-        return get(array, index, highIndex, index);
+        return get(array, index, highIndex, lowIndex);
     }
 
     public static int searchHighIndex(CandleStick [] array, int n, int index){
@@ -125,7 +125,7 @@ public class HighLowLeftSearch {
 
         int highIndex = searchHigh(array, lowIndex, index+1);
 
-        return get(array, index, highIndex, index);
+        return get(array, index, highIndex, lowIndex);
     }
 
     public static HighLow get(CandleStick [] array, int index, int highIndex , int lowIndex){

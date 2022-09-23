@@ -144,6 +144,8 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - 파라볼릭 시스템
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
 - 헤릭정산지수 (미체결 약정 활용)
+- CCI
+- 지지선과 저항선 방법론 고도화
 - 차트패턴
     - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
 
