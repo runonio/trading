@@ -18,7 +18,10 @@ package io.runon.trading.technical.analysis.indicators;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.PriceChangeRate;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
+import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
@@ -299,6 +302,38 @@ public class Rsi {
         return rsiScores;
     }
 
+    /**
+     * 최신 데이터 기준으로 rsi 배열읃 얻는다.
+     *
+     * @param array 가격 변화율 배열
+     * @param n 특정기간
+     * @param resultLength 얻고 싶은 rsi 개수
+     * @return rsi 배열
+     */
+    public static TimeNumber[] getTimeNumbers(CandleStick[] array, int n, int resultLength){
+        return getTimeNumbers(array, n,array.length - resultLength, array.length );
+    }
+
+    public static TimeNumber [] getTimeNumbers(CandleStick[] array, int n, int startIndex, int end){
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+        TimeNumber [] rsiScores = new TimeNumber[resultLength];
+
+        for (int i = 0; i <resultLength ; i++) {
+            int index = i + startIndex;
+            rsiScores[i] = new TimeNumberData(array[i].getTime(), get(array, n, index + 1));
+        }
+
+        return rsiScores;
+    }
 
     /**
      * rsi signal

@@ -125,11 +125,11 @@ public class Stochastic {
 
             for (int j = startJ+1; j < endJ ; j++) {
                 CandleStick candleStick =array[j];
-                if(high.compareTo(candleStick.getHigh()) < 0){
+                if(candleStick.getHigh().compareTo(high) > 0){
                     high = candleStick.getHigh();
                 }
 
-                if(low.compareTo(candleStick.getLow()) > 0){
+                if(candleStick.getLow().compareTo(low) < 0){
                     low = candleStick.getLow();
                 }
             }

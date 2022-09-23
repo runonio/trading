@@ -96,13 +96,14 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - 자체개발 연구중 지표
 
 # 구현 예정 목록
-- 파라볼릭 시스템 (손실제한 구현 후)
-- 헤릭정산지수 (미체결 약정 활용)
-- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
+- 피보나치
 - ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
-- 피보나치
-- 차트패턴
+- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
+- 파라볼릭 시스템 
+    - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
+- 헤릭정산지수 (미체결 약정 활용)
+- 차트패턴 
   - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
 
 
