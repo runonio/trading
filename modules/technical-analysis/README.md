@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.4.1'
+implementation 'io.runon.trading:technical-analysis:0.4.2'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.1
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.2
 
 # 목차
 ## 이동평균
@@ -115,7 +115,6 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 
 # 구현 예정 목록
 
-- MFI
 - 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
 - AD Issue
 - McClellan Oscillator
