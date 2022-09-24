@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.candle;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,6 +67,58 @@ public class TaCandles {
         return -1;
     }
 
+    public static BigDecimal high(CandleStick [] candles, int n){
+        return high(candles,n, candles.length-1);
+    }
+    public static BigDecimal high(CandleStick [] candles, int n, int index){
+        int end = index+1;
+        int startIndex = end -n;
+        if(end > candles.length){
+            end = candles.length;
+        }
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        BigDecimal high = candles[startIndex].getHigh();
+
+        for (int i = startIndex+1; i <end ; i++) {
+            BigDecimal compareHigh = candles[i].getHigh();
+            if(compareHigh.compareTo(high) > 0){
+                high = compareHigh;
+            }
+        }
+
+        return high;
+    }
+
+    public static BigDecimal low(CandleStick [] candles, int n){
+        return low(candles, n, candles.length-1);
+    }
+
+    public static BigDecimal low(CandleStick [] candles, int n, int index){
+        int end = index+1;
+        int startIndex = end -n;
+        if(end > candles.length){
+            end = candles.length;
+        }
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        BigDecimal low = candles[startIndex].getLow();
+
+        for (int i = startIndex+1; i <end ; i++) {
+            BigDecimal compareLow = candles[i].getLow();
+            if(compareLow.compareTo(low) < 0){
+                low = compareLow;
+            }
+        }
+
+        return low;
+    }
 
 
 

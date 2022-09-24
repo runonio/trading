@@ -5,7 +5,7 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.indicators.market.MarketIndicator;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author macle
  */
-public class Nhnl extends MarketIndicator<NhnlData> {
+public class Nhnl extends MarketIndicators<NhnlData> {
 
     /**
      * 캔들 정보를 활용한 분석

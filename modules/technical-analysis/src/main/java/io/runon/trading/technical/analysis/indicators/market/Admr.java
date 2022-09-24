@@ -21,7 +21,7 @@ import java.math.RoundingMode;
  * -100 ~ 100
  * @author macle
  */
-public class Admr extends MarketIndicator<TimeNumber> {
+public class Admr extends MarketIndicators<TimeNumber> {
 
 
     public Admr(SymbolCandle[] symbolCandles) {

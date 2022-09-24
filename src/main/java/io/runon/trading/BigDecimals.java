@@ -17,6 +17,12 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_3 = new BigDecimal(3);
     public final static BigDecimal DECIMAL_4 = new BigDecimal(4);
     public static final BigDecimal DECIMAL_5 = new BigDecimal(5);
+
+    public static final BigDecimal DECIMAL_10 = new BigDecimal(10);
+    public static final BigDecimal DECIMAL_20 = new BigDecimal(20);
+    public static final BigDecimal DECIMAL_30 = new BigDecimal(30);
+    public static final BigDecimal DECIMAL_40 = new BigDecimal(40);
+    public static final BigDecimal DECIMAL_50 = new BigDecimal(50);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
 
     public final static BigDecimal DECIMAL_1000 = new BigDecimal(1000);

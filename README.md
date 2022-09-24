@@ -35,13 +35,13 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading:0.3.7'
+implementation 'io.runon.trading:trading:0.3.8'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.7
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.8
 
-implementation 'io.runon.trading:technical-analysis:0.4.1'
+implementation 'io.runon.trading:technical-analysis:0.4.2'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.1
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.2
 
 implementation 'io.runon.trading:backtesting:0.1.5'
 - etc
@@ -96,8 +96,8 @@ io.runon.trading.technical.analysis.indicators.ichimoku.IchimokuBalance
 
 ## 거래량 지표
 ### 매집분산지표 (A/D Line)
-io.runon.trading.technical.analysis.indicators.volume.AdLine
-### VR (Volume Ratio)
+io.runon.trading.technical.analysis.indicators.volume.Adi
+### VR (Volume Ratio)`
 io.runon.trading.technical.analysis.indicators.volume.Vr
 ### 매물대분석 (Volume Profile)
 io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile

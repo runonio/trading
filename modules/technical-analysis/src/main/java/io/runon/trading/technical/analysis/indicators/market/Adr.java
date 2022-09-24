@@ -31,7 +31,7 @@ import java.math.RoundingMode;
  * 0 ~ 500
  * @author macle
  */
-public class Adr extends MarketIndicator<TimeNumber> {
+public class Adr extends MarketIndicators<TimeNumber> {
 
 
     public static final BigDecimal MAX = new BigDecimal(Config.getConfig("adr.max", "200"));

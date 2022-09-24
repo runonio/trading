@@ -112,6 +112,9 @@ public class Ema {
     public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int resultLength) {
         return getTimeNumbers(array, initPreviousEma, multiplier,array.length - resultLength, array.length);
     }
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, int n) {
+        return getTimeNumbers(array,n,array.length);
+    }
     public static TimeNumber[] getTimeNumbers(TimeNumber[] array, int n, int resultLength) {
         int startIndex = array.length - resultLength;
 

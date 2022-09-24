@@ -38,8 +38,8 @@ public class Fibonacci {
         return data;
     }
 
-    public static FibonacciData supportLine(CandleStick[] array, int n){
-        return supportLine(array, n, array.length-1);
+    public static FibonacciData supportLine(CandleStick[] array, int initN, int continueN){
+        return supportLine(array, initN, continueN, array.length-1);
     }
 
     /**
@@ -47,8 +47,8 @@ public class Fibonacci {
      * 저항선 피보나치
      * 반등장에서 사용
      */
-    public static FibonacciData supportLine(CandleStick[] array, int n, int index){
-        HighLow highLow = HighLowLeftSearch.getHighNextLow(array, n, index);
+    public static FibonacciData supportLine(CandleStick[] array, int initN, int continueN, int index){
+        HighLow highLow = HighLowLeftSearch.getHighNextLow(array, initN, continueN, index);
         FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();
@@ -56,16 +56,16 @@ public class Fibonacci {
         return fibonacciData;
     }
 
-    public static FibonacciData resistanceLine(CandleStick[] array, int n){
-        return resistanceLine(array, n, array.length-1);
+    public static FibonacciData resistanceLine(CandleStick[] array, int initN, int continueN){
+        return resistanceLine(array, initN, continueN, array.length-1);
     }
 
     /**
      * 지지선 피보나치
      * 조정장에서 사용
      */
-    public static FibonacciData resistanceLine (CandleStick[] array, int n, int index){
-        HighLow highLow = HighLowLeftSearch.getLowNextHigh(array, n, index);
+    public static FibonacciData resistanceLine (CandleStick[] array, int initN, int continueN, int index){
+        HighLow highLow = HighLowLeftSearch.getLowNextHigh(array, initN,continueN, index);
         FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();
@@ -73,11 +73,11 @@ public class Fibonacci {
         return fibonacciData;
     }
     //벡테스팅용
-    public static FibonacciData [] supportLines(CandleStick[] array, int n, int resultLength) {
-        return supportLines(array,n , array.length - resultLength, array.length);
+    public static FibonacciData [] supportLines(CandleStick[] array, int initN, int continueN, int resultLength) {
+        return supportLines(array,initN, continueN , array.length - resultLength, array.length);
     }
     //벡테스팅용
-    public static FibonacciData [] supportLines(CandleStick[] array, int n, int startIndex, int end) {
+    public static FibonacciData [] supportLines(CandleStick[] array, int initN, int continueN, int startIndex, int end) {
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -90,17 +90,17 @@ public class Fibonacci {
 
         FibonacciData [] dataArray = new FibonacciData[resultLength];
         for (int i = 0; i < resultLength; i++) {
-            dataArray[i] = supportLine(array,n, i+startIndex);
+            dataArray[i] = supportLine(array,initN, continueN, i+startIndex);
         }
 
         return dataArray;
     }
 
-    public static FibonacciData [] resistanceLines(CandleStick[] array, int n, int resultLength) {
-        return resistanceLines(array,n , array.length - resultLength, array.length);
+    public static FibonacciData [] resistanceLines(CandleStick[] array, int initN, int continueN, int resultLength) {
+        return resistanceLines(array, initN, continueN , array.length - resultLength, array.length);
     }
 
-    public static FibonacciData [] resistanceLines(CandleStick[] array, int n, int startIndex, int end) {
+    public static FibonacciData [] resistanceLines(CandleStick[] array, int initN, int continueN, int startIndex, int end) {
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -113,7 +113,7 @@ public class Fibonacci {
 
         FibonacciData [] dataArray = new FibonacciData[resultLength];
         for (int i = 0; i < resultLength; i++) {
-            dataArray[i] = resistanceLine(array,n, i+startIndex);
+            dataArray[i] = resistanceLine(array,initN, continueN, i+startIndex);
         }
 
         return dataArray;
