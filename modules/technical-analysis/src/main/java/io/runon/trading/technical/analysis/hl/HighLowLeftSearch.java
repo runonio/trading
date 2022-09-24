@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 public class HighLowLeftSearch {
 
 
-    public static HighLow getHighNextLow(CandleStick [] array, int n){
-        return getHighNextLow(array, n, array.length-1);
+    public static HighLow getHighNextLow(CandleStick [] array, int initN,int continueN){
+        return getHighNextLow(array, initN, continueN, array.length-1);
     }
     
     /**
@@ -20,14 +20,15 @@ public class HighLowLeftSearch {
      * 피보나치에서 활용 반등폭 예측하기
      * 대세 하락이후에 반등을 줄때 활용한다.
      * @param array 배열
-     * @param n 신고가 검색 범위. n 이 50이면 50개 사이에 신고가가 있을경우 계속 검색
+     * @param initN 초기검색범위
+     * @param continueN 연속 신고가 검색 범위. n 이 50이면 50개 사이에 신고가가 있을경우 계속 검색
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getHighNextLow(CandleStick [] array , int n , int index){
-        int highIndex = index;
+    public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index){
+        int highIndex = searchHighIndex(array, initN , index);
         for(;;){
-            int searchIndex = searchHighIndex(array, n , highIndex);
+            int searchIndex = searchHighIndex(array, continueN , highIndex);
 
             if(highIndex == searchIndex){
                 break;
@@ -107,14 +108,15 @@ public class HighLowLeftSearch {
      * 피보나치에서 활용 조정폭 예상하기
      * 대세 상승 이후 조정을 줄때 활용한다.
      * @param array 배열
-     * @param n 신저가 검색 범위. n 이 50이면 50개 사이에 신저가가 있을경우 계속 검색
+     * @param initN 초기검색범위
+     * @param continueN 연속 신저가 검색 범위. n 이 50이면 50개 사이에 신저가가 있을경우 계속 검색
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getLowNextHigh(CandleStick [] array , int n , int index){
-        int lowIndex = index;
+    public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index){
+        int lowIndex = searchLowIndex(array, initN , index);
         for(;;){
-            int searchIndex = searchLowIndex(array, n , lowIndex);
+            int searchIndex = searchLowIndex(array, continueN , lowIndex);
 
             if(lowIndex == searchIndex){
                 break;

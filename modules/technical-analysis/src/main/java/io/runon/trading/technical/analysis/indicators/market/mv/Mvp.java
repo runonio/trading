@@ -4,7 +4,7 @@ import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.indicators.market.MarketIndicator;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
@@ -17,7 +17,7 @@ import java.math.RoundingMode;
  * 최대치 값은 max.volume.power 설정에 의해 달라질 수 있음
  * @author macle
  */
-public class Mvp extends MarketIndicator<TimeNumber> {
+public class Mvp extends MarketIndicators<TimeNumber> {
 
 
     public Mvp(SymbolCandle[] symbolCandles){

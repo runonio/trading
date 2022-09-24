@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * 시장 관련 지표
  * @author macle
  */
-public abstract class MarketIndicator<T> {
+public abstract class MarketIndicators<T> {
 
 
     protected SymbolCandle[] symbolCandles;
@@ -22,7 +22,7 @@ public abstract class MarketIndicator<T> {
         this.searchLength = searchLength;
     }
 
-    public MarketIndicator(SymbolCandle[] symbolCandles){
+    public MarketIndicators(SymbolCandle[] symbolCandles){
         setSymbolCandles(symbolCandles);
     }
 
@@ -31,7 +31,7 @@ public abstract class MarketIndicator<T> {
         times = TaCandles.getTimes(symbolCandles);
     }
 
-    public MarketIndicator(SymbolCandleTimes symbolCandleTimes){
+    public MarketIndicators(SymbolCandleTimes symbolCandleTimes){
         this.symbolCandles = symbolCandleTimes.getSymbolCandles();
         times = symbolCandleTimes.getTimes();
     }

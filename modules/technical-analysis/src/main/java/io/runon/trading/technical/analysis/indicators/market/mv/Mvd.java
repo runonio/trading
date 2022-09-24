@@ -7,7 +7,7 @@ import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-import io.runon.trading.technical.analysis.indicators.market.MarketIndicator;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 import io.runon.trading.technical.analysis.volume.Volumes;
@@ -22,7 +22,7 @@ import java.util.Arrays;
  * market.volume.disparity.max 설정값에 최대값은 변할 수 있음
  * @author macle
  */
-public class Mvd extends MarketIndicator<TimeNumber> {
+public class Mvd extends MarketIndicators<TimeNumber> {
 
     protected int averageCount =  Config.getInteger("volume.average.count", 50);
 

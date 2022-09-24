@@ -9,7 +9,7 @@ import java.math.MathContext;
 
 /**
  * 매집 분산 지표
- * Accumulation Distribution Line
+ *  Accumulation/Distribution Indicator
  * chuljoo.tistory.com/136
  *
  * 예전책에는  ((종가 - 저가) - (고가 - 종가)) 부분이 종가 - 시가로 되어있는데 이방법 말고 최근 자료로 구현한다.
@@ -30,7 +30,7 @@ import java.math.MathContext;
  *
  * @author macle
  */
-public class AdLine {
+public class Adi {
     public static BigDecimal get(TradeCandle candle, BigDecimal previousAd){
         BigDecimal cl = candle.getClose().subtract(candle.getLow());
         BigDecimal hc = candle.getHigh().subtract(candle.getClose());

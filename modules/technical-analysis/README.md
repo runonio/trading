@@ -49,14 +49,24 @@ io.runon.trading.technical.analysis.indicators.ma.Macd
 io.runon.trading.technical.analysis.indicators.Rsi
 ### 일목 균형표
 io.runon.trading.technical.analysis.indicators.ichimoku.IchimokuBalance
+### ROC
+io.runon.trading.technical.analysis.indicators.Roc
+### ROCM (ROC Middle)
+io.runon.trading.technical.analysis.indicators.Rocm
+### Momentum
+io.runon.trading.technical.analysis.indicators.Momentum
+### MomentumMiddle
+io.runon.trading.technical.analysis.indicators.MomentumMiddle
 
 ## 거래량 지표
 ### 매집분산지표 (A/D Line)
-io.runon.trading.technical.analysis.indicators.volume.AdLine
+io.runon.trading.technical.analysis.indicators.volume.Adi
 ### VR (Volume Ratio)
 io.runon.trading.technical.analysis.indicators.volume.Vr
 ### 매물대분석 (Volume Profile)
 io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
+### 차이킨오실레이터 (Chaikin Oscillator)
+io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 
 ## 시장 지표
 ### 신고가 신저가 
@@ -100,15 +110,18 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - 자체개발 연구중 지표
 
 # 구현 예정 목록
-- ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
+- RMI
+- MFI
 - 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
 - CCI
-- 파라볼릭 시스템 
+- AD Issue
+- McClellan Oscillator
+- 파라볼릭 시스템 (SAR)
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
+    - https://www.youthkor.com/10-%ED%8C%8C%EB%9D%BC%EB%B3%BC%EB%A6%AD-sar-%EC%A7%80%ED%91%9C-%EB%B3%B4%EB%8A%94%EB%B2%95/
 - 헤릭정산지수 (미체결 약정 활용)
-- 차트패턴 
-  - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
+
 
 
 # communication

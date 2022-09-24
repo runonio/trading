@@ -308,7 +308,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
 
 
     public BigDecimal getMiddle(){
-        return close.add(high).add(low).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
+        return getHighLowClose().divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
     }
 
     /**
@@ -507,5 +507,11 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
+
+
+    public BigDecimal getHighLowClose(){
+        return high.add(low).add(close);
+    }
+
 }
 

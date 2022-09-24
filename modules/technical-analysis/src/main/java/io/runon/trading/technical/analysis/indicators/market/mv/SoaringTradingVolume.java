@@ -5,7 +5,7 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TaCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-import io.runon.trading.technical.analysis.indicators.market.MarketIndicator;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 import io.runon.trading.technical.analysis.volume.Volumes;
@@ -22,7 +22,7 @@ import java.util.List;
  * 0 ~ 100
  * @author macle
  */
-public class SoaringTradingVolume extends MarketIndicator<SoaringTradingVolumeData> {
+public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeData> {
 
 
     private int averageCount =  Config.getInteger("volume.average.count", 50);
