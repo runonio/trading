@@ -74,7 +74,7 @@ public class HighLowLeftSearch {
     public static int searchLowIndex(CandleStick [] array, int n, int index){
         int end = index +1;
         int startIndex = end - n;
-        return searchLow(array, n, index);
+        return searchLow(array, startIndex, end);
     }
 
     public static int searchLow(CandleStick [] array, int startIndex, int end){
