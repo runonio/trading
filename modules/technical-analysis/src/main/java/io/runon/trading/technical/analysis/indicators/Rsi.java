@@ -17,17 +17,14 @@
 package io.runon.trading.technical.analysis.indicators;
 
 import io.runon.trading.BigDecimals;
-import io.runon.trading.PriceChangeRate;
-import io.runon.trading.TimeNumber;
-import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
-import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
+ * (Relative Strength Index)
  * RSI는 일정 기간 동안 주가가 전일 가격에 비해 상승한 변화량과 하락한 변화량의 평균값을 구하여, 상승한 변화량이 크면 과매수로, 하락한 변화량이 크면 과매도로 판단하는 방식이다.
  *
  * 계산 방법은 다음과 같다. 주어진 기간의 모든 날의 주가에 대해서
@@ -88,114 +85,58 @@ import java.math.MathContext;
  *
  * @author macle
  */
-public class Rsi {
+public class Rsi extends NIndicators<CandleStick> {
 
-    public static final int DEFAULT_N = 14;
-    public static final int DEFAULT_SIGNAL = 6;
-
-    /**
-     * rsi 점수 얻기
-     * 특정기간 n은 14일을 권장하므로 기본값 14를 세팅한 값
-     * 9, 25도 많이 사용함
-     * @param priceChangeRates 가격 변화율 배열
-     * @return rsi score (0~100)
-     */
-    public static BigDecimal get(PriceChangeRate[] priceChangeRates) {
-
-        BigDecimal[] array= CandleBigDecimals.getChangeRateArray(priceChangeRates);
-        return get(array, DEFAULT_N, array.length);
+    public Rsi(){
+        defaultN = 14;
+        scale = 2;
     }
+    @Override
+    public BigDecimal get(CandleStick[] array, int n, int index) {
 
 
+        int end = index+1;
+        int startIndex = end -n;
+        if(end > array.length){
+            end = array.length;
+        }
 
-    /**
-     * rsi 점수 얻기
-     * 특정기간 n은 14일을 권장하므로 기본값 14를 세팅한 값
-     * 9, 25도 많이 사용함
-     * @param priceChangeRates 가격 변화율 배열
-     * @return rsi score (0~100)
-     */
-    public static BigDecimal get(BigDecimal [] priceChangeRates) {
-        return get(priceChangeRates, DEFAULT_N, priceChangeRates.length);
-    }
+        if(startIndex < 0){
+            startIndex = 0;
+        }
 
-    /**
-     * rsi 점수 얻기
-     * 구할 수 없을때 -1.0
-     * @param priceChangeRates 가격 변화율 배열
-     * @param n 특정기간 n
-     * @param end 배열의 끝지점
-     * @return rsi score ( 0~100)
-     */
-    public static BigDecimal get(BigDecimal [] priceChangeRates, int n, int end){
-        int upCount = 0;
-        int downCount = 0;
+        int length = end - startIndex;
+        if(length == 0){
+            return BigDecimals.DECIMAL_50;
+        }
 
         BigDecimal upSum = BigDecimal.ZERO;
         BigDecimal downSum = BigDecimal.ZERO;
 
-
-        int start = end - n;
-        if(start < 0){
-            start = 0;
-        }
-
-        for (int i = start; i < end; i++) {
-
-            if(priceChangeRates[i].compareTo(BigDecimal.ZERO) > 0){
-                upCount ++;
-                upSum = upSum.add(priceChangeRates[i]);
-
-            }else if(priceChangeRates[i].compareTo(BigDecimal.ZERO) < 0){
-                downCount++;
-                downSum = downSum.add(priceChangeRates[i]);
-            }
-        }
-
-        return get(upCount, downCount, upSum, downSum);
-    }
-
-    /**
-     * rsi 점수 얻기
-     * 구할 수 없을때 -1.0
-     * @param priceChangeRates 가격 변화율 배열
-     * @param n 특정기간 n
-     * @param end 배열의 끝지점
-     * @return rsi score ( 0~100)
-     */
-
-    public static BigDecimal get(PriceChangeRate [] priceChangeRates, int n, int end){
-
-        int start = end - n;
-        if(start < 0){
-            start = 0;
-        }
-
         int upCount = 0;
         int downCount = 0;
 
-        BigDecimal upSum = BigDecimal.ZERO;
-        BigDecimal downSum = BigDecimal.ZERO;
-        for (int i = start; i < end; i++) {
-            BigDecimal cr = priceChangeRates[i].getChangeRate();
+        for (int i = startIndex; i < end; i++) {
+            CandleStick candle = array[i];
+
+            BigDecimal cr = candle.getChange();
 
             if(cr.compareTo(BigDecimal.ZERO) > 0){
-                upCount ++;
+                upCount++;
                 upSum = upSum.add(cr);
-
             }else if(cr.compareTo(BigDecimal.ZERO) < 0){
                 downCount++;
                 downSum = downSum.add(cr);
             }
         }
 
-        return get(upCount, downCount, upSum, downSum);
-
+        return get(upCount, downCount, upSum, downSum).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros();
     }
+
 
     public static BigDecimal get(int upCount, int downCount, BigDecimal upSum, BigDecimal downSum){
         if(upCount == 0 && downCount == 0){
-            return new BigDecimal(50);
+            return BigDecimals.DECIMAL_50;
         }
 
         if(upCount == 0 ){
@@ -204,6 +145,19 @@ public class Rsi {
         if(downCount == 0){
             return BigDecimals.DECIMAL_100;
         }
+
+        if(upSum.compareTo(BigDecimal.ZERO) == 0 && downSum.compareTo(BigDecimal.ZERO) == 0){
+            return BigDecimals.DECIMAL_50;
+        }
+
+        if(upSum.compareTo(BigDecimal.ZERO) == 0){
+            return BigDecimal.ZERO;
+        }
+
+        if(downSum.compareTo(BigDecimal.ZERO) == 0){
+            return BigDecimals.DECIMAL_100;
+        }
+
         //  U = 전날 가격보다 오늘 상승할때의 상승폭 (up)
         //  D = 전달 가격보다 오늘 하락할때의 하락폭 (down)
         //  AU = 일정기간 (N) U의 평균값
@@ -221,148 +175,5 @@ public class Rsi {
         //백분율 이기때문에  * 100의 효과
         return rsi.multiply(BigDecimals.DECIMAL_100);
     }
-
-
-    /**
-     * 최신 데이터 기준으로 rsi 배열읃 얻는다.
-     *
-     * @param array 가격 변화율 배열
-     * @param resultLength 얻고 싶은 rsi 개수
-     * @return rsi 배열
-     */
-    public static BigDecimal [] getArray(BigDecimal[] array,  int resultLength){
-        return getArray(array, DEFAULT_N,array.length - resultLength, array.length );
-    }
-
-
-    /**
-     * 최신 데이터 기준으로 rsi 배열읃 얻는다.
-     *
-     * @param array 가격 변화율 배열
-     * @param n 특정기간
-     * @param resultLength 얻고 싶은 rsi 개수
-     * @return rsi 배열
-     */
-    public static BigDecimal [] getArray(BigDecimal[] array, int n, int resultLength){
-
-        return getArray(array, n,array.length - resultLength, array.length );
-    }
-
-
-    public static BigDecimal [] getArray(BigDecimal[] array, int n, int startIndex, int end){
-
-        if(startIndex < 0){
-            startIndex = 0;
-        }
-
-        if(end > array.length){
-            end = array.length;
-        }
-
-        int resultLength = end - startIndex;
-        BigDecimal [] rsiScores = new BigDecimal[resultLength];
-
-        for (int i = 0; i <resultLength ; i++) {
-            rsiScores[i] = get(array, n, i + startIndex + 1);
-        }
-
-        return rsiScores;
-    }
-
-    public static BigDecimal [] getArray(PriceChangeRate[] array,  int resultLength){
-        return getArray(array, DEFAULT_N,array.length - resultLength, array.length );
-    }
-
-
-    /**
-     * 최신 데이터 기준으로 rsi 배열읃 얻는다.
-     *
-     * @param array 가격 변화율 배열
-     * @param n 특정기간
-     * @param resultLength 얻고 싶은 rsi 개수
-     * @return rsi 배열
-     */
-    public static BigDecimal [] getArray(PriceChangeRate[] array, int n, int resultLength){
-        return getArray(array, n,array.length - resultLength, array.length );
-    }
-
-    public static BigDecimal [] getArray(PriceChangeRate[] array, int n, int startIndex, int end){
-
-        if(startIndex < 0){
-            startIndex = 0;
-        }
-
-        if(end > array.length){
-            end = array.length;
-        }
-
-        int resultLength = end - startIndex;
-        BigDecimal [] rsiScores = new BigDecimal[resultLength];
-
-        for (int i = 0; i <resultLength ; i++) {
-            rsiScores[i] = get(array, n, i + startIndex + 1);
-        }
-
-        return rsiScores;
-    }
-
-    /**
-     * 최신 데이터 기준으로 rsi 배열읃 얻는다.
-     *
-     * @param array 가격 변화율 배열
-     * @param n 특정기간
-     * @param resultLength 얻고 싶은 rsi 개수
-     * @return rsi 배열
-     */
-    public static TimeNumber[] getTimeNumbers(CandleStick[] array, int n, int resultLength){
-        return getTimeNumbers(array, n,array.length - resultLength, array.length );
-    }
-
-    public static TimeNumber [] getTimeNumbers(CandleStick[] array, int n, int startIndex, int end){
-
-        if(startIndex < 0){
-            startIndex = 0;
-        }
-
-        if(end > array.length){
-            end = array.length;
-        }
-
-        int resultLength = end - startIndex;
-        TimeNumber [] rsiScores = new TimeNumber[resultLength];
-
-        for (int i = 0; i <resultLength ; i++) {
-            int index = i + startIndex;
-            rsiScores[i] = new TimeNumberData(array[i].getTime(), get(array, n, index + 1));
-        }
-
-        return rsiScores;
-    }
-
-    /**
-     * rsi signal
-     * 이평선
-     * 보통 6일을 많이 사용함
-     * @param rsiArray rsi 배열
-     * @return rsi signal 배열
-     */
-    public static BigDecimal [] getSignal(BigDecimal [] rsiArray){
-        return Sma.getArray(rsiArray, DEFAULT_SIGNAL, rsiArray.length - (DEFAULT_SIGNAL - 1));
-    }
-
-    /**
-     * rsi signal 
-     * 이평선 
-     * 보통 6일을 많이 사용함
-     * @param rsiArray rsi 배열
-     * @param n 특정기간 ( 몇일로 평균을 만들건지) 보통 6일을 많이 사용함
-     * @param signalCount 얻고 싶은 signal 개수
-     * @return rsi signal 배열
-     */
-    public static BigDecimal [] getSignal(BigDecimal [] rsiArray, int n, int signalCount){
-        return Sma.getArray(rsiArray, n, signalCount);
-    }
-
-
 
 }

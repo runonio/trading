@@ -1,7 +1,8 @@
-package io.runon.trading.technical.analysis.indicators;
+package io.runon.trading.technical.analysis.indicators.volume;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
+import io.runon.trading.technical.analysis.indicators.NIndicators;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -10,11 +11,7 @@ import java.math.RoundingMode;
 /**
  *
  *  MFI (Money Flow Index)
- *  공식
- * CCI = ( M - m ) / ( 0.015 x d )
- * M : ( 고가 + 저가 + 종가 ) / 3
- * m : M의 일정기간 이동평균
- * d : M 과 m 사이 편차의 절대값을 단순평균한 값
+ *
  *
  * @author macle
  */
@@ -22,6 +19,7 @@ public class Mfi extends NIndicators<TradeCandle> {
 
     public Mfi(){
         defaultN = 14;
+        scale = 2;
     }
     @Override
     public BigDecimal get(TradeCandle[] array, int n, int index) {
@@ -39,7 +37,7 @@ public class Mfi extends NIndicators<TradeCandle> {
 
         int length = end - startIndex;
         if(length == 0){
-            return BigDecimal.ZERO;
+            return BigDecimals.DECIMAL_50;
         }
 
         BigDecimal upSum = BigDecimal.ZERO;
@@ -58,7 +56,7 @@ public class Mfi extends NIndicators<TradeCandle> {
         }
 
         if(upSum.compareTo(BigDecimal.ZERO) == 0 && downSum.compareTo(BigDecimal.ZERO) == 0){
-            return new BigDecimal(50);
+            return BigDecimals.DECIMAL_50;
         }
 
         if(upSum.compareTo(BigDecimal.ZERO) == 0){
