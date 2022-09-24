@@ -57,6 +57,10 @@ io.runon.trading.technical.analysis.indicators.Rocm
 io.runon.trading.technical.analysis.indicators.Momentum
 ### MomentumMiddle
 io.runon.trading.technical.analysis.indicators.MomentumMiddle
+### 윌림엄스 %R
+io.runon.trading.technical.analysis.indicators.Wpr
+### CCI  Commodity Channel Index
+io.runon.trading.technical.analysis.indicators.Cci
 
 ## 거래량 지표
 ### 매집분산지표 (A/D Line)
@@ -110,18 +114,16 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - 자체개발 연구중 지표
 
 # 구현 예정 목록
-- 윌리엄스R (기존구현정보 활용으로 어렵지않음)
-- RMI
+
 - MFI
 - 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
-- CCI
 - AD Issue
 - McClellan Oscillator
 - 파라볼릭 시스템 (SAR)
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
     - https://www.youthkor.com/10-%ED%8C%8C%EB%9D%BC%EB%B3%BC%EB%A6%AD-sar-%EC%A7%80%ED%91%9C-%EB%B3%B4%EB%8A%94%EB%B2%95/
 - 헤릭정산지수 (미체결 약정 활용)
-
+- RMI
 
 
 # communication

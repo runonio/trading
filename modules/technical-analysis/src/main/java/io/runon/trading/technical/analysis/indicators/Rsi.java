@@ -194,6 +194,10 @@ public class Rsi {
     }
 
     public static BigDecimal get(int upCount, int downCount, BigDecimal upSum, BigDecimal downSum){
+        if(upCount == 0 && downCount == 0){
+            return new BigDecimal(50);
+        }
+
         if(upCount == 0 ){
             return BigDecimal.ZERO;
         }

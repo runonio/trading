@@ -96,8 +96,8 @@ io.runon.trading.technical.analysis.indicators.ichimoku.IchimokuBalance
 
 ## 거래량 지표
 ### 매집분산지표 (A/D Line)
-io.runon.trading.technical.analysis.indicators.volume.AdLine
-### VR (Volume Ratio)
+io.runon.trading.technical.analysis.indicators.volume.Adi
+### VR (Volume Ratio)`
 io.runon.trading.technical.analysis.indicators.volume.Vr
 ### 매물대분석 (Volume Profile)
 io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
