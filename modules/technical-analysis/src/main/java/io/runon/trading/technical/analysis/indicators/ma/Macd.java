@@ -1,6 +1,7 @@
 package io.runon.trading.technical.analysis.indicators.ma;
 
 import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 
 import java.math.BigDecimal;
 
@@ -95,9 +96,31 @@ public class Macd {
             macdData.setTime(shortEmaArray[i].getTime());
             macdData.macd = macdArray[i];
             macdData.signal = signalArray[i];
+            macdData.oscillator =  macdData.macd.subtract(macdData.signal).stripTrailingZeros();
             dataArray[i] = macdData;
         }
         return dataArray;
+    }
+
+
+    public static TimeNumber [] getOscillators(MacdData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            MacdData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.oscillator);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber [] getSignals(MacdData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            MacdData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.signal);
+        }
+
+        return timeNumbers;
     }
 
 }

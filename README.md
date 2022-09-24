@@ -4,6 +4,12 @@
 # 개발환경
 - open jdk 17
 
+# 분석을 하기전에
+- 하이투자증권 설명자료
+  - https://www.hi-ib.com/systemtrade/st020901.jsp
+- 추천 서적
+  - 심리투자의 법칙
+
 # 데이터구조
 ## csv TradeCandle(캔들) 데이터 기본 구조
 캔들시작시간(밀리초 유닉스타임)[0],종가[1],시가[2],고가[3],저가[4],직전가[5],거래량[6],거래대금[7],거래횟수[8],매수거래량[9],매수거래대금[10]
@@ -60,17 +66,21 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
-## MCMA: Middle Change Moving Average
+### MCMA: Middle Change Moving Average
 io.runon.trading.technical.analysis.indicators.ma.Mcma
 - 중간 가격의 변화량의 이동평균
 - 중간가격은 고가 + 저가 + 종가/3
 - 기울기 측정 지표로 사용하기 위해 연구중
-## CMA: Change Moving Average
+### CMA: Change Moving Average
 io.runon.trading.technical.analysis.indicators.ma.Cma
 - 가격 변화량의 이동평균
 - 기울기 측정 지표를 사용하기 위해 연구중
+
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
+
+## 피보나치 (fibonacci)
+io.runon.trading.technical.analysis.indicators.fibonacci.Fibonacci
 
 ## 가격지표
 ### 스토캐스틱
@@ -133,17 +143,18 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
-
 # 구현 예정 목록
-- 파라볼릭 시스템 (손실제한 구현 후)
-- 헤릭정산지수 (미체결 약정 활용)
-- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
 - ROC (기존구현정보 활용으로 어렵지않음)
 - 윌리엄스R (기존구현정보 활용으로 어렵지않음)
-- 지지선, 저항선
-- 피보나치
+- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
+- 파라볼릭 시스템
+    - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
+- 헤릭정산지수 (미체결 약정 활용)
+- CCI
+- 지지선과 저항선 방법론 고도화
 - 차트패턴
     - 차트 패턴은 구현된 목록을 정리하여 사용할 만한 목록을 다시 추려서 정비
+
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
 
 

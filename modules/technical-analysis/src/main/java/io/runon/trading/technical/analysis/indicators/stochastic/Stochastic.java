@@ -1,6 +1,8 @@
 package io.runon.trading.technical.analysis.indicators.stochastic;
 
 import io.runon.trading.BigDecimals;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.indicators.ma.Ema;
 import io.runon.trading.technical.analysis.indicators.ma.MovingAverage;
@@ -9,6 +11,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * 스토캐스틱
@@ -41,11 +44,11 @@ import java.math.MathContext;
 @Setter
 public class Stochastic {
 
-    public static final int DEFAULT_K = 5;
+    public static final int DEFAULT_K = 12;
 
-    public static final int DEFAULT_D = 3;
+    public static final int DEFAULT_D = 5;
 
-    public static final int DEFAULT_SLOW_D = 3;
+    public static final int DEFAULT_SLOW_D = 5;
 
     private int k = DEFAULT_K;
     private int d = DEFAULT_D;
@@ -122,11 +125,11 @@ public class Stochastic {
 
             for (int j = startJ+1; j < endJ ; j++) {
                 CandleStick candleStick =array[j];
-                if(high.compareTo(candleStick.getHigh()) > 0){
+                if(candleStick.getHigh().compareTo(high) > 0){
                     high = candleStick.getHigh();
                 }
 
-                if(low.compareTo(candleStick.getLow()) < 0){
+                if(candleStick.getLow().compareTo(low) < 0){
                     low = candleStick.getLow();
                 }
             }
@@ -140,6 +143,7 @@ public class Stochastic {
             //분자
             BigDecimal numerator = close.subtract(low);
             kArray[i] = BigDecimals.DECIMAL_100.multiply(numerator).divide(denominator, MathContext.DECIMAL128);
+
         }
 
         BigDecimal [] dArray;
@@ -166,6 +170,36 @@ public class Stochastic {
         }
 
         return daraArray;
+    }
+
+    public static TimeNumber[] getKArray(StochasticData[] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            StochasticData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.k);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber[] getDArray(StochasticData[] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            StochasticData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.d);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber[] getSlowDArray(StochasticData[] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            StochasticData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.slowD);
+        }
+
+        return timeNumbers;
     }
 
 }
