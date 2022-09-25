@@ -128,7 +128,7 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
-### MarketSurvivalRate
+### 생존비율 지표 (Market Survival Rate)
 io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 생존비율 지표
 - 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율

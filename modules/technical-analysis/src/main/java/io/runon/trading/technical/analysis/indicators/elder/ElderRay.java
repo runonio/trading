@@ -124,7 +124,7 @@ public class ElderRay {
         return dataArray;
     }
 
-    public static TimeNumber[] getBullPowerArray(ElderRayData [] array){
+    public static TimeNumber[] getBullPowers(ElderRayData [] array){
         TimeNumber [] timeNumbers = new TimeNumber[array.length];
         for (int i = 0; i <timeNumbers.length ; i++) {
             ElderRayData data = array[i];
@@ -133,7 +133,7 @@ public class ElderRay {
         return timeNumbers;
     }
 
-    public static TimeNumber[] getBearPowerArray(ElderRayData [] array){
+    public static TimeNumber[] getBearPowers(ElderRayData [] array){
         TimeNumber [] timeNumbers = new TimeNumber[array.length];
         for (int i = 0; i <timeNumbers.length ; i++) {
             ElderRayData data = array[i];
