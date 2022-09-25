@@ -175,6 +175,7 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 
 
 
+# 바닥신호
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
 
 

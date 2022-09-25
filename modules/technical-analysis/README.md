@@ -63,8 +63,10 @@ io.runon.trading.technical.analysis.indicators.MomentumMiddle
 io.runon.trading.technical.analysis.indicators.Wpr
 ### CCI  Commodity Channel Index
 io.runon.trading.technical.analysis.indicators.Cci
-
-
+### ADX (Average Directional Movement Index)
+io.runon.trading.technical.analysis.indicators.adx.Adx
+### ElderRay
+io.runon.trading.technical.analysis.indicators.elder.ElderRay
 
 ## 거래량 지표
 ### 매집분산지표 (ADI)
@@ -77,8 +79,8 @@ io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
 io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 ### MFI (Money Flow Index)
 io.runon.trading.technical.analysis.indicators.volume.Mfi
-
-
+### ForceIndex
+io.runon.trading.technical.analysis.indicators.elder.ForceIndex
 
 ## 시장 지표
 ### 신고가 신저가 
@@ -126,9 +128,14 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
+### MarketSurvivalRate
+io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
+- 생존비율 지표
+- 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
+- 바닥권에서 10% 미만의 값이 나타남
+
 # 구현 예정 목록
 
-- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
 - 파라볼릭 시스템 (SAR)
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
     - https://www.youthkor.com/10-%ED%8C%8C%EB%9D%BC%EB%B3%BC%EB%A6%AD-sar-%EC%A7%80%ED%91%9C-%EB%B3%B4%EB%8A%94%EB%B2%95/

@@ -4,7 +4,6 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.Price;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -44,10 +43,27 @@ public class Ema {
     }
 
     public static BigDecimal[] getArray(Price[] array, int n, int resultLength) {
-        return getArray(CandleBigDecimals.getCloseArray(array), n, resultLength);
+        return getArray(array, n, array.length - resultLength, array.length);
     }
+
+    public static BigDecimal[] getArray(Price[] array, int n, int startIndex, int end) {
+        int initIndex = startIndex -1;
+
+        BigDecimal initEma;
+        if(initIndex < 1){
+            initEma = array[0].getClose();
+        }else{
+            initEma = Sma.get(array, n, initIndex);
+        }
+
+        return getArray(array, initEma, multiplier(n), startIndex, end);
+    }
+
     public static BigDecimal[] getArray(BigDecimal[] array, int n, int resultLength) {
-        int startIndex = array.length - resultLength;
+        return getArray(array, n, array.length - resultLength, array.length);
+    }
+
+    public static BigDecimal[] getArray(BigDecimal[] array, int n, int startIndex, int end) {
 
         int initIndex = startIndex -1;
 
@@ -58,17 +74,17 @@ public class Ema {
             initEma = Sma.get(array, n, initIndex);
         }
 
-        return getArray(array, initEma, multiplier(n), array.length - resultLength, array.length);
+        return getArray(array, initEma, multiplier(n), startIndex, end);
 
     }
 
 
     public static BigDecimal[] getArray(Price[] array, BigDecimal initPreviousEma, int n, int resultLength) {
-        return getArray(CandleBigDecimals.getCloseArray(array), initPreviousEma, multiplier(n), array.length - resultLength, array.length);
+        return getArray(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
     }
 
     public static BigDecimal[] getArray(Price[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int resultLength) {
-        return getArray(CandleBigDecimals.getCloseArray(array), initPreviousEma, multiplier, array.length - resultLength, array.length);
+        return getArray(array, initPreviousEma, multiplier, array.length - resultLength, array.length);
     }
 
     public static BigDecimal[] getArray(BigDecimal[] array, BigDecimal initPreviousEma, int n, int resultLength) {
@@ -104,6 +120,28 @@ public class Ema {
         }
         return averages;
     }
+    public static BigDecimal[] getArray(Price[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int startIndex, int end) {
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+        BigDecimal[] averages = new BigDecimal[resultLength];
+
+        BigDecimal previousEma = initPreviousEma;
+
+        for (int i = 0; i < resultLength; i++) {
+            BigDecimal ema = get(array[i+startIndex].getClose(), previousEma, multiplier);
+            averages[i] = ema;
+            previousEma = ema;
+        }
+        return averages;
+    }
+
 
     public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, int n, int resultLength) {
         return getTimeNumbers(array, initPreviousEma, multiplier(n), array.length - resultLength, array.length);
