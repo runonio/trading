@@ -45,8 +45,10 @@ io.runon.trading.technical.analysis.indicators.stochastic.Stochastic
 io.runon.trading.technical.analysis.indicators.band.BollingerBands
 ### MACD
 io.runon.trading.technical.analysis.indicators.ma.Macd
-### RSI
+### RSI (Relative Strength Index)
 io.runon.trading.technical.analysis.indicators.Rsi
+### RMI  (Relative Momentum Index)
+io.runon.trading.technical.analysis.indicators.Rmi
 ### 일목 균형표
 io.runon.trading.technical.analysis.indicators.ichimoku.IchimokuBalance
 ### ROC
@@ -61,9 +63,13 @@ io.runon.trading.technical.analysis.indicators.MomentumMiddle
 io.runon.trading.technical.analysis.indicators.Wpr
 ### CCI  Commodity Channel Index
 io.runon.trading.technical.analysis.indicators.Cci
+### ADX (Average Directional Movement Index)
+io.runon.trading.technical.analysis.indicators.adx.Adx
+### ElderRay
+io.runon.trading.technical.analysis.indicators.elder.ElderRay
 
 ## 거래량 지표
-### 매집분산지표 (A/D Line)
+### 매집분산지표 (ADI)
 io.runon.trading.technical.analysis.indicators.volume.Adi
 ### VR (Volume Ratio)
 io.runon.trading.technical.analysis.indicators.volume.Vr
@@ -71,6 +77,10 @@ io.runon.trading.technical.analysis.indicators.volume.Vr
 io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
 ### 차이킨오실레이터 (Chaikin Oscillator)
 io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
+### MFI (Money Flow Index)
+io.runon.trading.technical.analysis.indicators.volume.Mfi
+### ForceIndex
+io.runon.trading.technical.analysis.indicators.elder.ForceIndex
 
 ## 시장 지표
 ### 신고가 신저가 
@@ -81,6 +91,11 @@ io.runon.trading.technical.analysis.indicators.market.stv.SoaringTradingVolume
 - 비율값을 제공하는데 이는 전체 값에서 전체건수로 나눈값. 0 ~ 100 사이의 값을 만들어서 사용하기위해 추가
 - 거래량 급증 종목의 수를 지표화 해서 사용
 - 자체개발
+
+### AD Issue
+io.runon.trading.technical.analysis.indicators.market.AdIssue
+### McClellan Oscillator
+io.runon.trading.technical.analysis.indicators.market.McClellanOscillator
 ### ADR
 io.runon.trading.technical.analysis.indicators.market.Adr
 ### ADMR
@@ -113,16 +128,18 @@ io.runon.trading.technical.analysis.indicators.market.Mvp
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
+### MarketSurvivalRate
+io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
+- 생존비율 지표
+- 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
+- 바닥권에서 10% 미만의 값이 나타남
+
 # 구현 예정 목록
 
-- 방향성지표 (ADX) (기존구현정보 활용으로 어렵지않음)
-- AD Issue
-- McClellan Oscillator
 - 파라볼릭 시스템 (SAR)
     - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
     - https://www.youthkor.com/10-%ED%8C%8C%EB%9D%BC%EB%B3%BC%EB%A6%AD-sar-%EC%A7%80%ED%91%9C-%EB%B3%B4%EB%8A%94%EB%B2%95/
 - 헤릭정산지수 (미체결 약정 활용)
-- RMI
 
 
 # communication
