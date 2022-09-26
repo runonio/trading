@@ -26,6 +26,20 @@ public class HighLowLeftSearch {
      * @return 고가 저가 정보
      */
     public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index){
+        int highIndex = searchHigh(array, initN , continueN,  index);
+        int lowIndex = searchLow(array, highIndex, index+1);
+        return get(array, index, highIndex, lowIndex);
+    }
+
+    public static int searchHighIndex(CandleStick [] array, int n, int index){
+
+        int end = index +1;
+        int startIndex = end - n;
+
+        return searchHigh(array, startIndex, end);
+    }
+
+    public static int searchHigh(CandleStick [] array , int initN ,int continueN , int index){
         int highIndex = searchHighIndex(array, initN , index);
         for(;;){
             int searchIndex = searchHighIndex(array, continueN , highIndex);
@@ -37,18 +51,9 @@ public class HighLowLeftSearch {
             highIndex = searchIndex;
         }
 
-        int lowIndex = searchLow(array, highIndex, index+1);
-
-        return get(array, index, highIndex, lowIndex);
+        return highIndex;
     }
 
-    public static int searchHighIndex(CandleStick [] array, int n, int index){
-
-        int end = index +1;
-        int startIndex = end - n;
-
-        return searchHigh(array, startIndex, end);
-    }
     public static int searchHigh(CandleStick [] array, int startIndex, int end){
 
         if(startIndex < 0){
@@ -76,6 +81,21 @@ public class HighLowLeftSearch {
         int end = index +1;
         int startIndex = end - n;
         return searchLow(array, startIndex, end);
+    }
+
+    public static int searchLow(CandleStick [] array ,  int initN ,int continueN , int index){
+        int lowIndex = searchLowIndex(array, initN , index);
+        for(;;){
+            int searchIndex = searchLowIndex(array, continueN , lowIndex);
+
+            if(lowIndex == searchIndex){
+                break;
+            }
+
+            lowIndex = searchIndex;
+        }
+
+        return lowIndex;
     }
 
     public static int searchLow(CandleStick [] array, int startIndex, int end){
@@ -114,16 +134,7 @@ public class HighLowLeftSearch {
      * @return 고가 저가 정보
      */
     public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index){
-        int lowIndex = searchLowIndex(array, initN , index);
-        for(;;){
-            int searchIndex = searchLowIndex(array, continueN , lowIndex);
-
-            if(lowIndex == searchIndex){
-                break;
-            }
-
-            lowIndex = searchIndex;
-        }
+        int lowIndex = searchLow(array, initN ,continueN, index);
 
         int highIndex = searchHigh(array, lowIndex, index+1);
 

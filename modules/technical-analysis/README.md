@@ -67,6 +67,8 @@ io.runon.trading.technical.analysis.indicators.Cci
 io.runon.trading.technical.analysis.indicators.adx.Adx
 ### ElderRay
 io.runon.trading.technical.analysis.indicators.elder.ElderRay
+### 파라볼릭 시스템 (SAR)
+io.runon.trading.technical.analysis.indicators.elder.Sar
 
 ## 거래량 지표
 ### 매집분산지표 (ADI)
@@ -135,10 +137,6 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 바닥권에서 10% 미만의 값이 나타남
 
 # 구현 예정 목록
-
-- 파라볼릭 시스템 (SAR)
-    - https://academy.binance.com/ko/articles/a-brief-guide-to-the-parabolic-sar-indicator
-    - https://www.youthkor.com/10-%ED%8C%8C%EB%9D%BC%EB%B3%BC%EB%A6%AD-sar-%EC%A7%80%ED%91%9C-%EB%B3%B4%EB%8A%94%EB%B2%95/
 - 헤릭정산지수 (미체결 약정 활용)
 
 
