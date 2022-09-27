@@ -7,6 +7,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 public interface TimeNumber {
+    TimeNumber[] EMPTY_ARRAY = new TimeNumber[0];
 
     long getTime();
     BigDecimal getNumber();
