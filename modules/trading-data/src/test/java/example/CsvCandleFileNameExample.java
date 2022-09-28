@@ -14,7 +14,7 @@ public class CsvCandleFileNameExample {
 //        System.out.println(zoneId.getId());
 
         //기본은 미국장 (뉴욕)시간을 사용함
-        System.out.println(CsvTimeName.getName(System.currentTimeMillis() , 1000));
+        System.out.println(CsvTimeName.getName(System.currentTimeMillis() , 5000));
 
         System.out.println(CsvTimeName.getName(System.currentTimeMillis(), 1000, CandleTimes.US_STOCK_ZONE_ID));
         System.out.println(CsvTimeName.getName(System.currentTimeMillis() , 1000, CandleTimes.KOREAN_STOCK_ZONE_ID));

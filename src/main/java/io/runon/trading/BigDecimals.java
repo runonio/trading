@@ -17,15 +17,33 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_3 = new BigDecimal(3);
     public final static BigDecimal DECIMAL_4 = new BigDecimal(4);
     public static final BigDecimal DECIMAL_5 = new BigDecimal(5);
+    public static final BigDecimal DECIMAL_6 = new BigDecimal(6);
+    public static final BigDecimal DECIMAL_7 = new BigDecimal(7);
+    public static final BigDecimal DECIMAL_8 = new BigDecimal(8);
+    public static final BigDecimal DECIMAL_9 = new BigDecimal(9);
 
     public static final BigDecimal DECIMAL_10 = new BigDecimal(10);
     public static final BigDecimal DECIMAL_20 = new BigDecimal(20);
     public static final BigDecimal DECIMAL_30 = new BigDecimal(30);
     public static final BigDecimal DECIMAL_40 = new BigDecimal(40);
     public static final BigDecimal DECIMAL_50 = new BigDecimal(50);
+    public static final BigDecimal DECIMAL_60 = new BigDecimal(60);
+    public static final BigDecimal DECIMAL_70 = new BigDecimal(70);
+    public static final BigDecimal DECIMAL_80 = new BigDecimal(80);
+    public static final BigDecimal DECIMAL_90 = new BigDecimal(90);
     public final static BigDecimal DECIMAL_100 = new BigDecimal(100);
+    public final static BigDecimal DECIMAL_200 = new BigDecimal(200);
+    public final static BigDecimal DECIMAL_300 = new BigDecimal(300);
+    public final static BigDecimal DECIMAL_400 = new BigDecimal(400);
+    public final static BigDecimal DECIMAL_500 = new BigDecimal(500);
+    public final static BigDecimal DECIMAL_600 = new BigDecimal(600);
+    public final static BigDecimal DECIMAL_700 = new BigDecimal(700);
+    public final static BigDecimal DECIMAL_800 = new BigDecimal(800);
+    public final static BigDecimal DECIMAL_900 = new BigDecimal(900);
 
     public final static BigDecimal DECIMAL_1000 = new BigDecimal(1000);
+    public final static BigDecimal DECIMAL_5000 = new BigDecimal(5000);
+
     public final static BigDecimal DECIMAL_10000 = new BigDecimal(10000);
     public final static BigDecimal DECIMAL_100000 = new BigDecimal(100000);
     public final static BigDecimal DECIMAL_1000000 = new BigDecimal(1000000);

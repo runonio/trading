@@ -9,10 +9,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
- *
  *  MFI (Money Flow Index)
- *
- *
  * @author macle
  */
 public class Mfi extends NIndicators<TradeCandle> {
