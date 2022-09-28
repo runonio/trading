@@ -102,13 +102,4 @@ public class CsvTimeFilePathChange {
         }
     }
 
-    public static void main(String[] args) {
-
-        CsvTimeFilePathChange csvTimeFilePathChange = new CsvTimeFilePathChange();
-
-        System.out.println(new File("src").getAbsolutePath());
-    }
-
-
-
 }
