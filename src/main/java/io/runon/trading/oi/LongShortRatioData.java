@@ -1,4 +1,4 @@
-package io.runon.trading;
+package io.runon.trading.oi;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
@@ -10,7 +10,7 @@ import java.math.MathContext;
  * 롱숏비율
  * @author macle
  */
-public class LongShortRatioData implements LongShortRatio{
+public class LongShortRatioData implements LongShortRatio {
 
     long time;
 

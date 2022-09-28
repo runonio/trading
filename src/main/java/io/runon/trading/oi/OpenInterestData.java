@@ -1,4 +1,4 @@
-package io.runon.trading;
+package io.runon.trading.oi;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * 미체결약정 구현체
  * @author macle
  */
-public class OpenInterestData implements OpenInterest{
+public class OpenInterestData implements OpenInterest {
     long time;
     BigDecimal openInterest;
     BigDecimal notionalValue;

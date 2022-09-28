@@ -94,8 +94,7 @@ public class CsvCandle {
     }
 
     public static long getOpenTime(String csvLine){
-        int index = csvLine.indexOf(',');
-        return Long.parseLong(csvLine.substring(0,index));
+        return CsvTimeFile.getTime(csvLine);
     }
 
     public static String value(long time, TradeCandle tradeCandle){

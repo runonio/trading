@@ -1,7 +1,7 @@
-package io.runon.trading;
+package io.runon.trading.oi;
 
 /**
- * 시간과 숫자
+ * 미체결 약정 저장소
  * @author macle
  */
 public interface OpenInterestStorage {
@@ -15,7 +15,7 @@ public interface OpenInterestStorage {
      * @param time 시간 얻고자 하는 가장 가까운시간
      * @return 미체결약정 정보
      */
-    OpenInterestData getOpenInterest(String symbol, long time);
+    OpenInterest getOpenInterest(String symbol, long time);
 
     /**
      * 미체결 약정 얻기
@@ -24,6 +24,13 @@ public interface OpenInterestStorage {
      * @param time 시간 얻고자 하는 가장 가까운시간
      * @return 미체결약정 정보
      */
-    OpenInterestData getOpenInterest(String [] symbols, long time);
+    OpenInterest getOpenInterest(String [] symbols, long time);
+
+    /**
+     * 최종 미체결 약정 얻기
+     * @param symbol 종목 기호 (유니크한값)
+     * @return 미체결약정 정보
+     */
+    OpenInterest getOpenInterest(String symbol);
 
 }

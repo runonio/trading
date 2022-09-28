@@ -1,12 +1,10 @@
 package io.runon.trading.data.csv;
 
-import com.seomse.commons.utils.time.DateUtil;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.CandleTimes;
+import io.runon.trading.data.file.TimeName;
 
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 /**
  * //    candle/symbol/1d/2000 = 100년 (36500)
@@ -41,47 +39,41 @@ public class CsvTimeName {
     }
 
     public static String getName(long time, long standardTime, ZoneId zoneId){
-        Instant i = Instant.ofEpochMilli(time);
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);
+        TimeName.Type type;
         if(standardTime >= Times.DAY_1){
             //100년
-            return zonedDateTime.getYear()/100 + "00";
+            type = TimeName.Type.YEAR_100;
+
         }else if(standardTime >= Times.HOUR_2){
             //20년
-            return Integer.toString(zonedDateTime.getYear() - zonedDateTime.getYear()%20);
+            type = TimeName.Type.YEAR_20;
+
         }else if(standardTime >= Times.HOUR_1){
             //10년
-            return  zonedDateTime.getYear()/10 + "0";
+            type = TimeName.Type.YEAR_10;
+
         }else if(standardTime >= Times.MINUTE_5){
             //1년
-            return Integer.toString(zonedDateTime.getYear());
+            type = TimeName.Type.YEAR_1;
+
         }else if(standardTime >= Times.MINUTE_1){
             //1달
-            return zonedDateTime.getYear() +  DateUtil.getDateText(zonedDateTime.getMonthValue());
+            type = TimeName.Type.MONTH_1;
+
         }else if(standardTime >= 5000L){
-            //5일
+            type = TimeName.Type.DAY_5;
             // 1 6 11 16 21 26
-            int day = zonedDateTime.getDayOfMonth() - (zonedDateTime.getDayOfMonth()-1) %5;
-            if(day > 26){
-                day = 26;
-            }
-            return zonedDateTime.getYear() +  DateUtil.getDateText(zonedDateTime.getMonthValue()) + DateUtil.getDateText(day );
         }else if(standardTime >= 2000L){
+            type = TimeName.Type.DAY_2;
             //2일
-            int day = zonedDateTime.getDayOfMonth() - (zonedDateTime.getDayOfMonth()-1)%2;
-            if(day > 29){
-                day = 29;
-            }
-            return zonedDateTime.getYear() +  DateUtil.getDateText(zonedDateTime.getMonthValue()) + DateUtil.getDateText(day );
         }else if(standardTime >= 1000L){
             //1일
-            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
-                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth());
-        }else{
-            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
-                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour());
-        }
+            type = TimeName.Type.DAY_1;
 
+        }else{
+            type = TimeName.Type.HOUR_1;
+        }
+        return TimeName.getName(time,type,zoneId);
     }
 
 }

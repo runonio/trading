@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.FileUtil;
-import com.seomse.commons.utils.string.Check;
+import com.seomse.commons.validation.NumberNameFileValidation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,44 +14,63 @@ import java.util.List;
  */
 public class TimeFiles {
 
-
-    public static File[] getTimeFiles(String path, boolean isAsc){
-        return getTimeFiles(new File(path), isAsc);
-    }
-
-    public static File[] getTimeFiles(File file, boolean isAsc){
-
-        File [] array = FileUtil.getFiles(file.getAbsolutePath());
-
-        if(array == null || array.length == 0){
-            return Files.EMPTY_FILES;
+    public static File [] getFilesDir(String path){
+        File dirFile = new File(path);
+        if(!dirFile.isDirectory()){
+            return new File[0];
         }
 
 
-        List<File> list = new ArrayList<>();
-        for(File f : array){
-            if(!f.isFile()){
-                continue;
-            }
+        File [] files = dirFile.listFiles();
+        if(files == null || files.length == 0){
+            return new File[0];
+        }
 
-            if(Check.isNumber(f.getName())){
-                list.add(f);
+        NumberNameFileValidation validation = new NumberNameFileValidation();
+
+
+        List<File> fileList = new ArrayList<>();
+        for(File file : files){
+            if(validation.isValid(file)){
+                fileList.add(file);
             }
         }
 
-        if(list.size() == 0){
-            return Files.EMPTY_FILES;
-        }
+        files = fileList.toArray(new File[0]);
 
-        File [] files = list.toArray(new File[0]);
-        if(isAsc) {
-            Arrays.sort(files, FileUtil.SORT_NAME_LONG);
-        }else{
-            Arrays.sort(files, FileUtil.SORT_NAME_LONG_DESC);
-        }
-
+        Arrays.sort(files, FileUtil.SORT_NAME_LONG);
 
         return files;
+    }
+
+    public static File [] getFilesDirs(String path){
+        return FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+    }
+
+    public static boolean isInDir(String path){
+        File dirFile = new File(path);
+        if(!dirFile.isDirectory()){
+            return false;
+        }
+
+        File [] files = dirFile.listFiles();
+        if(files == null || files.length == 0){
+            return false;
+        }
+
+        NumberNameFileValidation validation = new NumberNameFileValidation();
+
+        for(File file : files){
+            if(validation.isValid(file)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isInDirs(String path){
+        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        return files.length > 0;
     }
 
 }

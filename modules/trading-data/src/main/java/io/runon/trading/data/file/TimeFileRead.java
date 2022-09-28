@@ -1,6 +1,8 @@
 package io.runon.trading.data.file;
 
 import com.seomse.commons.exception.IORuntimeException;
+import com.seomse.commons.utils.FileUtil;
+import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.data.ReadEnd;
 import io.runon.trading.data.StringRead;
 
@@ -41,19 +43,9 @@ public class TimeFileRead {
      * @param read 읽기 처리 구현체
      */
     public void fromBegin(String path, StringRead read){
-        fromBegin(new File(path), read);
-    }
-
-
-    /**
-     * 앞에서 부터 읽기
-     * @param file 파일 또는 디렉토리
-     * @param read 읽기 처리 구현체
-     */
-    public void fromBegin(File file, StringRead read){
         isRead = true;
 
-        File[] files = TimeFiles.getTimeFiles(file, true);
+        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         outer:
         for(File f : files){
@@ -80,19 +72,10 @@ public class TimeFileRead {
      * @param read 읽기 처리 구현체
      */
     public void fromEnd(String path, StringRead read){
-        fromEnd(new File(path), read);
-    }
-
-    /**
-     * 뒤에서 부터 읽기
-     * @param file 파일 또는 디렉토리
-     * @param read 읽기 처리 구현체
-     */
-    public void fromEnd(File file, StringRead read){
         //시간으로 나누어진 파일은 크기가 크지 않으므로 전체를 읽어와서 처리
         isRead = true;
 
-        File[] files = TimeFiles.getTimeFiles(file, false);
+        File[] files =  FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG_DESC);
 
         List<String> list = new ArrayList<>();
         outer:

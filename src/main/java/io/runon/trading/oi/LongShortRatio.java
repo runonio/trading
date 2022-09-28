@@ -1,4 +1,6 @@
-package io.runon.trading;
+package io.runon.trading.oi;
+
+import io.runon.trading.Time;
 
 import java.math.BigDecimal;
 
@@ -6,7 +8,7 @@ import java.math.BigDecimal;
  * 롱숏비율
  * @author macle
  */
-public interface LongShortRatio extends Time{
+public interface LongShortRatio extends Time {
 
     BigDecimal getLongAccount();
     BigDecimal getShortAccount();
