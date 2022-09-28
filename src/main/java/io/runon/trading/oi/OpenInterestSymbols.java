@@ -4,7 +4,7 @@ package io.runon.trading.oi;
  * 미체결 약정 저장소
  * @author macle
  */
-public interface OpenInterestStorage {
+public interface OpenInterestSymbols {
 
     /**
      * 미체결 약정 얻기

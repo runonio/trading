@@ -17,7 +17,7 @@ public abstract class TimeDataStorage<E extends Time> {
 
     protected long dataTimeGap = Times.DAY_1;
 
-    public void setDataArray(E[] dataArray) {
+    public void setDataArray(E [] dataArray) {
         this.dataArray = dataArray;
     }
 
@@ -142,7 +142,7 @@ public abstract class TimeDataStorage<E extends Time> {
             }
         }
 
-        int idx = -1;
+
         for (int i = startIndex + 1; i <dataArray.length ; i++) {
             E data = dataArray[i];
             if(data.getTime() == time){

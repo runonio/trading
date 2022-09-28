@@ -3,11 +3,10 @@ package io.runon.trading.oi;
 import io.runon.trading.TimeDataStorage;
 
 /**
- * 미체결 약정 저장소
- * 메모리 활용
+ * 미체결 약정 개별 심볼 데이터
  * @author macle
  */
-public class OpenInterestStorageSymbol extends TimeDataStorage<OpenInterest> {
+public class OpenInterestStorageSymbol extends TimeDataStorage<OpenInterest> implements OpenInterestSymbol{
 
     public void add(OpenInterest data){
         OpenInterest[] newArray;
