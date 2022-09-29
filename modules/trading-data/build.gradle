@@ -16,7 +16,7 @@ dependencies {
     implementation 'com.seomse.commons:commons:1.4.0'
 
     implementation 'io.runon.trading:trading:0.3.9'
-//    implementation 'io.runon.trading:technical-analysis:0.4.2'
+//    implementation 'io.runon.trading:technical-analysis:0.4.3'
 
     implementation group: 'org.json', name: 'json', version: '20220924'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'

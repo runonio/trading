@@ -16,7 +16,7 @@ dependencies {
 //    implementation project(path: ':technical-analysis')
     implementation 'com.seomse.commons:commons:1.4.0'
     implementation 'io.runon.trading:trading:0.3.9'
-    implementation 'io.runon.trading:technical-analysis:0.4.2'
+    implementation 'io.runon.trading:technical-analysis:0.4.3'
     implementation 'io.runon.trading:trading-data:0.2.3'
     implementation 'io.runon.trading:chart-view:0.2.5'
 
