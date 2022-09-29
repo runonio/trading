@@ -29,20 +29,17 @@ public class OpenInterestSymbolMergeStorage implements OpenInterestSymbol{
             }
             if(openInterestData == null){
                 openInterestData = new OpenInterestData();
-                openInterestData.time = time;
+                openInterestData.time = -1;
                 openInterestData.openInterest = BigDecimal.ZERO;
                 openInterestData.notionalValue = BigDecimal.ZERO;
             }
 
-            BigDecimal oi = openInterest.getOpenInterest();
-            if(oi != null){
-                openInterestData.openInterest = openInterestData.openInterest.add(oi);
+            OpenInterests.sum(openInterestData, openInterest);
+
+            if(openInterestData.time < openInterest.getTime()){
+                openInterestData.time = openInterest.getTime();
             }
 
-            BigDecimal notionalValue = openInterest.getNotionalValue();
-            if(notionalValue != null){
-                openInterestData.notionalValue = openInterestData.notionalValue.add(notionalValue);
-            }
         }
 
         return openInterestData;
@@ -63,14 +60,10 @@ public class OpenInterestSymbolMergeStorage implements OpenInterestSymbol{
                 openInterestData.notionalValue = BigDecimal.ZERO;
             }
 
-            BigDecimal oi = openInterest.getOpenInterest();
-            if(oi != null){
-                openInterestData.openInterest = openInterestData.openInterest.add(oi);
-            }
+            OpenInterests.sum(openInterestData, openInterest);
 
-            BigDecimal notionalValue = openInterest.getNotionalValue();
-            if(notionalValue != null){
-                openInterestData.notionalValue = openInterestData.notionalValue.add(notionalValue);
+            if(openInterestData.time < openInterest.getTime()){
+                openInterestData.time = openInterest.getTime();
             }
         }
 

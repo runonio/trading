@@ -28,11 +28,10 @@ public class CsvOpenInterest {
         }
         return sb.toString();
     }
-    public static OpenInterest[] loadOpenInterest(String path) {
+
+    public static OpenInterest[] loadOpenInterest(String path){
         return loadOpenInterest(path, 0);
     }
-
-
     public static OpenInterest[] loadOpenInterest(String path, int limit){
         String [] lines = FileUtil.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG, limit);
         OpenInterest [] array = new OpenInterest[lines.length];
@@ -42,11 +41,9 @@ public class CsvOpenInterest {
         return array;
     }
 
-    public static LongShortRatio[] loadLongShortRatio(String path) {
+    public static LongShortRatio[] loadLongShortRatio(String path){
         return loadLongShortRatio(path, 0);
     }
-
-
     public static LongShortRatio[] loadLongShortRatio(String path, int limit){
         String [] lines = FileUtil.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG, limit);
         LongShortRatio [] array = new LongShortRatio[lines.length];
@@ -63,7 +60,7 @@ public class CsvOpenInterest {
         openInterestData.setTime(Long.parseLong(values[0]));
         openInterestData.setOpenInterest(new BigDecimal(values[1]));
         if(values.length > 2){
-            openInterestData.setOpenInterest(new BigDecimal(values[2]));
+            openInterestData.setNotionalValue(new BigDecimal(values[2]));
         }
 
         return openInterestData;
@@ -81,6 +78,5 @@ public class CsvOpenInterest {
 
         return longShortRatioData;
     }
-
 
 }
