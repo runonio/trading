@@ -131,7 +131,9 @@ public class Sma {
         }
 
         int resultLength = end - startIndex;
-
+        if(resultLength < 1){
+            return TimeNumber.EMPTY_ARRAY;
+        }
         int gap = startIndex+1;
 
         TimeNumber [] averages = new TimeNumber[resultLength];

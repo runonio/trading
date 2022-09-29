@@ -145,9 +145,9 @@ public class BollingerBands {
     }
 
 
-    /**
-     * EMA를 사용할 수 있는 경우에 사용 한다.
-     */
+
+     //EMA를 사용할 수 있는 경우에 사용 한다.
+
     public static BollingerBandsData [] getArray(CandleStick [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
@@ -168,9 +168,9 @@ public class BollingerBands {
     }
 
 
-    /**
-     * EMA를 사용할 수 있는 경우에 사용 한다.
-     */
+
+     // EMA를 사용할 수 있는 경우에 사용 한다.
+
     public static BollingerBandsData [] getArray(BigDecimal [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;

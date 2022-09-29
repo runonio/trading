@@ -47,6 +47,11 @@ public abstract class NIndicators<T extends Time> {
         }
 
         int resultLength = end - startIndex;
+
+        if(resultLength < 1){
+            return TimeNumber.EMPTY_ARRAY;
+        }
+
         TimeNumber [] data = new TimeNumber[resultLength];
 
         for (int i = 0; i < resultLength; i++) {

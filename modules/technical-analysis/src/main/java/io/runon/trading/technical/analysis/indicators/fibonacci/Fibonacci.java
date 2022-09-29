@@ -13,6 +13,8 @@ import java.math.BigDecimal;
  */
 public class Fibonacci {
 
+    public static FibonacciData [] EMPTY_ARRAY = new FibonacciData[0];
+
     public static final BigDecimal N236 = new BigDecimal("0.236");
     public static final BigDecimal N382 = new BigDecimal("0.382");
     public static final BigDecimal N500 = new BigDecimal("0.5");
@@ -87,6 +89,10 @@ public class Fibonacci {
         }
 
         int resultLength = end - startIndex;
+        if(resultLength < 1){
+            return EMPTY_ARRAY;
+        }
+
 
         FibonacciData [] dataArray = new FibonacciData[resultLength];
         for (int i = 0; i < resultLength; i++) {

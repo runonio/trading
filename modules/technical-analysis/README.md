@@ -9,9 +9,9 @@
  - 관련 모듈을 활용한 많은 연구일지들이 팀 기술블로그에 정리될 예정입니다.
  
 # gradle
-implementation 'io.runon.trading:technical-analysis:0.4.2'
+implementation 'io.runon.trading:technical-analysis:0.4.3'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.2
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.3
 
 # 목차
 ## 이동평균
@@ -83,6 +83,8 @@ io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 io.runon.trading.technical.analysis.indicators.volume.Mfi
 ### ForceIndex
 io.runon.trading.technical.analysis.indicators.elder.ForceIndex
+### HPI 혜릭정산지수 (미체결 약정 활용) Herrick Payoff Index 
+io.runon.trading.technical.analysis.indicators.volume.Hpi
 
 ## 시장 지표
 ### 신고가 신저가 
@@ -135,10 +137,6 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 생존비율 지표
 - 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
 - 바닥권에서 10% 미만의 값이 나타남
-
-# 구현 예정 목록
-- 헤릭정산지수 (미체결 약정 활용)
-
 
 # communication
 ### blog, homepage

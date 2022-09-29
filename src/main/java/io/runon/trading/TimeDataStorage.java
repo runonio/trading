@@ -36,6 +36,23 @@ public abstract class TimeDataStorage<E extends Time> {
 
     protected final Object lock = new Object();
 
+    public E[] getDataArray() {
+        return dataArray;
+    }
+
+    public long getLastTime() {
+        return lastTime;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public long getDataTimeGap() {
+        return dataTimeGap;
+    }
+
+
     public void setArray(E add, E [] newArray){
         int maxLength = this.maxLength;
 
@@ -103,7 +120,7 @@ public abstract class TimeDataStorage<E extends Time> {
                 this.dataArray = newArray;
             }
 
-            lastTime =  this.dataArray[dataArray.length-1].getTime();
+            lastTime =  dataArray[dataArray.length-1].getTime();
 
         }
     }
@@ -124,7 +141,7 @@ public abstract class TimeDataStorage<E extends Time> {
         }
 
 
-        int startIndex = lsatIndex  - (int)((lsatTime - time)/dataTimeGap);
+        int startIndex = lsatIndex  - (int)((lsatTime - time)/dataTimeGap + 1);
 
         if(startIndex < 0){
             startIndex = 0;
@@ -149,7 +166,9 @@ public abstract class TimeDataStorage<E extends Time> {
                 return data;
             }
 
+
             if(data.getTime() > time){
+
                 return dataArray[i-1];
             }
 

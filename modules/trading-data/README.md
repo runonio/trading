@@ -29,9 +29,9 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading-data:0.2.2'
+implementation 'io.runon.trading:trading-data:0.2.3'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.2
+    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.3
 
 # communication
 ### blog, homepage

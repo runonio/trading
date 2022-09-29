@@ -13,7 +13,7 @@ public class CsvTimeFilePathChangeExample {
         CsvTimeFilePathChange pathChange = new CsvTimeFilePathChange();
         pathChange.setType(TimeName.Type.YEAR_1);
 
-        pathChange.outDirs("D:\\data\\cryptocurrency\\futures\\open_interest\\5m","D:\\data\\cryptocurrency\\futures\\open_interest\\5m_copy");
+        pathChange.outDirs("D:\\data\\cryptocurrency\\futures\\open_interest","D:\\data\\cryptocurrency\\futures\\open_interest_copy");
 
     }
 }

@@ -8,6 +8,10 @@ import io.runon.trading.TimeDataStorage;
  */
 public class OpenInterestSymbolStorage extends TimeDataStorage<OpenInterest> implements OpenInterestSymbol{
 
+    public OpenInterestSymbolStorage(){
+        dataArray = OpenInterest.EMPTY_ARRAY;
+    }
+
     public void add(OpenInterest data){
         OpenInterest[] newArray;
 
@@ -22,6 +26,7 @@ public class OpenInterestSymbolStorage extends TimeDataStorage<OpenInterest> imp
 
     public void add(OpenInterest[] array){
         OpenInterest[] newArray;
+
 
         if(array.length > maxLength || dataArray.length + array.length > maxLength) {
             newArray = new OpenInterest[maxLength];
