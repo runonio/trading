@@ -190,6 +190,9 @@ public class Ema {
         }
 
         int resultLength = end - startIndex;
+        if(resultLength < 1){
+            return TimeNumber.EMPTY_ARRAY;
+        }
         TimeNumber[] averages = new TimeNumber[resultLength];
 
         BigDecimal previousEma = initPreviousEma;

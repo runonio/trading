@@ -39,9 +39,9 @@ implementation 'io.runon.trading:trading:0.3.9'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.9
 
-implementation 'io.runon.trading:technical-analysis:0.4.2'
+implementation 'io.runon.trading:technical-analysis:0.4.3'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.2
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.3
 
 implementation 'io.runon.trading:backtesting:0.1.5'
 - etc
@@ -125,6 +125,8 @@ io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 io.runon.trading.technical.analysis.indicators.volume.Mfi
 ### ForceIndex
 io.runon.trading.technical.analysis.indicators.elder.ForceIndex
+### HPI 혜릭정산지수 (미체결 약정 활용) Herrick Payoff Index
+io.runon.trading.technical.analysis.indicators.volume.Hpi
 
 ## 시장 지표
 ### 신고가 신저가
@@ -156,7 +158,6 @@ io.runon.trading.technical.analysis.indicators.market.Mvd
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
-
 ### MTPD
 io.runon.trading.technical.analysis.indicators.market.Mtpd
 - Market Trading Price Disparity
@@ -178,13 +179,8 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
 - 바닥권에서 10% 미만의 값이 나타남
 
-# 구현 예정 목록
-- 헤릭정산지수 (미체결 약정 활용)
-
-
 # 바닥신호
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
-
 
 # communication
 ### blog, homepage

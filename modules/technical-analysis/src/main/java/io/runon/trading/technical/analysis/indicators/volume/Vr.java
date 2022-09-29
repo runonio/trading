@@ -107,6 +107,10 @@ public class Vr {
         }
 
         int resultLength = end - startIndex;
+        if(resultLength < 1){
+            return TimeNumber.EMPTY_ARRAY;
+        }
+
         TimeNumber[] vrArray = new TimeNumber[resultLength];
         for (int i = 0; i < resultLength; i++) {
             int arrayIndex = i+startIndex;

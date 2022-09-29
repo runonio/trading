@@ -82,7 +82,7 @@ public class Mcma {
         int resultLength = end - startIndex;
 
         if(resultLength < 1){
-            return new TimeNumber[0];
+            return TimeNumber.EMPTY_ARRAY;
         }
 
         TimeNumber[] averages = new TimeNumber[resultLength];

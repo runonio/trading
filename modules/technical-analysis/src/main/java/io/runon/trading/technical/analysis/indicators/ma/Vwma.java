@@ -95,7 +95,9 @@ public class Vwma {
         }
 
         int resultLength = end - startIndex;
-
+        if(resultLength < 1){
+            return TimeNumber.EMPTY_ARRAY;
+        }
         TimeNumber[] averages = new TimeNumber[resultLength];
         for (int i = 0; i < resultLength; i++) {
             int arrayIndex = startIndex+i;
