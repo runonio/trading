@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>trading-data</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <packaging>jar</packaging>
 
     <name>trading data</name>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20220320</version>
+            <version>20220924</version>
         </dependency>
 
         <dependency>
@@ -160,8 +160,6 @@
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
-
-
 
     </dependencies>
 </project>

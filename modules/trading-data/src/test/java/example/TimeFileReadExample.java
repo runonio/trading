@@ -22,8 +22,6 @@ public class TimeFileReadExample {
             if(count >= 5){
                 timeFileRead.endRead();
             }
-
-
         };
         
         

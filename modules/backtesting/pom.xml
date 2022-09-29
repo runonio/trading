@@ -128,13 +128,11 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>com.seomse.commons</groupId>
             <artifactId>commons</artifactId>
             <version>1.4.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>io.runon.trading</groupId>
@@ -145,7 +143,7 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading-data</artifactId>
-            <version>0.2.2</version>
+            <version>0.2.3</version>
         </dependency>
 
         <dependency>
@@ -154,13 +152,11 @@
             <version>0.4.1</version>
         </dependency>
 
-
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>chart-view</artifactId>
             <version>0.2.5</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -168,7 +164,6 @@
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
-
 
     </dependencies>
 
