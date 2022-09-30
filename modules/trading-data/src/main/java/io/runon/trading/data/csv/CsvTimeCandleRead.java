@@ -1,6 +1,6 @@
 package io.runon.trading.data.csv;
 
-import io.runon.trading.data.TimeFileLineRead;
+import io.runon.trading.data.file.TimeFileLineRead;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import lombok.extern.slf4j.Slf4j;
 
