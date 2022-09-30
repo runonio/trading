@@ -1,4 +1,4 @@
-package io.runon.trading.data;
+package io.runon.trading.data.file;
 
 import io.runon.trading.data.csv.CsvCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
