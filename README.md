@@ -35,9 +35,9 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading:0.3.9'
+implementation 'io.runon.trading:trading:0.4.0'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.3.9
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.0
 
 implementation 'io.runon.trading:technical-analysis:0.4.3'
 - etc
@@ -65,7 +65,7 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
 ### MCMA: Middle Change Moving Average
-io.runon.trading.technical.analysis.indicators.ma.Mcma
+io.runon.trading.technical.analysis.indicators.ma.Cmac
 - 중간 가격의 변화량의 이동평균
 - 중간가격은 고가 + 저가 + 종가/3
 - 기울기 측정 지표로 사용하기 위해 연구중

@@ -19,6 +19,14 @@ import java.math.RoundingMode;
  */
 public class Cci extends NIndicators<CandleStick> {
 
+    public static final BigDecimal D_MULTIPLY_DEFAULT = new BigDecimal("0.015");
+
+    private BigDecimal dMultiply = D_MULTIPLY_DEFAULT;
+
+    public void setDMultiply(BigDecimal dMultiply) {
+        this.dMultiply = dMultiply;
+    }
+
     public Cci(){
         defaultN = 14;
     }
@@ -64,7 +72,7 @@ public class Cci extends NIndicators<CandleStick> {
         }
 
         BigDecimal up = m.subtract(avg);
-        BigDecimal down = new BigDecimal("0.015").multiply(d);
+        BigDecimal down = dMultiply.multiply(d);
 
         return up.divide(down,scale, RoundingMode.HALF_UP);
     }

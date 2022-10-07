@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 /**
- * Middle Change Moving Average
+ * Change Moving Average Candle
  * 연구중 자료
  * 중간가격을 활용하여 평균 변화량을 얻는다 (변화율아님)
  * 보조지표와 가격의 기술기 차이를 계산하여 사용하기 위해 구현한다.
  * @author macle
  */
-public class Mcma {
+public class Cmac {
 
     public static BigDecimal get( CandleStick[] array, int n, int index) {
 
@@ -92,6 +92,5 @@ public class Mcma {
         }
         return averages;
     }
-
 
 }

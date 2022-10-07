@@ -4,7 +4,7 @@ import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.hl.HighLow;
-import io.runon.trading.technical.analysis.hl.HighLowLeftSearch;
+import io.runon.trading.technical.analysis.hl.HighLowCandleLeftSearch;
 
 import java.math.BigDecimal;
 
@@ -50,7 +50,7 @@ public class Fibonacci {
      * 반등장에서 사용
      */
     public static FibonacciData supportLine(CandleStick[] array, int initN, int continueN, int index){
-        HighLow highLow = HighLowLeftSearch.getHighNextLow(array, initN, continueN, index);
+        HighLow highLow = HighLowCandleLeftSearch.getHighNextLow(array, initN, continueN, index);
         FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();
@@ -67,7 +67,7 @@ public class Fibonacci {
      * 조정장에서 사용
      */
     public static FibonacciData resistanceLine (CandleStick[] array, int initN, int continueN, int index){
-        HighLow highLow = HighLowLeftSearch.getLowNextHigh(array, initN,continueN, index);
+        HighLow highLow = HighLowCandleLeftSearch.getLowNextHigh(array, initN,continueN, index);
         FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();

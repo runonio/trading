@@ -1,37 +1,38 @@
 package io.runon.trading.technical.analysis.hl;
 
-import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.TimeNumber;
 
 import java.math.BigDecimal;
 
 /**
  * 고가저가 정보 좌측 (이전 거래내역으로 ) 검색
+ * 라인차트 관점
+ *
+ * 일반 수치만 제공하는 보조지표에서 사용하기 위해 개발
+ *
  * @author macle
  */
-public class HighLowLeftSearch {
+public class HighLowLineLeftSearch {
 
-
-    public static HighLow getHighNextLow(CandleStick [] array, int initN,int continueN){
+    public static HighLow getHighNextLow(TimeNumber[] array, int initN, int continueN){
         return getHighNextLow(array, initN, continueN, array.length-1);
     }
-    
+
     /**
      * 고가 먼저 찾고 저가 찾기
-     * 피보나치에서 활용 반등폭 예측하기
-     * 대세 하락이후에 반등을 줄때 활용한다.
      * @param array 배열
      * @param initN 초기검색범위
      * @param continueN 연속 신고가 검색 범위. n 이 50이면 50개 사이에 신고가가 있을경우 계속 검색
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index){
+    public static HighLow getHighNextLow(TimeNumber [] array , int initN ,int continueN , int index){
         int highIndex = searchHigh(array, initN , continueN,  index);
         int lowIndex = searchLow(array, highIndex, index+1);
         return get(array, index, highIndex, lowIndex);
     }
 
-    public static int searchHighIndex(CandleStick [] array, int n, int index){
+    public static int searchHighIndex(TimeNumber [] array, int n, int index){
 
         int end = index +1;
         int startIndex = end - n;
@@ -39,7 +40,7 @@ public class HighLowLeftSearch {
         return searchHigh(array, startIndex, end);
     }
 
-    public static int searchHigh(CandleStick [] array , int initN ,int continueN , int index){
+    public static int searchHigh(TimeNumber [] array , int initN ,int continueN , int index){
         int highIndex = searchHighIndex(array, initN , index);
         for(;;){
             int searchIndex = searchHighIndex(array, continueN , highIndex);
@@ -54,7 +55,7 @@ public class HighLowLeftSearch {
         return highIndex;
     }
 
-    public static int searchHigh(CandleStick [] array, int startIndex, int end){
+    public static int searchHigh(TimeNumber [] array, int startIndex, int end){
 
         if(startIndex < 0){
             startIndex = 0;
@@ -63,10 +64,10 @@ public class HighLowLeftSearch {
         if(end > array.length){
             end = array.length;
         }
-        BigDecimal high = array[startIndex].getHigh();
+        BigDecimal high = array[startIndex].getNumber();
         int highIndex = startIndex;
         for (int i = startIndex + 1; i <end ; i++) {
-            BigDecimal compareHigh = array[i].getHigh();
+            BigDecimal compareHigh = array[i].getNumber();
             if(compareHigh.compareTo(high) > 0){
 
                 high = compareHigh;
@@ -77,13 +78,13 @@ public class HighLowLeftSearch {
     }
 
 
-    public static int searchLowIndex(CandleStick [] array, int n, int index){
+    public static int searchLowIndex(TimeNumber [] array, int n, int index){
         int end = index +1;
         int startIndex = end - n;
         return searchLow(array, startIndex, end);
     }
 
-    public static int searchLow(CandleStick [] array ,  int initN ,int continueN , int index){
+    public static int searchLow(TimeNumber [] array ,  int initN ,int continueN , int index){
         int lowIndex = searchLowIndex(array, initN , index);
         for(;;){
             int searchIndex = searchLowIndex(array, continueN , lowIndex);
@@ -98,7 +99,7 @@ public class HighLowLeftSearch {
         return lowIndex;
     }
 
-    public static int searchLow(CandleStick [] array, int startIndex, int end){
+    public static int searchLow(TimeNumber [] array, int startIndex, int end){
 
         if(startIndex < 0){
             startIndex = 0;
@@ -108,11 +109,11 @@ public class HighLowLeftSearch {
             end = array.length;
         }
 
-        BigDecimal low = array[startIndex].getHigh();
+        BigDecimal low = array[startIndex].getNumber();
         int lowIndex = startIndex;
 
         for (int i = startIndex + 1; i <end ; i++) {
-            BigDecimal compareLow = array[i].getLow();
+            BigDecimal compareLow = array[i].getNumber();
             if(compareLow.compareTo(low) < 0){
 
                 low = compareLow;
@@ -125,15 +126,13 @@ public class HighLowLeftSearch {
 
     /**
      * 저가 먼저 찾고 고가 찾기
-     * 피보나치에서 활용 조정폭 예상하기
-     * 대세 상승 이후 조정을 줄때 활용한다.
      * @param array 배열
      * @param initN 초기검색범위
      * @param continueN 연속 신저가 검색 범위. n 이 50이면 50개 사이에 신저가가 있을경우 계속 검색
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index){
+    public static HighLow getLowNextHigh(TimeNumber [] array ,  int initN ,int continueN , int index){
         int lowIndex = searchLow(array, initN ,continueN, index);
 
         int highIndex = searchHigh(array, lowIndex, index+1);
@@ -141,26 +140,24 @@ public class HighLowLeftSearch {
         return get(array, index, highIndex, lowIndex);
     }
 
-    public static HighLow get(CandleStick [] array, int index, int highIndex , int lowIndex){
-        CandleStick candleStick = array[index];
+    public static HighLow get(TimeNumber [] array, int index, int highIndex , int lowIndex){
+        TimeNumber timeNumber = array[index];
 
-        CandleStick highCandle = array[highIndex];
-        CandleStick lowCandle = array[lowIndex];
-
+        TimeNumber high = array[highIndex];
+        TimeNumber low = array[lowIndex];
 
         HighLow highLow = new HighLow();
-        highLow.time = candleStick.getTime();
+        highLow.time = timeNumber.getTime();
 
-        highLow.high = highCandle.getHigh();
+        highLow.high = high.getNumber();
         highLow.highIndex = highIndex;
-        highLow.highTime = highCandle.getTime();
+        highLow.highTime = high.getTime();
 
-        highLow.low = lowCandle.getLow();
+        highLow.low = low.getNumber();
         highLow.lowIndex = lowIndex;
-        highLow.lowTime = lowCandle.getTime();
+        highLow.lowTime = low.getTime();
 
         return highLow;
     }
-
 
 }
