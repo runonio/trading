@@ -25,7 +25,9 @@ import java.math.BigDecimal;
  * 거래정보
  * @author macle
  */
-public class Trade {
+public class Trade implements TimeNumber{
+
+
 
     /**
      * 거래유형 정의
@@ -156,6 +158,11 @@ public class Trade {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public BigDecimal getNumber() {
+        return price;
     }
 
     @Override

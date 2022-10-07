@@ -4,7 +4,7 @@ import com.seomse.commons.config.Config;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;
-import io.runon.trading.technical.analysis.hl.HighLowLeftSearch;
+import io.runon.trading.technical.analysis.hl.HighLowCandleLeftSearch;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -129,8 +129,8 @@ public class Sar {
 
 
    public SarData get(CandleStick [] array, int index){
-        int highIndex = HighLowLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
-        int lowIndex = HighLowLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
+        int highIndex = HighLowCandleLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
+        int lowIndex = HighLowCandleLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
 
         SarData sarData = new SarData();
         sarData.time = array[index].getTime();
@@ -140,7 +140,7 @@ public class Sar {
    }
 
     public void setAdvancing(CandleStick [] array, int index, SarData data){
-        int lowIndex = HighLowLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
+        int lowIndex = HighLowCandleLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
 
         BigDecimal ep = array[lowIndex].getLow();
         BigDecimal previousSar = ep;
@@ -167,7 +167,7 @@ public class Sar {
 
 
     public void setDecline(CandleStick [] array, int index, SarData data){
-        int highIndex = HighLowLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
+        int highIndex = HighLowCandleLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
 
         BigDecimal ep = array[highIndex].getHigh();
         BigDecimal previousSar = ep;

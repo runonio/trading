@@ -174,8 +174,6 @@ public abstract class TimeDataStorage<E extends Time> {
 
         }
 
-
-
         return null;
     }
 

@@ -22,15 +22,22 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
-### MCMA: Middle Change Moving Average
-io.runon.trading.technical.analysis.indicators.ma.Mcma
-- 중간 가격의 변화량의 이동평균
-- 중간가격은 고가 + 저가 + 종가/3
-- 기울기 측정 지표로 사용하기 위해 연구중
+
 ### CMA: Change Moving Average
 io.runon.trading.technical.analysis.indicators.ma.Cma
 - 가격 변화량의 이동평균
 - 기울기 측정 지표를 사용하기 위해 연구중
+
+### CMAC: Change Moving Average Candle
+io.runon.trading.technical.analysis.indicators.ma.Cmac
+- 고가 저가 중간가등 캔들을 활용한 다양한 가격을 활용하기위한 클래스
+- 기울기 측정 지표로 사용하기 위해 연구중
+
+
+### GMA: Gradient Moving Average
+io.runon.trading.technical.analysis.indicators.ma.Gma
+- 다이버전스를 다르게 찾아보기위한 기울기 측정
+
 
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
@@ -39,6 +46,10 @@ io.runon.trading.technical.analysis.indicators.divergence.Divergence
 io.runon.trading.technical.analysis.indicators.fibonacci.Fibonacci
 
 ## 가격지표
+### 엘리엇 파동이론 (Elliott wave principle)
+io.runon.trading.technical.analysis.indicators.wave.ElliottWave
+- 구현예정 항목
+
 ### 스토캐스틱
 io.runon.trading.technical.analysis.indicators.stochastic.Stochastic
 ### 볼린저밴드
