@@ -22,10 +22,6 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
-### GMA: Gradient Moving Average
-io.runon.trading.technical.analysis.indicators.ma.Gma
-- 다이버전스를 다르게 찾아보기위한 기울기 측정
-
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
 

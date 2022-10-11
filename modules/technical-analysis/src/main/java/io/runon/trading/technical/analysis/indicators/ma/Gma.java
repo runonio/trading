@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.indicators.ma;
 
 import io.runon.trading.TimeNumber;
 import io.runon.trading.technical.analysis.hl.HighLowLineLeftSearch;
-import io.runon.trading.technical.analysis.indicators.NIndicators;
+import io.runon.trading.technical.analysis.indicators.NTimeNumberIndicators;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -15,7 +15,7 @@ import java.math.RoundingMode;
  *
  * @author macle
  */
-public class Gma extends NIndicators<TimeNumber> {
+public class Gma extends NTimeNumberIndicators<TimeNumber> {
 
     int initN  = 200 ;
     int continueN = 10;

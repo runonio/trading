@@ -11,7 +11,7 @@ import java.math.RoundingMode;
  *
  * @author macle
  */
-public class MomentumMiddle extends NIndicators<CandleStick> {
+public class MomentumMiddle extends NTimeNumberIndicators<CandleStick> {
 
     @Override
     public BigDecimal get(CandleStick[] array, int n, int index) {
