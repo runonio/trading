@@ -110,7 +110,6 @@ io.runon.trading.technical.analysis.indicators.market.Mvd
 - Ema와 같이 쓰면서 효과를 측정중
 - 자체개발 연구중 지표
 
-
 ### MTPD
 io.runon.trading.technical.analysis.indicators.market.Mtpd
 - Market Trading Price Disparity 

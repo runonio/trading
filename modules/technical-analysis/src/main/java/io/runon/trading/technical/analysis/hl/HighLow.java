@@ -1,6 +1,9 @@
 package io.runon.trading.technical.analysis.hl;
 
 
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
+
 import java.math.BigDecimal;
 /**
  * @author macle
@@ -72,5 +75,25 @@ public class HighLow {
 
     public void setLowTime(long lowTime) {
         this.lowTime = lowTime;
+    }
+
+    public static TimeNumber[] getHighs(HighLow[] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            HighLow data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.high);
+        }
+
+        return timeNumbers;
+    }
+
+    public static TimeNumber[] getLows(HighLow[] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            HighLow data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.low);
+        }
+
+        return timeNumbers;
     }
 }

@@ -13,7 +13,6 @@ import java.math.BigDecimal;
  */
 public class EmaOscillator {
 
-
     public static TimeNumber[] get(TimeNumber[] array, int shortN, int longN){
         TimeNumber [] sArray = Ema.getTimeNumbers(array, shortN);
         TimeNumber [] lArray = Ema.getTimeNumbers(array, longN);
