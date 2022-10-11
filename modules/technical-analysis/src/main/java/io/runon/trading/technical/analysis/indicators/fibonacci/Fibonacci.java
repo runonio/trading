@@ -20,6 +20,8 @@ public class Fibonacci {
     public static final BigDecimal N500 = new BigDecimal("0.5");
     public static final BigDecimal N618 = new BigDecimal("0.618");
 
+    //지지 저항 옵션 받게 조정 필요함
+    //지지 일때는 저항의 반대로 숫자가 계산되어야 한다.
     public static FibonacciData get(BigDecimal high, BigDecimal low){
         BigDecimal height = high.subtract(low);
         FibonacciData data = new FibonacciData();
