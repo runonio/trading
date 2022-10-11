@@ -190,7 +190,6 @@ public class Sar {
         CandleStick candle = array[index];
         data.declineAf = af;
         data.decline = previousSar.subtract( af.multiply(previousSar.subtract(ep))).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros();
-
     }
 
 
@@ -221,7 +220,6 @@ public class Sar {
         }
 
         return dataArray;
-
     }
 
     public static TimeNumber [] getAdvancingAfArray(SarData [] array){
@@ -254,7 +252,6 @@ public class Sar {
         return timeNumbers;
     }
 
-
     public static TimeNumber [] getDeclineArray(SarData [] array){
         TimeNumber [] timeNumbers = new TimeNumber[array.length];
         for (int i = 0; i <timeNumbers.length ; i++) {
@@ -264,7 +261,5 @@ public class Sar {
 
         return timeNumbers;
     }
-
-
 
 }

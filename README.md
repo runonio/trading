@@ -54,7 +54,6 @@ implementation 'io.runon.trading:trading-data:0.2.4'
 implementation 'io.runon.trading:chart-view:0.2.5'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.5
-
 # 목차
 ## 이동평균
 ### SMA: 단순 이동 평군
@@ -64,16 +63,6 @@ io.runon.trading.technical.analysis.indicators.ma.Ema
 ### VWMA: 거래량 가중 이동 평균
 io.runon.trading.technical.analysis.indicators.ma.Vwma
 
-### MCMA: Middle Change Moving Average
-io.runon.trading.technical.analysis.indicators.ma.Cmac
-- 중간 가격의 변화량의 이동평균
-- 중간가격은 고가 + 저가 + 종가/3
-- 기울기 측정 지표로 사용하기 위해 연구중
-### CMA: Change Moving Average
-io.runon.trading.technical.analysis.indicators.ma.Cma
-- 가격 변화량의 이동평균
-- 기울기 측정 지표를 사용하기 위해 연구중
-
 ## 다이버전스
 io.runon.trading.technical.analysis.indicators.divergence.Divergence
 
@@ -81,6 +70,10 @@ io.runon.trading.technical.analysis.indicators.divergence.Divergence
 io.runon.trading.technical.analysis.indicators.fibonacci.Fibonacci
 
 ## 가격지표
+### 엘리엇 파동이론 (Elliott wave principle)
+io.runon.trading.technical.analysis.indicators.wave.ElliottWave
+- 구현예정 항목
+
 ### 스토캐스틱
 io.runon.trading.technical.analysis.indicators.stochastic.Stochastic
 ### 볼린저밴드

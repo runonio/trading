@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.indicators.volume;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.indicators.NIndicators;
+import io.runon.trading.technical.analysis.indicators.NTimeNumberIndicators;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -12,7 +12,7 @@ import java.math.RoundingMode;
  *  MFI (Money Flow Index)
  * @author macle
  */
-public class Mfi extends NIndicators<TradeCandle> {
+public class Mfi extends NTimeNumberIndicators<TradeCandle> {
 
     public Mfi(){
         defaultN = 14;

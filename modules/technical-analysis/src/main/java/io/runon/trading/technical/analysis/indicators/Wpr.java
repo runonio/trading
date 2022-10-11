@@ -20,7 +20,7 @@ import java.math.RoundingMode;
  *
  * @author macle
  */
-public class Wpr extends NIndicators<CandleStick> {
+public class Wpr extends NTimeNumberIndicators<CandleStick> {
 
     public Wpr(){
         defaultN = 14;

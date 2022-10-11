@@ -17,7 +17,7 @@ import java.math.RoundingMode;
  *
  * @author macle
  */
-public class Cci extends NIndicators<CandleStick> {
+public class Cci extends NTimeNumberIndicators<CandleStick> {
 
     public static final BigDecimal D_MULTIPLY_DEFAULT = new BigDecimal("0.015");
 

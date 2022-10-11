@@ -85,7 +85,7 @@ import java.math.RoundingMode;
  *
  * @author macle
  */
-public class Rsi extends NIndicators<CandleStick> {
+public class Rsi extends NTimeNumberIndicators<CandleStick> {
 
     public Rsi(){
         defaultN = 14;
