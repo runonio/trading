@@ -20,11 +20,14 @@ public class Fibonacci {
     public static final BigDecimal N500 = new BigDecimal("0.5");
     public static final BigDecimal N618 = new BigDecimal("0.618");
 
-    //지지 저항 옵션 받게 조정 필요함
-    //지지 일때는 저항의 반대로 숫자가 계산되어야 한다.
-    public static FibonacciData get(BigDecimal high, BigDecimal low){
+  
+    //저항선
+    public static FibonacciData resistanceLine(BigDecimal high, BigDecimal low){
+
+
         BigDecimal height = high.subtract(low);
         FibonacciData data = new FibonacciData();
+
         data.n000 = low;
         data.n1000 = high;
         if(height.compareTo(BigDecimal.ZERO) == 0){
@@ -42,18 +45,41 @@ public class Fibonacci {
         return data;
     }
 
+    // 지지선
+    public static FibonacciData supportLine(BigDecimal high, BigDecimal low){
+
+        BigDecimal height = high.subtract(low);
+        FibonacciData data = new FibonacciData();
+
+        data.n000 = high;
+        data.n1000 = low;
+        if(height.compareTo(BigDecimal.ZERO) == 0){
+            data.n236 = high;
+            data.n382 = high;
+            data.n500 = high;
+            data.n618 = high;
+            return data;
+        }
+
+        data.n236 = high.subtract(N236.multiply(height));
+        data.n382 = high.subtract(N382.multiply(height));
+        data.n500 = high.subtract(N500.multiply(height));
+        data.n618 = high.subtract(N618.multiply(height));
+        return data;
+    }
+
     public static FibonacciData supportLine(CandleStick[] array, int initN, int continueN){
         return supportLine(array, initN, continueN, array.length-1);
     }
 
     /**
      * 
-     * 저항선 피보나치
+     * 지지선 피보나치
      * 반등장에서 사용
      */
     public static FibonacciData supportLine(CandleStick[] array, int initN, int continueN, int index){
-        HighLow highLow = HighLowCandleLeftSearch.getHighNextLow(array, initN, continueN, index);
-        FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
+        HighLow highLow = HighLowCandleLeftSearch.getLowNextHigh(array, initN, continueN, index);
+        FibonacciData fibonacciData = supportLine(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();
         fibonacciData.lowTime = highLow.getLowTime();
@@ -65,12 +91,12 @@ public class Fibonacci {
     }
 
     /**
-     * 지지선 피보나치
+     * 저항선 피보나치
      * 조정장에서 사용
      */
     public static FibonacciData resistanceLine (CandleStick[] array, int initN, int continueN, int index){
-        HighLow highLow = HighLowCandleLeftSearch.getLowNextHigh(array, initN,continueN, index);
-        FibonacciData fibonacciData = get(highLow.getHigh(), highLow.getLow());
+        HighLow highLow = HighLowCandleLeftSearch.getHighNextLow(array, initN,continueN, index);
+        FibonacciData fibonacciData = resistanceLine(highLow.getHigh(), highLow.getLow());
         fibonacciData.time = highLow.getTime();
         fibonacciData.highTime = highLow.getHighTime();
         fibonacciData.lowTime = highLow.getLowTime();
@@ -80,6 +106,7 @@ public class Fibonacci {
     public static FibonacciData [] supportLines(CandleStick[] array, int initN, int continueN, int resultLength) {
         return supportLines(array,initN, continueN , array.length - resultLength, array.length);
     }
+
     //벡테스팅용
     public static FibonacciData [] supportLines(CandleStick[] array, int initN, int continueN, int startIndex, int end) {
         if(startIndex < 0){
