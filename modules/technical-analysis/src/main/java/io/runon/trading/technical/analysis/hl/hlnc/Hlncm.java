@@ -1,6 +1,7 @@
-package io.runon.trading.technical.analysis.hl;
+package io.runon.trading.technical.analysis.hl.hlnc;
 
 import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.hl.HighLowCandleLeftSearch;
 import io.runon.trading.technical.analysis.indicators.NTimeIndicators;
 
 import java.math.BigDecimal;
@@ -12,12 +13,12 @@ import java.math.RoundingMode;
  * 고가 저가 대비 중간가격의 변화량
  * @author macle
  */
-public class Hlcm extends NTimeIndicators<HlcData, CandleStick> {
+public class Hlncm extends NTimeIndicators<HlncData, CandleStick> {
 
     int initN  = 200 ;
     int continueN = 10;
 
-    public Hlcm(){
+    public Hlncm(){
         scale =4;
     }
 
@@ -29,8 +30,8 @@ public class Hlcm extends NTimeIndicators<HlcData, CandleStick> {
         this.continueN = continueN;
     }
     @Override
-    public HlcData get(CandleStick[] array, int n, int index) {
-        HlcData hlcData = new HlcData();
+    public HlncData get(CandleStick[] array, int n, int index) {
+        HlncData hlcData = new HlncData();
 
         int highIndex = HighLowCandleLeftSearch.searchHigh(array, initN, continueN, index);
         int lowIndex = HighLowCandleLeftSearch.searchLow(array, initN, continueN, index);
@@ -38,18 +39,18 @@ public class Hlcm extends NTimeIndicators<HlcData, CandleStick> {
         CandleStick highCandle = array[highIndex];
         CandleStick lowCandle = array[lowIndex];
 
-        hlcData.time = array[index].getTime();
+        hlcData.setTime(array[index].getTime());
 
-        hlcData.high = highCandle.getHigh();
-        hlcData.highTime = highCandle.getTime();
-        hlcData.highIndex = highIndex;
+        hlcData.setHigh( highCandle.getHigh());
+        hlcData.setHighTime(highCandle.getTime());
+        hlcData.setHighIndex(highIndex);
 
-        hlcData.low = lowCandle.getLow();
-        hlcData.lowTime = lowCandle.getTime();
-        hlcData.lowIndex = lowIndex;
+        hlcData.setLow(lowCandle.getLow());
+        hlcData.setLowTime(lowCandle.getTime());
+        hlcData.setLowIndex(lowIndex);
 
-        BigDecimal height = highCandle.getHeight().subtract(lowCandle.getLow());
-
+        BigDecimal height = highCandle.getHigh().subtract(lowCandle.getLow());
+        hlcData.setHeight(height);
         if(height.compareTo(BigDecimal.ZERO) == 0){
             return hlcData;
         }
@@ -66,16 +67,16 @@ public class Hlcm extends NTimeIndicators<HlcData, CandleStick> {
         }
 
         int length = index - compareIndex+1;
-        hlcData.rate = height.divide(change, MathContext.DECIMAL128).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+        hlcData.rate = change.divide(height, MathContext.DECIMAL128).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
         return hlcData;
     }
 
     @Override
-    public HlcData[] newArray(int length) {
+    public HlncData[] newArray(int length) {
         if(length < 1){
-            return HlcData.EMPTY_ARRAY;
+            return HlncData.EMPTY_ARRAY;
         }
 
-        return new HlcData[length];
+        return new HlncData[length];
     }
 }

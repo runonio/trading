@@ -10,16 +10,18 @@ import java.math.BigDecimal;
  */
 public class HighLow {
     //고가 저가를 찾기 시작한 기준 시가
-    long time;
-    
-    BigDecimal high;
-    int highIndex;
-    long highTime;
+    protected long time;
 
-    BigDecimal low;
-    int lowIndex;
-    long lowTime;
+    protected BigDecimal high;
+    protected int highIndex;
+    protected long highTime;
 
+    protected BigDecimal low;
+    protected int lowIndex;
+    protected long lowTime;
+
+
+    protected BigDecimal height = null;
 
     public long getTime() {
         return time;
@@ -75,6 +77,19 @@ public class HighLow {
 
     public void setLowTime(long lowTime) {
         this.lowTime = lowTime;
+    }
+
+
+    public void setHeight(BigDecimal height) {
+        this.height = height;
+    }
+
+    public BigDecimal getHeight() {
+        if(height == null){
+            height = high.subtract(low);
+        }
+
+        return height;
     }
 
     public static TimeNumber[] getHighs(HighLow[] array){
