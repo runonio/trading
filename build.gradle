@@ -3,8 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.4.0'
-
+version '0.4.1'
 
 repositories {
     mavenCentral()
@@ -16,7 +15,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.1'
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
-
 }
 
 test {

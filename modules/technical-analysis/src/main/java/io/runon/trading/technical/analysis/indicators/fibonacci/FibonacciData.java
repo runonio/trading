@@ -18,5 +18,7 @@ public class FibonacciData {
     BigDecimal n382;
     BigDecimal n500;
     BigDecimal n618;
+
+    BigDecimal n764;
     BigDecimal n1000;
 }
