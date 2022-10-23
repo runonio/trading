@@ -35,9 +35,9 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading:0.4.0'
+implementation 'io.runon.trading:trading:0.4.1'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.0
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.1
 
 implementation 'io.runon.trading:technical-analysis:0.4.3'
 - etc
@@ -110,8 +110,7 @@ io.runon.trading.technical.analysis.indicators.elder.Sar
 io.runon.trading.technical.analysis.indicators.volume.Adi
 ### VR (Volume Ratio)
 io.runon.trading.technical.analysis.indicators.volume.Vr
-### 매물대분석 (Volume Profile)
-io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
+
 ### 차이킨오실레이터 (Chaikin Oscillator)
 io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 ### MFI (Money Flow Index)
@@ -120,6 +119,10 @@ io.runon.trading.technical.analysis.indicators.volume.Mfi
 io.runon.trading.technical.analysis.indicators.elder.ForceIndex
 ### HPI 혜릭정산지수 (미체결 약정 활용) Herrick Payoff Index
 io.runon.trading.technical.analysis.indicators.volume.Hpi
+
+## 매물대분석 (Volume Profile)
+io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
+io.runon.trading.technical.analysis.indicators.volume.profile.gap.Vpg
 
 ## 시장 지표
 ### 신고가 신저가
@@ -171,6 +174,7 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 생존비율 지표
 - 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
 - 바닥권에서 10% 미만의 값이 나타남
+
 
 # 바닥신호
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)

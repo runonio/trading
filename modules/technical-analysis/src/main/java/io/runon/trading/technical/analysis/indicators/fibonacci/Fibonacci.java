@@ -20,6 +20,7 @@ public class Fibonacci {
     public static final BigDecimal N500 = new BigDecimal("0.5");
     public static final BigDecimal N618 = new BigDecimal("0.618");
 
+    public static final BigDecimal N764 = new BigDecimal("0.764");
   
     //저항선
     public static FibonacciData resistanceLine(BigDecimal high, BigDecimal low){
@@ -35,6 +36,7 @@ public class Fibonacci {
             data.n382 = low;
             data.n500 = low;
             data.n618 = low;
+            data.n764 = low;
             return data;
         }
 
@@ -42,6 +44,7 @@ public class Fibonacci {
         data.n382 = low.add(N382.multiply(height));
         data.n500 = low.add(N500.multiply(height));
         data.n618 = low.add(N618.multiply(height));
+        data.n764 = low.add(N764.multiply(height));
         return data;
     }
 
@@ -58,6 +61,7 @@ public class Fibonacci {
             data.n382 = high;
             data.n500 = high;
             data.n618 = high;
+            data.n764 = high;
             return data;
         }
 
@@ -65,6 +69,7 @@ public class Fibonacci {
         data.n382 = high.subtract(N382.multiply(height));
         data.n500 = high.subtract(N500.multiply(height));
         data.n618 = high.subtract(N618.multiply(height));
+        data.n764 = high.subtract(N764.multiply(height));
         return data;
     }
 
@@ -204,6 +209,17 @@ public class Fibonacci {
 
         return timeNumbers;
     }
+
+    public static TimeNumber [] get764Array(FibonacciData [] array){
+        TimeNumber [] timeNumbers = new TimeNumber[array.length];
+        for (int i = 0; i <timeNumbers.length ; i++) {
+            FibonacciData data = array[i];
+            timeNumbers[i] = new TimeNumberData(data.time, data.n764);
+        }
+
+        return timeNumbers;
+    }
+
 
     public static TimeNumber [] get1000Array(FibonacciData [] array){
         TimeNumber [] timeNumbers = new TimeNumber[array.length];

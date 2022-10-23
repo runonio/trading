@@ -4,6 +4,7 @@ import com.seomse.commons.utils.time.Times;
 
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * @author macle
@@ -14,6 +15,7 @@ public class CandleTimes {
     //America/New_York == US/Eastern 서머타임에는 1시간 빠른시간을 활용
     public static ZoneId US_STOCK_ZONE_ID = ZoneId.of("America/New_York");
     public static ZoneId KOREAN_STOCK_ZONE_ID = ZoneId.of("Asia/Seoul");
+    public static ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
     public static String getInterval(long time){
         if(time >= Times.WEEK_1 && time%Times.WEEK_1 == 0 ) {
@@ -57,16 +59,23 @@ public class CandleTimes {
         return time;
 
     }
+
+    public static long getOpenTime(long standardTime, long time){
+        return getOpenTime(standardTime, time, null);
+    }
+
     /**
      * 처음 시작할때의 시작시간 얻기
      * @param standardTime 기준시간 1분 1시간 1일
      * @param time 시간 (밀리초)
      * @return openTime
      */
-    public static long getOpenTime(long standardTime, long time){
+    public static long getOpenTime(long standardTime, long time, ZoneId zoneId){
 
         Calendar calendar = Calendar.getInstance();
-
+        if(zoneId != null) {
+            calendar.setTimeZone(TimeZone.getTimeZone(zoneId));
+        }
         calendar.setTimeInMillis(time);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -89,11 +98,4 @@ public class CandleTimes {
 
     }
 
-    public static void main(String[] args) {
-        long time = System.currentTimeMillis();
-
-        System.out.println(Times.ymdhm(time, ZoneId.of( "America/New_York" )));
-        System.out.println(Times.ymdhm(time, US_STOCK_ZONE_ID));
-        System.out.println(Times.ymdhm(time, KOREAN_STOCK_ZONE_ID));
-    }
 }

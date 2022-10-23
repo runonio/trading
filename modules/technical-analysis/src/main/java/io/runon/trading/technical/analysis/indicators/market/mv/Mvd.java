@@ -101,7 +101,7 @@ public class Mvd extends MarketIndicators<TimeNumber> {
                 continue;
             }
 
-            int averageStartIndex =  TaCandles.getStartIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
+            int averageStartIndex =  TaCandles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
             if (averageStartIndex == -1){
 
                 continue;

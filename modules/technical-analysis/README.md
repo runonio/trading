@@ -69,8 +69,7 @@ io.runon.trading.technical.analysis.indicators.elder.Sar
 io.runon.trading.technical.analysis.indicators.volume.Adi
 ### VR (Volume Ratio)
 io.runon.trading.technical.analysis.indicators.volume.Vr
-### 매물대분석 (Volume Profile)
-io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
+
 ### 차이킨오실레이터 (Chaikin Oscillator)
 io.runon.trading.technical.analysis.indicators.volume.ChaikinOscillator
 ### MFI (Money Flow Index)
@@ -79,6 +78,10 @@ io.runon.trading.technical.analysis.indicators.volume.Mfi
 io.runon.trading.technical.analysis.indicators.elder.ForceIndex
 ### HPI 혜릭정산지수 (미체결 약정 활용) Herrick Payoff Index 
 io.runon.trading.technical.analysis.indicators.volume.Hpi
+
+## 매물대분석 (Volume Profile)
+io.runon.trading.technical.analysis.indicators.volume.profile.VolumeProfile
+io.runon.trading.technical.analysis.indicators.volume.profile.gap.Vpg
 
 ## 시장 지표
 ### 신고가 신저가 

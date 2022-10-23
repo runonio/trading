@@ -44,6 +44,12 @@ public class Volumes {
         return getAverage(candles, candles.length, highestExclusionRate);
     }
 
+    public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal highestExclusionRate, int startIndex, int end) {
+        BigDecimal[] volumes = getVolumes(candles, startIndex, end);
+        Arrays.sort(volumes);
+        return BigDecimals.average(volumes, highestExclusionRate);
+    }
+
     public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
         return getAverage(candles, candles.length, lowestExclusionRate, highestExclusionRate);
     }
