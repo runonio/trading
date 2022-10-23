@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.candle;
 /**
- * 지수이동평균
+ * get candles 추상체
  * @author macle
  */
 public interface Candles {

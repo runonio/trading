@@ -110,7 +110,7 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
                 continue;
             }
 
-            int averageStartIndex =  TaCandles.getStartIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
+            int averageStartIndex =  TaCandles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
             if (averageStartIndex == -1){
 
                 continue;
