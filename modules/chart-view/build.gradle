@@ -24,8 +24,8 @@ sourceSets {
 dependencies {
 
 
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.5.0'
-    implementation 'io.runon.trading:technical-analysis:0.4.3'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.5.3'
+    implementation 'io.runon.trading:technical-analysis:0.4.4'
     implementation 'io.runon.trading:trading:0.4.1'
 //    implementation project(path: ':technical-analysis')
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
