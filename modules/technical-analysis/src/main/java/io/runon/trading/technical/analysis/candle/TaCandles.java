@@ -82,12 +82,10 @@ public class TaCandles {
             return candles.length - 1;
         }
 
-
         int searchLength = (int)((lastCloseTime - time)/candleTime) + 1;
 
         return getNearCloseTimeIndex(candles, time, searchLength);
     }
-
 
 
 
@@ -155,7 +153,6 @@ public class TaCandles {
             }
 
         }
-
         return -1;
     }
 
@@ -175,13 +172,10 @@ public class TaCandles {
             if(candles[i].getOpenTime() > openTime){
                 return -1;
             }
-
         }
 
         return -1;
     }
-
-
 
     public static int getNearOpenTimeIndex(TradeCandle [] candles, long openTime, int searchLength){
 
@@ -202,7 +196,6 @@ public class TaCandles {
             if(candles[i].getOpenTime() > openTime){
                 return i-1;
             }
-
 
         }
         return candles.length -1;
