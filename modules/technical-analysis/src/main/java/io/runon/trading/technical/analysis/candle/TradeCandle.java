@@ -173,48 +173,52 @@ public class TradeCandle extends CandleStick implements Volume {
 
     /**
      * 캔들정보추가 (정보합침)
-     * @param tradeCandle 캔들정보를 활용하여 정보합침
+     * @param addCandle 캔들정보를 활용하여 정보합침
      */
-    public void addCandle(TradeCandle tradeCandle){
-        if(openTime == -1 || openTime > tradeCandle.getOpenTime()) {
-            openTime = tradeCandle.getOpenTime();
-            open = tradeCandle.getOpen();
+    public void addCandle(TradeCandle addCandle){
+        if(openTime == -1 || openTime > addCandle.getOpenTime()) {
+            openTime = addCandle.getOpenTime();
+            open = addCandle.getOpen();
         }
 
-        if(closeTime == -1 || closeTime < tradeCandle.getCloseTime()){
-            closeTime = tradeCandle.getCloseTime();
-            close = tradeCandle.getClose();
+        if(closeTime == -1 || closeTime < addCandle.getCloseTime()){
+            closeTime = addCandle.getCloseTime();
+            close = addCandle.getClose();
         }
 
-        if(lastTradeTime < tradeCandle.getLastTradeTime()){
+        if(lastTradeTime < addCandle.getLastTradeTime()){
             //거래시간은 항상 최신값으로
-            lastTradeTime = tradeCandle.getLastTradeTime();
+            lastTradeTime = addCandle.getLastTradeTime();
             //총가는 항상 최신값으로
-            if(tradeCandle.getClose() != null) {
-                close = tradeCandle.getClose();
+            if(addCandle.getClose() != null) {
+                close = addCandle.getClose();
             }
         }
 
-        low = BigDecimals.min(low, tradeCandle.getLow());
-        high = BigDecimals.max(high, tradeCandle.getHigh());
+        low = BigDecimals.min(low, addCandle.getLow());
+        high = BigDecimals.max(high, addCandle.getHigh());
 
-        if(isTradeRecord && tradeCandle.getTradeList() != null){
+        if(isTradeRecord && addCandle.getTradeList() != null){
             if(tradeList == null){
                 tradeList = new ArrayList<>();
             }
-            tradeList.addAll(tradeCandle.getTradeList());
+            tradeList.addAll(addCandle.getTradeList());
         }
 
-        tradeCount += tradeCandle.getTradeCount();
+        tradeCount += addCandle.getTradeCount();
 
-        buyVolume = buyVolume.add(tradeCandle.getBuyVolume());
-        buyTradingPrice = buyTradingPrice.add(tradeCandle.getBuyTradingPrice());
+        addVolume(addCandle);
+    }
 
-        sellVolume = sellVolume.add(tradeCandle.getSellVolume());
-        sellTradingPrice = sellTradingPrice.add(tradeCandle.getSellTradingPrice());
+    public void addVolume(TradeCandle addCandle){
+        buyVolume = buyVolume.add(addCandle.getBuyVolume());
+        buyTradingPrice = buyTradingPrice.add(addCandle.getBuyTradingPrice());
 
-        volume = volume.add(tradeCandle.getVolume());
-        tradingPrice = tradingPrice.add(tradeCandle.getTradingPrice());
+        sellVolume = sellVolume.add(addCandle.getSellVolume());
+        sellTradingPrice = sellTradingPrice.add(addCandle.getSellTradingPrice());
+
+        volume = volume.add(addCandle.getVolume());
+        tradingPrice = tradingPrice.add(addCandle.getTradingPrice());
     }
 
     /**
