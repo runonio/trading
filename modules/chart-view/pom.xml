@@ -147,7 +147,7 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>technical-analysis</artifactId>
-            <version>0.4.4</version>
+            <version>0.4.5</version>
         </dependency>
 
         <dependency>
