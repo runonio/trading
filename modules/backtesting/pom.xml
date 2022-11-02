@@ -137,13 +137,13 @@
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading</artifactId>
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading-data</artifactId>
-            <version>0.2.4</version>
+            <version>0.2.5</version>
         </dependency>
 
         <dependency>

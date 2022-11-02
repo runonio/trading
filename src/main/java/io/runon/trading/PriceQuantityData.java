@@ -1,7 +1,7 @@
 package io.runon.trading;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,14 +11,18 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class PriceQuantityData {
+public class PriceQuantityData implements PriceQuantity{
 
     BigDecimal price;
     BigDecimal quantity;
 
     @Override
     public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(price.stripTrailingZeros().toPlainString());
+        jsonArray.add(quantity.stripTrailingZeros().toPlainString());
+        return new Gson().toJson(jsonArray);
     }
 
 }

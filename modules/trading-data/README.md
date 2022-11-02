@@ -37,9 +37,9 @@
   - bid : 매수호가 line (json array)
     - 0 : 가격, 1 : 수량
 # gradle
-implementation 'io.runon.trading:trading-data:0.2.4'
+implementation 'io.runon.trading:trading-data:0.2.5'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.4
+    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.5
 
 # communication
 ### blog, homepage
