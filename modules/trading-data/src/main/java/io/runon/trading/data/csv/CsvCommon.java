@@ -1,9 +1,7 @@
 package io.runon.trading.data.csv;
 
-import com.seomse.commons.utils.FileUtil;
-import com.seomse.commons.validation.NumberNameFileValidation;
+import io.runon.trading.data.file.TimeFiles;
 
-import java.io.File;
 import java.math.BigDecimal;
 
 /**
@@ -31,17 +29,15 @@ public class CsvCommon {
         return new BigDecimal(value);
     }
 
-
     public static long getLastOpenTime(String path){
 
-        File[] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        String lastLine = TimeFiles.getLastLine(path);
 
-        if(files.length == 0){
+        if(lastLine == null){
             return -1;
         }
-        File lastFile = files[files.length-1];
-        String lastLine = FileUtil.getLastTextLine(lastFile);
         int index = lastLine.indexOf(',');
         return Long.parseLong(lastLine.substring(0, index));
+
     }
 }

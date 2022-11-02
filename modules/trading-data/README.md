@@ -28,6 +28,14 @@
 ## long short ratio (롱숏 비율) 계좌정보를 모를경우
 시간(밀리초 유닉스타임)[0],ratio[1]
 
+## order book (호가창) (json object)
+- t : 시간(밀리초 유닉스타임)[0]
+- asks : 매도호가 목록 (json array)
+  - ask : 매도호가 line (json array)  
+    - 0 : 가격, 1 : 수량
+- bids : 매수호가 목록 (json array)
+  - bid : 매수호가 line (json array)
+    - 0 : 가격, 1 : 수량
 # gradle
 implementation 'io.runon.trading:trading-data:0.2.4'
 - etc

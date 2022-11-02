@@ -73,4 +73,22 @@ public class TimeFiles {
         return files.length > 0;
     }
 
+    public static String getLastLine(String dirPath){
+        File[] files = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG_DESC);
+
+        if(files.length == 0){
+            return null;
+        }
+
+        for(File file : files){
+            String line = FileUtil.getLastTextLine(file);
+            if("".equals(line)){
+                continue;
+            }
+            return line;
+        }
+
+        return null;
+    }
+
 }

@@ -7,6 +7,6 @@ import io.runon.trading.data.csv.CsvCommon;
  */
 public class LastTimeExample {
     public static void main(String[] args) {
-        System.out.println(CsvCommon.getLastOpenTime("data/cryptocurrency/spot/candle/BTCUSDT/1m"));
+        System.out.println(CsvCommon.getLastOpenTime("D:\\data\\cryptocurrency\\spot\\candle\\BTCUSDT\\1m"));
     }
 }
