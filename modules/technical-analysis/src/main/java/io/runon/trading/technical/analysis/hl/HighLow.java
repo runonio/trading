@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 public class HighLow {
-    //고가 저가를 찾기 시작한 기준 시가
+    //고가 저가를 찾기 시작한 기준 시간
     protected long time;
 
     protected BigDecimal high;

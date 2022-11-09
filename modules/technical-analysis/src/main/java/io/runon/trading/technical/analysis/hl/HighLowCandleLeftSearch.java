@@ -15,7 +15,27 @@ public class HighLowCandleLeftSearch {
     public static HighLow getHighNextLow(CandleStick [] array, int initN,int continueN){
         return getHighNextLow(array, initN, continueN, array.length-1);
     }
-    
+
+
+    public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index, int maxNextInit, BigDecimal high){
+
+        int highIndex = searchHigh(array, initN , continueN,  index);
+
+        for (int i = 1; i <maxNextInit ; i++) {
+            CandleStick candleStick = array[highIndex];
+            if(candleStick.getHigh().compareTo(high) > 0){
+                break;
+            }
+
+            int nextInitN = initN + i*initN;
+            highIndex = searchHigh(array, nextInitN , continueN,  index);
+        }
+
+
+        int lowIndex = searchLow(array, highIndex, index+1);
+        return get(array, index, highIndex, lowIndex);
+    }
+
     /**
      * 고가 먼저 찾고 저가 찾기
      * 피보나치에서 활용 반등폭 예측하기
@@ -109,7 +129,7 @@ public class HighLowCandleLeftSearch {
             end = array.length;
         }
 
-        BigDecimal low = array[startIndex].getHigh();
+        BigDecimal low = array[startIndex].getLow();
         int lowIndex = startIndex;
 
         for (int i = startIndex + 1; i <end ; i++) {
@@ -122,6 +142,24 @@ public class HighLowCandleLeftSearch {
         }
 
         return lowIndex;
+    }
+
+    public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index, int maxNextInit, BigDecimal low){
+        int lowIndex = searchLow(array, initN ,continueN, index);
+
+        for (int i = 1; i <maxNextInit ; i++) {
+            CandleStick candleStick = array[lowIndex];
+            if(candleStick.getLow().compareTo(low) < 0){
+                break;
+            }
+
+            int nextInitN = initN + i*initN;
+            lowIndex = searchLow(array, nextInitN , continueN,  index);
+        }
+
+        int highIndex = searchHigh(array, lowIndex, index+1);
+
+        return get(array, index, highIndex, lowIndex);
     }
 
     /**
