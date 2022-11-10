@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.volume.profile.gap;
 
+import com.seomse.commons.data.BeginEnd;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -74,6 +75,10 @@ public class Vpg {
         return getArray(candles, candles.length - length, candles.length);
     }
 
+    public VpgData [] getArray(TradeCandle [] candles, BeginEnd range){
+        return getArray(candles, range.getBegin(), range.getEnd());
+    }
+
     public VpgData [] getArray(TradeCandle [] candles, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
@@ -126,8 +131,10 @@ public class Vpg {
 
         vpgData.count++;
         vpgData.volume = vpgData.volume.add(volume);
-
     }
+
+
+
 
 }
 
