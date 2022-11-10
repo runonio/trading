@@ -70,4 +70,7 @@ public abstract class VpgHl extends HighLowN {
 
     public abstract void setFibonacci();
 
+
+    public abstract BigDecimal getReverseVolume(TradeCandle [] candles, long time);
+
 }
