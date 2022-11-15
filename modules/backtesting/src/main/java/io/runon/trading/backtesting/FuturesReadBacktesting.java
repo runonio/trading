@@ -108,10 +108,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
             addChartMark(markerData);
         }
 
-
-
         FuturesPosition futuresPosition  = account.getPosition(symbol);
-
         log.info(getLogMessage(price));
     }
 

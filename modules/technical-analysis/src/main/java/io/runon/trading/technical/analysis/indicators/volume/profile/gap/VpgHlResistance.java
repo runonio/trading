@@ -45,7 +45,7 @@ public class VpgHlResistance extends VpgHl {
     //피보나치 데이터 활용 (파동분석용)
     @Override
     public void setFibonacci() {
-
+        //236 382 // 618
     }
 
 
