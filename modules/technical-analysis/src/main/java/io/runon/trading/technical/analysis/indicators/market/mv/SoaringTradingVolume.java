@@ -31,7 +31,7 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
 
     private BigDecimal highestExclusionRate = new BigDecimal(Config.getConfig("volume.average.default.highest.exclusion.rate", "0.1"));
 
-    private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.disparity", "300"));
+    private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.disparity", "1000"));
 
     public SoaringTradingVolume(SymbolCandle[] symbolCandles){
         super(symbolCandles);

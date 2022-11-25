@@ -30,8 +30,6 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
     protected StrategyOrder<T> strategy;
 
-
-
     public FuturesReadBacktesting(){
         account = new FuturesBacktestingAccount("test");
         account.addCash(new BigDecimal(10000));
