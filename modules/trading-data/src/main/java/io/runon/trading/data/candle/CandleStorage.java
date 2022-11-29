@@ -1,4 +1,4 @@
-package io.runon.trading.data;
+package io.runon.trading.data.candle;
 
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.data.csv.CsvCandle;

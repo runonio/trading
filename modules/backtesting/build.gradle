@@ -13,11 +13,13 @@ dependencies {
 
 //    implementation( rootProject)
 //    implementation project(path: ':chart-view')
-//    implementation project(path: ':technical-analysis')
+    implementation project(path: ':technical-analysis')
+    implementation project(path: ':trading-data')
+
     implementation 'com.seomse.commons:commons:1.4.0'
     implementation 'io.runon.trading:trading:0.4.3'
-    implementation 'io.runon.trading:technical-analysis:0.4.5'
-    implementation 'io.runon.trading:trading-data:0.2.5'
+//    implementation 'io.runon.trading:technical-analysis:0.4.5'
+//    implementation 'io.runon.trading:trading-data:0.2.5'
     implementation 'io.runon.trading:chart-view:0.2.5'
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'

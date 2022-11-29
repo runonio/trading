@@ -14,17 +14,25 @@ import java.io.*;
 public abstract class TimeFileLineRead {
 
 
-    private long startName= -1;
-    private long endName = -1;
-
+    protected long startName= -1;
+    protected long endName = -1;
 
     public void setStartName(long startName) {
         this.startName = startName;
     }
+    public void setStartName(String startName) {
+        this.startName = Long.parseLong(startName);
+    }
+
 
     public void setEndName(long endName) {
         this.endName = endName;
     }
+
+    public void setEndName(String endName) {
+        this.endName = Long.parseLong(endName);
+    }
+
 
     private boolean isEnd = false;
 
@@ -57,6 +65,7 @@ public abstract class TimeFileLineRead {
 
         FileUtil.sortToNameLong(files, true);
 
+        outer:
         for(File file : files){
 
             if(startName != -1 || endName != -1 ){
@@ -73,6 +82,10 @@ public abstract class TimeFileLineRead {
             try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))){
                 String line;
                 while ((line = br.readLine()) != null) {
+                    if(isStop){
+                        break outer;
+                    }
+
                     line = line.trim();
                     if("".equals(line)){
                         continue;
@@ -87,7 +100,12 @@ public abstract class TimeFileLineRead {
 
         isEnd = true;
     }
-    
+
+    protected boolean isStop = false;
+    public void stop(){
+        isStop = true;
+    }
+
     //완료이벤트
     public void end(){
         

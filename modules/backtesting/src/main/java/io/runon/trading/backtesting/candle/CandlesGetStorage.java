@@ -1,6 +1,6 @@
 package io.runon.trading.backtesting.candle;
 
-import io.runon.trading.data.CandleStorage;
+import io.runon.trading.data.candle.CandleStorage;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
