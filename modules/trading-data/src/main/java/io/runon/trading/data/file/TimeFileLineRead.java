@@ -20,11 +20,18 @@ public abstract class TimeFileLineRead {
     public void setStartName(long startName) {
         this.startName = startName;
     }
+    public void setStartName(String startName) {
+        this.startName = Long.parseLong(startName);
+    }
+
 
     public void setEndName(long endName) {
         this.endName = endName;
     }
 
+    public void setEndName(String endName) {
+        this.endName = Long.parseLong(endName);
+    }
 
 
     private boolean isEnd = false;
