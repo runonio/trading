@@ -143,6 +143,8 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             longClose(symbol, order.getCash(), null);
         }else if (position == Position.SHORT_CLOSE){
             shortClose(symbol, order.getCash(), null);
+        }else if( position == Position.CLOSE ){
+            close(symbol);
         }
     }
 
@@ -239,11 +241,10 @@ public class FuturesBacktestingAccount implements FuturesAccount {
     }
 
     public void close(String symbol){
-        FuturesPositionData futuresPositionData = positionMap.get(symbol);
+        FuturesPositionData futuresPositionData = positionMap.remove(symbol);
         if(futuresPositionData == null){
             return ;
         }
-        positionMap.remove(symbol);
         BigDecimal closePrice = closePrice(futuresPositionData);
         cash = cash.add(closePrice);
     }
