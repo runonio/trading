@@ -79,7 +79,6 @@ public class TimeVolumesStore {
             return "";
         }
         return CandleTimes.getInterval(timeNumber.getTime()) + "/" + timeNumber.getNumber().toPlainString();
-
     }
 
     //24시간 정도 기록저장
@@ -389,4 +388,43 @@ public class TimeVolumesStore {
     public int getMaxCount() {
         return maxCount;
     }
+
+
+    public BigDecimal sumVolume5s(int n){
+
+        BigDecimal sum = BigDecimal.ZERO;
+        if(list.size() < n){
+            for(TimeVolumes volumes : list){
+                sum = sum.add( volumes.get(5000L).getVolume());
+            }
+            //부족한 기간은 평균치로 돌려주기
+            return sum.multiply(new BigDecimal(n)).divide(new BigDecimal(list.size()), MathContext.DECIMAL128);
+        }
+
+        for (int i = list.size()-n; i <list.size(); i++) {
+            sum = sum.add( list.get(i).get(5000L).getVolume());
+        }
+
+        return sum;
+    }
+
+
+    public BigDecimal getMomentum(int n){
+
+        BigDecimal sum = BigDecimal.ZERO;
+        if(list.size() < n){
+            for(TimeVolumes volumes : list){
+                sum = sum.add( volumes.get(5000L).getVolume());
+            }
+            //부족한 기간은 평균치로 돌려주기
+            return sum.multiply(new BigDecimal(n)).divide(new BigDecimal(list.size()), MathContext.DECIMAL128);
+        }
+
+        for (int i = list.size()-n; i <list.size(); i++) {
+            sum = sum.add( list.get(i).get(5000L).getVolume());
+        }
+
+        return sum;
+    }
+
 }
