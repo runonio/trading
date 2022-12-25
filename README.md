@@ -181,10 +181,10 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 
 # communication
 ### blog, homepage
-- [www.seomse.com](https://www.seomse.com/)
 - [runon.io](https://runon.io)
-- [github.com/seomse](https://github.com/seomse)
+- [www.seomse.com](https://www.seomse.com/)
 - [github.com/runonio](https://github.com/runonio)
+- [github.com/seomse](https://github.com/seomse)
 
 ### 카카오톡 오픈톡
  - https://open.kakao.com/o/g6vzOKqb
@@ -196,5 +196,6 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
  - comseomse@gmail.com
  
 # main developer
- - macle
+- macle
     -  [github.com/macle86](https://github.com/macle86)
+    -  [macle.dev](https://macle.dev)
