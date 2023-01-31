@@ -2,7 +2,7 @@ package io.runon.trading.data.file;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -23,7 +23,7 @@ public abstract class TimeFilePathChange {
         this.type = type;
     }
 
-    protected ZoneId zoneId = CandleTimes.US_STOCK_ZONE_ID;
+    protected ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
 
     public void setZoneId(ZoneId zoneId) {

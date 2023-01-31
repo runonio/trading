@@ -3,7 +3,7 @@ package example;
 import com.seomse.commons.utils.time.TimeUtil;
 import com.seomse.commons.utils.time.Times;
 import com.seomse.commons.utils.time.YmdUtil;
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.data.csv.CsvSymbolCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
@@ -20,7 +20,7 @@ public class CsvSymbolCandleExample {
         long time = System.currentTimeMillis();
 
         String path = "D:\\data\\cryptocurrency\\futures\\candle";
-        ZoneId zoneId = CandleTimes.US_STOCK_ZONE_ID;
+        ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
         CsvSymbolCandle csvSymbolCandle = new CsvSymbolCandle(path, "1m");
         csvSymbolCandle.setZoneId(zoneId);

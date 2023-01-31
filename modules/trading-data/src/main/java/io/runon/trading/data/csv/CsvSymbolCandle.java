@@ -1,6 +1,6 @@
 package io.runon.trading.data.csv;
 
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleData;
@@ -23,12 +23,12 @@ public class CsvSymbolCandle {
 
     private final long candleTime;
 
-    private ZoneId zoneId = CandleTimes.US_STOCK_ZONE_ID;
+    private ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
     public CsvSymbolCandle(String path, String interval){
         this.path = path;
         this.interval = interval;
-        candleTime = CandleTimes.getIntervalTime(interval);
+        candleTime = TradingTimes.getIntervalTime(interval);
     }
 
     public void setZoneId(ZoneId zoneId) {

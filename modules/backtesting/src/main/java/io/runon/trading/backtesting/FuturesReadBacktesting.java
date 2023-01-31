@@ -1,7 +1,7 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.TimePrice;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
@@ -64,7 +64,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
     }
 
     protected TimeName.Type fileTimeType = TimeName.Type.DAY_5;
-    protected ZoneId zoneId = CandleTimes.UTC_ZONE_ID;
+    protected ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
     public void setFileTimeType(TimeName.Type fileTimeType) {
         this.fileTimeType = fileTimeType;
@@ -136,7 +136,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
         time = timeData.getTime();
 
-        long openTime = CandleTimes.getOpenTime(Times.MINUTE_1, time);
+        long openTime = TradingTimes.getOpenTime(Times.MINUTE_1, time);
 
         //noinspection unchecked
         data.setData(timeData);

@@ -1,9 +1,9 @@
 package io.runon.trading.example.ma;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.CandleTimes;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.indicators.ma.Macd;
 import io.runon.trading.technical.analysis.indicators.ma.MacdData;
 
@@ -16,7 +16,7 @@ import java.time.ZoneId;
  */
 public class MacdExample {
     public static void main(String[] args) {
-        long time = CandleTimes.getOpenTime(Times.MINUTE_1, System.currentTimeMillis());
+        long time = TradingTimes.getOpenTime(Times.MINUTE_1, System.currentTimeMillis());
 
         TimeNumber[] array = new TimeNumber[100];
         for (int i = 0; i <array.length ; i++) {

@@ -16,8 +16,8 @@
 
 package io.runon.trading.technical.analysis.candle.candles;
 
-import io.runon.trading.CandleTimes;
 import io.runon.trading.Trade;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -47,7 +47,7 @@ class FirstTradeAdd implements TradeAdd {
         }
         long timeGap = tradeCandles.getTimeGap();
 
-        long startTime = CandleTimes.getOpenTime(timeGap, trade.getTime());
+        long startTime = TradingTimes.getOpenTime(timeGap, trade.getTime());
         TradeCandle tradeCandle =tradeCandles.addTradeNewCandle(trade, startTime, startTime + timeGap);
         tradeCandles.tradeAdd = new NextTradeAdd(tradeCandles);
 
