@@ -9,12 +9,12 @@ import java.util.TimeZone;
 /**
  * @author macle
  */
-public class CandleTimes {
+public class TradingTimes {
 
     //기본 타임 존은 뉴욕증시 시간으로 설정 (동부 표준시)
     //America/New_York == US/Eastern 서머타임에는 1시간 빠른시간을 활용
-    public static ZoneId US_STOCK_ZONE_ID = ZoneId.of("America/New_York");
-    public static ZoneId KOREAN_STOCK_ZONE_ID = ZoneId.of("Asia/Seoul");
+    public static ZoneId USA_ZONE_ID = ZoneId.of("America/New_York");
+    public static ZoneId KOR_ZONE_ID = ZoneId.of("Asia/Seoul");
     public static ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
     public static String getInterval(long time){

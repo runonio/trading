@@ -78,7 +78,7 @@ public class TimeVolumesStore {
         if(timeNumber == null){
             return "";
         }
-        return CandleTimes.getInterval(timeNumber.getTime()) + "/" + timeNumber.getNumber().toPlainString();
+        return TradingTimes.getInterval(timeNumber.getTime()) + "/" + timeNumber.getNumber().toPlainString();
     }
 
     //24시간 정도 기록저장

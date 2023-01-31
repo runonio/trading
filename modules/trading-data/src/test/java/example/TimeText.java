@@ -2,7 +2,7 @@ package example;
 
 import com.seomse.commons.utils.time.DateUtil;
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -16,8 +16,8 @@ public class TimeText {
         long time = 1648927560000L;
 
         Instant i = Instant.ofEpochMilli(time);
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, CandleTimes.US_STOCK_ZONE_ID);
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, TradingTimes.UTC_ZONE_ID);
         System.out.println(zonedDateTime.getYear() +  DateUtil.getDateText(zonedDateTime.getMonthValue()));
-        System.out.println(Times.ymdhm(time, CandleTimes.US_STOCK_ZONE_ID ));
+        System.out.println(Times.ymdhm(time, TradingTimes.UTC_ZONE_ID ));
     }
 }

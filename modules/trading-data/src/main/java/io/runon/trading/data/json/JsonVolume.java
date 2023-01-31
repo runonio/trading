@@ -1,6 +1,6 @@
 package io.runon.trading.data.json;
 
-import io.runon.trading.CandleTimes;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.volume.TimeVolumes;
 import io.runon.trading.technical.analysis.volume.VolumeData;
 import org.json.JSONArray;
@@ -76,7 +76,7 @@ public class JsonVolume {
         for(String interval : keys){
             long time = -1;
             try{
-                time = CandleTimes.getIntervalTime(interval);
+                time = TradingTimes.getIntervalTime(interval);
             }catch(IllegalArgumentException ignore){}
 
             JSONArray array = obj.getJSONArray(interval);

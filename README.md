@@ -35,25 +35,26 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading:0.4.3'
+implementation 'io.runon.trading:trading:0.4.4'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.3
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.4
 
-implementation 'io.runon.trading:technical-analysis:0.4.5'
+implementation 'io.runon.trading:technical-analysis:0.4.6'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.5
+    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.6
 
-implementation 'io.runon.trading:backtesting:0.1.6'
+implementation 'io.runon.trading:trading-data:0.2.6'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.6
+  - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.6
 
-implementation 'io.runon.trading:trading-data:0.2.5'
+implementation 'io.runon.trading:backtesting:0.1.7'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.5
-    
-implementation 'io.runon.trading:chart-view:0.2.5'
+    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.7
+
+implementation 'io.runon.trading:chart-view:0.2.6'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.5
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.6
+  
 # 목차
 ## 이동평균
 ### SMA: 단순 이동 평군
