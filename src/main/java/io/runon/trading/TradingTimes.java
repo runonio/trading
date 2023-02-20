@@ -2,9 +2,10 @@ package io.runon.trading;
 
 import com.seomse.commons.utils.time.Times;
 
+import java.time.Instant;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * @author macle
@@ -95,7 +96,80 @@ public class TradingTimes {
 //            calendar.set(Calendar.DAY_OF_YEAR, 1);
             return calendar.getTimeInMillis();
         }
+    }
 
+    public static YearQuarter nextYearQuarter(YearQuarter yearQuarter){
+        return nextYearQuarter(yearQuarter.getYear(), yearQuarter.getQuarter());
+    }
+
+    public static YearQuarter nextYearQuarter(int year, int quarter){
+
+        quarter++;
+        if(quarter > 4){
+            year++;
+            quarter =1;
+        }
+        return new YearQuarter(year, quarter);
+    }
+
+    public static YearQuarter nowYearQuarter(ZoneId zoneId){
+
+        Instant i = Instant.ofEpochMilli(System.currentTimeMillis());
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);
+
+        int year = zonedDateTime.getYear();
+        int quarter;
+
+        int month = zonedDateTime.getMonthValue();
+        if(month < 4){
+            quarter = 1;
+        }else if( month < 7){
+            quarter = 2;
+        }else if( month < 10){
+            quarter = 3;
+        }else{
+            quarter = 4;
+        }
+
+        return new YearQuarter(year, quarter);
+    }
+
+
+    public static List<YearQuarter> getYearQuarterList(YearQuarter begin, ZoneId zoneId){
+        YearQuarter now = nowYearQuarter(zoneId);
+
+        if(begin.compareTo(now) > 0){
+            return Collections.emptyList();
+        }
+
+        List<YearQuarter> yearQuarterList = new ArrayList<>();
+
+        YearQuarter yearQuarter = begin;
+
+        //noinspection ConditionalBreakInInfiniteLoop
+        for(;;){
+            yearQuarterList.add(yearQuarter);
+
+            yearQuarter = nextYearQuarter(yearQuarter);
+
+            if(yearQuarter.compareTo(now) > 0){
+               break;
+            }
+        }
+        return yearQuarterList;
+    }
+
+
+    public static YearQuarter [] getYearQuarters(YearQuarter begin, ZoneId zoneId){
+        List<YearQuarter> list = getYearQuarterList(begin,zoneId);
+        if(list.size() == 0){
+            return YearQuarter.EMPTY_ARRAY;
+        }
+
+        YearQuarter [] array = list.toArray(new YearQuarter[0]);
+        list.clear();
+
+        return array;
     }
 
 }
