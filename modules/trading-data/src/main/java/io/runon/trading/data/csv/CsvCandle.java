@@ -125,27 +125,44 @@ public class CsvCandle {
         tradeCandle.setOpenTime(openTime);
         tradeCandle.setCloseTime(openTime + time);
         tradeCandle.setClose(CsvCommon.getBigDecimal(values[1]));
-        tradeCandle.setOpen(CsvCommon.getBigDecimal(values[2]));
-        tradeCandle.setHigh(CsvCommon.getBigDecimal(values[3]));
-        tradeCandle.setLow(CsvCommon.getBigDecimal(values[4]));
-        tradeCandle.setPrevious(CsvCommon.getBigDecimal(values[5]));
-        tradeCandle.setVolume(CsvCommon.getBigDecimal(values[6]));
-        tradeCandle.setTradingPrice(CsvCommon.getBigDecimal(values[7]));
-        if(values[8] != null && !values[8].equals("")){
-            tradeCandle.setTradeCount(Integer.parseInt(values[8]));
+        if(values.length > 2)
+            tradeCandle.setOpen(CsvCommon.getBigDecimal(values[2]));
+        if(values.length > 3)
+            tradeCandle.setHigh(CsvCommon.getBigDecimal(values[3]));
+        if(values.length > 4)
+            tradeCandle.setLow(CsvCommon.getBigDecimal(values[4]));
+        if(values.length > 5)
+            tradeCandle.setPrevious(CsvCommon.getBigDecimal(values[5]));
+        if(values.length > 6)
+            tradeCandle.setVolume(CsvCommon.getBigDecimal(values[6]));
+
+        if(values.length > 7)
+            tradeCandle.setTradingPrice(CsvCommon.getBigDecimal(values[7]));
+
+        if(values.length > 8) {
+            if (values[8] != null && !values[8].equals("")) {
+                tradeCandle.setTradeCount(Integer.parseInt(values[8]));
+            }
         }
 
         if(tradeCandle.getPrevious() == null){
             tradeCandle.setPrevious(tradeCandle.getOpen());
         }
-        if(values[9] != null && !values[9].equals("")) {
-            tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
+
+        if(values.length > 9) {
+            if (values[9] != null && !values[9].equals("")) {
+                tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
+            }
+            tradeCandle.setSellVolume();
         }
-        if(values[10] != null && !values[10].equals("")) {
-            tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
+        if(values.length > 10) {
+            if (values[10] != null && !values[10].equals("")) {
+                tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
+            }
+            tradeCandle.setSellTradingPrice();
         }
-        tradeCandle.setSellVolume();
-        tradeCandle.setSellTradingPrice();
+
+
         //직전가로 변화량과 변화율 설정
         tradeCandle.setChange();
         tradeCandle.setEndTrade();
