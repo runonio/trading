@@ -334,10 +334,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     public BigDecimal getPrevious() {
         if(previous == null && change != null){
             previous = open.subtract(change);
-        } else if(previous == null && open != null){
-            previous = open;
         }
-
         return previous;
     }
 

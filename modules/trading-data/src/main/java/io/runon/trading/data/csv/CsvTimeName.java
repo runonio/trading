@@ -25,48 +25,48 @@ public class CsvTimeName {
 
 
 
-    public static String getPath(String dirPath, String symbol, long standardTime, ZoneId zoneId, long time){
-        return dirPath +"/" + symbol +"/" + TradingTimes.getInterval(standardTime) + "/" + getName(time, standardTime, zoneId);
+    public static String getPath(String dirPath, String symbol, long intervalTime, ZoneId zoneId, long time){
+        return dirPath +"/" + symbol +"/" + TradingTimes.getInterval(intervalTime) + "/" + getName(time, intervalTime, zoneId);
     }
 
-    public static String getPath(String dirPath, String symbol, long standardTime,ZoneId zoneId, String interval, long time){
-        return dirPath +"/" + symbol +"/" + interval + "/" + getName(time, standardTime, zoneId);
+    public static String getPath(String dirPath, String symbol, long intervalTime, ZoneId zoneId, String interval, long time){
+        return dirPath +"/" + symbol +"/" + interval + "/" + getName(time, intervalTime, zoneId);
     }
 
     //기본 타임 존은 UTC로 설정
-    public static String getName(long time, long standardTime){
-        return getName(time, standardTime, TradingTimes.UTC_ZONE_ID);
+    public static String getName(long time, long intervalTime){
+        return getName(time, intervalTime, TradingTimes.UTC_ZONE_ID);
     }
 
-    public static String getName(long time, long standardTime, ZoneId zoneId){
+    public static String getName(long time, long intervalTime, ZoneId zoneId){
         TimeName.Type type;
-        if(standardTime >= Times.DAY_1){
+        if(intervalTime >= Times.DAY_1){
             //100년
             type = TimeName.Type.YEAR_100;
 
-        }else if(standardTime >= Times.HOUR_2){
+        }else if(intervalTime >= Times.HOUR_2){
             //20년
             type = TimeName.Type.YEAR_20;
 
-        }else if(standardTime >= Times.HOUR_1){
+        }else if(intervalTime >= Times.HOUR_1){
             //10년
             type = TimeName.Type.YEAR_10;
 
-        }else if(standardTime >= Times.MINUTE_5){
+        }else if(intervalTime >= Times.MINUTE_5){
             //1년
             type = TimeName.Type.YEAR_1;
 
-        }else if(standardTime >= Times.MINUTE_1){
+        }else if(intervalTime >= Times.MINUTE_1){
             //1달
             type = TimeName.Type.MONTH_1;
 
-        }else if(standardTime >= 5000L){
+        }else if(intervalTime >= 5000L){
             type = TimeName.Type.DAY_5;
             // 1 6 11 16 21 26
-        }else if(standardTime >= 2000L){
+        }else if(intervalTime >= 2000L){
             type = TimeName.Type.DAY_2;
             //2일
-        }else if(standardTime >= 1000L){
+        }else if(intervalTime >= 1000L){
             //1일
             type = TimeName.Type.DAY_1;
 
