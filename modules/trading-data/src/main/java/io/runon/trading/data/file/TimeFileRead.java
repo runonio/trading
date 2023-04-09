@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class TimeFileRead {
 
-
     private boolean isRead = true;
 
     private ReadEnd readEnd = null;

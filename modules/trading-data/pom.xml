@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>trading-data</artifactId>
-    <version>0.2.6</version>
+    <version>0.2.61</version>
     <packaging>jar</packaging>
 
     <name>trading data</name>
@@ -127,7 +127,6 @@
         </plugins>
     </build>
 
-
     <dependencies>
 
         <dependency>
@@ -151,10 +150,8 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20220924</version>
+            <version>20230227</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
