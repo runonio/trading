@@ -131,7 +131,7 @@ public class CsvCandle {
             tradeCandle.setHigh(CsvCommon.getBigDecimal(values[3]));
         if(values.length > 4)
             tradeCandle.setLow(CsvCommon.getBigDecimal(values[4]));
-        if(values.length > 5)
+        if(values.length > 5 && values[5] != null)
             tradeCandle.setPrevious(CsvCommon.getBigDecimal(values[5]));
         if(values.length > 6)
             tradeCandle.setVolume(CsvCommon.getBigDecimal(values[6]));

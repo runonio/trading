@@ -24,7 +24,6 @@ public class TimeName {
         , HOUR_1
     }
 
-
     public static String getName(long time, Type type, ZoneId zoneId){
         Instant i = Instant.ofEpochMilli(time);
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);

@@ -7,7 +7,5 @@ import java.io.File;
  * @author macle
  */
 public class Files {
-
     public static final File [] EMPTY_FILES = new File[0];
-
 }
