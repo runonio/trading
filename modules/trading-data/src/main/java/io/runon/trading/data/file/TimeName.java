@@ -1,6 +1,7 @@
 package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.time.DateUtil;
+import com.seomse.commons.utils.time.Times;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -10,9 +11,11 @@ import java.time.ZonedDateTime;
  * 시간 형상의 파일을 새로운경로에 새로운 파일로 이관한다.
  * @author macle
  */
-public class TimeName {
+public interface TimeName {
 
-    public enum Type{
+    String getName(long time);
+
+    enum Type{
         YEAR_100
         , YEAR_20
         , YEAR_10
@@ -24,7 +27,46 @@ public class TimeName {
         , HOUR_1
     }
 
-    public static String getName(long time, Type type, ZoneId zoneId){
+
+    static Type getCandleType(long intervalTime){
+        TimeName.Type type;
+        if(intervalTime >= Times.DAY_1){
+            //100년
+            type = TimeName.Type.YEAR_100;
+
+        }else if(intervalTime >= Times.HOUR_2){
+            //20년
+            type = TimeName.Type.YEAR_20;
+
+        }else if(intervalTime >= Times.HOUR_1){
+            //10년
+            type = TimeName.Type.YEAR_10;
+
+        }else if(intervalTime >= Times.MINUTE_5){
+            //1년
+            type = TimeName.Type.YEAR_1;
+
+        }else if(intervalTime >= Times.MINUTE_1){
+            //1달
+            type = TimeName.Type.MONTH_1;
+
+        }else if(intervalTime >= 5000L){
+            type = TimeName.Type.DAY_5;
+            // 1 6 11 16 21 26
+        }else if(intervalTime >= 2000L){
+            type = TimeName.Type.DAY_2;
+            //2일
+        }else if(intervalTime >= 1000L){
+            //1일
+            type = TimeName.Type.DAY_1;
+
+        }else{
+            type = TimeName.Type.HOUR_1;
+        }
+        return type;
+    }
+
+    static String getName(long time, Type type, ZoneId zoneId){
         Instant i = Instant.ofEpochMilli(time);
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);
         if(type == Type.YEAR_100){
