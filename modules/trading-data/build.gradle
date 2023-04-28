@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.2.7'
+version '0.2.71'
 
 
 repositories {
@@ -18,10 +18,8 @@ dependencies {
     implementation 'io.runon.trading:trading:0.4.5'
     implementation 'io.runon.trading:technical-analysis:0.4.61'
 
-
     implementation group: 'org.json', name: 'json', version: '20230227'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
-
 
     implementation 'com.google.code.gson:gson:2.10'
 
