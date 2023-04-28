@@ -169,7 +169,6 @@ public class CsvCandle {
         return tradeCandle;
     }
 
-
     public static TradeCandle [] load(String path, long candleTime, long startTime, long endTime, ZoneId zoneId){
 
         File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
@@ -222,4 +221,13 @@ public class CsvCandle {
         candleList.clear();
         return candles;
     }
+
+    public static String [] lines(TradeCandle [] candles){
+        String [] lines = new String[candles.length];
+        for (int i = 0; i <lines.length ; i++) {
+            lines[i] = value(candles[i]);
+        }
+        return lines;
+    }
+
 }
