@@ -51,6 +51,36 @@ public class TimeLineOut {
         }
     }
 
+    /**
+     * 정렬없이 데이터추가
+     * 업데이트가 필요없는 빠른데이터 추가
+     * @param lines 라인데이터 추가
+     */
+    public void add(String [] lines){
+        String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
+        List<String> lineList = new ArrayList<>();
+        lineList.add(lines[0]);
+        synchronized (lock) {
+            for (int i = 1; i < lines.length ; i++) {
+                String line = lines[i];
+                String fileName = timeName.getName(timeLine.getTime(line));
+                if(!fileName.equals(lastFileName)){
+                    String path = dirPath + "/" + lastFileName;
+                    FileUtil.fileOutput(outValue(lineList), path, false);
+                    lineList.clear();
+                    lastFileName = fileName;
+                }
+                lineList.add(line);
+            }
+
+            if(lineList.size() > 0){
+                String path = dirPath + "/" + lastFileName;
+                FileUtil.fileOutput(outValue(lineList), path, false);
+                lineList.clear();
+            }
+        }
+    }
+
     public void update(String fileName, List<String> lineList){
         if(lineList.size() == 0){
             return ;
