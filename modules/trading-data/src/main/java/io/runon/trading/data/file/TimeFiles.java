@@ -76,7 +76,8 @@ public class TimeFiles {
     public static String getLastLine(String dirPath){
         File[] files = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG_DESC);
 
-        if(files.length == 0){
+        //noinspection RedundantLengthCheck
+        if(files == null || files.length == 0){
             return null;
         }
 

@@ -11,9 +11,9 @@ repositories {
 }
 
 dependencies {
-//    implementation( rootProject)
+    implementation( rootProject)
 //    implementation project(path: ':technical-analysis')
-    implementation 'com.seomse.commons:commons:1.4.2'
+//    implementation 'com.seomse.commons:commons:1.4.2'
 
     implementation 'io.runon.trading:trading:0.4.5'
     implementation 'io.runon.trading:technical-analysis:0.4.61'
