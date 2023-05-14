@@ -91,11 +91,14 @@ public class TimeFileOverride implements Runnable{
             FileUtil.fileOutput(sb.toString(), dirPath + "/" + lastName, false);
             sb.setLength(0);
         }
-
+        FileUtil.delete(moveDir);
     }
 
     public void setStop(boolean stop) {
         isStop = stop;
     }
 
+    public static void main(String[] args) {
+
+    }
 }

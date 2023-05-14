@@ -6,6 +6,8 @@ import com.seomse.commons.utils.time.Times;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 시간 형상의 파일을 새로운경로에 새로운 파일로 이관한다.
@@ -132,5 +134,83 @@ public interface TimeName {
         }
     }
 
+
+    static String [] getNames(long beginTime, long endTime , Type type, ZoneId zoneId){
+
+        String beginName = getName(beginTime, type, zoneId);
+        String endName = getName(endTime, type, zoneId);
+
+        if(beginName.equals(endName)){
+            return new String[]{beginName};
+        }
+
+        List<String> nameList = new ArrayList<>();
+        nameList.add(beginName);
+        
+        String lastName = beginName;
+        long lastTime = beginTime;
+        long addTime = Times.HOUR_1;
+
+        long endNameLong = Long.parseLong(endName);
+
+        switch (type){
+
+            case YEAR_100 -> {addTime = Times.DAY_1*360*100;
+            }
+            case YEAR_20 -> {addTime = Times.DAY_1*360*20;
+            }
+            case YEAR_10 -> {addTime = Times.DAY_1*360*10;
+            }
+            case YEAR_1 -> {addTime = Times.DAY_1*360;
+            }
+            case MONTH_1 -> {addTime = Times.DAY_1*20;
+            }
+            case DAY_5 -> {addTime = Times.DAY_5;
+            }
+            case DAY_2 -> {addTime = Times.DAY_2;
+            }
+            case DAY_1 -> {addTime = Times.DAY_1;
+            }
+            case HOUR_12 -> {addTime = Times.HOUR_12;
+            }
+            case HOUR_6 -> {addTime = Times.HOUR_6;
+            }
+            case HOUR_4 -> {addTime = Times.HOUR_4;
+            }
+            case HOUR_3 -> {addTime = Times.HOUR_3;
+            }
+            case HOUR_2 -> {addTime = Times.HOUR_2;
+            }
+            case HOUR_1 -> {
+                //noinspection ReassignedVariable
+                addTime = Times.HOUR_1;
+            }
+        }
+
+        for(;;){
+            lastTime += addTime;
+            String nextName = getName(lastTime, type,zoneId);
+            if(nextName.equals(lastName)){
+                continue;
+            }
+
+            lastName = nextName;
+
+            long nameLong = Long.parseLong(nextName);
+            if(nameLong < endNameLong ){
+                nameList.add(nextName);
+            }else if(nameLong  == endNameLong){
+                nameList.add(nextName);
+                break;
+            }else{
+                break;
+            }
+
+        }
+
+        String [] names = nameList.toArray(new String[0]);
+        nameList.clear();
+        return names;
+    }
 
 }
