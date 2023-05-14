@@ -131,19 +131,19 @@
         <dependency>
             <groupId>com.seomse.commons</groupId>
             <artifactId>commons</artifactId>
-            <version>1.4.2</version>
+            <version>1.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading</artifactId>
-            <version>0.4.5</version>
+            <version>0.4.6</version>
         </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading-data</artifactId>
-            <version>0.2.71</version>
+            <version>0.2.8</version>
         </dependency>
 
         <dependency>

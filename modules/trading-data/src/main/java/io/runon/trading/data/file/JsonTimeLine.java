@@ -1,4 +1,4 @@
-package io.runon.trading.data.time;
+package io.runon.trading.data.file;
 
 import org.json.JSONObject;
 
@@ -6,7 +6,7 @@ import org.json.JSONObject;
  * 문자열을 활용한 lock 관리
  * @author macle
  */
-public class JsonTimeLine implements TimeLine{
+public class JsonTimeLine implements TimeLine {
 
     @Override
     public long getTime(String line) {

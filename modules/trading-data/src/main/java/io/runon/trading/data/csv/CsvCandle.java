@@ -29,7 +29,7 @@ public class CsvCandle {
         if(file.isFile()) {
             addFile(list, file, time);
         }else{
-            File [] files = FileUtil.getFiles(file.getAbsolutePath(), new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+            File [] files = FileUtil.getInFiles(file.getAbsolutePath(), new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
             for(File f : files){
                 addFile(list, f, time);
             }
@@ -169,18 +169,18 @@ public class CsvCandle {
         return tradeCandle;
     }
 
-    public static TradeCandle [] load(String path, long candleTime, long startTime, long endTime, ZoneId zoneId){
+    public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime, ZoneId zoneId){
 
-        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File [] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         if(files.length == 0){
             return TradeCandle.EMPTY_CANDLES;
         }
 
-        String startName = CsvTimeName.getName(startTime , candleTime, zoneId);
+        String beginName = CsvTimeName.getName(beginTime , candleTime, zoneId);
         String endName = CsvTimeName.getName(endTime , candleTime, zoneId);
 
-        int startFileNum = Integer.parseInt(startName);
+        int beginFileNum = Integer.parseInt(beginName);
         int endFileNum = Integer.parseInt(endName);
 
         List<TradeCandle> candleList = new ArrayList<>();
@@ -189,7 +189,7 @@ public class CsvCandle {
         for(File file : files){
             int fileNum = Integer.parseInt(file.getName());
 
-            if(fileNum < startFileNum){
+            if(fileNum < beginFileNum){
                 continue;
             }
 
@@ -203,7 +203,7 @@ public class CsvCandle {
                     String [] values = line.split(",");
                     long openTime = Long.parseLong(values[0]);
                     long closeTime = openTime + candleTime;
-                    if(openTime < startTime){
+                    if(openTime < beginTime){
                         continue;
                     }
 
@@ -229,5 +229,4 @@ public class CsvCandle {
         }
         return lines;
     }
-
 }

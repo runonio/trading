@@ -1,7 +1,6 @@
-package io.runon.trading.data.time;
+package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.FileUtil;
-import io.runon.trading.data.file.TimeName;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -141,7 +140,7 @@ public class TimeLineOut {
                 }
                 sumList.addAll(newList);
 
-                LineTime [] array = sumList.toArray(new LineTime[0]);
+                LineTime[] array = sumList.toArray(new LineTime[0]);
 
                 Arrays.sort(array, LineTime.SORT);
 

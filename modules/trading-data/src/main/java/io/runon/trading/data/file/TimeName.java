@@ -24,6 +24,11 @@ public interface TimeName {
         , DAY_5
         , DAY_2
         , DAY_1
+        , HOUR_12
+        , HOUR_6
+        , HOUR_4
+        , HOUR_3
+        , HOUR_2
         , HOUR_1
     }
 
@@ -59,9 +64,8 @@ public interface TimeName {
         }else if(intervalTime >= 1000L){
             //1일
             type = TimeName.Type.DAY_1;
-
         }else{
-            type = TimeName.Type.HOUR_1;
+            type = TimeName.Type.HOUR_4;
         }
         return type;
     }
@@ -103,12 +107,30 @@ public interface TimeName {
             //1일
             return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
                     + DateUtil.getDateText(zonedDateTime.getDayOfMonth());
-        }else{
+        }else if(type == Type.HOUR_12){
+            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour() - zonedDateTime.getHour()%12);
+
+
+        }else if(type == Type.HOUR_6){
+            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour() - zonedDateTime.getHour()%6);
+        }else if(type == Type.HOUR_4){
+            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour() - zonedDateTime.getHour()%4);
+        }else if(type == Type.HOUR_3){
+            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour() - zonedDateTime.getHour()%3);
+        }else if(type == Type.HOUR_2){
+            return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
+                    + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour() - zonedDateTime.getHour()%2);
+        } else{
 //           type == Type.HOUR_1
             //1시간
             return zonedDateTime.getYear() + DateUtil.getDateText(zonedDateTime.getMonthValue())
                     + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour());
         }
-
     }
+
+
 }

@@ -1,7 +1,7 @@
 package example;
 
 import io.runon.trading.TradingTimes;
-import io.runon.trading.data.time.TimeLines;
+import io.runon.trading.data.file.TimeLines;
 
 public class TimeLineUpdateExample {
     public static void main(String[] args) {
