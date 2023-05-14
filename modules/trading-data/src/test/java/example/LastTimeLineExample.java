@@ -1,6 +1,7 @@
 package example;
 
-import io.runon.trading.data.time.TimeFiles;
+
+import io.runon.trading.data.file.TimeFiles;
 
 /**
  * @author macle

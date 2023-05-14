@@ -229,5 +229,4 @@ public class CsvCandle {
         }
         return lines;
     }
-
 }

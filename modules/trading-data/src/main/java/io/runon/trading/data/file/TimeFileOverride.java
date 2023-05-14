@@ -40,7 +40,9 @@ public class TimeFileOverride implements Runnable{
     public void run() {
 
         String moveDir = dirPath +"/temp_time_files";
-        FileUtil.delete(moveDir);
+        if(new File(moveDir).isDirectory()) {
+            FileUtil.delete(moveDir);
+        }
         TimeFiles.moveDir(dirPath, moveDir);
 
         File[] files = FileUtil.getInFiles(moveDir, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
@@ -96,7 +98,4 @@ public class TimeFileOverride implements Runnable{
         isStop = stop;
     }
 
-    public static void main(String[] args) {
-
-    }
 }

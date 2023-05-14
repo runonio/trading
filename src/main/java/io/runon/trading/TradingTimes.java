@@ -1,5 +1,6 @@
 package io.runon.trading;
 
+import com.seomse.commons.utils.string.Check;
 import com.seomse.commons.utils.time.Times;
 
 import java.time.Instant;
@@ -60,6 +61,25 @@ public class TradingTimes {
         return time;
 
     }
+
+    public static boolean isInterval(String interval){
+        char timeUnit = interval.charAt(interval.length()-1);
+
+        if(
+                timeUnit != 'm'
+                && timeUnit != 'h'
+                && timeUnit != 'd'
+                && timeUnit != 's'
+                && timeUnit != 'w'
+                && timeUnit != 'M'
+        ){
+            return false;
+        }
+
+        String timeNumber = interval.substring(0, interval.length()-1);
+        return Check.isNumber(timeNumber);
+    }
+
 
     public static long getOpenTime(long standardTime, long time){
         return getOpenTime(standardTime, time, null);

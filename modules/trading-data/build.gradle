@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.2.72'
+version '0.2.8'
 
 
 repositories {
@@ -11,11 +11,11 @@ repositories {
 }
 
 dependencies {
-    implementation( rootProject)
+//    implementation( rootProject)
 //    implementation project(path: ':technical-analysis')
-//    implementation 'com.seomse.commons:commons:1.4.2'
+    implementation 'com.seomse.commons:commons:1.4.3'
 
-    implementation 'io.runon.trading:trading:0.4.5'
+    implementation 'io.runon.trading:trading:0.4.6'
     implementation 'io.runon.trading:technical-analysis:0.4.61'
 
     implementation group: 'org.json', name: 'json', version: '20230227'
