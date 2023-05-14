@@ -1,4 +1,4 @@
-package io.runon.trading.data.time;
+package io.runon.trading.data.file;
 
 import lombok.Data;
 

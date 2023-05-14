@@ -44,7 +44,7 @@ public class TimeFiles {
     }
 
     public static File [] getFilesDirs(String path){
-        return FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        return FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
     }
 
     public static boolean isInDir(String path){
@@ -91,5 +91,26 @@ public class TimeFiles {
 
         return null;
     }
+
+    public static void moveDir(String dirPath, String moveDirPath){
+        File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+
+        if(files.length == 0){
+            return ;
+        }
+
+        File moveDirFie = new File(moveDirPath);
+        //noinspection ResultOfMethodCallIgnored
+        moveDirFie.mkdirs();
+
+        for(File file : files){
+            FileUtil.move(file.getAbsolutePath(), moveDirPath +"/" + file.getName(), false);
+        }
+
+    }
+    public static void main(String[] args) {
+        moveDir("D:\\data\\cryptocurrency\\merge\\volume", "D:\\data\\cryptocurrency\\merge\\volume\\temp_time_override");
+    }
+
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
  * @author macle
  */
 @Data
-public class BeginEndTimeData {
+public class BeginEndTimeData implements BeginEndTime{
 
     protected long beginTime;
     protected long endTime;

@@ -1,11 +1,10 @@
-package io.runon.trading.data.time;
+package io.runon.trading.data.file;
 
 import com.seomse.commons.callback.StrCallback;
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingTimes;
-import io.runon.trading.data.file.TimeName;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +37,7 @@ public class TimeLines {
             //기본
             zoneId = TradingTimes.UTC_ZONE_ID;
         }
-        File[] files = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         if(files.length == 0){
             return;

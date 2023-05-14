@@ -2,6 +2,7 @@ package io.runon.trading.data.file;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
+import com.seomse.commons.validation.NumberNameFileValidation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -39,7 +40,7 @@ public abstract class TimeFileLineRead {
     public void read(String path){
         isEnd = false;
 
-        File[] files = FileUtil.getFiles(path);
+        File[] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         int dirCount = 0;
         for(File checkFile : files){

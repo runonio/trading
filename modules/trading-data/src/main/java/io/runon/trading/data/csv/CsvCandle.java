@@ -29,7 +29,7 @@ public class CsvCandle {
         if(file.isFile()) {
             addFile(list, file, time);
         }else{
-            File [] files = FileUtil.getFiles(file.getAbsolutePath(), new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+            File [] files = FileUtil.getInFiles(file.getAbsolutePath(), new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
             for(File f : files){
                 addFile(list, f, time);
             }
@@ -171,7 +171,7 @@ public class CsvCandle {
 
     public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime, ZoneId zoneId){
 
-        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File [] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         if(files.length == 0){
             return TradeCandle.EMPTY_CANDLES;

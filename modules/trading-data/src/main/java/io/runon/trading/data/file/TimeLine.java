@@ -1,4 +1,4 @@
-package io.runon.trading.data.time;
+package io.runon.trading.data.file;
 /**
  * 시계열 라인데이터 구조
  * @author macle
