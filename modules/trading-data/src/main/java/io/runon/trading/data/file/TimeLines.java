@@ -13,12 +13,76 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 데이터 구조에서 일별데이터를 ymd int 형으로 사용할때의 유틸성 매스도
  * @author macle
  */
 public class TimeLines {
+
+    public static String [] load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, long beginTime, int count){
+        File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        if(files.length == 0){
+            return new String[0];
+        }
+
+        if(count < 0){
+            count = 500;
+        }
+
+        List<String> lineList = new ArrayList<>();
+
+        String beginFileName;
+
+        if(beginTime > 0) {
+            beginFileName = TimeName.getName(beginTime, timeNameType, TradingTimes.UTC_ZONE_ID);
+        }else{
+            beginFileName = files[0].getName();
+        }
+
+        int beginFileNum = Integer.parseInt(beginFileName);
+
+        outer:
+        for(File file : files){
+            int fileNum = Integer.parseInt(file.getName());
+
+            if(fileNum < beginFileNum){
+                continue;
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    line = line.trim();
+                    if("".equals(line)){
+                        continue;
+                    }
+
+                    long time = timeLine.getTime(line);
+                    if(time < beginTime){
+                        continue ;
+                    }
+
+                    lineList.add(line);
+
+                    if(lineList.size() >= count){
+                        break outer;
+                    }
+
+                }
+            } catch (IOException e) {
+                throw new IORuntimeException(e);
+            }
+        }
+
+        String [] lines = lineList.toArray(new String[0]);
+        lineList.clear();
+
+        return lines;
+    }
+
     public static void load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
         load(dirPath, null, -1, -1, timeNameType, timeLine, callback);
     }
