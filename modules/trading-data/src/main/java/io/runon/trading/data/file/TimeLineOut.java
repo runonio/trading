@@ -65,7 +65,13 @@ public class TimeLineOut {
                 String fileName = timeName.getName(timeLine.getTime(line));
                 if(!fileName.equals(lastFileName)){
                     String path = dirPath + "/" + lastFileName;
-                    FileUtil.fileOutput(outValue(lineList), path, false);
+
+                    if(FileUtil.isFile(path)){
+                        FileUtil.fileOutput("\n" + outValue(lineList), path, true);
+                    }else{
+                        FileUtil.fileOutput(outValue(lineList), path, false);
+                    }
+
                     lineList.clear();
                     lastFileName = fileName;
                 }
@@ -74,7 +80,11 @@ public class TimeLineOut {
 
             if(lineList.size() > 0){
                 String path = dirPath + "/" + lastFileName;
-                FileUtil.fileOutput(outValue(lineList), path, false);
+                if(FileUtil.isFile(path)){
+                    FileUtil.fileOutput("\n" + outValue(lineList), path, true);
+                }else{
+                    FileUtil.fileOutput(outValue(lineList), path, false);
+                }
                 lineList.clear();
             }
         }

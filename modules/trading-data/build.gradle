@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'io.runon.trading'
-version '0.2.82'
+version '0.2.83'
 
 
 repositories {
