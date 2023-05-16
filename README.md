@@ -43,9 +43,9 @@ implementation 'io.runon.trading:technical-analysis:0.4.61'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.61
 
-implementation 'io.runon.trading:trading-data:0.2.82'
+implementation 'io.runon.trading:trading-data:0.2.83'
 - etc
-  - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.82
+  - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.83
 
 implementation 'io.runon.trading:backtesting:0.1.7'
 - etc
