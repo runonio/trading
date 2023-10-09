@@ -1,10 +1,16 @@
 package io.runon.trading.order;
 
+import com.seomse.commons.utils.ExceptionUtil;
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.Trade;
 import io.runon.trading.account.Account;
+import io.runon.trading.account.TradeAccount;
 import io.runon.trading.exception.RequiredFieldException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * 분할매수
@@ -15,12 +21,13 @@ import java.math.BigDecimal;
  * 관련 클래스는 클래스명 메소드명이 버전이 바뀌면 변경될 수 있다.
  * @author macle
  */
+@Slf4j
 public class SplitBuy {
 
     //종목코드
     protected String symbol = null;
 
-    protected Account account;
+    protected TradeAccount account;
     protected long beginTime = -1L;
 
     //종료시간은 반드시 설정되어야함
@@ -34,6 +41,12 @@ public class SplitBuy {
 
     public void setOrderCase(OrderCase orderCase) {
         this.orderCase = orderCase;
+    }
+
+    protected OrderBookGet orderBookGet;
+
+    public void setOrderBookGet(OrderBookGet orderBookGet) {
+        this.orderBookGet = orderBookGet;
     }
 
     public SplitBuy(){
@@ -56,11 +69,26 @@ public class SplitBuy {
         this.buyTotalCash = buyTotalCash;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(TradeAccount account) {
         this.account = account;
     }
 
-    //호가창
+    protected int orderScale = 5;
+
+    /**
+     * 주문금액 소수점
+     */
+    public void setOrderScale(int orderScale) {
+        this.orderScale = orderScale;
+    }
+
+    //체결수량
+    protected BigDecimal tradingQuantity;
+
+    //평단가
+    protected BigDecimal averageTradingPrice;
+
+
     public void buy(){
         if(symbol == null){
             throw new RequiredFieldException("symbol null");
@@ -69,19 +97,50 @@ public class SplitBuy {
         if(endTime < System.currentTimeMillis()){
             throw new RequiredFieldException("end time set error");
         }
-        
+
+        if(buyTotalCash == null || buyTotalCash.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RequiredFieldException("buy cash set error");
+        }
+
+        if(orderCase == OrderCase.BID && orderBookGet == null) {
+
+        }
+
         //시작 시간이 더 작으면 현제 시작시간으로 설정
         if(beginTime < System.currentTimeMillis()){
             beginTime = System.currentTimeMillis();
         }
 
+        BigDecimal buyCash = buyTotalCash;
+
+        //주문횟수
+        long orderCount = (endTime - beginTime)/delayTime;
+
+        BigDecimal orderBuyCash = buyCash.divide(new BigDecimal(orderCount), orderScale, RoundingMode.DOWN);
+
+        for(;;){
+            if(endTime <= System.currentTimeMillis()){
+                break;
+            }
+            try {
+                trade(orderBuyCash);
+                Thread.sleep(delayTime);
+            }catch (Exception e){
+                log.error(ExceptionUtil.getStackTrace(e));
+                break;
+            }
+        }
+
+    }
+
+    public void trade(BigDecimal orderCash){
+        if(orderCase == OrderCase.MARKET){
+            account.marketOrderCash(symbol, Trade.Type.BUY, orderCash);
+        }else if(orderCase == OrderCase.BID){
+            //호가를 얻어와서
 
 
-
-
-
-
-
+        }
     }
 
 }

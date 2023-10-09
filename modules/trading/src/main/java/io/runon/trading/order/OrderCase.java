@@ -1,5 +1,8 @@
 package io.runon.trading.order;
-
+/**
+ * 주문유형
+ * @author macle
+ */
 public enum OrderCase {
 
     MARKET //시장가
