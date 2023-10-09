@@ -4,6 +4,8 @@ import io.runon.trading.order.LimitOrder;
 import io.runon.trading.order.MarketOrder;
 import io.runon.trading.order.OpenOrder;
 
+import java.math.BigDecimal;
+
 /**
  * 게좌
  * 주문기능 포함
@@ -20,5 +22,10 @@ public interface TradeAccount extends Account, MarketOrder, LimitOrder {
      * 미체결된 전체정보
      */
     OpenOrder [] getOpenOrders();
+
+    /**
+     * 현제가격 얻기
+     */
+    BigDecimal getPrice(String symbol);
 
 }

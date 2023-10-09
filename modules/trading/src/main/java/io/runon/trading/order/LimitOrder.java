@@ -22,7 +22,7 @@ public interface LimitOrder {
 
     /**
      * 현금사용
-     * 시장가주문
+     * 지정가주문
      * @param symbol 심볼 ( 종목 아이디)
      * @param type BUY, SELL
      * @param cash 현금, 달러 혹은 원화 (거래소 기준 금액)

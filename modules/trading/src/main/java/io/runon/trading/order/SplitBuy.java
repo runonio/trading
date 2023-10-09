@@ -2,6 +2,7 @@ package io.runon.trading.order;
 
 import com.seomse.commons.utils.ExceptionUtil;
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.PriceQuantity;
 import io.runon.trading.Trade;
 import io.runon.trading.account.Account;
 import io.runon.trading.account.TradeAccount;
@@ -43,7 +44,7 @@ public class SplitBuy {
         this.orderCase = orderCase;
     }
 
-    protected OrderBookGet orderBookGet;
+    protected OrderBookGet orderBookGet = null;
 
     public void setOrderBookGet(OrderBookGet orderBookGet) {
         this.orderBookGet = orderBookGet;
@@ -103,7 +104,7 @@ public class SplitBuy {
         }
 
         if(orderCase == OrderCase.BID && orderBookGet == null) {
-
+            throw new RequiredFieldException("order book data get interface null");
         }
 
         //시작 시간이 더 작으면 현제 시작시간으로 설정
@@ -138,9 +139,16 @@ public class SplitBuy {
             account.marketOrderCash(symbol, Trade.Type.BUY, orderCash);
         }else if(orderCase == OrderCase.BID){
             //호가를 얻어와서
+            OrderBook orderBook = orderBookGet.getOrderBook();
+            PriceQuantity[] bids = orderBook.getBids();
 
+            if(bids == null || bids.length == 0){
+                //호가창을 가져오지 못한경우 현제 거래된 가격으로 매수주문
+                account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, account.getPrice(symbol));
+            }else{
 
+                account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, bids[0].getPrice());
+            }
         }
     }
-
 }

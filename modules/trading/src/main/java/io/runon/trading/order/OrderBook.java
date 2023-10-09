@@ -17,14 +17,13 @@ public interface OrderBook {
     long getTime();
 
     /**
-     * 매수호가 목록 얻기
-     * @return 매수호가 목록
+     * @return 매도호가 목록
      */
     PriceQuantity[] getAsks();
 
     /**
-     * 매도호가 목록얻기
-     * @return 매도호가 목록
+     *
+     * @return 매수호가 목록
      */
     PriceQuantity[] getBids();
 
