@@ -23,12 +23,20 @@ sourceSets {
 
 dependencies {
 
+    implementation project(path: ':trading')
+    implementation project(path: ':technical-analysis')
 
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.8.0'
-    implementation 'io.runon.trading:technical-analysis:0.4.61'
-    implementation 'io.runon.trading:trading:0.4.6'
-//    implementation project(path: ':technical-analysis')
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    implementation 'com.seomse.commons:commons:1.5.0'
+
+    //위쪽으로는 개밯환경 의존성
+
+
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.13.0'
+//    implementation 'io.runon.trading:technical-analysis:0.4.61'
+//    implementation 'io.runon.trading:trading:0.4.6'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
 }
 

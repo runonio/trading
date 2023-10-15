@@ -14,10 +14,13 @@ import java.math.BigDecimal;
 @Data
 public class LimitOrderTradeData implements LimitOrderTrade{
 
-    protected LimitOrderTrade.Type type;
+
+    protected String orderId;
     protected Trade.Type tradeType;
-    protected BigDecimal limitPrice;
-    protected BigDecimal quantity;
+    protected BigDecimal price;
+    protected BigDecimal openQuantity;
+    protected BigDecimal closeQuantity;
+
 
     protected long orderTime =-1;
     protected long closeTime =-1;

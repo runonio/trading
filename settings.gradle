@@ -1,5 +1,7 @@
-rootProject.name = 'trading'
+rootProject.name = 'system-trading'
 
+include 'trading'
+project(':trading').projectDir = new File(settingsDir,'modules/trading')
 include 'technical-analysis'
 project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
 include 'chart-view'

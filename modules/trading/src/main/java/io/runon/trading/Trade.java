@@ -27,8 +27,6 @@ import java.math.BigDecimal;
  */
 public class Trade implements TimeNumber{
 
-
-
     /**
      * 거래유형 정의
      */
