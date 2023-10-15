@@ -10,16 +10,8 @@ import java.math.BigDecimal;
  */
 public interface LimitOrderTrade {
 
-    enum Type{
-        OPEN, //미체결
-        CLOSE // 체결
-    }
-
-    /**
-     * 체결 정보 얻기
-     * @return 체결 또는 미체결 (OPEN, CLOSE)
-     */
-    Type getType();
+    //주문 아이디 얻기
+    String getOrderId();
 
     /**
      * 매매유형
@@ -31,13 +23,20 @@ public interface LimitOrderTrade {
      * 가격
      * @return 지정가
      */
-    BigDecimal getLimitPrice();
+    BigDecimal getPrice();
 
     /**
-     * 수량 얻기
+     * 미체결 수량 얻기
      * @return 수량
      */
-    BigDecimal getQuantity();
+    BigDecimal getOpenQuantity();
+
+    /**
+     * 체결 수량 얻기
+     * @return 수량
+     */
+    BigDecimal getCloseQuantity();
+
 
     /**
      * 주문 시간 얻기

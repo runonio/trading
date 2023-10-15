@@ -1,16 +1,12 @@
 package io.runon.trading.order;
 
 import com.seomse.commons.utils.ExceptionUtil;
-import com.seomse.commons.utils.time.Times;
 import io.runon.trading.PriceQuantity;
 import io.runon.trading.Trade;
-import io.runon.trading.account.Account;
-import io.runon.trading.account.TradeAccount;
 import io.runon.trading.exception.RequiredFieldException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -23,55 +19,18 @@ import java.math.RoundingMode;
  * @author macle
  */
 @Slf4j
-public class SplitBuy {
+public class SplitBuy extends SplitOrder{
 
     //종목코드
-    protected String symbol = null;
-
-    protected TradeAccount account;
-    protected long beginTime = -1L;
-
-    //종료시간은 반드시 설정되어야함
-    protected long endTime = -1L;
-
     protected BigDecimal buyTotalCash = null;
 
-    protected OrderCase orderCase = OrderCase.MARKET;
-
-    protected long delayTime = Times.MINUTE_1;
-
-    public void setOrderCase(OrderCase orderCase) {
-        this.orderCase = orderCase;
-    }
-
-    protected OrderBookGet orderBookGet = null;
-
-    public void setOrderBookGet(OrderBookGet orderBookGet) {
-        this.orderBookGet = orderBookGet;
-    }
 
     public SplitBuy(){
 
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public void setBeginTime(long beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
-    }
-
     public void setBuyTotalCash(BigDecimal buyTotalCash) {
         this.buyTotalCash = buyTotalCash;
-    }
-
-    public void setAccount(TradeAccount account) {
-        this.account = account;
     }
 
     protected int orderScale = 5;
@@ -82,12 +41,6 @@ public class SplitBuy {
     public void setOrderScale(int orderScale) {
         this.orderScale = orderScale;
     }
-
-    //체결수량
-    protected BigDecimal tradingQuantity;
-
-    //평단가
-    protected BigDecimal averageTradingPrice;
 
 
     public void buy(){
@@ -131,12 +84,13 @@ public class SplitBuy {
                 break;
             }
         }
-
     }
 
     public void trade(BigDecimal orderCash){
         if(orderCase == OrderCase.MARKET){
-            account.marketOrderCash(symbol, Trade.Type.BUY, orderCash);
+            MarketOrderTrade marketOrderTrade =  account.marketOrderCash(symbol, Trade.Type.BUY, orderCash);
+            totalTradingQuantity = totalTradingQuantity.add(marketOrderTrade.getQuantity());
+            totalTradingPrice = totalTradingPrice.add(marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity()));
         }else if(orderCase == OrderCase.BID){
             //호가를 얻어와서
             OrderBook orderBook = orderBookGet.getOrderBook();
@@ -144,11 +98,11 @@ public class SplitBuy {
 
             if(bids == null || bids.length == 0){
                 //호가창을 가져오지 못한경우 현제 거래된 가격으로 매수주문
-                account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, account.getPrice(symbol));
+                addOpenOrder(account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, account.getPrice(symbol)));
             }else{
-
-                account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, bids[0].getPrice());
+                addOpenOrder(account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, bids[0].getPrice()));
             }
+            updateOpenOrder();
         }
     }
 }

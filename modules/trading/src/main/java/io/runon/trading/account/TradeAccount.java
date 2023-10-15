@@ -1,6 +1,7 @@
 package io.runon.trading.account;
 
 import io.runon.trading.order.LimitOrder;
+import io.runon.trading.order.LimitOrderTrade;
 import io.runon.trading.order.MarketOrder;
 import io.runon.trading.order.OpenOrder;
 
@@ -15,8 +16,9 @@ public interface TradeAccount extends Account, MarketOrder, LimitOrder {
 
     /**
      * 미체결된 주문(종목)
+     * 미체결 주문은 지정가로 하기때문에 지정가 주문 내역이 된다.
      */
-    OpenOrder getOpenOrder(String symbol);
+    LimitOrderTrade[] getOpenOrders(String symbol);
 
     /**
      * 미체결된 전체정보
