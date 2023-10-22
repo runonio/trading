@@ -30,4 +30,14 @@ public interface TradeAccount extends Account, MarketOrder, LimitOrder {
      */
     BigDecimal getPrice(String symbol);
 
+    /**
+     * 구매 수수료
+     */
+    BigDecimal getBuyFee();
+
+    /**
+     * 판매 수수료
+     */
+    BigDecimal getSellFee();
+
 }

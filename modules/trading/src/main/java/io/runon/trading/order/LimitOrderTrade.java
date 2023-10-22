@@ -37,6 +37,11 @@ public interface LimitOrderTrade {
      */
     BigDecimal getCloseQuantity();
 
+    /**
+     * 수수료 얻기
+     * @return 누적수수료
+     */
+    BigDecimal getFee();
 
     /**
      * 주문 시간 얻기

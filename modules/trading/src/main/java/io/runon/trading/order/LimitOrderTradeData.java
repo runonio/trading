@@ -20,6 +20,7 @@ public class LimitOrderTradeData implements LimitOrderTrade{
     protected BigDecimal price;
     protected BigDecimal openQuantity;
     protected BigDecimal closeQuantity;
+    protected BigDecimal fee;
 
 
     protected long orderTime =-1;
@@ -29,4 +30,5 @@ public class LimitOrderTradeData implements LimitOrderTrade{
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
+
 }
