@@ -1,6 +1,7 @@
 package io.runon.trading.order;
 
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.PriceQuantity;
 import io.runon.trading.account.TradeAccount;
 import io.runon.trading.exception.RequiredFieldException;
 
@@ -13,7 +14,9 @@ import java.util.List;
  * 분할주문 공통 요소
  * @author macle
  */
-public class SplitOrder {
+public abstract class SplitOrder {
+
+    protected boolean isStop = false;
 
     protected String symbol = null;
 
@@ -23,6 +26,48 @@ public class SplitOrder {
     //종료시간은 반드시 설정되어야함
     protected long endTime = -1L;
 
+    protected int orderScale = 5;
+
+    //재주문 시간
+    protected long reorderTime = -1;
+
+    public void setReorderTime(long reorderTime) {
+        this.reorderTime = reorderTime;
+    }
+
+    public void stopOrder(){
+        isStop = true;
+    }
+
+    protected BigDecimal minQuantity = null;
+
+
+    public BigDecimal getMinQuantity() {
+        if(minQuantity == null){
+            if(orderScale == 0){
+                minQuantity = new BigDecimal(1);
+            }else{
+                StringBuilder sb = new StringBuilder();
+                sb.append("0.");
+                //noinspection StringRepeatCanBeUsed
+                for (int i = 1; i <orderScale ; i++) {
+                    sb.append("0");
+                }
+                sb.append("1");
+                minQuantity = new BigDecimal(sb.toString());
+
+            }
+        }
+
+        return minQuantity;
+    }
+
+    /**
+     * 주문 소스점 설정
+     */
+    public void setOrderScale(int orderScale) {
+        this.orderScale = orderScale;
+    }
 
     protected OrderCase orderCase = OrderCase.MARKET;
 
@@ -58,7 +103,7 @@ public class SplitOrder {
     public void setDelayTime(long delayTime) {
         this.delayTime = delayTime;
     }
-
+    protected long orderCount  = -1;
 
     protected void valid(){
         if(symbol == null){
@@ -69,15 +114,25 @@ public class SplitOrder {
             throw new RequiredFieldException("end time set error");
         }
 
-
         if((orderCase == OrderCase.BID || orderCase == OrderCase.ASK) && orderBookGet == null) {
             throw new RequiredFieldException("order book data get interface null");
+        }
+
+        if(orderScale < 0){
+            throw new RequiredFieldException("order scale less than 0");
         }
 
         //시작 시간이 더 작으면 현제 시작시간으로 설정
         if(beginTime < System.currentTimeMillis()){
             beginTime = System.currentTimeMillis();
         }
+
+        if(reorderTime == -1){
+            reorderTime = delayTime*5;
+        }
+
+
+        orderCount = (endTime - beginTime)/delayTime;
     }
 
 
@@ -105,7 +160,6 @@ public class SplitOrder {
         if(totalTradingQuantity.compareTo(BigDecimal.ZERO) == 0 || totalTradingPrice.compareTo(BigDecimal.ZERO) == 0){
             return BigDecimal.ZERO;
         }
-
         return totalTradingPrice.add(sumClosePrice()).divide(totalTradingQuantity.add(sumCloseQuantity()),scale, RoundingMode.HALF_UP);
     }
 
@@ -116,14 +170,12 @@ public class SplitOrder {
             }
             openOrderList.add(limitOrderTrade);
         }
-
     }
 
     public void updateOpenOrder(){
         if(openOrderList == null){
             return;
         }
-
         synchronized (openOrderLock){
 
             LimitOrderTrade [] orders = openOrderList.toArray(new LimitOrderTrade[0]);
@@ -132,10 +184,29 @@ public class SplitOrder {
                     openOrderList.remove(order);
                     totalTradingQuantity = totalTradingQuantity.add(order.getCloseQuantity());
                     totalTradingPrice = totalTradingPrice.add(order.getPrice().multiply(order.getCloseQuantity()));
+                }else{
+                    if(reorderTime > 0 && System.currentTimeMillis() - order.getOrderTime() > reorderTime){
+                        //재주문 시간 초과인경우
+                        //금액 정산후 주문 취소
+                        openOrderList.remove(order);
+                        totalTradingQuantity = totalTradingQuantity.add(order.getCloseQuantity());
+                        totalTradingPrice = totalTradingPrice.add(order.getPrice().multiply(order.getCloseQuantity()));
+                        openOrderCancel(order);
+                    }
                 }
+
+
             }
         }
     }
+
+
+    /**
+     * 미체결 주문 취소 처리
+     * @param limitOrderTrade 미체결 주문 취소 처리
+     */
+    public abstract void openOrderCancel(LimitOrderTrade limitOrderTrade );
+
     
     //미체결 전체 수량 얻기
     public BigDecimal sumOpenQuantity(){
@@ -198,6 +269,35 @@ public class SplitOrder {
             }
             return sum;
         }
+    }
+
+    /**
+     * 
+     * @return 주문당시가격 (추정치)
+     */
+    public BigDecimal getOrderPrice(){
+        if(orderCase == OrderCase.MARKET){
+            return account.getPrice(symbol);
+        }else if(orderCase == OrderCase.BID){
+            OrderBook orderBook = orderBookGet.getOrderBook();
+            PriceQuantity[] bids = orderBook.getBids();
+
+            if(bids == null || bids.length == 0){
+                return account.getPrice(symbol);
+            }else{
+                return  bids[0].getPrice();
+            }
+        }else if(orderCase == OrderCase.ASK){
+            OrderBook orderBook = orderBookGet.getOrderBook();
+            PriceQuantity [] asks = orderBook.getAsks();
+
+            if(asks == null || asks.length == 0){
+                return account.getPrice(symbol);
+            }else{
+                return asks[0].getPrice();
+            }
+        }
+        return null;
     }
 
 }

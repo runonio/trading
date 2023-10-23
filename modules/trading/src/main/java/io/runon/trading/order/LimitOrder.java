@@ -29,7 +29,7 @@ public interface LimitOrder {
      * @param limitPrice 지정가격
      * @return 지정가 매매 정보 (체결 미체결)
      */
-    LimitOrderTrade limitOrderCash(String symbol, Trade.Type type, BigDecimal cash, BigDecimal limitPrice);
+    LimitOrderCashTrade limitOrderCash(String symbol, Trade.Type type, BigDecimal cash, BigDecimal limitPrice);
 
     /**
      * 전체 현금으로 계산하여 매수 혹은 매도한다.
@@ -41,7 +41,7 @@ public interface LimitOrder {
      * @param priceGap 가격 갭
      * @return 지정가 매매 정보 (체결 미체결)
      */
-    LimitOrderTrade limitOrderCash(String symbol, Trade.Type type, BigDecimal cash, BigDecimal beginPrice, BigDecimal endPrice, BigDecimal priceGap );
+    LimitOrderCashTrade limitOrderCash(String symbol, Trade.Type type, BigDecimal cash, BigDecimal beginPrice, BigDecimal endPrice, BigDecimal priceGap );
 
 
 
