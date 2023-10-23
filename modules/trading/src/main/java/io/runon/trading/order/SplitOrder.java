@@ -16,6 +16,8 @@ import java.util.List;
  */
 public abstract class SplitOrder {
 
+    protected boolean isStop = false;
+
     protected String symbol = null;
 
     protected TradeAccount account;
@@ -31,6 +33,10 @@ public abstract class SplitOrder {
 
     public void setReorderTime(long reorderTime) {
         this.reorderTime = reorderTime;
+    }
+
+    public void stopOrder(){
+        isStop = true;
     }
 
     protected BigDecimal minQuantity = null;
@@ -97,7 +103,7 @@ public abstract class SplitOrder {
     public void setDelayTime(long delayTime) {
         this.delayTime = delayTime;
     }
-
+    protected long orderCount  = -1;
 
     protected void valid(){
         if(symbol == null){
@@ -124,6 +130,9 @@ public abstract class SplitOrder {
         if(reorderTime == -1){
             reorderTime = delayTime*5;
         }
+
+
+        orderCount = (endTime - beginTime)/delayTime;
     }
 
 
@@ -151,7 +160,6 @@ public abstract class SplitOrder {
         if(totalTradingQuantity.compareTo(BigDecimal.ZERO) == 0 || totalTradingPrice.compareTo(BigDecimal.ZERO) == 0){
             return BigDecimal.ZERO;
         }
-
         return totalTradingPrice.add(sumClosePrice()).divide(totalTradingQuantity.add(sumCloseQuantity()),scale, RoundingMode.HALF_UP);
     }
 
@@ -162,14 +170,12 @@ public abstract class SplitOrder {
             }
             openOrderList.add(limitOrderTrade);
         }
-
     }
 
     public void updateOpenOrder(){
         if(openOrderList == null){
             return;
         }
-
         synchronized (openOrderLock){
 
             LimitOrderTrade [] orders = openOrderList.toArray(new LimitOrderTrade[0]);

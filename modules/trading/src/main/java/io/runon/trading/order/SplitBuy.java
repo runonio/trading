@@ -17,6 +17,8 @@ import java.math.RoundingMode;
  * 추상체로 여러 옵션을 받아서 구현할 계획이지만 단순 시간을 나눠서 사용하는 기본구현체 부터 제공한다.
  * 관련 클래스는 클래스명 메소드명이 버전이 바뀌면 변경될 수 있다.
  * 수수료 계산이 필요하다
+ * 상한가 로직은 계산되지 않음
+ *
  * @author macle
  */
 @Slf4j
@@ -34,7 +36,8 @@ public class SplitBuy extends SplitOrder{
     }
 
 
-    private BigDecimal restCash = BigDecimal.ZERO;
+
+    private BigDecimal remainderCash = BigDecimal.ZERO;
 
     public void buy(){
 
@@ -51,14 +54,17 @@ public class SplitBuy extends SplitOrder{
         BigDecimal buyCash = this.buyCash;
 
         //주문횟수
-        long orderCount = (endTime - beginTime)/delayTime;
 
         BigDecimal avgBuyCash = buyCash.divide(new BigDecimal(orderCount), orderScale, RoundingMode.DOWN);
-        
+
         for(;;){
             if(endTime <= System.currentTimeMillis()){
                 break;
             }
+            if(isStop){
+                break;
+            }
+
             try {
 
                 BigDecimal orderPrice = getOrderPrice();
@@ -66,15 +72,15 @@ public class SplitBuy extends SplitOrder{
                 //최소 주문 금액
                 BigDecimal minOrderCash = orderPrice.multiply(getMinQuantity());
 
-                BigDecimal orderCash = avgBuyCash.add(restCash);
+                BigDecimal orderCash = avgBuyCash.add(remainderCash);
 
                 if(minOrderCash.compareTo(orderCash) > 0 ){
                     //최소 주문 금액 미만이면 restCash로 이동 (남은 금액)
-                    restCash = restCash.add(avgBuyCash);
-                    return;
+                    remainderCash = orderCash;
+                    continue;
                 }
                 //주문금액에 포함후 남은 금액 초기화
-                restCash = BigDecimal.ZERO;
+                remainderCash = BigDecimal.ZERO;
                 trade(orderCash, orderPrice);
                 Thread.sleep(delayTime);
             }catch (Exception e){
@@ -94,9 +100,9 @@ public class SplitBuy extends SplitOrder{
             totalTradingPrice = totalTradingPrice.add(tradingPrice);
 
             //주문후 남은금액
-            BigDecimal orderRest = orderCash.subtract(tradingPrice.add(marketOrderTrade.getFee()));
-            if(orderRest.compareTo(BigDecimal.ZERO) > 0){
-                restCash = restCash.add(orderRest);
+            BigDecimal orderRemainder = orderCash.subtract(tradingPrice.add(marketOrderTrade.getFee()));
+            if(orderRemainder.compareTo(BigDecimal.ZERO) > 0){
+                remainderCash = remainderCash.add(orderRemainder);
             }
 
         }else if(orderCase == OrderCase.BID){
@@ -106,14 +112,15 @@ public class SplitBuy extends SplitOrder{
             LimitOrderCashTrade limitOrderCashTrade = account.limitOrderCash(symbol, Trade.Type.BUY, orderCash, orderPrice);
 
             addOpenOrder(limitOrderCashTrade);
-            restCash = restCash.add(limitOrderCashTrade.getRestCash());
+            remainderCash = remainderCash.add(limitOrderCashTrade.getRemainderCash());
             updateOpenOrder();
         }
     }
 
     @Override
     public void openOrderCancel(LimitOrderTrade limitOrderTrade) {
-        restCash = restCash.add(limitOrderTrade.getOpenQuantity().multiply(limitOrderTrade.getPrice()));
+        remainderCash = remainderCash.add(limitOrderTrade.getOpenQuantity().multiply(limitOrderTrade.getPrice()));
+        //수수료 반환을 추가해야할지..
     }
 
 }
