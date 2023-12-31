@@ -12,6 +12,10 @@ public class LineTime {
 
     public static Comparator<LineTime> SORT = Comparator.comparingLong(o -> o.time);
 
+
+    String line;
+    long time;
+
     public LineTime(){
 
     }
@@ -21,6 +25,4 @@ public class LineTime {
         this.time = time;
     }
 
-    String line;
-    long time;
 }

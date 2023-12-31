@@ -1,6 +1,7 @@
 package io.runon.trading.data.json;
 
 import io.runon.trading.data.file.TimeFilePathChange;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 /**
@@ -8,6 +9,7 @@ import org.json.JSONObject;
  * json 형식
  * @author macle
  */
+@Slf4j
 public class JsonTimeFilePathChange extends TimeFilePathChange {
     private String timeKey ="t";
 
@@ -18,7 +20,13 @@ public class JsonTimeFilePathChange extends TimeFilePathChange {
 
     @Override
     public long getTime(String line) {
-        JSONObject lineObj = new JSONObject(line);
-        return lineObj.getLong(timeKey);
+        try {
+            JSONObject lineObj = new JSONObject(line);
+            return lineObj.getLong(timeKey);
+        }catch (org.json.JSONException e){
+            log.error(line);
+            throw e;
+        }
+
     }
 }
