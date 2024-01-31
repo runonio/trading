@@ -50,31 +50,5 @@ public class JarUtil {
         }
     }
 
-    /**
-     * Jar 파일 내부의 파일을 copy 한다
-     * @param filename copy할 파일명
-     * @param copyPath paste할 경로
 
-     */
-    public static void copyFromJarFile(String filename,String copyPath) {
-        try {
-            InputStream is = JarUtil.class.getClassLoader().getResourceAsStream(filename);
-            if(is == null){
-                throw new IORuntimeException();
-            }
-
-            byte[] buffer = new byte[is.available()];
-            //noinspection ResultOfMethodCallIgnored
-            is.read(buffer);
-            File resourceDir = new File(copyPath);
-            if(!resourceDir.exists()){
-                resourceDir.mkdir();
-            }
-            File targetFile = new File(copyPath + "/" + filename);
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
-        }catch(IOException e){
-            throw new IORuntimeException(e);
-        }
-    }
 }

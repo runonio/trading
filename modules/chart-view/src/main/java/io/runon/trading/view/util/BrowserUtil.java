@@ -29,29 +29,11 @@ public class BrowserUtil {
      * 크롬드라이버 정보
      */
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static final String WEB_DRIVER_PATH = "resources/chromedriver.exe";
 
-    /**
-     * 크롬에 차트를 로드한다
-     * @param filePath filePath
-     */
-    public static void loadChromeByFile(String filePath){
-        loadChromeByFile(WEB_DRIVER_PATH,filePath);
-    }
 
-    /**
-     * 크롬에 차트를 로드한다
-     * @param chromeDriverPath 크롬드라이버 위치
-     * @param filePath filePath
-     */
-    public static void loadChromeByFile(String chromeDriverPath,String filePath){
+    public static void loadChromeByFile( String filePath){
 
-        File chromeFileCheck = new File(WEB_DRIVER_PATH);
-        if(!chromeFileCheck.exists()){
-            JarUtil.copyFromJarFile("chromedriver.exe","resources");
-        }
 
-        System.setProperty(WEB_DRIVER_ID, chromeDriverPath);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("useAutomationExtension", false);
         options.setExperimentalOption("excludeSwitches",
