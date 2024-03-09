@@ -1,7 +1,7 @@
 # technical-analysis
 
 # 개발환경
-- open jdk 17
+- open jdk 21
 
 # 개요
  - 기술적 분석
@@ -147,5 +147,5 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 
 ## main developer
 - macle
-    - github(source code): [github.com/macle86](https://github.com/macle86)
-    - email: ysys86a@gmail.com
+  - github(source code): [github.com/macle86](https://github.com/macle86)
+  - email: ysys86a@gmail.com

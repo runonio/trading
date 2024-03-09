@@ -1,7 +1,7 @@
 # trading-data
 
 # 개발환경
-- open jdk 17
+- open jdk 21
 
 # 데이터구조
 ## csv TradeCandle(캔들) 데이터 기본 구조
@@ -43,21 +43,16 @@ implementation 'io.runon.trading:trading-data:0.2.83'
 
 # communication
 ### blog, homepage
-- [runon.io](https://runon.io)
-- [www.seomse.com](https://www.seomse.com/)
 - [github.com/runonio](https://github.com/runonio)
+- [runon.io](https://runon.io)
 - [github.com/seomse](https://github.com/seomse)
+- [www.seomse.com](https://www.seomse.com/)
 
-### 카카오톡 오픈톡
- - https://open.kakao.com/o/g6vzOKqb
-     - 참여코드: runon
-### 슬랙 slack
-- https://seomse.slack.com/
 
 ### email
- - comseomse@gmail.com
- 
-# main developer
- - macle
-    -  [github.com/macle86](https://github.com/macle86)
-    -  [macle.dev](https://macle.dev)
+- iorunon@gmail.com
+
+## main developer
+- macle
+    - github(source code): [github.com/macle86](https://github.com/macle86)
+    - email: ysys86a@gmail.com
