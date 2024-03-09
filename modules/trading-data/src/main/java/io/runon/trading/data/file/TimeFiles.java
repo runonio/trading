@@ -4,9 +4,6 @@ import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 시간정보가 있는 파일
@@ -15,35 +12,6 @@ import java.util.List;
 public class TimeFiles {
 
     public static File [] getFilesDir(String path){
-        File dirFile = new File(path);
-        if(!dirFile.isDirectory()){
-            return new File[0];
-        }
-
-
-        File [] files = dirFile.listFiles();
-        if(files == null || files.length == 0){
-            return new File[0];
-        }
-
-        NumberNameFileValidation validation = new NumberNameFileValidation();
-
-
-        List<File> fileList = new ArrayList<>();
-        for(File file : files){
-            if(validation.isValid(file)){
-                fileList.add(file);
-            }
-        }
-
-        files = fileList.toArray(new File[0]);
-
-        Arrays.sort(files, FileUtil.SORT_NAME_LONG);
-
-        return files;
-    }
-
-    public static File [] getFilesDirs(String path){
         return FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
     }
 

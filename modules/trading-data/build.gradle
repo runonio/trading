@@ -15,12 +15,13 @@ dependencies {
 
     implementation project(path: ':trading')
     implementation project(path: ':technical-analysis')
-    implementation 'com.seomse.commons:commons:1.5.0'
+    //noinspection VulnerableLibrariesLocal
+    implementation 'com.seomse.commons:commons:1.5.3'
 
 //    implementation 'io.runon.trading:trading:0.4.6'
 //    implementation 'io.runon.trading:technical-analysis:0.4.61'
 
-    implementation group: 'org.json', name: 'json', version: '20230618'
+    implementation group: 'org.json', name: 'json', version: '20240303'
 
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.28'

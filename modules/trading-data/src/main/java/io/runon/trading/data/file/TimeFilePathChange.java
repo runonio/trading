@@ -78,12 +78,26 @@ public abstract class TimeFilePathChange {
         Set<String> overSet = new HashSet<>();
         String lastLine = "";
         for(File readFile : readFiles){
-
+            int lineCount = 0;
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(readFile)))) {
                 String line;
                 while ((line = br.readLine()) != null) {
 
-                    long time = getTime(line);
+
+                    long time;
+
+                    lineCount++;
+                    try{
+                        time = getTime(line);
+                    }catch (Exception e){
+                        //json 형식이 깨질때가 있음. 관련라인만 손실 처리
+                        log.error("error file: " + readFile.getName() + "," +readFile.getAbsolutePath());
+                        log.error("error line: " + line +"," + lineCount);
+                        continue;
+                    }
+
+
+
                     String name = TimeName.getName(time, type, zoneId);
                     if(!name.equals(lastName)){
                         if(sb.length() > 0){

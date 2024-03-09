@@ -1,7 +1,7 @@
 # chart-view
 
 ## 개발환경
-- open jdk 17
+- open jdk 21
 
 ## 개요
 - lightweight-charts 이용한 Java용 차트 모듈 
@@ -49,28 +49,19 @@
 implementation 'io.runon.trading:chart-view:0.2.6'
 - etc
     - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.6
-  
+
 # communication
 ### blog, homepage
-- [runon.io](https://runon.io)
-- [www.seomse.com](https://www.seomse.com/)
 - [github.com/runonio](https://github.com/runonio)
+- [runon.io](https://runon.io)
 - [github.com/seomse](https://github.com/seomse)
+- [www.seomse.com](https://www.seomse.com/)
 
-
-### 카카오톡 오픈톡
- - https://open.kakao.com/o/g6vzOKqb
-     - 참여코드: seomse
-### 슬랙 slack
-- https://seomse.slack.com/
 
 ### email
- - comseomse@gmail.com
- 
- 
-# main developer
- - macle
-    -  [github.com/macle86](https://github.com/macle86)
-    -  [macle.dev](https://macle.dev)
- - ccsweets
-    -  [github.com/ccsweets](https://github.com/ccsweets)
+- iorunon@gmail.com
+
+## main developer
+- macle
+  - github(source code): [github.com/macle86](https://github.com/macle86)
+  - email: ysys86a@gmail.com

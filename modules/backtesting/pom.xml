@@ -28,12 +28,6 @@
             <id>macle86</id>
             <organization>runon</organization>
         </developer>
-        <developer>
-            <name>ccsweets</name>
-            <email>tramp0102@gmail.com</email>
-            <id>ccsweets</id>
-            <organization>runon</organization>
-        </developer>
     </developers>
 
     <scm>
@@ -131,7 +125,7 @@
         <dependency>
             <groupId>com.seomse.commons</groupId>
             <artifactId>commons</artifactId>
-            <version>1.4.3</version>
+            <version>1.5.3</version>
         </dependency>
 
         <dependency>
@@ -161,7 +155,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
 

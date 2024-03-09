@@ -112,7 +112,7 @@ TradingChart {
      * @param dateType 날짜유형
      */
     public TradingChart(CandleStick[] candleStickArr , int width , int height , ChartDateType dateType){
-
+        TradingChartInit.init();
 
        pureJsContents = JarUtil.readFromJarFile("pure.js");
        lightWeightJsContents = JarUtil.readFromJarFile("lightweight-charts.standalone.production.js");
