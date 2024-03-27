@@ -26,7 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *거래 분석에 사용할 수 있는 캔들
@@ -450,13 +452,49 @@ public class TradeCandle extends CandleStick implements Volume {
         tradeCandle.setChange();
         return tradeCandle;
     }
-
+    
     public void addTradingCount(int count){
         tradeCount += count;
     }
 
+
+
+    /**
+     * 캔들에 포함된 기타 정보가 필요할 때 이용 한다.
+     * 일별 신용정보 
+     * 상한가 정보와 비슷한 데이터 유형으로 캔들 기본요소에 포함되지 않는 정보데이터
+     */
+    private Map<String, String> dataMap = null;
+
+    /**
+     *
+     * @param dataKey 데이터 키
+     * @param data 데이터
+     */
+    public void addData(String dataKey, String data){
+        if(dataMap == null){
+            dataMap = new HashMap<>();
+        }
+        dataMap.put(dataKey, data);
+    }
+
+    public Object getData(String dataKey){
+        if(dataMap == null){
+            return null;
+        }
+
+        return dataMap.get(dataKey);
+    }
+
+    public Map<String, String> getDataMap() {
+        return dataMap;
+    }
+
+    @SuppressWarnings("RedundantMethodOverride")
     @Override
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
+
+    
 }

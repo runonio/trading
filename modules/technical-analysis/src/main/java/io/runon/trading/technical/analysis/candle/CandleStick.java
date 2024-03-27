@@ -45,6 +45,8 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         , SPINNING_TOPS //위 아래에 그림자가 있는 캔들 (짧은거)
         , DOJI // 십자캔들
     }
+
+
     /**
      * 캔들 유형
      */
@@ -186,6 +188,24 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     }
 
     /**
+     * 가격 상한가 하한가 여부
+     */
+    private boolean isPriceLimit = false;
+    
+    public void setPriceLimit(boolean priceLimit) {
+        isPriceLimit = priceLimit;
+    }
+
+    /**
+     * 가격 제한선 여부 얻기
+     * 상한가 하한가가 있는 한국과 같은 주식시장
+     * @return 가격제한선 여부
+     */
+    public boolean isPriceLimit() {
+        return isPriceLimit;
+    }
+
+    /**
      * 가격 변화 유형
      */
     private PriceChangeType priceChangeType = PriceChangeType.UNDEFINED;
@@ -235,6 +255,12 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      * 가격 변화율
      */
     protected BigDecimal changeRate = null;
+
+
+    /**
+     * 가격 변화율
+     */
+    protected BigDecimal changePercent = null;
 
     /**
      * 전 candle 가격
@@ -325,6 +351,9 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      */
     public void setChange(BigDecimal change) {
         this.change = change;
+        if(previous == null){
+            getPrevious();
+        }
     }
 
     /**
@@ -333,7 +362,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      */
     public BigDecimal getPrevious() {
         if(previous == null && change != null){
-            previous = open.subtract(change);
+            previous = close.subtract(change);
         }
         return previous;
     }
@@ -370,6 +399,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
 
         change = close.subtract(previous);
         changeRate = change.divide(previous, MathContext.DECIMAL128);
+        changePercent = changeRate.multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
     }
 
     /**
@@ -408,6 +438,21 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         }
         changeRate =  change.divide(getPrevious(), MathContext.DECIMAL128);
         return changeRate;
+    }
+
+
+
+    /**
+     * 가격변화율 (백분율)
+     * @return 가격변화율 (백분율)
+     */
+    public BigDecimal getChangePercent(){
+        if(isEndTrade && changePercent != null){
+            return changePercent;
+        }
+
+        changePercent = getChangeRate().multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+        return changePercent;
     }
 
     /**
@@ -500,15 +545,15 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         return close;
     }
 
+
+    public BigDecimal getHighLowClose(){
+        return high.add(low).add(close);
+    }
     @Override
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
 
-
-    public BigDecimal getHighLowClose(){
-        return high.add(low).add(close);
-    }
 
 }
 
