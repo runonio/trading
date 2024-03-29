@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.indicators.market.mv;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
@@ -62,7 +62,7 @@ public class Mtpd extends Mvd{
                 continue;
             }
 
-            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, time, searchLength);
+            int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
 
                 continue;
@@ -73,7 +73,7 @@ public class Mtpd extends Mvd{
                 continue;
             }
 
-            int averageStartIndex =  TaCandles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
+            int averageStartIndex =  Candles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
             if (averageStartIndex == -1){
 
                 continue;

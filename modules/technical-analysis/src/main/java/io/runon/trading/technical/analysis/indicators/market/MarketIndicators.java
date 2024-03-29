@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.market;
 
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
 import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
@@ -28,7 +28,7 @@ public abstract class MarketIndicators<T> {
 
     public void setSymbolCandles(SymbolCandle[] symbolCandles) {
         this.symbolCandles = symbolCandles;
-        times = TaCandles.getTimes(symbolCandles);
+        times = Candles.getTimes(symbolCandles);
     }
 
     public MarketIndicators(SymbolCandleTimes symbolCandleTimes){

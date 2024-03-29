@@ -19,6 +19,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Trade;
+import io.runon.trading.TradingGson;
 import io.runon.trading.Volume;
 import io.runon.trading.technical.analysis.volume.Volumes;
 import lombok.extern.slf4j.Slf4j;
@@ -493,7 +494,7 @@ public class TradeCandle extends CandleStick implements Volume {
     @SuppressWarnings("RedundantMethodOverride")
     @Override
     public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
     

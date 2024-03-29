@@ -19,6 +19,7 @@ package io.runon.trading.example;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
 import io.runon.trading.technical.analysis.candle.CandleManager;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
@@ -94,21 +95,17 @@ public class CandleManagerExample {
         TradeCandle[] candles = TradeCandles.getCandles();
 
         //0.5%
-        BigDecimal shortDecimal = new BigDecimal("0.005");
-        BigDecimal steadyDecimal =  new BigDecimal("0.002");
+        BigDecimal shortGapRate = new BigDecimal("0.005");
+        BigDecimal steadyGapRate =  new BigDecimal("0.002");
 
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i<candles.length ; i++) {
 
 
-            BigDecimal shortGap = candles[i].getOpen().multiply(shortDecimal);
-            BigDecimal steadyGap = candles[i].getOpen().multiply(steadyDecimal);
-
-            candles[i].setType(shortGap,steadyGap );
 
             System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(candles[i].getOpenTime()))
                     +" " + candles[i].getOpen() +", " + candles[i].getClose() + ", " + candles[i].getHigh() + ", " + candles[i].getLow() + ", " + candles[i].getVolume() + ", " + candles[i].getTradeCount() + ", "
-                    +       String.format("%.2f", candles[i].getAverage())+ ", "  + candles[i].getChange() + " "+ String.format("%.5f", candles[i].getChangeRate()) + "%, " +  String.format("%.2f",candles[i].getVolumePower())  + "%, " + candles[i].getType().toString());
+                    +       String.format("%.2f", candles[i].getAverage())+ ", "  + candles[i].getChange() + " "+ String.format("%.5f", candles[i].getChangeRate()) + "%, " +  String.format("%.2f",candles[i].getVolumePower())  + "%, " + Candles.getCandleType(candles[i], shortGapRate, steadyGapRate));
 
         }
 

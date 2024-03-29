@@ -17,13 +17,11 @@ package io.runon.trading.technical.analysis.candle.candles;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
-import io.runon.trading.technical.analysis.candle.CandleStick;
-import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.GetCandles;
 import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +32,7 @@ import java.util.List;
  */
 @Slf4j
 @SuppressWarnings("ConstantForZeroLengthArrayAllocation")
-public class TradeCandles implements Candles {
+public class TradeCandles implements GetCandles {
 
 
     public static final int DEFAULT_COUNT = 1000;
@@ -54,8 +52,6 @@ public class TradeCandles implements Candles {
     TradeCandle[] candles = EMPTY_CANDLES;
 
     TradeCandle lastCandle = null;
-    BigDecimal shortGapRatio ;
-    BigDecimal steadyGapRatio ;
 
     boolean isEmptyCandleContinue = false;
 
@@ -87,24 +83,7 @@ public class TradeCandles implements Candles {
 
 
 
-    /**
-     * 캔들 배열의 유형을 설정
-     * shortGapPercent
-     * steadyGapPercent
-     * 설정하고 실행하여야 한다.
-     */
-    public void setCandleType(){
-        if(steadyGapRatio == null || shortGapRatio == null){
-            log.error("shortGapPercent, steadyGapPercent set: " + shortGapRatio +", " + steadyGapRatio);
-            return;
-        }
 
-        TradeCandle[] candles = this.candles;
-        for(TradeCandle candle : candles){
-            candle.setType(shortGapRatio, steadyGapRatio);
-        }
-
-    }
 
     /**
      * 생성자
@@ -239,17 +218,7 @@ public class TradeCandles implements Candles {
                 //마지막 캔들이 더이상 변화가 없는상태로 변환
                 lastEndCandle.setEndTrade();
 
-                //캔들유형을
-                if (shortGapRatio != null && steadyGapRatio != null && lastEndCandle.getType() == CandleStick.Type.UNDEFINED) {
-                    lastEndCandle.setType(lastEndCandle.getOpen().multiply(shortGapRatio), lastEndCandle.getOpen().multiply(steadyGapRatio));
-                }
 
-                //새로 들어온 캔들이 변화가 없는 캔들일 경우
-                if (tradeCandle.isEndTrade()) {
-                    if (shortGapRatio != null && steadyGapRatio != null && tradeCandle.getType() == CandleStick.Type.UNDEFINED) {
-                        tradeCandle.setType(tradeCandle.getOpen().multiply(shortGapRatio), tradeCandle.getOpen().multiply(steadyGapRatio));
-                    }
-                }
             }
 
         }
@@ -445,40 +414,6 @@ public class TradeCandles implements Candles {
             return null;
         }
         return candles[quotient];
-    }
-
-    /**
-     * 짧은캔들 기준 변화률 설정
-     * 시작기 기준의 비율
-     * @param shortGapRatio  짧은 캔들 기준 변화률
-     */
-    public void setShortGapRatio(BigDecimal shortGapRatio) {
-        this.shortGapRatio = shortGapRatio;
-    }
-
-    /**
-     * 보합 기준 변화률 설정
-     * 시작가 기준의 비율
-     * @param steadyGapRatio  보합 기준 변화률
-     */
-    public void setSteadyGapRatio(BigDecimal steadyGapRatio) {
-        this.steadyGapRatio = steadyGapRatio;
-    }
-
-    /**
-     * 짧은캔들 gap percent
-     * @return  shot gap percent
-     */
-    public BigDecimal getShortGapRatio() {
-        return shortGapRatio;
-    }
-
-    /**
-     * 보합 gap percent
-     * @return  steady gap percent
-     */
-    public BigDecimal getSteadyGapRatio() {
-        return steadyGapRatio;
     }
 
     /**

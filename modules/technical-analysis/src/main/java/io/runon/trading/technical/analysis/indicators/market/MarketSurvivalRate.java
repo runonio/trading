@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.indicators.market;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
@@ -46,7 +46,7 @@ public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
         int survivalCount = 0;
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
-            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, time, searchLength);
+            int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
                 continue;
             }

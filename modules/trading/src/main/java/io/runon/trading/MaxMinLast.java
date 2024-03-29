@@ -1,7 +1,5 @@
 package io.runon.trading;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -28,7 +26,7 @@ public class MaxMinLast {
 
     @Override
     public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
 }
