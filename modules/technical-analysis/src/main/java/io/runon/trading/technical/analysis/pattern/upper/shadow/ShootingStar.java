@@ -41,6 +41,11 @@ import java.math.BigDecimal;
  */
 public class ShootingStar extends CandlePatternDefault {
 
+
+    public ShootingStar(BigDecimal shortGapRate, BigDecimal steadyGapRate) {
+        super(shortGapRate, steadyGapRate);
+    }
+
     @Override
     public PriceChangeType getPriceChangeType() {
         return PriceChangeType.FALL;
@@ -55,10 +60,10 @@ public class ShootingStar extends CandlePatternDefault {
      * 캔들의 배열이 바뀔 수 있으므로 array 로 직접 받음
      * @param candles 캔들 배열
      * @param index 기준위치
-     * @param shortGapRate 짧은 캔들 기준 확률
+
      * @return 패턴결과
      */
-    public CandlePatternPoint getPoint(TradeCandle[] candles, int index, BigDecimal shortGapRate){
+    public CandlePatternPoint getPoint(TradeCandle[] candles, int index){
         TradeCandle tradeCandle = candles[index];
 
         //음봉이어야하고
@@ -87,7 +92,7 @@ public class ShootingStar extends CandlePatternDefault {
         }
 
         TrendLine trendLine = new TrendLine(TrendLine.Type.UP);
-        return UpperShadowPattern.makePoint(trendLine,candles,index, shortGapRate);
+        return UpperShadowPattern.makePoint(trendLine,candles,index, shortGapRate, steadyGapRate);
     }
 
 

@@ -4,7 +4,7 @@ import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
@@ -90,7 +90,7 @@ public class Mvd extends MarketIndicators<TimeNumber> {
                 continue;
             }
 
-            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, time, searchLength);
+            int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
 
                 continue;
@@ -101,7 +101,7 @@ public class Mvd extends MarketIndicators<TimeNumber> {
                 continue;
             }
 
-            int averageStartIndex =  TaCandles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
+            int averageStartIndex =  Candles.getNearOpenTimeIndex(candles, avgStartTime, searchLength + (index - avgStartIndex));
             if (averageStartIndex == -1){
 
                 continue;

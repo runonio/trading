@@ -15,8 +15,6 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
 import io.runon.trading.*;
 
 import java.math.BigDecimal;
@@ -32,157 +30,22 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
 
 
 
-    //자세한 모양은 구글시트 참조
-    //https://docs.google.com/spreadsheets/d/13T8OR02ESmGTsD6uAI5alYPdRg6ekrfnVnkCdqpoAvE/edit#gid=1228683334
-    public enum Type {
-        UNDEFINED // 정의되지않음
-        , STEADY //보합세 캔들 시가 == 종가 or 시가종가가 비슷한 캔들
-        , LONG // 긴 캔들
-        , SHORT // 짧은 캔들
-        , UPPER_SHADOW //위 그림자 캔들 -- 유성형 역망치형
-        , LOWER_SHADOW //아래 그림자 캔들 -- 망치형(Hammer)저점 --  교수형(Hanging man)고점
-        , HIGH_WAVE //위 아래에 그림자가 있는캔들 (긴거)
-        , SPINNING_TOPS //위 아래에 그림자가 있는 캔들 (짧은거)
-        , DOJI // 십자캔들
-    }
     /**
-     * 캔들 유형
+     * 가격 상한가 하한가 여부
      */
-    private Type type = Type.UNDEFINED;
-
-    /**
-     * 캔들 유형 얻기
-     * @return Type 유형
-     */
-    public Type getType() {
-        return type;
+    private boolean isPriceLimit = false;
+    
+    public void setPriceLimit(boolean priceLimit) {
+        isPriceLimit = priceLimit;
     }
 
     /**
-     * 유형설정
-     * @param shortGap  짧은 캔들 gap
-     * @param steadyGap  보합세 gap
+     * 가격 제한선 여부 얻기
+     * 상한가 하한가가 있는 한국과 같은 주식시장
+     * @return 가격제한선 여부
      */
-    public void setType(BigDecimal shortGap, BigDecimal steadyGap){
-
-        BigDecimal height = getHeight();
-        //길이가 보합세보다 작을때
-//        if(height <= steadyGap){
-        if(height.compareTo(steadyGap) <= 0){
-            type = Type.STEADY;
-            return;
-        }
-
-        BigDecimal absChange = change.abs();
-
-        if(absChange.compareTo(steadyGap) < 0){
-            priceChangeType = PriceChangeType.HOLD;
-        }else{
-            if(change.compareTo(BigDecimal.ZERO) > 0){
-                priceChangeType = PriceChangeType.RISE;
-            }else{
-                priceChangeType = PriceChangeType.FALL;
-            }
-        }
-
-        BigDecimal upperShadow;
-        BigDecimal lowerShadow;
-
-        final BigDecimal decimal_2 = new BigDecimal(2);
-
-        if(change.compareTo(BigDecimal.ZERO) < 0){
-            upperShadow = high.subtract(open);
-            lowerShadow = close.subtract(low);
-        }else{
-            upperShadow = high.subtract(close);
-            lowerShadow = open.subtract(low);
-        }
-
-        //위 그림자 캔들
-        if(upperShadow.compareTo(lowerShadow) > 0
-                //위그림자가 아래꼬리보다 크고
-        && upperShadow.compareTo(absChange) > 0
-               //위그림자가 몸통보다 크고
-        && upperShadow.compareTo(steadyGap) > 0
-                //위그림자가 보합갭 보다 크고
-        ){
-            if(lowerShadow.compareTo(steadyGap) < 0){
-                //아래그림자가 보합갭보다 짧으면
-                type = Type.UPPER_SHADOW;
-                return;
-            }
-
-            BigDecimal rate = upperShadow.divide(lowerShadow, MathContext.DECIMAL128 );
-            if(rate.compareTo(decimal_2) >= 0){
-                //위꼬리가 아래그림자보다 2배이상 길면
-                type = Type.UPPER_SHADOW;
-                return;
-            }
-        }
-
-        //아래그림자 캔들
-        if(lowerShadow.compareTo(upperShadow) > 0
-                //아래그림자가 위꼬리보다 크고
-        && lowerShadow.compareTo(absChange) > 0
-                //아래그림자가 몸통보다 크고
-        && lowerShadow.compareTo(steadyGap) > 0
-                //아래그림자가 보합보다 크고
-        ){
-            if(upperShadow.compareTo(steadyGap) < 0){
-                //위그림자가 보합갭보다 짧으면
-                type = Type.LOWER_SHADOW;
-                return;
-            }
-
-            BigDecimal rate = lowerShadow.divide(upperShadow, MathContext.DECIMAL128);
-            if(rate.compareTo(decimal_2) >= 2.0){
-                //아래그림자가 위꼬리보다 2배이상 길면
-                type = Type.LOWER_SHADOW;
-                return;
-            }
-
-        }
-
-        //위 아래 그림자캔들
-        if(
-                lowerShadow.compareTo(absChange) > 0
-                //아래그림자가 몸통보다 길고
-                && upperShadow.compareTo(absChange) > 0
-                //위그림자가 몸통보다 길고
-                && lowerShadow.compareTo(steadyGap) > 0
-                //아래그림자가 보합길이보다 길고
-                && upperShadow.compareTo(steadyGap) > 0
-                // 위그림자가 보합길이보다 길고
-        ){
-
-            if(absChange.compareTo(steadyGap) < 0){
-                //몸통이 보합걸이보다 작으면
-                type = Type.DOJI;
-                return;
-            }
-
-            BigDecimal upperRate = upperShadow.divide(absChange, MathContext.DECIMAL128);
-            BigDecimal lowerRate = lowerShadow.divide(absChange, MathContext.DECIMAL128);
-
-            if(upperRate.compareTo(decimal_2) >= 0 && lowerRate.compareTo(decimal_2) >= 0){
-                // 위아래꼬리가 몸통보다 많이길면 길면
-                type = Type.HIGH_WAVE;
-            }else{
-                // 위아래꼬리가 길면
-                type = Type.SPINNING_TOPS;
-            }
-            return;
-        }
-
-        //유형을 정하지 못하고 이 부분까지 온경우
-        //긴캔들 짧은캔들
-        if(absChange.compareTo(shortGap) <= 0){
-            //몸통길이가 sortGap 짧으면 짧은캔들
-            type = Type.SHORT;
-        }else{
-            //몸통길이가 sortGap 길면 긴캔들
-            type = Type.LONG;
-        }
+    public boolean isPriceLimit() {
+        return isPriceLimit;
     }
 
     /**
@@ -204,6 +67,19 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      */
     public void setPriceChangeType(PriceChangeType priceChangeType) {
         this.priceChangeType = priceChangeType;
+    }
+
+
+    public void setPriceChangeType(BigDecimal shortGap, BigDecimal steadyGap) {
+        if(change.abs().compareTo(steadyGap) < 0){
+            priceChangeType = PriceChangeType.HOLD;
+        }else{
+            if(change.compareTo(BigDecimal.ZERO) > 0){
+                priceChangeType = PriceChangeType.RISE;
+            }else{
+                priceChangeType = PriceChangeType.FALL;
+            }
+        };
     }
 
     /**
@@ -235,6 +111,12 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      * 가격 변화율
      */
     protected BigDecimal changeRate = null;
+
+
+    /**
+     * 가격 변화율
+     */
+    protected BigDecimal changePercent = null;
 
     /**
      * 전 candle 가격
@@ -325,6 +207,9 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      */
     public void setChange(BigDecimal change) {
         this.change = change;
+        if(previous == null){
+            getPrevious();
+        }
     }
 
     /**
@@ -333,7 +218,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      */
     public BigDecimal getPrevious() {
         if(previous == null && change != null){
-            previous = open.subtract(change);
+            previous = close.subtract(change);
         }
         return previous;
     }
@@ -370,6 +255,7 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
 
         change = close.subtract(previous);
         changeRate = change.divide(previous, MathContext.DECIMAL128);
+        changePercent = changeRate.multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
     }
 
     /**
@@ -408,6 +294,21 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         }
         changeRate =  change.divide(getPrevious(), MathContext.DECIMAL128);
         return changeRate;
+    }
+
+
+
+    /**
+     * 가격변화율 (백분율)
+     * @return 가격변화율 (백분율)
+     */
+    public BigDecimal getChangePercent(){
+        if(isEndTrade && changePercent != null){
+            return changePercent;
+        }
+
+        changePercent = getChangeRate().multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+        return changePercent;
     }
 
     /**
@@ -500,15 +401,15 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         return close;
     }
 
-    @Override
-    public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
-    }
-
 
     public BigDecimal getHighLowClose(){
         return high.add(low).add(close);
     }
+    @Override
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+    }
+
 
 }
 

@@ -1,10 +1,9 @@
 package io.runon.trading.technical.analysis.indicators.volume.profile.gap;
 
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.hl.HighLow;
 import io.runon.trading.technical.analysis.hl.HighLowCandleLeftSearch;
-import io.runon.trading.technical.analysis.hl.HighLowN;
 
 import java.math.BigDecimal;
 
@@ -31,7 +30,7 @@ public class VpgHlResistance extends VpgHl {
         }
         //구간분석
         
-        int index = TaCandles.getNearOpenTimeIndex(candles, candleTime, time);
+        int index = Candles.getNearOpenTimeIndex(candles, candleTime, time);
         TradeCandle candle = candles[index];
         HighLow highLow = HighLowCandleLeftSearch.getHighNextLow(candles, initN, continueN, index, maxNextInit + 1, candle.getHigh());
         VpgDataTimeRange range = new VpgDataTimeRange();
@@ -55,7 +54,7 @@ public class VpgHlResistance extends VpgHl {
 
         VpgData [] dataArray = getDataArray(candles, time);
 
-        int index = TaCandles.getNearOpenTimeIndex(candles, candleTime, time);
+        int index = Candles.getNearOpenTimeIndex(candles, candleTime, time);
         int end = index + 1;
 
         BigDecimal sum = BigDecimal.ZERO;
@@ -63,7 +62,7 @@ public class VpgHlResistance extends VpgHl {
         TradeCandle candle = candles[index];
         BigDecimal close = candle.getClose();
 
-        int start = TaCandles.getNearCloseTimeIndex(candles, candleTime,  lastRange.closeTime);
+        int start = Candles.getNearCloseTimeIndex(candles, candleTime,  lastRange.closeTime);
 
         if(candles[start].getCloseTime() == lastRange.closeTime){
             start++;

@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.indicators.market.nhnl;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.symbol.SymbolCandle;
@@ -70,7 +70,7 @@ public class Nhnl extends MarketIndicators<NhnlData> {
         for(SymbolCandle symbolCandle : symbolCandles){
             TradeCandle [] candles = symbolCandle.getCandles();
 
-            int openTimeIndex = TaCandles.getOpenTimeIndex(candles, data.time, searchLength);
+            int openTimeIndex = Candles.getOpenTimeIndex(candles, data.time, searchLength);
 
 
             if(openTimeIndex < 1 ){

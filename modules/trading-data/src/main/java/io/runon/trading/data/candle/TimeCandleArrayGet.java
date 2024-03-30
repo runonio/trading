@@ -1,7 +1,7 @@
 package io.runon.trading.data.candle;
 
 import io.runon.trading.TradingTimes;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 /**
@@ -24,7 +24,7 @@ public class TimeCandleArrayGet implements TimeCandleGet{
     public TradeCandle getCandle(long time) {
 
         long openTime = TradingTimes.getOpenTime(candleTime, time);
-        int index  = TaCandles.getOpenTimeIndex(candles, candleTime,openTime);
+        int index  = Candles.getOpenTimeIndex(candles, candleTime,openTime);
 
         if(index < 0){
             return null;

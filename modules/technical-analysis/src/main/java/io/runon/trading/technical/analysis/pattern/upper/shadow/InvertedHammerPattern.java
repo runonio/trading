@@ -36,6 +36,11 @@ import java.math.BigDecimal;
  */
 public class InvertedHammerPattern extends CandlePatternDefault {
 
+
+    public InvertedHammerPattern(BigDecimal shortGapRate, BigDecimal steadyGapRate) {
+        super(shortGapRate, steadyGapRate);
+    }
+
     @Override
     public PriceChangeType getPriceChangeType() {
         return PriceChangeType.RISE;
@@ -48,7 +53,7 @@ public class InvertedHammerPattern extends CandlePatternDefault {
 
 
     @Override
-    public CandlePatternPoint getPoint(TradeCandle[] candles, int index, BigDecimal shortGapRate) {
+    public CandlePatternPoint getPoint(TradeCandle[] candles, int index) {
 
         TradeCandle tradeCandle = candles[index];
 
@@ -61,7 +66,7 @@ public class InvertedHammerPattern extends CandlePatternDefault {
 
         TrendLine trendLine = new TrendLine(TrendLine.Type.DOWN);
 
-        return UpperShadowPattern.makePoint(trendLine,candles,index, shortGapRate);
+        return UpperShadowPattern.makePoint(trendLine,candles,index, shortGapRate, steadyGapRate);
     }
 
 

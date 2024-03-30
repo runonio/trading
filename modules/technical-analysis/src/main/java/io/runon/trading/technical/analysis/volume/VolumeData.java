@@ -1,7 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
+import io.runon.trading.TradingGson;
 import io.runon.trading.Volume;
 import lombok.Data;
 
@@ -21,6 +20,6 @@ public class VolumeData implements Volume {
 
     @Override
     public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+        return  TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 }

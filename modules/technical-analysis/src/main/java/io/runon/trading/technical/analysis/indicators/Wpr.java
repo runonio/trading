@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.indicators;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
-import io.runon.trading.technical.analysis.candle.TaCandles;
+import io.runon.trading.technical.analysis.candle.Candles;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,12 +28,12 @@ public class Wpr extends NTimeNumberIndicators<CandleStick> {
     @Override
     public BigDecimal get(CandleStick[] array, int n, int index) {
 
-        BigDecimal high = TaCandles.high(array, n, index);
+        BigDecimal high = Candles.high(array, n, index);
 
         //고가 - 종가
         BigDecimal up =  high.subtract(array[index].getClose());
         //고가 - 저가
-        BigDecimal down = high.subtract(TaCandles.low(array,n, index));
+        BigDecimal down = high.subtract(Candles.low(array,n, index));
 
         return up.multiply(BigDecimals.DECIMAL_100).divide(down,scale, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_M_1);
     }

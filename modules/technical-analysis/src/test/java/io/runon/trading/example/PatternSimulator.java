@@ -49,29 +49,32 @@ public class PatternSimulator {
 
 
             TradeCandles tradeCandles = candleManager.getCandles(time);
+            BigDecimal shortGapRate;
+            BigDecimal steadyGapRate;
+
+
 
             if(time < Times.HOUR_4) {
 
                 //0.2% 보합
-                tradeCandles.setSteadyGapRatio(new BigDecimal("0.002"));
+                steadyGapRate= new BigDecimal("0.002");
                 //0.5% 짧은 캔들 기준은 0.5%
-                tradeCandles.setShortGapRatio(new BigDecimal("0.005"));
+                shortGapRate = new BigDecimal("0.005");
             }else if(time < Times.HOUR_12) {
 
                 //0.2% 보합
-                tradeCandles.setSteadyGapRatio(new BigDecimal("0.002"));
+                steadyGapRate = new BigDecimal("0.002");
                 //1.5% 짧은 캔들 기준은 1.5%
-                tradeCandles.setShortGapRatio(new BigDecimal("0.015"));
+                shortGapRate = new BigDecimal("0.015");
             }else{
 
                 //0.5% 보합
-                tradeCandles.setSteadyGapRatio(new BigDecimal("0.005"));
+                steadyGapRate = new BigDecimal("0.005");
                 //3% 짧은 캔들 기준은 0.3%
-                tradeCandles.setShortGapRatio(new BigDecimal("0.003"));
+                shortGapRate = new BigDecimal("0.003");
             }
-            tradeCandles.setCandleType();
 
-            HammerPattern hammerPattern = new HammerPattern();
+            HammerPattern hammerPattern = new HammerPattern(shortGapRate, steadyGapRate);
             hammerPattern.setCandles(tradeCandles);
             CandlePatternPoint [] points = hammerPattern.getPoints();
 

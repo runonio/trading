@@ -2,6 +2,7 @@ package io.runon.trading.oi;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import io.runon.trading.TradingGson;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -81,6 +82,6 @@ public class LongShortRatioData implements LongShortRatio {
 
     @Override
     public String toString(){
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 }

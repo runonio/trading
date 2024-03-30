@@ -16,7 +16,8 @@
 package io.runon.trading.technical.analysis.pattern.lower.shadow;
 
 import io.runon.trading.BigDecimals;
-import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.trading.technical.analysis.candle.CandleType;
+import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.pattern.CandlePatternPoint;
 import io.runon.trading.technical.analysis.trend.line.TrendLine;
@@ -36,10 +37,10 @@ public class LowerShadowPattern {
      * @param tradeCandle TradeCandle 캔들
      * @return boolean 유효성 여부
      */
-    public static boolean isValid(TradeCandle tradeCandle){
-
+    public static boolean isValid(TradeCandle tradeCandle, BigDecimal shortGap, BigDecimal steadyGap){
+        CandleType type = Candles.getCandleType(tradeCandle, shortGap, steadyGap);
         //아래 그림자가 아니면
-        if(tradeCandle.getType() != CandleStick.Type.LOWER_SHADOW){
+        if(type != CandleType.LOWER_SHADOW){
             return false;
         }
 
@@ -74,19 +75,19 @@ public class LowerShadowPattern {
      * @param trendLine TrendLine 추세선
      * @param candles TradeCandle [] 캔들 배열
      * @param index int 체크할 index
-     * @param shortGapPercent 짧은 캔들 기준 확률
+
      * @return CandlePatternPoint 패턴 발생 여부 및 정형점수 ( 발생하지 않을경우 null)
      */
-    public static CandlePatternPoint makePoint(TrendLine trendLine, TradeCandle [] candles, int index, BigDecimal shortGapPercent){
+    public static CandlePatternPoint makePoint(TrendLine trendLine, TradeCandle [] candles, int index,  BigDecimal shortGap, BigDecimal steadyGap){
 
         TradeCandle tradeCandle = candles[index];
 
-        if(!LowerShadowPattern.isValid(tradeCandle)){
+        if(!LowerShadowPattern.isValid(tradeCandle, shortGap, steadyGap)){
             return null;
         }
 
 
-        BigDecimal trendLineScore= trendLine.score(candles, index, 7 , shortGapPercent);
+        BigDecimal trendLineScore= trendLine.score(candles, index, 7 , shortGap);
 
 
         if(trendLineScore == null){
