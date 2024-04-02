@@ -18,7 +18,7 @@
 
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 분석을 하기전에
 - 하이투자증권 설명자료
@@ -37,6 +37,10 @@
 
 ### email
 - iorunon@gmail.com
+
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
 
 ## main developer
 - macle

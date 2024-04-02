@@ -1,7 +1,7 @@
 # trading-data
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 데이터구조
 ## csv TradeCandle(캔들) 데이터 기본 구조
@@ -56,6 +56,10 @@ implementation 'io.runon.trading:trading-data:0.2.83'
 
 ### email
 - iorunon@gmail.com
+
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
 
 ## main developer
 - macle

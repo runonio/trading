@@ -1,7 +1,7 @@
 # chart-view
 
 ## 개발환경
-- open jdk 21
+- open jdk 17
 
 ## 개요
 - lightweight-charts 이용한 Java용 차트 모듈 
@@ -60,6 +60,10 @@ implementation 'io.runon.trading:chart-view:0.2.6'
 
 ### email
 - iorunon@gmail.com
+
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
 
 ## main developer
 - macle

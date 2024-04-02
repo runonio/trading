@@ -17,7 +17,7 @@
   - 1M :1달 
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 분석을 하기전에
 - 하이투자증권 설명자료
@@ -202,9 +202,11 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - [github.com/seomse](https://github.com/seomse)
 - [www.seomse.com](https://www.seomse.com/)
 
-
 ### email
 - iorunon@gmail.com
+
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
 
 ## main developer
 - macle

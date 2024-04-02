@@ -1,7 +1,7 @@
 # technical-analysis
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 개요
  - 기술적 분석
@@ -144,6 +144,10 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 
 ### email
 - iorunon@gmail.com
+
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
 
 ## main developer
 - macle
