@@ -61,6 +61,10 @@ implementation 'io.runon.trading:chart-view:0.2.6'
 ### email
 - iorunon@gmail.com
 
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
+
 ## main developer
 - macle
   - github(source code): [github.com/macle86](https://github.com/macle86)

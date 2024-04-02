@@ -145,6 +145,10 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 ### email
 - iorunon@gmail.com
 
+### cafe
+- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
+
 ## main developer
 - macle
   - github(source code): [github.com/macle86](https://github.com/macle86)
