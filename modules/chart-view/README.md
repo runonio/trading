@@ -1,7 +1,7 @@
 # chart-view
 
 ## 개발환경
-- open jdk 21
+- open jdk 17
 
 ## 개요
 - lightweight-charts 이용한 Java용 차트 모듈 

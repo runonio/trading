@@ -1,7 +1,7 @@
 # technical-analysis
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 개요
  - 기술적 분석

@@ -1,7 +1,7 @@
 # trading-data
 
 # 개발환경
-- open jdk 21
+- open jdk 17
 
 # 데이터구조
 ## csv TradeCandle(캔들) 데이터 기본 구조
