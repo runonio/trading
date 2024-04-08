@@ -1,6 +1,7 @@
 # trading
-- system trading, algorithmic trading 으로 주식, 암호화폐, 원자재, 채권, 외환, 기타 파생상품에 사용하기위한 기본적인 프로젝트
+- system trading, algorithmic trading, 퀀트를 활용해서 주식, 암호화폐, 원자재, 채권, 외환, 기타 파생상품에 사용하기위한 기본적인 프로젝트
 - 매매 프로젝트
+## 시스템트레이딩 이란?
 - https://namu.wiki/w/%EC%8B%9C%EC%8A%A4%ED%85%9C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%94%A9
 - https://namu.wiki/w/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%94%A9
 
@@ -19,7 +20,7 @@
 # 개발환경
 - open jdk 17
 
-# 분석을 하기전에
+# 참고자료
 - 하이투자증권 설명자료
   - https://www.hi-ib.com/systemtrade/st020901.jsp
 - 추천 서적
@@ -50,27 +51,20 @@
 시간(밀리초 유닉스타임)[0],ratio[1]
 
 # gradle
-implementation 'io.runon.trading:trading:0.4.6'
+implementation 'io.runon.trading:trading:0.4.7'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.6
+    - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.7
 
-implementation 'io.runon.trading:technical-analysis:0.4.61'
-- etc
-    - https://mvnrepository.com/artifact/io.runon.trading/technical-analysis/0.4.61
 
-implementation 'io.runon.trading:trading-data:0.2.83'
+implementation 'io.runon.trading:backtesting:0.1.8'
 - etc
-  - https://mvnrepository.com/artifact/io.runon.trading/trading-data/0.2.83
+    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.8
 
-implementation 'io.runon.trading:backtesting:0.1.7'
+implementation 'io.runon.trading:chart-view:0.2.7'
 - etc
-    - https://mvnrepository.com/artifact/io.runon.trading/backtesting/0.1.7
-
-implementation 'io.runon.trading:chart-view:0.2.6'
-- etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.6
+    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.7
   
-# 목차
+# 기술적분석
 ## 이동평균
 ### SMA: 단순 이동 평군
 io.runon.trading.technical.analysis.indicators.ma.Sma
@@ -197,16 +191,24 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 
 # communication
 ### blog, homepage
-- [github.com/runonio](https://github.com/runonio)
 - [runon.io](https://runon.io)
+- [github.com/runonio](https://github.com/runonio)
 - [github.com/seomse](https://github.com/seomse)
 - [www.seomse.com](https://www.seomse.com/)
+
 
 ### email
 - iorunon@gmail.com
 
 ### cafe
 - [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
+
+
+### talk
+- 로보어드바이저, 시스템트레이딩, 퀀트 단톡방
+  - https://open.kakao.com/o/g6vzOKqb
+  - 참여코드: runon
+
 
 ## main developer
 - macle
