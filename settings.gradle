@@ -2,12 +2,10 @@ rootProject.name = 'system-trading'
 
 include 'trading'
 project(':trading').projectDir = new File(settingsDir,'modules/trading')
-include 'technical-analysis'
-project(':technical-analysis').projectDir = new File(settingsDir,'modules/technical-analysis')
+
 include 'chart-view'
 project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
-include 'trading-data'
-project(':trading-data').projectDir = new File(settingsDir,'modules/trading-data')
+
 include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 

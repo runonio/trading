@@ -6,7 +6,7 @@
 
     <groupId>io.runon.trading</groupId>
     <artifactId>chart-view</artifactId>
-    <version>0.2.6</version>
+    <version>0.2.7</version>
     <packaging>jar</packaging>
 
     <name>chart-view</name>
@@ -23,15 +23,15 @@
 
     <developers>
         <developer>
-            <name>ccsweets</name>
-            <email>tramp0102@gmail.com</email>
-            <id>ccsweets</id>
-            <organization>runon</organization>
-        </developer>
-        <developer>
             <name>macle</name>
             <email>ysys86a@gmail.com</email>
             <id>macle86</id>
+            <organization>runon</organization>
+        </developer>
+        <developer>
+            <name>ccsweets</name>
+            <email>tramp0102@gmail.com</email>
+            <id>ccsweets</id>
             <organization>runon</organization>
         </developer>
     </developers>
@@ -130,24 +130,16 @@
 
     <dependencies>
 
-
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.18.1</version>
+            <version>4.19.1</version>
         </dependency>
 
         <dependency>
             <groupId>io.runon.trading</groupId>
             <artifactId>trading</artifactId>
-            <version>0.4.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.runon.trading</groupId>
-            <artifactId>technical-analysis</artifactId>
-            <version>0.4.61</version>
+            <version>0.4.7</version>
         </dependency>
 
 
