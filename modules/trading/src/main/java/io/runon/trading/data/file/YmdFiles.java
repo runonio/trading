@@ -4,6 +4,7 @@ import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.YmdUtil;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * 데이터 구조에서 일별데이터를 ymd int 형으로 사용할때의 유틸성 매스도
@@ -11,6 +12,10 @@ import java.io.File;
  */
 public class YmdFiles {
 
+
+    public static void outAppend(String filePath, List<String> sortYmds) {
+        outAppend(filePath, sortYmds.toArray(new String[0]));
+    }
 
     public static void outAppend(String filePath, String [] sortYmds){
 

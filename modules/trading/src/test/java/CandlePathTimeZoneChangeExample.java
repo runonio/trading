@@ -1,3 +1,4 @@
+import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.candle.CandleDataUtils;
 
@@ -6,6 +7,6 @@ import io.runon.trading.data.candle.CandleDataUtils;
  */
 public class CandlePathTimeZoneChangeExample {
     public static void main(String[] args) {
-        CandleDataUtils.changeTimeZone("D:\\data\\commodities", TradingTimes.UTC_ZONE_ID);
+        CandleDataUtils.changeTimeZone(TradingConfig.getTradingDataPath() + "/commodities", TradingTimes.UTC_ZONE_ID);
     }
 }

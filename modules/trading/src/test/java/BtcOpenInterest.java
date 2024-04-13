@@ -1,4 +1,5 @@
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.TradingConfig;
 import io.runon.trading.data.csv.CsvOpenInterest;
 import io.runon.trading.oi.OpenInterest;
 import io.runon.trading.oi.OpenInterestSymbolStorage;
@@ -11,7 +12,7 @@ public class BtcOpenInterest {
     public static void main(String[] args) {
         OpenInterestSymbolStorage openInterestStorage = new OpenInterestSymbolStorage();
         openInterestStorage.setDataTimeGap(Times.MINUTE_5);
-        openInterestStorage.add(CsvOpenInterest.loadOpenInterest("D:\\data\\cryptocurrency\\futures\\open_interest\\5m\\BTCUSDT",  openInterestStorage.getMaxLength()));
+        openInterestStorage.add(CsvOpenInterest.loadOpenInterest(TradingConfig.getTradingDataPath() + "/cryptocurrency/futures/open_interest/5m/BTCUSDT",  openInterestStorage.getMaxLength()));
 
         OpenInterest openInterest = openInterestStorage.getData(1661086500010L);
 
