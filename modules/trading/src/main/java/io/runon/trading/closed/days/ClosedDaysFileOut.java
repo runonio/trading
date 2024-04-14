@@ -1,10 +1,8 @@
 package io.runon.trading.closed.days;
 
 import com.seomse.commons.callback.StrCallback;
-import com.seomse.commons.service.Service;
 import com.seomse.commons.utils.ExceptionUtil;
 import com.seomse.commons.utils.FileUtil;
-import com.seomse.commons.utils.time.Times;
 import com.seomse.commons.utils.time.YmdUtil;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
@@ -16,31 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 과거일 사용일 정보를 저장한다.
  * 벡테스팅용 휴장일이기때문에 오늘날까까지 저장한다
  * @author macle
  */
 @Slf4j
-public class ClosedDaysFileOutService extends Service {
-    
-    private ClosedDaysCallback closedDaysGet;
+public class ClosedDaysFileOut{
 
+
+    private final ClosedDaysCallback closedDaysGet;
     private String lastCheckYmd = null;
 
-    public ClosedDaysFileOutService(){
-        setSleepTime(Times.MINUTE_5);
-        setState(Service.State.START);
+    public ClosedDaysFileOut(ClosedDaysCallback closedDaysGet){
+        this.closedDaysGet = closedDaysGet;
     }
 
-    @Override
-    public void work() {
-
-
+    public void out() {
 
         try{
+            String nowYmd = YmdUtil.now(TradingTimes.KOR_ZONE_ID);
 
-            if(lastCheckYmd != null){
+            if(lastCheckYmd != null && lastCheckYmd.equals(nowYmd)){
+                return;
 
             }
+
+            lastCheckYmd = nowYmd;
 
             String fileSeparator = FileSystems.getDefault().getSeparator();
             String filePath = TradingConfig.getTradingDataPath() + fileSeparator + "market/closed_days/KOR_closed_days.txt";
@@ -55,14 +54,10 @@ public class ClosedDaysFileOutService extends Service {
                 beginYmd = "19900101";
             }
 
-            String nowYmd = YmdUtil.now(TradingTimes.KOR_ZONE_ID);
-
-            String checkYmd = YmdUtil.getYmd(nowYmd, 60);
-            if(YmdUtil.compare(beginYmd, checkYmd) >= 0){
+            if(YmdUtil.compare(beginYmd,nowYmd) > 0){
                 return;
             }
 
-            String endYmd = YmdUtil.getYmd(nowYmd, 90);
 
             final List<String> ymdList = new ArrayList<>();
 
@@ -75,7 +70,7 @@ public class ClosedDaysFileOutService extends Service {
                 }
             };
 
-            closedDaysGet.callbackClosedDays(beginYmd, endYmd, callback);
+            closedDaysGet.callbackClosedDays(beginYmd, nowYmd, callback);
 
             if(!ymdList.isEmpty()){
                 YmdFiles.outAppend(filePath, ymdList);
