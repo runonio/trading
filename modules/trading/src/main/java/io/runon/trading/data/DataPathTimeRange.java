@@ -12,16 +12,16 @@ import lombok.Data;
 @Data
 public class DataPathTimeRange {
     private String dataPath;
-    private long startTime;
+    private long beginTime;
     private long endTime;
 
     public DataPathTimeRange(){
 
     }
 
-    public DataPathTimeRange(String dataPath, long startTime, long endTime){
+    public DataPathTimeRange(String dataPath, long beginTime, long endTime){
         this.dataPath = dataPath;
-        this.startTime = startTime;
+        this.beginTime = beginTime;
         this.endTime = endTime;
     }
 
@@ -29,8 +29,8 @@ public class DataPathTimeRange {
     public String toString(){
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("data_path" , dataPath);
-        jsonObject.addProperty("start_time" , Times.ymdhm(startTime, TradingConfig.viewTimeZoneId));
-        jsonObject.addProperty("end_time" , Times.ymdhm(endTime, TradingConfig.viewTimeZoneId));
+        jsonObject.addProperty("begin_time" , Times.ymdhm(beginTime, TradingConfig.VIEW_TIME_ZONE_ID));
+        jsonObject.addProperty("end_time" , Times.ymdhm(endTime, TradingConfig.VIEW_TIME_ZONE_ID));
         return new GsonBuilder().setPrettyPrinting().create().toJson(jsonObject);
     }
 

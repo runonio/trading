@@ -2,9 +2,12 @@ package io.runon.trading.technical.analysis.candle;
 
 import com.seomse.commons.data.BeginEnd;
 import com.seomse.commons.data.BeginEndImpl;
+import com.seomse.commons.utils.time.YmdUtil;
+import io.runon.trading.TradingTimes;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -400,6 +403,21 @@ public class Candles {
             return CandleType.LONG;
         }
 
+    }
+
+    public static String getMaxYmd(CandleStick [] candles, ZoneId zoneId){
+
+        String maxYmd = YmdUtil.getYmd(candles[0].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+
+        for (int i = 1; i <candles.length ; i++) {
+            String ymd = YmdUtil.getYmd(candles[i].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+
+            if(YmdUtil.compare(ymd, maxYmd)> 0){
+                maxYmd = ymd;
+            }
+        }
+
+        return maxYmd;
     }
 
 

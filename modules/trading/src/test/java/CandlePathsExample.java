@@ -1,3 +1,4 @@
+import io.runon.trading.TradingConfig;
 import io.runon.trading.data.candle.CandleDataUtils;
 
 /**
@@ -5,7 +6,7 @@ import io.runon.trading.data.candle.CandleDataUtils;
  */
 public class CandlePathsExample {
     public static void main(String[] args) {
-        String [] paths = CandleDataUtils.getCandlePaths("D:\\data");
+        String [] paths = CandleDataUtils.getCandlePaths(TradingConfig.getTradingDataPath());
         for(String path: paths){
             System.out.println(path);
         }
