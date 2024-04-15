@@ -3,12 +3,14 @@ package io.runon.trading.data.candle;
 import com.seomse.commons.config.Config;
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.CountryCode;
+import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.CsvTimeLine;
 import io.runon.trading.data.file.TimeFileOverride;
 import io.runon.trading.data.file.TimeName;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,9 @@ public class CandleDataUtils {
      */
     public static String getStockSpotCandlePath(String countryCode){
 
+
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+
         String spotCandleDirPath = null;
 
         if(countryCode != null && !countryCode.isEmpty()) {
@@ -48,15 +53,16 @@ public class CandleDataUtils {
             }
         }
 
-        if(spotCandleDirPath == null){
-            spotCandleDirPath = Config.getConfig("stock.spot.candle.dir.path");
-        }
-
         //국가별로 다르게 설정할 수 잇음
-        //국내만 3천개의 종목이 넘고 미국은 만개의종목이 넘으므로
-
+        //국내만 3천개의 종목이 넘고 미국은 만개의종목이 넘으므로 기본경로는 국가 코드가 들어가게 한다.
         if (spotCandleDirPath == null) {
-            spotCandleDirPath = Config.getConfig("trading.data.path", "runon/data") + "/stock/spot/candle";
+
+            if(countryCode == null){
+                spotCandleDirPath = Config.getConfig("trading.data.path", TradingConfig.getTradingDataPath()) + fileSeparator + "stock" + fileSeparator +"spot" + fileSeparator +"candle";
+            }else{
+                countryCode = countryCode.toUpperCase();
+                spotCandleDirPath = Config.getConfig("trading.data.path", TradingConfig.getTradingDataPath()) + fileSeparator + "stock" + fileSeparator  +countryCode + fileSeparator+"spot" + fileSeparator +"candle";
+            }
         }
 
         return spotCandleDirPath;

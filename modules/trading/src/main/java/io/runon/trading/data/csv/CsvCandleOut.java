@@ -24,8 +24,9 @@ public  class CsvCandleOut {
         String fileSeparator = FileSystems.getDefault().getSeparator();
 
         if(!filesDirPath.endsWith(fileSeparator)){
-            filesDirPath = filesDirPath+filesDirPath;
+            filesDirPath = filesDirPath+fileSeparator;
         }
+
 
         StringBuilder sb = new StringBuilder();
         String lastOutPath = null;
@@ -80,6 +81,7 @@ public  class CsvCandleOut {
             return;
         }
 
+
         long lastOpenTime = CsvTimeFile.getLastOpenTime(filesDirPath);
 
         if(lastOpenTime == -1){
@@ -92,7 +94,7 @@ public  class CsvCandleOut {
         String fileSeparator = FileSystems.getDefault().getSeparator();
 
         if(!filesDirPath.endsWith(fileSeparator)){
-            filesDirPath = filesDirPath+filesDirPath;
+            filesDirPath = filesDirPath+fileSeparator;
         }
 
         String outPath = filesDirPath + TimeName.getName(openTime, type, zoneId);
