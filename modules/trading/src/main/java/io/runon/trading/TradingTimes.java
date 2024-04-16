@@ -19,6 +19,11 @@ public class TradingTimes {
     public static ZoneId KOR_ZONE_ID = ZoneId.of("Asia/Seoul");
     public static ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
+    public static ZoneId SGD_ZONE_ID = ZoneId.of("Asia/Singapore");
+
+    public static ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
+
+
     public static String getInterval(long time){
         if(time >= Times.WEEK_1 && time%Times.WEEK_1 == 0 ) {
             return time/Times.WEEK_1 + "w";
@@ -191,5 +196,6 @@ public class TradingTimes {
 
         return array;
     }
+
 
 }
