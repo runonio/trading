@@ -53,8 +53,6 @@ public class Files {
         return false;
     }
 
-
-
     public static File [] getTimeFiles(File dirFile){
         return  FileUtil.getFiles(dirFile, new NumberNameFileValidation(),  FileUtil.SORT_NAME_LONG);
     }
