@@ -42,8 +42,8 @@ public class SymbolNumber {
         return compare;
     };
 
-    String symbol;
-    BigDecimal number;
+    protected String symbol;
+    protected BigDecimal number;
 
     public SymbolNumber(){
 
@@ -51,6 +51,21 @@ public class SymbolNumber {
     public SymbolNumber(String symbol, BigDecimal number){
         this.symbol = symbol;
         this.number = number;
+    }
+
+
+    public void add(BigDecimal number){
+        if(this.number == null){
+            this.number = number;
+        }
+        this.number = this.number.add(number);
+    }
+
+    public void subtract(BigDecimal number){
+        if(this.number == null){
+            return;
+        }
+        this.number = this.number.subtract(number);
     }
 
 
