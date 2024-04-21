@@ -10,3 +10,6 @@ include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 
 
+include 'backtesting'
+project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
+

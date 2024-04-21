@@ -3,6 +3,7 @@ package io.runon.trading.symbol;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import io.runon.trading.HoldingQuantity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ import java.util.Comparator;
  * @author macle
  */
 @Data
-public class SymbolNumber {
+public class SymbolNumber implements HoldingQuantity {
 
     public static final Comparator<SymbolNumber> SORT = (o1, o2) -> {
         int compare = o1.number.compareTo(o2.number);
@@ -42,8 +43,8 @@ public class SymbolNumber {
         return compare;
     };
 
-    String symbol;
-    BigDecimal number;
+    protected String symbol;
+    protected BigDecimal number;
 
     public SymbolNumber(){
 
@@ -51,6 +52,21 @@ public class SymbolNumber {
     public SymbolNumber(String symbol, BigDecimal number){
         this.symbol = symbol;
         this.number = number;
+    }
+
+
+    public void add(BigDecimal number){
+        if(this.number == null){
+            this.number = number;
+        }
+        this.number = this.number.add(number);
+    }
+
+    public void subtract(BigDecimal number){
+        if(this.number == null){
+            return;
+        }
+        this.number = this.number.subtract(number);
     }
 
 
@@ -68,4 +84,18 @@ public class SymbolNumber {
         return gson.toJson(object);
     }
 
+    @Override
+    public String getId() {
+        return symbol;
+    }
+
+    @Override
+    public BigDecimal getQuantity() {
+        return number;
+    }
+
+    @Override
+    public void setQuantity(BigDecimal quantity) {
+        number = quantity;
+    }
 }

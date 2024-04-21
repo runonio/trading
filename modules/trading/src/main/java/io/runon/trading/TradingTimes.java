@@ -19,7 +19,7 @@ public class TradingTimes {
     public static ZoneId KOR_ZONE_ID = ZoneId.of("Asia/Seoul");
     public static ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
-    public static ZoneId SGD_ZONE_ID = ZoneId.of("Asia/Singapore");
+    public static ZoneId SGP_ZONE_ID = ZoneId.of("Asia/Singapore");
 
     public static ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
 
