@@ -1,6 +1,6 @@
 package io.runon.trading.account;
 
-import io.runon.trading.symbol.SymbolNumber;
+import io.runon.trading.HoldingQuantity;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -13,19 +13,19 @@ import java.util.Map;
  */
 
 
-public abstract class SymbolAccount<T extends SymbolNumber> implements Account{
+public abstract class HoldingAccount<T extends HoldingQuantity> implements Account{
 
     protected BigDecimal cash = BigDecimal.ZERO;
 
-    protected Map<String, T> symbolMap = new HashMap<>();
+    protected Map<String, T> HoldingMap = new HashMap<>();
 
     protected final String id;
 
 
-    public SymbolAccount(String id){
+    public HoldingAccount(String id){
         this.id = id;
     }
-    public SymbolAccount(){
+    public HoldingAccount(){
         this.id = "backtesting";
     }
 
@@ -36,18 +36,18 @@ public abstract class SymbolAccount<T extends SymbolNumber> implements Account{
 
     @Override
     public BigDecimal getAssets() {
-        if(symbolMap.isEmpty()){
+        if(HoldingMap.isEmpty()){
             return cash;
         }
 
         BigDecimal sum = cash;
 
-        Collection<T> values = symbolMap.values();
+        Collection<T> values = HoldingMap.values();
 
-        for(SymbolNumber holding : values){
-            BigDecimal sellPrice = getSellPrice(holding.getSymbol());
+        for(T holding : values){
+            BigDecimal sellPrice = getSellPrice(holding.getId());
 
-            sum = sum.add(sellPrice.multiply(holding.getNumber()));
+            sum = sum.add(sellPrice.multiply(holding.getQuantity()));
         }
 
         return sum.stripTrailingZeros();

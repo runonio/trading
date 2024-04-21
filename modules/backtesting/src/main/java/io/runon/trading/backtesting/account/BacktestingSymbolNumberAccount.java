@@ -10,13 +10,14 @@ import java.math.BigDecimal;
  * 레버리지 1배고정
  * @author macle
  */
-public class BacktestingSymbolNumberAccount extends BacktestingSymbolAccount<SymbolNumber> {
+public class BacktestingSymbolNumberAccount extends BacktestingHoldingAccount<SymbolNumber> {
     public BacktestingSymbolNumberAccount(SymbolPrice symbolPrice) {
         super(symbolPrice);
     }
 
     @Override
-    public SymbolNumber newSymbolNumber(String symbol, BigDecimal number) {
-        return new SymbolNumber(symbol, number);
+    public SymbolNumber newHoldingQuantity(String id, BigDecimal quantity) {
+        return new SymbolNumber(id, quantity);
     }
+
 }
