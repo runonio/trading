@@ -1,6 +1,5 @@
 package io.runon.trading.backtesting.account;
 
-import io.runon.trading.backtesting.price.symbol.SymbolPrice;
 import io.runon.trading.symbol.SymbolNumber;
 
 import java.math.BigDecimal;
@@ -11,8 +10,8 @@ import java.math.BigDecimal;
  * @author macle
  */
 public class BacktestingSymbolNumberAccount extends BacktestingHoldingAccount<SymbolNumber> {
-    public BacktestingSymbolNumberAccount(SymbolPrice symbolPrice) {
-        super(symbolPrice);
+    public BacktestingSymbolNumberAccount() {
+        super();
     }
 
     @Override

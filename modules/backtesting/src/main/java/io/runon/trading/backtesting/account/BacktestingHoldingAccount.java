@@ -15,15 +15,18 @@ import java.math.RoundingMode;
  */
 public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> extends HoldingAccount<T> {
 
-    private final SymbolPrice symbolPrice ;
+    protected SymbolPrice symbolPrice ;
 
-    public BacktestingHoldingAccount(SymbolPrice symbolPrice){
+    public BacktestingHoldingAccount(){
         super();
-        this.symbolPrice = symbolPrice;
+
     }
 
-    public BacktestingHoldingAccount(SymbolPrice symbolPrice, String id){
+    public BacktestingHoldingAccount( String id){
         super(id);
+    }
+
+    public void setSymbolPrice(SymbolPrice symbolPrice) {
         this.symbolPrice = symbolPrice;
     }
 

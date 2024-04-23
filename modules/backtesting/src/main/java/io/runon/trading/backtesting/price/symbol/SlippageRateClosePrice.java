@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  */
 public class SlippageRateClosePrice extends CandleSymbolMapPrice {
 
+
+
     //기본값 0.25%
     private BigDecimal rate = new BigDecimal("0.0025");
 
