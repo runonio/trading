@@ -17,7 +17,7 @@
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.technical.analysis.candle.CandleManager;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 import io.runon.trading.technical.analysis.pattern.CandlePatternPoint;
 import io.runon.trading.technical.analysis.pattern.lower.shadow.HammerPattern;
 import org.slf4j.Logger;

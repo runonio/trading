@@ -19,7 +19,7 @@ import io.runon.trading.Trade;
 import io.runon.trading.technical.analysis.candle.CandleManager;
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

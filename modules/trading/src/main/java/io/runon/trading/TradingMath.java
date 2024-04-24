@@ -256,8 +256,7 @@ public class TradingMath {
      * @return mdd
      */
     public static BigDecimal mdd(BigDecimal high, BigDecimal low){
-
-        return high.subtract(low).multiply(BigDecimals.DECIMAL_100).divide(high,2,RoundingMode.HALF_UP);
+        return high.subtract(low).multiply(BigDecimals.DECIMAL_100).divide(high,2,RoundingMode.HALF_UP).stripTrailingZeros();
 
     }
 }

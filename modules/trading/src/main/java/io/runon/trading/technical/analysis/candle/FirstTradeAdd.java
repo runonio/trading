@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.candle.candles;
+package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.Trade;
 import io.runon.trading.TradingTimes;
-import io.runon.trading.technical.analysis.candle.TradeAdd;
-import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 
 /**

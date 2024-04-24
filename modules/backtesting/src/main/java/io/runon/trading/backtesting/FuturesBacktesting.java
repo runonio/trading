@@ -7,7 +7,7 @@ import io.runon.trading.TradingMath;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 
 import io.runon.trading.view.Lines;
 import io.runon.trading.view.MarkerData;

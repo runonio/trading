@@ -17,7 +17,7 @@ package io.runon.trading.technical.analysis.pattern;
 
 
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
