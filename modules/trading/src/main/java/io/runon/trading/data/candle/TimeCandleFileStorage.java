@@ -3,7 +3,7 @@ package io.runon.trading.data.candle;
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.data.csv.CsvCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @author macle
  */
 @Slf4j
-public class CandleStorage {
+public class TimeCandleFileStorage {
 
     private final Map<Long, TradeCandles> candlesMap = new HashMap<>();
 
@@ -29,8 +29,7 @@ public class CandleStorage {
         TradeCandle [] candles = CsvCandle.load(path, time);
         TradeCandles tradeCandles = new TradeCandles(time);
         tradeCandles.setCount(candles.length);
-        tradeCandles.addCandle(candles);
-
+        tradeCandles.setCandles(candles);
         candlesMap.put(time, tradeCandles);
 
         return tradeCandles;

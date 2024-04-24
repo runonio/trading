@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.candle;
 import com.seomse.commons.data.BeginEnd;
 import com.seomse.commons.data.BeginEndImpl;
 import com.seomse.commons.utils.time.YmdUtil;
+import io.runon.trading.TradingMath;
 import io.runon.trading.TradingTimes;
 
 import java.math.BigDecimal;
@@ -226,6 +227,18 @@ public class Candles {
     }
 
 
+    public static BigDecimal high(CandleStick [] candles){
+        BigDecimal high = candles[0].getHigh();
+
+        for (CandleStick candleStick : candles) {
+            BigDecimal compareHigh = candleStick.getHigh();
+            if(compareHigh.compareTo(high) > 0){
+                high = compareHigh;
+            }
+        }
+
+        return high;
+    }
 
     public static BigDecimal high(CandleStick [] candles, int n){
         return high(candles,n, candles.length-1);
@@ -251,6 +264,19 @@ public class Candles {
         }
 
         return high;
+    }
+
+    public static BigDecimal low(CandleStick [] candles){
+        BigDecimal low = candles[0].getLow();
+
+        for (CandleStick candleStick : candles) {
+            BigDecimal compareLow = candleStick.getLow();
+            if(compareLow.compareTo(low) < 0){
+                low = compareLow;
+            }
+        }
+
+        return low;
     }
 
     public static BigDecimal low(CandleStick [] candles, int n){
@@ -420,5 +446,11 @@ public class Candles {
         return maxYmd;
     }
 
+
+    public static BigDecimal mdd(CandleStick [] candles){
+        BigDecimal high = high(candles);
+        BigDecimal low = low(candles);
+        return TradingMath.mdd(high,low);
+    }
 
 }

@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.runon.trading.technical.analysis.candle.candles;
-
-import io.runon.trading.technical.analysis.candle.TradeCandle;
-
+package io.runon.trading.technical.analysis.candle;
 
 /**
  * 캔들 변화 감시

@@ -2,6 +2,7 @@ package io.runon.trading.technical.analysis.volume;
 
 import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
@@ -47,7 +48,7 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal highestExclusionRate, int startIndex, int end) {
         BigDecimal[] volumes = getVolumes(candles, startIndex, end);
         Arrays.sort(volumes);
-        return BigDecimals.average(volumes, highestExclusionRate);
+        return TradingMath.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
@@ -57,13 +58,13 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.average(volumes, highestExclusionRate);
+        return TradingMath.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return BigDecimals.average(volumes,lowestExclusionRate, highestExclusionRate);
+        return TradingMath.average(volumes,lowestExclusionRate, highestExclusionRate);
     }
 
 
@@ -165,7 +166,7 @@ public class Volumes {
             int end = i +1;
             array[index++] = getVolumePower(candles,end - count, end );
         }
-        BigDecimal sum = BigDecimals.sum(array);
+        BigDecimal sum = TradingMath.sum(array);
         return sum.divide(new BigDecimal(maCount),MathContext.DECIMAL128);
     }
 

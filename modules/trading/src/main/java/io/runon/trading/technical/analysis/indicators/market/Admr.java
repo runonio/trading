@@ -4,9 +4,9 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -24,12 +24,12 @@ import java.math.RoundingMode;
 public class Admr extends MarketIndicators<TimeNumber> {
 
 
-    public Admr(SymbolCandle[] symbolCandles) {
-        super(symbolCandles);
+    public Admr(IdCandles[] idCandles) {
+        super(idCandles);
     }
 
-    public Admr(SymbolCandleTimes symbolCandleTimes) {
-        super(symbolCandleTimes);
+    public Admr(IdCandleTimes idCandleTimes) {
+        super(idCandleTimes);
 
     }
 
@@ -65,7 +65,7 @@ public class Admr extends MarketIndicators<TimeNumber> {
         int decline = 0;
         int marketCount = 0;
 
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){

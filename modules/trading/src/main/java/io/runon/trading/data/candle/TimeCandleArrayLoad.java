@@ -9,12 +9,12 @@ import io.runon.trading.technical.analysis.candle.TradeCandle;
  *
  * @author macle
  */
-public class TimeCandleArrayGet implements TimeCandleGet{
+public class TimeCandleArrayLoad implements TimeCandleLoad {
 
     private final TradeCandle [] candles;
     private final long candleTime;
 
-    public TimeCandleArrayGet(TradeCandle [] candles, long candleTime){
+    public TimeCandleArrayLoad(TradeCandle [] candles, long candleTime){
         this.candles = candles;
         this.candleTime = candleTime;
     }
@@ -24,7 +24,7 @@ public class TimeCandleArrayGet implements TimeCandleGet{
     public TradeCandle getCandle(long time) {
 
         long openTime = TradingTimes.getOpenTime(candleTime, time);
-        int index  = Candles.getOpenTimeIndex(candles, candleTime,openTime);
+        int index  = Candles.getOpenTimeIndex(candles, candleTime, openTime);
 
         if(index < 0){
             return null;

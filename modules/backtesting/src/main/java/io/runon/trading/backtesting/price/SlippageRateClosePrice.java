@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting.price.symbol;
+package io.runon.trading.backtesting.price;
 
 import io.runon.trading.Candle;
 
@@ -10,7 +10,9 @@ import java.math.BigDecimal;
  * 현재 캔들이 끝나는 시점인 종가에 들어간다고 가정한 방식
  * @author ccsweets
  */
-public class SlippageRateClosePrice extends CandleSymbolMapPrice {
+public class SlippageRateClosePrice extends CandleMapPrice {
+
+
 
     //기본값 0.25%
     private BigDecimal rate = new BigDecimal("0.0025");
@@ -20,8 +22,8 @@ public class SlippageRateClosePrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getBuyPrice(String symbol) {
-        Candle candle = candleMap.get(symbol);
+    public BigDecimal getBuyPrice(String id) {
+        Candle candle = candleMap.get(id);
         BigDecimal price = candle.getClose();
 
         if(rate.compareTo(BigDecimal.ZERO) == 0){
@@ -31,9 +33,9 @@ public class SlippageRateClosePrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getSellPrice(String symbol) {
+    public BigDecimal getSellPrice(String id) {
 
-        Candle candle = candleMap.get(symbol);
+        Candle candle = candleMap.get(id);
         BigDecimal price = candle.getClose();
         if(rate.compareTo(BigDecimal.ZERO) == 0){
             return price;

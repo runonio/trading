@@ -176,7 +176,7 @@ public class TimeVolumesStore {
             gapArray[i] = timeVolumes.getPriceFutures().subtract(timeVolumes.getPrice());
         }
 
-        futuresPriceGapAverage = BigDecimals.average(gapArray, new BigDecimal("0.1"), new BigDecimal("0.1"));
+        futuresPriceGapAverage = TradingMath.average(gapArray, new BigDecimal("0.1"), new BigDecimal("0.1"));
         futuresPriceGapAverage = futuresPriceGapAverage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
     }
 
@@ -228,7 +228,7 @@ public class TimeVolumesStore {
 
             if(moveGap.compareTo(BigDecimal.ZERO) > 0){
                 if(mode < 0){
-                    downMin = BigDecimals.min(downMin, downSum);
+                    downMin = TradingMath.min(downMin, downSum);
                     downSum = BigDecimal.ZERO;
                 }
                 upSum = upSum.add(moveGap);
@@ -236,7 +236,7 @@ public class TimeVolumesStore {
 
             }else if(moveGap.compareTo(BigDecimal.ZERO) < 0){
                 if(mode > 0){
-                    upMax = BigDecimals.max(upMax, upSum);
+                    upMax = TradingMath.max(upMax, upSum);
                     upSum = BigDecimal.ZERO;
                 }
                 downSum = downSum.add(moveGap);
@@ -247,9 +247,9 @@ public class TimeVolumesStore {
         //하락누적
         MaxMinLast priceGapMove = new MaxMinLast();
         priceGapMove.setLast(moveGaps[moveGaps.length-1]);
-        priceGapMove.setMax(BigDecimals.max(upMax, upSum));
+        priceGapMove.setMax(TradingMath.max(upMax, upSum));
 
-        priceGapMove.setMin(BigDecimals.min(downMin, downSum));
+        priceGapMove.setMin(TradingMath.min(downMin, downSum));
         priceGapMoveMap.put(searchCount, priceGapMove);
         return priceGapMove;
     }

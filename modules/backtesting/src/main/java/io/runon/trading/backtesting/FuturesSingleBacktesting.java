@@ -2,8 +2,8 @@ package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.backtesting.price.PriceCandle;
-import io.runon.trading.backtesting.price.symbol.CandleSymbolPrice;
-import io.runon.trading.backtesting.price.symbol.SlippageRandomSymbolPrice;
+import io.runon.trading.backtesting.price.CandlePrice;
+import io.runon.trading.backtesting.price.SlippageRandomPrice;
 import io.runon.trading.backtesting.strategy.OrderStrategy;
 import io.runon.trading.backtesting.strategy.PositionStrategy;
 import io.runon.trading.backtesting.strategy.TradingStrategy;
@@ -21,7 +21,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Slf4j
-public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> extends FuturesBacktesting<E> implements Runnable{
+public abstract class FuturesSingleBacktesting<E extends PriceCandle> extends FuturesBacktesting<E> implements Runnable{
 
     boolean isLogging = true;
 
@@ -43,7 +43,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
     }
 
-    protected CandleSymbolPrice symbolPrice;
+    protected CandlePrice idPrice;
 
     //1분에 한번 판단
     protected long cycleTime = Times.MINUTE_1;
@@ -51,18 +51,18 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
     protected final long startTime;
     protected final long endTime;
 
-    public FuturesSingleSymbolBacktesting(long startTime, long endTime){
+    public FuturesSingleBacktesting(long startTime, long endTime){
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public FuturesSingleSymbolBacktesting(long startTime){
+    public FuturesSingleBacktesting(long startTime){
         this.startTime = startTime;
         this.endTime = System.currentTimeMillis();
     }
 
-    public void setSymbolPrice(CandleSymbolPrice symbolPrice) {
-        this.symbolPrice = symbolPrice;
+    public void setIdPrice(CandlePrice idPrice) {
+        this.idPrice = idPrice;
     }
 
     public void setCycleTime(long cycleTime) {
@@ -81,11 +81,11 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
         super.init();
 
-        if(symbolPrice == null){
-            symbolPrice = new SlippageRandomSymbolPrice();
+        if(idPrice == null){
+            idPrice = new SlippageRandomPrice();
         }
 
-        account.setSymbolPrice(symbolPrice);
+        account.setIdPrice(idPrice);
         time = startTime;
 
         for(;;) {
@@ -95,13 +95,13 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
             if(isEnd){
                 //구현체에서 종료이벤트가 발생하였으면
                 if(isLogging) {
-                    log.info(getLogMessage(symbolPrice.getPrice(symbol)));
+                    log.info(getLogMessage(idPrice.getPrice(symbol)));
                 }
                 end();
                 return;
             }
 
-            symbolPrice.setPrice(symbol, data.getPriceCandle());
+            idPrice.setPrice(symbol, data.getPriceCandle());
 
             if(!data.isValid(time)){
                 time = time + cycleTime;
@@ -114,7 +114,7 @@ public abstract class FuturesSingleSymbolBacktesting<E extends PriceCandle> exte
 
             lastValidTime = time;
 
-            BigDecimal price = symbolPrice.getPrice(symbol);
+            BigDecimal price = idPrice.getPrice(symbol);
             Position position = strategy.getPosition(data);
             if(lastPosition == position || position == Position.NONE){
                 time = time + cycleTime;

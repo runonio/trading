@@ -3,7 +3,7 @@ package io.runon.trading.backtesting.account;
 import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
-import io.runon.trading.backtesting.price.symbol.SymbolPrice;
+import io.runon.trading.backtesting.price.IdPrice;
 import io.runon.trading.order.MarketOrderCash;
 import io.runon.trading.strategy.Position;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +38,9 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.cash = this.cash.add(cash);
     }
     protected final Map<String, FuturesPositionData> positionMap = new HashMap<>();
-    protected SymbolPrice symbolPrice;
-    public void setSymbolPrice(SymbolPrice symbolPrice) {
-        this.symbolPrice = symbolPrice;
+    protected IdPrice idPrice;
+    public void setIdPrice(IdPrice idPrice) {
+        this.idPrice = idPrice;
     }
 
     //기준 1달러
@@ -118,7 +118,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         Position position = order.getPosition();
 
         if(position == Position.LONG){
-            BigDecimal price = symbolPrice.getBuyPrice(symbol);
+            BigDecimal price = idPrice.getBuyPrice(symbol);
             BigDecimal orderPrice = shortClose(symbol, order.getCash(), price);
             if(orderPrice.compareTo(BigDecimal.ZERO) == 0){
                 return;
@@ -129,7 +129,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             }
             buy(symbol, orderPrice.subtract(orderPrice.multiply(buyFee)), price);
         }else if (position == Position.SHORT){
-            BigDecimal price = symbolPrice.getSellPrice(symbol);
+            BigDecimal price = idPrice.getSellPrice(symbol);
             BigDecimal orderPrice = longClose(symbol, order.getCash(), price);
             if(orderPrice.compareTo(BigDecimal.ZERO) == 0){
                 return;
@@ -160,7 +160,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         }
 
         if(price == null) {
-            price = symbolPrice.getBuyPrice(symbol);
+            price = idPrice.getBuyPrice(symbol);
         }
         BigDecimal quantity = buyCash.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
         if(quantity.compareTo(BigDecimal.ZERO) == 0){
@@ -207,7 +207,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         }
 
         if(price == null) {
-            price = symbolPrice.getBuyPrice(symbol);
+            price = idPrice.getBuyPrice(symbol);
         }
 
         BigDecimal quantity = sellCash.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
@@ -273,7 +273,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         }
 
         if(price == null || price.compareTo(BigDecimal.ZERO) == 0){
-            price = symbolPrice.getBuyPrice(symbol);
+            price = idPrice.getBuyPrice(symbol);
         }
 
         BigDecimal quantity = orderPrice.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
@@ -329,7 +329,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         }
 
         if(price == null || price.compareTo(BigDecimal.ZERO) == 0){
-            price = symbolPrice.getSellPrice(symbol);
+            price = idPrice.getSellPrice(symbol);
         }
 
         BigDecimal quantity = orderPrice.divide(price, getQuantityPrecision(symbol), RoundingMode.DOWN);
@@ -398,12 +398,12 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         if(position == Position.LONG){
             
             //매매대금
-            BigDecimal price = symbolPrice.getSellPrice(futuresPosition.getSymbol());
+            BigDecimal price = idPrice.getSellPrice(futuresPosition.getSymbol());
             BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
             tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
             return tradingPrice.subtract(tradingPrice.multiply(sellFee)); //파는것이므로 판매 수수료
         }else if(position == Position.SHORT){
-            BigDecimal price = symbolPrice.getBuyPrice(futuresPosition.getSymbol());
+            BigDecimal price = idPrice.getBuyPrice(futuresPosition.getSymbol());
             BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
             rate = rate.multiply(new BigDecimal(-1));
             tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
@@ -433,7 +433,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
     }
 
     @Override
-    public FuturesPosition getPosition(String symbol) {
+    public FuturesPosition getFuturesPosition(String symbol) {
         return positionMap.get(symbol);
     }
 
@@ -462,7 +462,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
     @Override
     public BigDecimal getAvailableBuyPrice(String symbol) {
         BigDecimal price = cash;
-        if(getSymbolPosition(symbol) == Position.SHORT){
+        if(getPosition(symbol) == Position.SHORT){
             price = price.add(closePrice(symbol));
         }
         return price.subtract(price.multiply(buyFee));
@@ -471,13 +471,13 @@ public class FuturesBacktestingAccount implements FuturesAccount {
     @Override
     public BigDecimal getAvailableSellPrice(String symbol) {
         BigDecimal price = cash;
-        if(getSymbolPosition(symbol) == Position.LONG){
+        if(getPosition(symbol) == Position.LONG){
             price = price.add(closePrice(symbol));
         }
         return price.subtract(price.multiply(buyFee));
     }
 
-    public Position getSymbolPosition(String symbol){
+    public Position getPosition(String symbol){
         FuturesPosition futuresPosition = positionMap.get(symbol);
         if(futuresPosition == null){
             return Position.NONE;

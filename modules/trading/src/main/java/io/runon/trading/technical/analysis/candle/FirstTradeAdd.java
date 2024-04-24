@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.candle.candles;
+package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.Trade;
 import io.runon.trading.TradingTimes;
-import io.runon.trading.technical.analysis.candle.TradeAdd;
-import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 
 /**
@@ -45,7 +43,7 @@ class FirstTradeAdd implements TradeAdd {
             tradeCandles.tradeAdd = new NextTradeAdd(tradeCandles);
             return tradeCandles.tradeAdd.addTrade(trade);
         }
-        long timeGap = tradeCandles.getTimeGap();
+        long timeGap = tradeCandles.getCandleTime();
 
         long startTime = TradingTimes.getOpenTime(timeGap, trade.getTime());
         TradeCandle tradeCandle =tradeCandles.addTradeNewCandle(trade, startTime, startTime + timeGap);

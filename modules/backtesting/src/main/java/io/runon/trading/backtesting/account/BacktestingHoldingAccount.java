@@ -2,7 +2,7 @@ package io.runon.trading.backtesting.account;
 
 import io.runon.trading.HoldingQuantity;
 import io.runon.trading.account.HoldingAccount;
-import io.runon.trading.backtesting.price.symbol.SymbolPrice;
+import io.runon.trading.backtesting.price.IdPrice;
 import io.runon.trading.exception.NotEnoughCashException;
 
 import java.math.BigDecimal;
@@ -15,16 +15,19 @@ import java.math.RoundingMode;
  */
 public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> extends HoldingAccount<T> {
 
-    private final SymbolPrice symbolPrice ;
+    protected IdPrice idPrice;
 
-    public BacktestingHoldingAccount(SymbolPrice symbolPrice){
+    public BacktestingHoldingAccount(){
         super();
-        this.symbolPrice = symbolPrice;
+
     }
 
-    public BacktestingHoldingAccount(SymbolPrice symbolPrice, String id){
+    public BacktestingHoldingAccount( String id){
         super(id);
-        this.symbolPrice = symbolPrice;
+    }
+
+    public void setIdPrice(IdPrice idPrice) {
+        this.idPrice = idPrice;
     }
 
     private int buyScale = 0;
@@ -34,7 +37,7 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
     }
 
     public void buyAllCash(String symbol){
-        BigDecimal price = symbolPrice.getBuyPrice(symbol);
+        BigDecimal price = idPrice.getBuyPrice(symbol);
         BigDecimal buyQuantity = cash.divide(price,buyScale, RoundingMode.DOWN);
 
         if(buyQuantity.compareTo(BigDecimal.ZERO) <= 0){
@@ -47,7 +50,7 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
     public abstract T newHoldingQuantity(String id, BigDecimal quantity);
     @Override
     public void buy(T holdingQuantity) {
-        BigDecimal buyPrice = holdingQuantity.getQuantity().multiply(symbolPrice.getBuyPrice(holdingQuantity.getId()));
+        BigDecimal buyPrice = holdingQuantity.getQuantity().multiply(idPrice.getBuyPrice(holdingQuantity.getId()));
 
         if(buyPrice.compareTo(cash) > 0 ){
             throw new NotEnoughCashException("cash: " + cash.stripTrailingZeros().toPlainString() +" buy price: " + buyPrice.stripTrailingZeros().toPlainString());
@@ -70,13 +73,13 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
             return;
         }
 
-        BigDecimal sellPrice = symbolPrice.getSellPrice(id);
+        BigDecimal sellPrice = idPrice.getSellPrice(id);
         cash = cash.add(sellPrice.multiply(lastHolding.getQuantity()));
     }
 
     @Override
     public void sell(T holdingQuantity) {
-        BigDecimal sellPrice = symbolPrice.getSellPrice(holdingQuantity.getId());
+        BigDecimal sellPrice = idPrice.getSellPrice(holdingQuantity.getId());
 
         T lastHolding = HoldingMap.get(holdingQuantity.getId());
         if(lastHolding == null){
@@ -98,6 +101,6 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
 
     @Override
     public BigDecimal getSellPrice(String symbol) {
-        return symbolPrice.getSellPrice(symbol);
+        return idPrice.getSellPrice(symbol);
     }
 }

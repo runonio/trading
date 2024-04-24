@@ -23,9 +23,20 @@ import java.util.Set;
  */
 public class CsvCandle {
 
+
+    public static TradeCandle [] load(String path){
+        return load(new File(path), -1);
+    }
+
+    public static TradeCandle [] load(String path, int limit){
+        return load(path, -1, limit);
+    }
+
     public static TradeCandle [] load(String path, long time){
         return load(new File(path),time);
     }
+
+
 
     public static TradeCandle [] load(File file, long time){
         List<TradeCandle> list = new ArrayList<>();

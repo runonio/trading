@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting.price.symbol;
+package io.runon.trading.backtesting.price;
 
 import io.runon.trading.Candle;
 
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * (이전종가와 비슷한 가격에 선택될 확율이 높음)
  * @author macle
  */
-public class SlippageRateOpenPrice extends CandleSymbolMapPrice {
+public class SlippageRateOpenPrice extends CandleMapPrice {
 
     //기본값 0.25%
     private BigDecimal rate = new BigDecimal("0.0025");
@@ -22,8 +22,8 @@ public class SlippageRateOpenPrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getBuyPrice(String symbol) {
-        Candle candle = candleMap.get(symbol);
+    public BigDecimal getBuyPrice(String id) {
+        Candle candle = candleMap.get(id);
         BigDecimal price = candle.getOpen();
 
         if(rate.compareTo(BigDecimal.ZERO) == 0){
@@ -33,9 +33,9 @@ public class SlippageRateOpenPrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getSellPrice(String symbol) {
+    public BigDecimal getSellPrice(String id) {
 
-        Candle candle = candleMap.get(symbol);
+        Candle candle = candleMap.get(id);
         BigDecimal price = candle.getOpen();
         if(rate.compareTo(BigDecimal.ZERO) == 0){
             return price;

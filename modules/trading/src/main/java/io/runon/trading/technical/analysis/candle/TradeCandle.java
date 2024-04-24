@@ -15,10 +15,7 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.trading.BigDecimals;
-import io.runon.trading.Trade;
-import io.runon.trading.TradingGson;
-import io.runon.trading.Volume;
+import io.runon.trading.*;
 import io.runon.trading.technical.analysis.volume.Volumes;
 import lombok.extern.slf4j.Slf4j;
 
@@ -196,8 +193,8 @@ public class TradeCandle extends CandleStick implements Volume {
             }
         }
 
-        low = BigDecimals.min(low, addCandle.getLow());
-        high = BigDecimals.max(high, addCandle.getHigh());
+        low = TradingMath.min(low, addCandle.getLow());
+        high = TradingMath.max(high, addCandle.getHigh());
 
         if(isTradeRecord && addCandle.getTradeList() != null){
             if(tradeList == null){

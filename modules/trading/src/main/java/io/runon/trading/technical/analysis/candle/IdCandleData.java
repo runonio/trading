@@ -1,9 +1,8 @@
-package io.runon.trading.technical.analysis.symbol;
+package io.runon.trading.technical.analysis.candle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.runon.trading.technical.analysis.candle.TradeCandle;
 import lombok.Data;
 
 /**
@@ -11,16 +10,16 @@ import lombok.Data;
  * @author macle
  */
 @Data
-public class SymbolCandleData implements SymbolCandle {
-    private String symbol;
+public class IdCandleData implements IdCandles {
+    private String id;
     private TradeCandle [] candles;
 
-    public SymbolCandleData(){
+    public IdCandleData(){
 
     }
 
-    public SymbolCandleData(String symbol, TradeCandle [] candles){
-        this.symbol = symbol;
+    public IdCandleData(String symbol, TradeCandle [] candles){
+        this.id = symbol;
         this.candles = candles;
     }
 
@@ -29,7 +28,7 @@ public class SymbolCandleData implements SymbolCandle {
     public String toString(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject object = new JsonObject();
-        object.addProperty("symbol", symbol);
+        object.addProperty("symbol", id);
         if(candles == null){
             object.addProperty("length", 0);
         }else{

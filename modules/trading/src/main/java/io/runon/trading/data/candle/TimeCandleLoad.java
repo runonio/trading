@@ -7,7 +7,7 @@ import io.runon.trading.technical.analysis.candle.TradeCandle;
  * 백테스팅용
  * @author macle
  */
-public interface TimeCandleGet {
+public interface TimeCandleLoad {
 
     TradeCandle getCandle(long time);
 }

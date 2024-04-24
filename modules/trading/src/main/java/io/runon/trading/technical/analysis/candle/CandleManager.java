@@ -16,7 +16,6 @@
 package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.Trade;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
 
 import java.util.Arrays;
 import java.util.HashMap;

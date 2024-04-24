@@ -17,7 +17,7 @@ package io.runon.trading.technical.analysis.pattern;
 
 import io.runon.trading.PriceChangeAnalysis;
 import io.runon.trading.TrendChangeType;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 
 /**
  * 캔들형 패턴

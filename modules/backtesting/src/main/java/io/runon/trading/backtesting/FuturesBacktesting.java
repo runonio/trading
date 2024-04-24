@@ -1,13 +1,13 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TradingMath;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.candles.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandles;
 
 import io.runon.trading.view.Lines;
 import io.runon.trading.view.MarkerData;
@@ -219,7 +219,7 @@ public abstract class FuturesBacktesting<E> {
 
     protected void addChartLine(BigDecimal price){
         if(isChart && time >= candles[0].getOpenTime()) {
-            assetList.add(new TimeNumberData(time, BigDecimals.getChangePercent(startCash, account.getAssets())));
+            assetList.add(new TimeNumberData(time, TradingMath.changePercent(startCash, account.getAssets())));
 
             if(isPositionLine) {
                 lastLines.add(new TimeNumberData( time,price));
@@ -271,6 +271,6 @@ public abstract class FuturesBacktesting<E> {
     public String getLogMessage(BigDecimal price){
         BigDecimal assets = account.getAssets();
         return Times.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
-                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimals.getChangePercent(startCash, assets) +"%";
+                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + TradingMath.changePercent(startCash, assets) +"%";
     }
 }

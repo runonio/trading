@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package io.runon.trading.technical.analysis.candle.candles;
+package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.Trade;
 import io.runon.trading.TradingTimes;
-import io.runon.trading.technical.analysis.candle.TradeAdd;
-import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
 
@@ -46,7 +44,7 @@ class NextTradeAdd implements TradeAdd {
             tradeCandles.lastCandle.addTrade(trade);
             return tradeCandles.lastCandle;
         }
-        long timeGap = tradeCandles.getTimeGap();
+        long timeGap = tradeCandles.getCandleTime();
         long nextStartTime =  tradeCandles.lastCandle.getCloseTime();
         long nextEndTime  = nextStartTime + timeGap;
         if(trade.getTime() < nextEndTime){

@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting.price.symbol;
+package io.runon.trading.backtesting.price;
 
 import io.runon.trading.Candle;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author macle
  */
-public abstract class CandleSymbolMapPrice implements CandleSymbolPrice {
+public abstract class CandleMapPrice implements CandlePrice {
 
     protected final Map<String, Candle> candleMap = new HashMap<>();
 
@@ -19,7 +19,7 @@ public abstract class CandleSymbolMapPrice implements CandleSymbolPrice {
     }
 
     @Override
-    public BigDecimal getPrice(String symbol) {
-        return candleMap.get(symbol).getClose();
+    public BigDecimal getPrice(String id) {
+        return candleMap.get(id).getClose();
     }
 }

@@ -1,18 +1,16 @@
-package io.runon.trading.technical.analysis.symbol;
-
-import io.runon.trading.technical.analysis.candle.Candles;
+package io.runon.trading.technical.analysis.candle;
 
 /**
  * 종목 구분 기화, 캔들, 시간데이터
  * @author macle
  */
-public class SymbolCandleTimes {
+public class IdCandleTimes {
 
     private String id;
 
-    private final SymbolCandle[] symbolCandles;
+    private final IdCandles[] symbolCandles;
     private final long [] times;
-    public SymbolCandleTimes(SymbolCandle[] symbolCandles){
+    public IdCandleTimes(IdCandles[] symbolCandles){
         this.symbolCandles = symbolCandles;
         times = Candles.getTimes(symbolCandles);
     }
@@ -25,7 +23,7 @@ public class SymbolCandleTimes {
         this.id = id;
     }
 
-    public SymbolCandle[] getSymbolCandles() {
+    public IdCandles[] getSymbolCandles() {
         return symbolCandles;
     }
 
