@@ -2,12 +2,14 @@ package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import com.seomse.commons.config.Config;
 import io.runon.trading.BigDecimals;
+import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
+
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -33,11 +35,11 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
 
     private BigDecimal disparity = new BigDecimal(Config.getConfig("soaring.trading.volume.disparity", "1000"));
 
-    public SoaringTradingVolume(SymbolCandle[] symbolCandles){
-        super(symbolCandles);
+    public SoaringTradingVolume(IdCandles[] idCandles){
+        super(idCandles);
     }
-    public SoaringTradingVolume(SymbolCandleTimes symbolCandleTimes){
-        super(symbolCandleTimes);
+    public SoaringTradingVolume(IdCandleTimes idCandleTimes){
+        super(idCandleTimes);
     }
 
     public void setAverageCount(int averageCount) {
@@ -52,8 +54,8 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
         this.highestExclusionRate = highestExclusionRate;
     }
 
-    public SoaringTradingVolumeData getData(SymbolCandle[] symbolCandles){
-        setSymbolCandles(symbolCandles);
+    public SoaringTradingVolumeData getData(IdCandles[] symbolCandles){
+        setIdCandles(symbolCandles);
         return getData();
     }
 
@@ -87,13 +89,13 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
 
         int validSymbolCount = 0;
 
-        List<SymbolCandle> list = new ArrayList<>();
-        List<SymbolCandle> upList = new ArrayList<>();
-        List<SymbolCandle> downList = new ArrayList<>();
+        List<IdCandles> list = new ArrayList<>();
+        List<IdCandles> upList = new ArrayList<>();
+        List<IdCandles> downList = new ArrayList<>();
         int searchLength = searchIndex(index);
         int check = (times.length - index);
 
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
                 continue;
@@ -132,7 +134,7 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
 
             BigDecimal [] volumes = Volumes.getVolumes(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(volumes);
-            BigDecimal avg = BigDecimals.average(volumes, highestExclusionRate);
+            BigDecimal avg = TradingMath.average(volumes, highestExclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }
@@ -160,9 +162,9 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
         }
 
         data.length = validSymbolCount;
-        data.soaringArray = list.toArray(new SymbolCandle[0]);
-        data.ups = upList.toArray(new SymbolCandle[0]);
-        data.downs = downList.toArray(new SymbolCandle[0]);
+        data.soaringArray = list.toArray(new IdCandles[0]);
+        data.ups = upList.toArray(new IdCandles[0]);
+        data.downs = downList.toArray(new IdCandles[0]);
         data.ratio = new BigDecimal(list.size()).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
         return data;
     }

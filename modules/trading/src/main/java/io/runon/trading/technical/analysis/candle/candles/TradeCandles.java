@@ -17,6 +17,7 @@ package io.runon.trading.technical.analysis.candle.candles;
 
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.Trade;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.candle.GetCandles;
 import io.runon.trading.technical.analysis.candle.TradeAdd;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -42,13 +43,15 @@ public class TradeCandles implements GetCandles {
     public static final TradeCandle[] EMPTY_CANDLES = new TradeCandle[0];
 
     //24시간으로 나눌 수 있는 값만 설정 가능
-    private final long timeGap ;
+    private final long candleTime;
 
     private int count = DEFAULT_COUNT;
 
     TradeAdd tradeAdd ;
 
+
     List<TradeCandle> candleList = new LinkedList<>();
+
     TradeCandle[] candles = EMPTY_CANDLES;
 
     TradeCandle lastCandle = null;
@@ -83,19 +86,25 @@ public class TradeCandles implements GetCandles {
 
 
 
-
-
+    private final String interval;
     /**
      * 생성자
-     * @param timeGap long timeGap
+     * @param candleTime long timeGap
      */
-    public TradeCandles(long timeGap ){
+    public TradeCandles(long candleTime ){
         //24시간 이하의 값에서는 24보다 낮은 값만 구할 수 있음
-        if(timeGap < Times.DAY_1 &&
-                Times.DAY_1%timeGap != 0){
-            throw new RuntimeException("24 hour % timeGap 0: "  +  Times.DAY_1%timeGap );
+        if(candleTime < Times.DAY_1 &&
+                Times.DAY_1%candleTime != 0){
+            throw new RuntimeException("24 hour % timeGap 0: "  +  Times.DAY_1%candleTime );
         }
-        this.timeGap = timeGap;
+        this.candleTime = candleTime;
+        interval = TradingTimes.getInterval(candleTime);
+        tradeAdd = new FirstTradeAdd(this);
+    }
+
+    public TradeCandles(String interval){
+        this.interval = interval;
+        this.candleTime = TradingTimes.getIntervalTime(interval);
         tradeAdd = new FirstTradeAdd(this);
     }
 
@@ -110,19 +119,19 @@ public class TradeCandles implements GetCandles {
     /**
      * 생성자
      * 처음부터 많은 켄들이 한번에 추가될 경우
-     * @param timeGap long timeGap
+     * @param candleTime long timeGap
      * @param candles TradeCandle ready candles
      * @param saveCount int save count
      */
-    public TradeCandles(long timeGap, TradeCandle[] candles, int saveCount ){
-        if(timeGap < Times.DAY_1 &&
-                Times.DAY_1%timeGap != 0){
-            throw new RuntimeException("24 hour % timeGap 0: "  +  Times.DAY_1%timeGap );
+    public TradeCandles(long candleTime, TradeCandle[] candles, int saveCount ){
+        if(candleTime < Times.DAY_1 &&
+                Times.DAY_1%candleTime != 0){
+            throw new RuntimeException("24 hour % timeGap 0: "  +  Times.DAY_1%candleTime );
         }
 
-        this.timeGap = timeGap;
+        this.candleTime = candleTime;
         this.count = saveCount;
-
+        interval = TradingTimes.getInterval(candleTime);
 
         if(candles == null || candles.length == 0){
             tradeAdd = new FirstTradeAdd(this);
@@ -146,6 +155,18 @@ public class TradeCandles implements GetCandles {
         }
     }
 
+    /**
+     * 캔들 추가가 없는 벡테스티용
+     * @param candles 캔들세팅
+     */
+    public void setCandles(TradeCandle [] candles){
+        this.candles = candles;
+        lastCandle = candles[candles.length-1];
+    }
+
+    public String getInterval(){
+        return interval;
+    }
 
     /**
      * add trade candles
@@ -234,7 +255,7 @@ public class TradeCandles implements GetCandles {
         }
 
         if(isValidTime && candleList.size() > 1){
-            long validTime = tradeCandle.getOpenTime() - (timeGap*count);
+            long validTime = tradeCandle.getOpenTime() - (candleTime *count);
 
             for(;;){
                 if(candleList.size() <2){
@@ -278,12 +299,12 @@ public class TradeCandles implements GetCandles {
     }
 
     /**
-     * 타임 갭 얻기
+     * 1분봉 60000 (mills second)
      * timeGap get
      * @return long timeGap
      */
-    public long getTimeGap() {
-        return timeGap;
+    public long getCandleTime() {
+        return candleTime;
     }
 
     /**
@@ -357,7 +378,7 @@ public class TradeCandles implements GetCandles {
      */
     public TradeCandle[] getCandles(long endTime, int count) {
         TradeCandle [] candles = this.candles;
-        return getCandles(timeGap, candles, endTime, count);
+        return getCandles(candleTime, candles, endTime, count);
     }
 
     public static TradeCandle[] getCandles( TradeCandle [] candles, long endTime, int count){
@@ -408,7 +429,7 @@ public class TradeCandles implements GetCandles {
 
         long time = endTime - openTime;
 
-        int quotient = (int) (time/timeGap);
+        int quotient = (int) (time/ candleTime);
 
         if(quotient >= candles.length){
             return null;

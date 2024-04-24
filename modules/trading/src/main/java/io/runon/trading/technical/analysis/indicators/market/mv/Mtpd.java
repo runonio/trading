@@ -1,13 +1,15 @@
 package io.runon.trading.technical.analysis.indicators.market.mv;
 
-import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
+
+
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -21,12 +23,12 @@ import java.util.Arrays;
  * @author macle
  */
 public class Mtpd extends Mvd{
-    public Mtpd(SymbolCandleTimes symbolCandleTimes){
+    public Mtpd(IdCandleTimes symbolCandleTimes){
         super(symbolCandleTimes);
     }
 
-    public Mtpd(SymbolCandle[] symbolCandles) {
-        super(symbolCandles);
+    public Mtpd(IdCandles[] idCandles) {
+        super(idCandles);
     }
 
 
@@ -56,7 +58,7 @@ public class Mtpd extends Mvd{
 
         BigDecimal avgSum = BigDecimal.ZERO;
         BigDecimal sum = BigDecimal.ZERO;
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
                 continue;
@@ -94,7 +96,7 @@ public class Mtpd extends Mvd{
 
             BigDecimal [] tradingPrices = Volumes.getTradingPrices(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(tradingPrices);
-            BigDecimal avg = BigDecimals.average(tradingPrices, highestExclusionRate);
+            BigDecimal avg = TradingMath.average(tradingPrices, highestExclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }

@@ -6,7 +6,7 @@ import io.runon.trading.TimePrice;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.backtesting.price.TimePriceData;
-import io.runon.trading.backtesting.price.symbol.SlippageRatePrice;
+import io.runon.trading.backtesting.price.SlippageRatePrice;
 import io.runon.trading.data.file.TimeFileLineRead;
 import io.runon.trading.data.file.TimeName;
 import io.runon.trading.order.MarketOrderCash;
@@ -39,7 +39,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
         account = new FuturesBacktestingAccount("test");
         account.addCash(new BigDecimal(10000));
-        account.setSymbolPrice(slippageRatePrice);
+        account.setIdPrice(slippageRatePrice);
     }
 
     public void setStrategy(StrategyOrder<T> strategy) {
@@ -151,13 +151,13 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
         MarketOrderCash order = strategy.getPosition(data);
         if(order.getCash().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
-            lastPosition = account.getSymbolPosition(symbol);
+            lastPosition = account.getPosition(symbol);
             return ;
         }
 
         account.order(symbol, order);
 
-        lastPosition = account.getSymbolPosition(symbol);
+        lastPosition = account.getPosition(symbol);
         if(isChart){
             MarkerData.MarkerType markerType = MarkerData.MarkerType.aboveBar;
             MarkerData.MarkerShape markerShape = MarkerData.MarkerShape.arrowDown;
@@ -178,7 +178,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
             addChartMark(markerData);
         }
 
-        FuturesPosition futuresPosition  = account.getPosition(symbol);
+        FuturesPosition futuresPosition  = account.getFuturesPosition(symbol);
         log.info(getLogMessage(price));
     }
 

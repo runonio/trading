@@ -4,10 +4,11 @@ import com.seomse.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,12 +27,12 @@ public class Nhnl extends MarketIndicators<NhnlData> {
     /**
      * 캔들 정보를 활용한 분석
      */
-    public Nhnl(SymbolCandle[] symbolCandles){
-        super(symbolCandles);
+    public Nhnl(IdCandles[] idCandles){
+        super(idCandles);
     }
 
-    public Nhnl(SymbolCandleTimes symbolCandleTimes) {
-        super(symbolCandleTimes);
+    public Nhnl(IdCandleTimes idCandleTimes) {
+        super(idCandleTimes);
     }
 
     private long candleTime = -1;
@@ -61,13 +62,13 @@ public class Nhnl extends MarketIndicators<NhnlData> {
 
         int validSymbolCount = 0;
 
-        List<SymbolCandle> highList = new ArrayList<>();
-        List<SymbolCandle> lowList = new ArrayList<>();
+        List<IdCandles> highList = new ArrayList<>();
+        List<IdCandles> lowList = new ArrayList<>();
 
         long rangeEndTime = candleOpenTime - timeRange + candleTime;
         int searchLength = searchIndex(index);
 
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle [] candles = symbolCandle.getCandles();
 
             int openTimeIndex = Candles.getOpenTimeIndex(candles, data.time, searchLength);
@@ -121,12 +122,12 @@ public class Nhnl extends MarketIndicators<NhnlData> {
         data.length = validSymbolCount;
 
         if(highList.size() > 0){
-            data.highs = highList.toArray(new SymbolCandle[0]);
+            data.highs = highList.toArray(new IdCandles[0]);
             highList.clear();
         }
 
         if(lowList.size() > 0){
-            data.lows = lowList.toArray(new SymbolCandle[0]);
+            data.lows = lowList.toArray(new IdCandles[0]);
             lowList.clear();
         }
 

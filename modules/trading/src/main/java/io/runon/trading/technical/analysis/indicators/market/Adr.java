@@ -5,9 +5,10 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
+
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -36,12 +37,12 @@ public class Adr extends MarketIndicators<TimeNumber> {
 
     public static final BigDecimal MAX = new BigDecimal(Config.getConfig("adr.max", "200"));
 
-    public Adr(SymbolCandle[] symbolCandles) {
-        super(symbolCandles);
+    public Adr(IdCandles[] idCandles) {
+        super(idCandles);
 
     }
-    public Adr(SymbolCandleTimes symbolCandleTimes) {
-        super(symbolCandleTimes);
+    public Adr(IdCandleTimes idCandleTimes) {
+        super(idCandleTimes);
 
     }
     @Override
@@ -55,7 +56,7 @@ public class Adr extends MarketIndicators<TimeNumber> {
         int advancing = 0;
         int decline = 0;
 
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){

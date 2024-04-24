@@ -16,7 +16,7 @@ import java.util.Map;
  * @author macle
  */
 @Slf4j
-public class CandleStorage {
+public class TimeCandleFileStorage {
 
     private final Map<Long, TradeCandles> candlesMap = new HashMap<>();
 
@@ -29,8 +29,7 @@ public class CandleStorage {
         TradeCandle [] candles = CsvCandle.load(path, time);
         TradeCandles tradeCandles = new TradeCandles(time);
         tradeCandles.setCount(candles.length);
-        tradeCandles.addCandle(candles);
-
+        tradeCandles.setCandles(candles);
         candlesMap.put(time, tradeCandles);
 
         return tradeCandles;

@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting.price.symbol;
+package io.runon.trading.backtesting.price;
 
 import io.runon.trading.Price;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author macle
  */
-public abstract class MapSymbolPrice<E extends Price> implements SymbolPrice{
+public abstract class MapPrice<E extends Price> implements IdPrice {
 
     protected Map<String, E> priceMap;
 
@@ -61,8 +61,8 @@ public abstract class MapSymbolPrice<E extends Price> implements SymbolPrice{
 
 
     @Override
-    public BigDecimal getPrice(String symbol) {
-        return priceMap.get(symbol).getClose();
+    public BigDecimal getPrice(String id) {
+        return priceMap.get(id).getClose();
     }
 
 

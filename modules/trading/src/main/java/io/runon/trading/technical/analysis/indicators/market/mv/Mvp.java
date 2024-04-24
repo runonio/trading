@@ -3,10 +3,10 @@ package io.runon.trading.technical.analysis.indicators.market.mv;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,12 +20,12 @@ import java.math.RoundingMode;
 public class Mvp extends MarketIndicators<TimeNumber> {
 
 
-    public Mvp(SymbolCandle[] symbolCandles){
-        super(symbolCandles);
+    public Mvp(IdCandles[] idCandles){
+        super(idCandles);
         scale = 2;
     }
-    public Mvp(SymbolCandleTimes symbolCandleTimes){
-        super(symbolCandleTimes);
+    public Mvp(IdCandleTimes idCandleTimes){
+        super(idCandleTimes);
         scale = 2;
     }
 
@@ -40,7 +40,7 @@ public class Mvp extends MarketIndicators<TimeNumber> {
 
         BigDecimal sum = BigDecimal.ZERO;
 
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
 
             TradeCandle[] candles = symbolCandle.getCandles();
 

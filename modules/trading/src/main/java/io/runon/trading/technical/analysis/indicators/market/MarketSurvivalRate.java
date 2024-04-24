@@ -4,10 +4,10 @@ import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,12 +20,12 @@ import java.math.RoundingMode;
 public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
 
 
-    public MarketSurvivalRate(SymbolCandle[] symbolCandles) {
-        super(symbolCandles);
+    public MarketSurvivalRate(IdCandles[] idCandles) {
+        super(idCandles);
     }
 
-    public MarketSurvivalRate(SymbolCandleTimes symbolCandleTimes) {
-        super(symbolCandleTimes);
+    public MarketSurvivalRate(IdCandleTimes idCandleTimes) {
+        super(idCandleTimes);
 
     }
 
@@ -44,7 +44,7 @@ public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
 
         int validSymbolCount = 0;
         int survivalCount = 0;
-        for(SymbolCandle symbolCandle : symbolCandles){
+        for(IdCandles symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){

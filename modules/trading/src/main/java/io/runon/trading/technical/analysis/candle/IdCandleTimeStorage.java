@@ -1,4 +1,4 @@
-package io.runon.trading.technical.analysis.symbol;
+package io.runon.trading.technical.analysis.candle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,12 +8,12 @@ import java.util.Map;
  * 싱글턴
  * @author macle
  */
-public class SymbolCandleTimeStorage {
+public class IdCandleTimeStorage {
     private static class Singleton {
-        private static final SymbolCandleTimeStorage instance = new SymbolCandleTimeStorage();
+        private static final IdCandleTimeStorage instance = new IdCandleTimeStorage();
     }
 
-    public static SymbolCandleTimeStorage getInstance() {
+    public static IdCandleTimeStorage getInstance() {
         return Singleton.instance;
     }
 
@@ -21,9 +21,9 @@ public class SymbolCandleTimeStorage {
 
     private final Object lock = new Object();
 
-    private final Map<String, SymbolCandleTimes> map = new HashMap<>();
+    private final Map<String, IdCandleTimes> map = new HashMap<>();
 
-    public void add(SymbolCandleTimes symbolCandleTimes){
+    public void add(IdCandleTimes symbolCandleTimes){
         String id = symbolCandleTimes.getId();
         if(id == null){
             symbolCandleTimes.setId(newId());
@@ -48,13 +48,13 @@ public class SymbolCandleTimeStorage {
         }
     }
 
-    public SymbolCandleTimes remove(String id){
+    public IdCandleTimes remove(String id){
         synchronized (lock){
             return map.remove(id);
         }
     }
 
-    public SymbolCandleTimes get(String id){
+    public IdCandleTimes get(String id){
         synchronized (lock){
             return map.get(id);
         }
@@ -63,9 +63,9 @@ public class SymbolCandleTimeStorage {
 
 
 
-    public SymbolCandleTimes [] getArray(){
+    public IdCandleTimes[] getArray(){
         synchronized (lock){
-            return map.values().toArray(new SymbolCandleTimes[0]);
+            return map.values().toArray(new IdCandleTimes[0]);
         }
     }
 

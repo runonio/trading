@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 public interface FuturesAccount extends Account{
-    FuturesPosition getPosition(String symbol);
+    FuturesPosition getFuturesPosition(String symbol);
     void setLeverage(String symbol, BigDecimal leverage);
     BigDecimal getLeverage(String symbol);
 

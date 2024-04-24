@@ -1,4 +1,4 @@
-package io.runon.trading.backtesting.price.symbol;
+package io.runon.trading.backtesting.price;
 
 import io.runon.trading.Candle;
 
@@ -12,7 +12,7 @@ import java.util.Random;
  * 매도할때는 종가와 저가 사이의 가겨중 랜덤한 가격을 활용 (저가에 매도할 확율이 높음)
  * @author macle
  */
-public class SlippageRandomSymbolPrice extends CandleSymbolMapPrice {
+public class SlippageRandomPrice extends CandleMapPrice {
 
 
     private BigDecimal minRate = new BigDecimal("0.2");
@@ -33,8 +33,8 @@ public class SlippageRandomSymbolPrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getBuyPrice(String symbol) {
-        Candle candle = candleMap.get(symbol);
+    public BigDecimal getBuyPrice(String id) {
+        Candle candle = candleMap.get(id);
         BigDecimal gap = candle.getHigh().subtract(candle.getClose());
         BigDecimal min = gap.multiply(minRate);
         if(min.compareTo(BigDecimal.ZERO) == 0){
@@ -45,8 +45,8 @@ public class SlippageRandomSymbolPrice extends CandleSymbolMapPrice {
     }
 
     @Override
-    public BigDecimal getSellPrice(String symbol) {
-        Candle candle = candleMap.get(symbol);
+    public BigDecimal getSellPrice(String id) {
+        Candle candle = candleMap.get(id);
         BigDecimal gap = candle.getClose().subtract(candle.getLow());
         BigDecimal min = gap.multiply(minRate);
 

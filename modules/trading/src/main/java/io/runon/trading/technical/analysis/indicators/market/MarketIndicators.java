@@ -1,8 +1,8 @@
 package io.runon.trading.technical.analysis.indicators.market;
 
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.symbol.SymbolCandle;
-import io.runon.trading.technical.analysis.symbol.SymbolCandleTimes;
+import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 
 import java.math.BigDecimal;
 
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public abstract class MarketIndicators<T> {
 
 
-    protected SymbolCandle[] symbolCandles;
+    protected IdCandles[] idCandles;
     protected long [] times = null;
 
     protected int searchLength = 50;
@@ -22,17 +22,17 @@ public abstract class MarketIndicators<T> {
         this.searchLength = searchLength;
     }
 
-    public MarketIndicators(SymbolCandle[] symbolCandles){
-        setSymbolCandles(symbolCandles);
+    public MarketIndicators(IdCandles[] idCandles){
+        setIdCandles(idCandles);
     }
 
-    public void setSymbolCandles(SymbolCandle[] symbolCandles) {
-        this.symbolCandles = symbolCandles;
-        times = Candles.getTimes(symbolCandles);
+    public void setIdCandles(IdCandles[] idCandles) {
+        this.idCandles = idCandles;
+        times = Candles.getTimes(idCandles);
     }
 
-    public MarketIndicators(SymbolCandleTimes symbolCandleTimes){
-        this.symbolCandles = symbolCandleTimes.getSymbolCandles();
+    public MarketIndicators(IdCandleTimes symbolCandleTimes){
+        this.idCandles = symbolCandleTimes.getSymbolCandles();
         times = symbolCandleTimes.getTimes();
     }
 
@@ -49,8 +49,8 @@ public abstract class MarketIndicators<T> {
         this.minTradingPrice = minTradingPrice;
     }
 
-    public SymbolCandle[] getSymbolCandles() {
-        return symbolCandles;
+    public IdCandles[] getIdCandles() {
+        return idCandles;
     }
 
     public long[] getTimes() {

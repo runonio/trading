@@ -45,7 +45,7 @@ class FirstTradeAdd implements TradeAdd {
             tradeCandles.tradeAdd = new NextTradeAdd(tradeCandles);
             return tradeCandles.tradeAdd.addTrade(trade);
         }
-        long timeGap = tradeCandles.getTimeGap();
+        long timeGap = tradeCandles.getCandleTime();
 
         long startTime = TradingTimes.getOpenTime(timeGap, trade.getTime());
         TradeCandle tradeCandle =tradeCandles.addTradeNewCandle(trade, startTime, startTime + timeGap);

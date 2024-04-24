@@ -46,7 +46,7 @@ class NextTradeAdd implements TradeAdd {
             tradeCandles.lastCandle.addTrade(trade);
             return tradeCandles.lastCandle;
         }
-        long timeGap = tradeCandles.getTimeGap();
+        long timeGap = tradeCandles.getCandleTime();
         long nextStartTime =  tradeCandles.lastCandle.getCloseTime();
         long nextEndTime  = nextStartTime + timeGap;
         if(trade.getTime() < nextEndTime){
