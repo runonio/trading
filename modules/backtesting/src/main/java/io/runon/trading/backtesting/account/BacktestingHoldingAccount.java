@@ -23,7 +23,9 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
 
     }
 
-    public BacktestingHoldingAccount( String id){
+
+
+    public BacktestingHoldingAccount(String id){
         super(id);
     }
 

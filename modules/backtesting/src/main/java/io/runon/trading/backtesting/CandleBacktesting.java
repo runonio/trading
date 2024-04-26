@@ -1,14 +1,19 @@
 package io.runon.trading.backtesting;
 
+import com.seomse.commons.utils.time.Times;
+import com.seomse.commons.utils.time.YmdUtil;
 import io.runon.trading.CashQuantity;
 import io.runon.trading.HoldingQuantity;
 import io.runon.trading.Trade;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.backtesting.account.BacktestingHoldingAccount;
+import io.runon.trading.closed.days.ClosedDays;
 import io.runon.trading.order.OrderQuantity;
 import io.runon.trading.strategy.StrategyOrders;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 
 /**
  * 켄들을 활용해 벡테스팅한다..
@@ -29,6 +34,14 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
     protected long endTime = -1;
 
     protected long moveTime = -1;
+
+    protected ZoneId zoneId = TradingTimes.KOR_ZONE_ID;
+
+    private ClosedDays closedDays = null;
+
+    public void setClosedDays(ClosedDays closedDays) {
+        this.closedDays = closedDays;
+    }
 
     public CandleBacktesting(){
     }
@@ -62,6 +75,12 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
         this.data = data;
     }
 
+    public void setZoneId(ZoneId zoneId) {
+        this.zoneId = zoneId;
+    }
+
+
+
     @Override
     public void run(){
 
@@ -91,15 +110,26 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
 
         long nextTime= beginTime;
 
-        //noinspection ConditionalBreakInInfiniteLoop
         for(;;){
+
+            if(closedDays.isClosedDay(YmdUtil.getYmd(nextTime, zoneId))){
+                nextTime += moveTime;
+                if(nextTime > endTime){
+                    break;
+                }
+                continue;
+            }
+
             data.setStandardTime(nextTime);
             strategy();
 
             //초기에는 콘솔에 뿌리기, 나중에 리포트 형슥의 결과를 제공 하는 경우를 고민한다.
+            System.out.println(Times.ymdhm(nextTime, zoneId));
+            System.out.println(account.getAssets());
+
 
             nextTime += moveTime;
-            if(moveTime > endTime){
+            if(nextTime > endTime){
                 break;
             }
 
@@ -135,12 +165,6 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
             }else if(tradeType == Trade.Type.SELL){
                 account.sell(order.getHoldingId(), order.getQuantity());
             }
-
         }
-
-
     }
-
-
-
 }
