@@ -9,7 +9,7 @@ import io.runon.trading.backtesting.strategy.PositionStrategy;
 import io.runon.trading.backtesting.strategy.TradingStrategy;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.strategy.Strategy;
-import io.runon.trading.strategy.StrategyOrder;
+import io.runon.trading.strategy.StrategyOrderCash;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -34,9 +34,9 @@ public abstract class FuturesSingleBacktesting<E extends PriceCandle> extends Fu
         if(strategy instanceof Strategy){
             //noinspection unchecked
             this.strategy = new PositionStrategy<>((Strategy<E>)strategy);
-        }else if(strategy instanceof StrategyOrder<?>){
+        }else if(strategy instanceof StrategyOrderCash<?>){
             //noinspection unchecked
-            this.strategy = new OrderStrategy<>((StrategyOrder<E>) strategy);
+            this.strategy = new OrderStrategy<>((StrategyOrderCash<E>) strategy);
         }else {
             throw new IllegalArgumentException("class not support: " + strategy.getClass().getName());
         }
@@ -48,16 +48,16 @@ public abstract class FuturesSingleBacktesting<E extends PriceCandle> extends Fu
     //1분에 한번 판단
     protected long cycleTime = Times.MINUTE_1;
 
-    protected final long startTime;
+    protected final long beginTime;
     protected final long endTime;
 
-    public FuturesSingleBacktesting(long startTime, long endTime){
-        this.startTime = startTime;
+    public FuturesSingleBacktesting(long beginTime, long endTime){
+        this.beginTime = beginTime;
         this.endTime = endTime;
     }
 
     public FuturesSingleBacktesting(long startTime){
-        this.startTime = startTime;
+        this.beginTime = startTime;
         this.endTime = System.currentTimeMillis();
     }
 
@@ -86,7 +86,7 @@ public abstract class FuturesSingleBacktesting<E extends PriceCandle> extends Fu
         }
 
         account.setIdPrice(idPrice);
-        time = startTime;
+        time = beginTime;
 
         for(;;) {
 

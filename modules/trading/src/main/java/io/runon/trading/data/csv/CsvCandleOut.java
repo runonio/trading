@@ -116,7 +116,7 @@ public  class CsvCandleOut {
                     if(lines.length == 1){
                         return;
                     }
-                    String [] newLines = new String[line.length()-1];
+                    String [] newLines = new String[lines.length-1];
                     //1번째 라인부터 복사해서 새로운 배열을 만듬
                     System.arraycopy(lines, 1, newLines, 0, newLines.length);
                     outNewLines(newLines, filesDirPath,type, zoneId);

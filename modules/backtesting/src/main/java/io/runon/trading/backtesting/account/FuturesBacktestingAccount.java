@@ -4,7 +4,7 @@ import io.runon.trading.account.FuturesAccount;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.account.FuturesPositionData;
 import io.runon.trading.backtesting.price.IdPrice;
-import io.runon.trading.order.MarketOrderCash;
+import io.runon.trading.order.OrderCash;
 import io.runon.trading.strategy.Position;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,7 +114,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.sellFee = fee;
     }
 
-    public void order(String symbol, MarketOrderCash order){
+    public void order(String symbol, OrderCash order){
         Position position = order.getPosition();
 
         if(position == Position.LONG){

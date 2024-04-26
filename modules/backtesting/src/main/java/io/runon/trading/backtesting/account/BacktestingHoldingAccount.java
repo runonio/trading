@@ -1,5 +1,6 @@
 package io.runon.trading.backtesting.account;
 
+import io.runon.trading.CashQuantity;
 import io.runon.trading.HoldingQuantity;
 import io.runon.trading.account.HoldingAccount;
 import io.runon.trading.backtesting.price.IdPrice;
@@ -30,30 +31,38 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
         this.idPrice = idPrice;
     }
 
-    private int buyScale = 0;
+    private int tradingScale = 0;
 
-    public void setBuyScale(int buyScale) {
-        this.buyScale = buyScale;
+    public void setTradingScale(int tradingScale) {
+        this.tradingScale = tradingScale;
     }
 
-    public void buyAllCash(String symbol){
-        BigDecimal price = idPrice.getBuyPrice(symbol);
-        BigDecimal buyQuantity = cash.divide(price,buyScale, RoundingMode.DOWN);
+    public void buyAllCash(String id){
+        BigDecimal price = idPrice.getBuyPrice(id);
+        BigDecimal buyQuantity = cash.divide(price, tradingScale, RoundingMode.DOWN);
 
         if(buyQuantity.compareTo(BigDecimal.ZERO) <= 0){
             return;
         }
 
-        buy(newHoldingQuantity(symbol,buyQuantity.stripTrailingZeros()));
+        buy(newHoldingQuantity(id,buyQuantity.stripTrailingZeros()));
     }
 
     public abstract T newHoldingQuantity(String id, BigDecimal quantity);
+
+    public void buy(String id, BigDecimal quantity){
+        buy(newHoldingQuantity(id, quantity));
+    }
+    public void sell(String id, BigDecimal quantity){
+        sell(newHoldingQuantity(id, quantity));
+    }
+
     @Override
     public void buy(T holdingQuantity) {
-        BigDecimal buyPrice = holdingQuantity.getQuantity().multiply(idPrice.getBuyPrice(holdingQuantity.getId()));
+        BigDecimal buyCash = holdingQuantity.getQuantity().multiply(idPrice.getBuyPrice(holdingQuantity.getId()));
 
-        if(buyPrice.compareTo(cash) > 0 ){
-            throw new NotEnoughCashException("cash: " + cash.stripTrailingZeros().toPlainString() +" buy price: " + buyPrice.stripTrailingZeros().toPlainString());
+        if(buyCash.compareTo(cash) > 0 ){
+            throw new NotEnoughCashException("cash: " + cash.stripTrailingZeros().toPlainString() +" buy cash: " + buyCash.stripTrailingZeros().toPlainString());
         }
 
         T lastHolding = HoldingMap.get(holdingQuantity.getId());
@@ -64,7 +73,7 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
             lastHolding.setQuantity(num);
         }
 
-        cash = cash.subtract(buyPrice);
+        cash = cash.subtract(buyCash);
     }
 
     public void sellAll(String id){
@@ -100,7 +109,20 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
     }
 
     @Override
-    public BigDecimal getSellPrice(String symbol) {
-        return idPrice.getSellPrice(symbol);
+    public BigDecimal getSellPrice(String id) {
+        return idPrice.getSellPrice(id);
+    }
+
+    //목적 수량과 현금으로 살수 잇는 최대 수량
+    public CashQuantity getCashQuantity(String id, BigDecimal quantity, BigDecimal cash){
+        BigDecimal price = idPrice.getBuyPrice(id);
+        BigDecimal maxQuantity = cash.divide(price, tradingScale, RoundingMode.DOWN);
+
+        if(maxQuantity.compareTo(quantity) > 0){
+            return new CashQuantity(maxQuantity.multiply(price), maxQuantity);
+        }
+
+        return new CashQuantity(quantity.multiply(price), quantity);
+
     }
 }

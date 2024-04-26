@@ -9,9 +9,9 @@ import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.SlippageRatePrice;
 import io.runon.trading.data.file.TimeFileLineRead;
 import io.runon.trading.data.file.TimeName;
-import io.runon.trading.order.MarketOrderCash;
+import io.runon.trading.order.OrderCash;
 import io.runon.trading.strategy.Position;
-import io.runon.trading.strategy.StrategyOrder;
+import io.runon.trading.strategy.StrategyOrderCash;
 import io.runon.trading.view.MarkerData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +30,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
     protected final SlippageRatePrice slippageRatePrice = new SlippageRatePrice();
 
-    protected StrategyOrder<T> strategy;
+    protected StrategyOrderCash<T> strategy;
 
     protected final String path;
 
@@ -42,17 +42,17 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
         account.setIdPrice(slippageRatePrice);
     }
 
-    public void setStrategy(StrategyOrder<T> strategy) {
+    public void setStrategy(StrategyOrderCash<T> strategy) {
         this.strategy = strategy;
     }
 
-    protected long startTime = -1;
+    protected long beginTime = -1;
     protected long endTime = -1;
 
     protected long accumulateTime = -1;
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void setBeginTime(long beginTime) {
+        this.beginTime = beginTime;
     }
 
     public void setAccumulateTime(long accumulateTime) {
@@ -85,7 +85,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
                 E data = make(line);
 
-                if(startTime >= 0 && data.getTime() < startTime){
+                if(beginTime >= 0 && data.getTime() < beginTime){
                     if(accumulateTime >= 0 && data.getTime() >= accumulateTime){
                         accumulateData(data);
                     }
@@ -107,8 +107,8 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
 
         };
 
-        if(startTime >= 0){
-            lineRead.setStartName(TimeName.getName(startTime, fileTimeType, zoneId));
+        if(beginTime >= 0){
+            lineRead.setStartName(TimeName.getName(beginTime, fileTimeType, zoneId));
         }
 
         if(endTime >= 0){
@@ -149,7 +149,7 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
             candleOpenTime = openTime;
         }
 
-        MarketOrderCash order = strategy.getPosition(data);
+        OrderCash order = strategy.getPosition(data);
         if(order.getCash().compareTo(BigDecimal.ZERO) == 0 || order.getPosition() == Position.NONE){
             lastPosition = account.getPosition(symbol);
             return ;
