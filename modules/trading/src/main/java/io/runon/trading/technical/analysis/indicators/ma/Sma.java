@@ -14,6 +14,8 @@ import java.math.MathContext;
  */
 public class Sma {
 
+
+
     /**
      * 이동평균값얻기
      * @param array 배열
@@ -43,6 +45,8 @@ public class Sma {
         }
         return sum.divide(new BigDecimal(end - start), MathContext.DECIMAL128);
     }
+
+
 
 
     /**
@@ -114,6 +118,26 @@ public class Sma {
             averages[i] = get(array,n, startIndex+i);
         }
         return averages;
+    }
+
+
+    public static TimeNumber getTimeNumber(TimeNumber [] array, int n){
+        TimeNumberData timeNumber = new TimeNumberData();
+
+        int startIndex = array.length- n;
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = startIndex; i <array.length ; i++) {
+            sum = sum.add(array[i].getNumber());
+        }
+
+        TimeNumberData sma = new TimeNumberData();
+        sma.setTime(array[array.length-1].getTime());
+        sma.setNumber(sum.divide(new BigDecimal(array.length-startIndex), MathContext.DECIMAL128));
+
+        return sma;
     }
 
     public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int resultLength){

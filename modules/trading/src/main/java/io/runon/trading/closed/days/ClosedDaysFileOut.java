@@ -4,7 +4,7 @@ import com.seomse.commons.callback.StrCallback;
 import com.seomse.commons.utils.ExceptionUtil;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.YmdUtil;
-import io.runon.trading.TradingConfig;
+import io.runon.trading.CountryCode;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.YmdFiles;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +22,14 @@ import java.util.List;
 public class ClosedDaysFileOut{
 
 
-    private final ClosedDaysCallback closedDaysGet;
+    private final ClosedDaysCallback closedDaysCallback;
     private String lastCheckYmd = null;
 
-    public ClosedDaysFileOut(ClosedDaysCallback closedDaysGet){
-        this.closedDaysGet = closedDaysGet;
+    private final CountryCode countryCode;
+
+    public ClosedDaysFileOut(ClosedDaysCallback closedDaysGet, CountryCode countryCode){
+        this.closedDaysCallback = closedDaysGet;
+        this.countryCode = countryCode;
     }
 
     public void out() {
@@ -42,10 +45,11 @@ public class ClosedDaysFileOut{
             lastCheckYmd = nowYmd;
 
             String fileSeparator = FileSystems.getDefault().getSeparator();
-            String filePath = TradingConfig.getTradingDataPath() + fileSeparator + "market/closed_days/KOR_closed_days.txt";
+            String filePath = ClosedDays.getCloseDaysFilePath(countryCode);
             String beginYmd = null;
 
             if(FileUtil.isFile(filePath)){
+
                 beginYmd = FileUtil.getLastTextLine(filePath);
                 beginYmd = YmdUtil.getYmd(beginYmd,1);
             }
@@ -70,7 +74,8 @@ public class ClosedDaysFileOut{
                 }
             };
 
-            closedDaysGet.callbackClosedDays(beginYmd, nowYmd, callback);
+
+            closedDaysCallback.callbackClosedDays(beginYmd, nowYmd, callback);
 
             if(!ymdList.isEmpty()){
                 YmdFiles.outAppend(filePath, ymdList);

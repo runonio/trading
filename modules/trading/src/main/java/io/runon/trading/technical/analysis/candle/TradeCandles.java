@@ -381,29 +381,18 @@ public class TradeCandles implements GetCandles {
     public static TradeCandle[] getCandles( TradeCandle [] candles, long endTime, int count){
         return getCandles(candles[0].getCloseTime()- candles[0].getOpenTime(), candles, endTime, count);
     }
-    public static TradeCandle[] getCandles(long timeGap, TradeCandle [] candles, long endTime, int count){
+    public static TradeCandle[] getCandles(long timeGap, TradeCandle [] candles, long closeTime, int count){
 
-        long openTime = candles[0].getOpenTime();
 
-        if(openTime > endTime){
-            return TradeCandle.EMPTY_CANDLES;
-        }
 
-        long time = endTime - openTime;
+        int closeCandleIndex = Candles.getNearCloseTimeIndex(candles, Times.DAY_1, closeTime);
+        int end = closeCandleIndex + 1;
 
-        int quotient = (int) (time/timeGap);
-
-        if(quotient >= candles.length){
-            return TradeCandle.EMPTY_CANDLES;
-        }
-
-        int end = quotient + 1;
-
-        int startIndex =  end - count;
-
+        int startIndex = end - count;
         if(startIndex < 0){
             startIndex = 0;
         }
+
 
         TradeCandle [] newCandles = new TradeCandle[end - startIndex];
         int index = 0;

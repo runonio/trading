@@ -9,9 +9,9 @@ public interface IdCandles extends GetCandles {
 
     String getId();
 
-    static IdCandles getSymbolCandle(String symbol, IdCandles[] symbolCandles){
-        for(IdCandles symbolCandle : symbolCandles){
-            if(symbolCandle.getId().equals(symbol)){
+    static IdCandles getSymbolCandle(String id, IdCandles[] idCandles){
+        for(IdCandles symbolCandle : idCandles){
+            if(symbolCandle.getId().equals(id)){
                 return symbolCandle;
             }
         }
@@ -19,9 +19,9 @@ public interface IdCandles extends GetCandles {
         return null;
     }
 
-    static TradeCandle [] getCandles(String symbol, IdCandles[] symbolCandles){
-        for(IdCandles symbolCandle : symbolCandles){
-            if(symbolCandle.getId().equals(symbol)){
+    static TradeCandle [] getCandles(String id, IdCandles[] idCandles){
+        for(IdCandles symbolCandle : idCandles){
+            if(symbolCandle.getId().equals(id)){
                 return symbolCandle.getCandles();
             }
         }

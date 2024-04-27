@@ -60,6 +60,20 @@ public class ClosedDaysSet implements ClosedDays{
         YmdFiles.outAppend(filePath, arrays);
     }
 
+    public String getText(){
+        if(ymdSet.size() == 0){
+            return "";
+        }
+
+        String [] arrays = ymdSet.toArray(new String[0]);
+        Arrays.sort(arrays);
+        StringBuilder sb = new StringBuilder();
+        for(String ymd : arrays){
+            sb.append("\n").append(ymd);
+        }
+        return sb.substring(1);
+    }
+
     public static void main(String[] args) {
         String []  ymds = {"20220101","20210101","20010501", "19500512","20240101"};
         Arrays.sort(ymds);
