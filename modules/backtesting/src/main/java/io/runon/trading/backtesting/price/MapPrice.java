@@ -17,12 +17,12 @@ public abstract class MapPrice<E extends Price> implements IdPrice {
     protected long standardTime = 0L;
 
     //벡테스팅도중 시간값이 바뀌면 가격값이 초기화 될 수 있음
-    public void setPrice(String symbol, E price){
+    public void setPrice(String id, E price){
         if(priceMap == null){
             priceMap = new HashMap<>();
         }
 
-        priceMap.put(symbol, price);
+        priceMap.put(id, price);
     }
 
     public void setPriceMap(Map<String, E> priceMap) {

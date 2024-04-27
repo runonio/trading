@@ -41,6 +41,7 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
 
     public void buyAllCash(String id){
         BigDecimal price = idPrice.getBuyPrice(id);
+
         BigDecimal buyQuantity = cash.divide(price, tradingScale, RoundingMode.DOWN);
 
         if(buyQuantity.compareTo(BigDecimal.ZERO) <= 0){
