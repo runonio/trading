@@ -223,14 +223,16 @@ public class CsvCandle {
         if(values.length > 9) {
             if (values[9] != null && !values[9].equals("")) {
                 tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
+                tradeCandle.setSellVolume();
             }
-            tradeCandle.setSellVolume();
+
         }
         if(values.length > 10) {
             if (values[10] != null && !values[10].equals("")) {
                 tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
+                tradeCandle.setSellTradingPrice();
             }
-            tradeCandle.setSellTradingPrice();
+
         }
 
         if(values.length > 11){

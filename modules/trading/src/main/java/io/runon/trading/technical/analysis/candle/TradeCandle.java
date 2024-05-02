@@ -243,7 +243,7 @@ public class TradeCandle extends CandleStick implements Volume {
      */
     public void setCandleToTrade(){
 
-        if(tradeList == null  || tradeList.size() == 0){
+        if(tradeList == null  || tradeList.isEmpty()){
             log.error("trade data not set");
             return;
         }
@@ -474,7 +474,7 @@ public class TradeCandle extends CandleStick implements Volume {
         dataMap.put(dataKey, data);
     }
 
-    public Object getData(String dataKey){
+    public String getData(String dataKey){
         if(dataMap == null){
             return null;
         }
@@ -485,6 +485,16 @@ public class TradeCandle extends CandleStick implements Volume {
     public Map<String, String> getDataMap() {
         return dataMap;
     }
+
+    public LockType getLockType (){
+
+        String lockTypeText = getData("lock_type");
+        if(lockTypeText == null){
+            return LockType.NONE;
+        }
+        return LockType.valueOf(lockTypeText);
+    }
+
 
     @SuppressWarnings("RedundantMethodOverride")
     @Override
