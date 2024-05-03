@@ -56,6 +56,35 @@
 ## long short ratio (롱숏 비율) 계좌정보를 모를경우
 시간(밀리초 유닉스타임)[0],ratio[1]
 
+## 신용정보(일별) json 데이터
+trade_ymd 매매일자
+payment_ymd 결제일자
+close 종가
+open 시가
+high 고가
+low 저가
+volume 누적거래량
+loan_new_count 융자 신규 주식수
+loan_repayment_count 융자 상환 주식수
+loan_balance_count 융자 잔고 주식수
+loan_new_amount 융자 신규 금액
+loan_repayment_amount 융자 상환 금액
+loan_balance_amount 융자 잔고 금액
+loan_balance_rate 융자 잔고 비율
+loan_trade_rate 융자 공여율
+
+## 대차잔고 json 데이터
+
+## 공매도 정보 json 데이터
+
+## 매매동향 정보 json 데이터
+
+
+# 시장 데이터
+## 증시 자금 추이
+
+## 신용 잔고, 신용 거래 체결 주수 추이
+
 # gradle
 implementation 'io.runon.trading:trading:0.4.7'
 - etc
