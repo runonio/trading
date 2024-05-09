@@ -82,7 +82,7 @@ public  class CsvCandleOut {
         }
 
 
-        long lastOpenTime = CsvTimeFile.getLastOpenTime(filesDirPath);
+        long lastOpenTime = CsvTimeFile.getLastTime(filesDirPath);
 
         if(lastOpenTime == -1){
             outNewLines(lines, filesDirPath,type, zoneId);
