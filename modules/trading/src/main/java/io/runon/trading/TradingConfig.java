@@ -11,7 +11,7 @@ import java.time.ZoneId;
 public class TradingConfig {
 
     //텍스트 표시에 사용하는 기본설정
-    public static final ZoneId VIEW_TIME_ZONE_ID = ZoneId.of(Config.getConfig("trading.view.time.zone.id","Asia/Seoul"));
+    public static final ZoneId DEFAULT_TIME_ZONE_ID = ZoneId.of(Config.getConfig("trading.view.time.zone.id","Asia/Seoul"));
 
     public static String getTradingDataPath(){
 

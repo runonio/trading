@@ -5,6 +5,9 @@ package io.runon.trading.data.file;
  */
 public interface TimeLine {
 
+    TimeLine CSV = new CsvTimeLine();
+    TimeLine JSON = new JsonTimeLine();
+
     long getTime(String line);
 
 }

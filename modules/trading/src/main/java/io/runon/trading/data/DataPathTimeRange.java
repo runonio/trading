@@ -44,8 +44,8 @@ public class DataPathTimeRange {
             jsonObject.addProperty("end_time" , Times.ymdhm(endTime, zoneId));
             jsonObject.addProperty("time_zone_id", zoneId.toString());
         }else{
-            jsonObject.addProperty("begin_time" , Times.ymdhm(beginTime, TradingConfig.VIEW_TIME_ZONE_ID));
-            jsonObject.addProperty("end_time" , Times.ymdhm(endTime, TradingConfig.VIEW_TIME_ZONE_ID));
+            jsonObject.addProperty("begin_time" , Times.ymdhm(beginTime, TradingConfig.DEFAULT_TIME_ZONE_ID));
+            jsonObject.addProperty("end_time" , Times.ymdhm(endTime, TradingConfig.DEFAULT_TIME_ZONE_ID));
         }
 
 
@@ -60,7 +60,7 @@ public class DataPathTimeRange {
     public String getBeginYmdText(){
         ZoneId zoneId = this.zoneId;
         if(zoneId == null){
-            zoneId =  TradingConfig.VIEW_TIME_ZONE_ID;
+            zoneId =  TradingConfig.DEFAULT_TIME_ZONE_ID;
         }
 
        return YmdUtil.getYmd(beginTime, zoneId);
@@ -74,7 +74,7 @@ public class DataPathTimeRange {
     public String getEndYmdText(){
         ZoneId zoneId = this.zoneId;
         if(zoneId == null){
-            zoneId =  TradingConfig.VIEW_TIME_ZONE_ID;
+            zoneId =  TradingConfig.DEFAULT_TIME_ZONE_ID;
         }
 
         return YmdUtil.getYmd(endTime, zoneId);
