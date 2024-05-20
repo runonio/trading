@@ -13,14 +13,16 @@ public class CsvTimeFile {
         return Long.parseLong(csvLine.substring(0,index));
     }
 
-    public static long getLastOpenTime(String path){
+
+
+    public static long getLastTime(String path){
 
         String lastLine = TimeFiles.getLastLine(path);
 
         if(lastLine == null){
             return -1;
         }
-        int index = lastLine.indexOf(',');
-        return Long.parseLong(lastLine.substring(0, index));
+
+        return getTime(lastLine);
     }
 }

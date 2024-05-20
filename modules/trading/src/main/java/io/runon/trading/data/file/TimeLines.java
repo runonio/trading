@@ -3,8 +3,10 @@ package io.runon.trading.data.file;
 import com.seomse.commons.callback.StrCallback;
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
+import com.seomse.commons.utils.time.YmdUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingTimes;
+import io.runon.trading.exception.TradingDataException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -163,4 +165,29 @@ public class TimeLines {
         TimeLineOut timeLineOut = LineOutManager.getInstance().getCandleLineOut(dirPath, zoneId);
         timeLineOut.update(lines);
     }
+
+
+    public static long getMaxTime(TimeLine timeLine, String [] lines){
+
+        long maxTime = -1;
+        for(String line : lines){
+
+            long time = timeLine.getTime(line);
+            maxTime = Math.max(maxTime, time);
+
+        }
+
+        return maxTime;
+    }
+
+    public static String getMaxYmd(TimeLine timeLine, String [] lines, ZoneId zoneId){
+        long maxTime = getMaxTime(timeLine, lines);
+        if(maxTime < 0){
+            throw new TradingDataException("max time -1");
+        }
+
+        return YmdUtil.getYmd(maxTime, zoneId);
+    }
+
+
 }
