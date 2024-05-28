@@ -5,6 +5,6 @@ package io.runon.trading.data.file;
 public interface PathTimeLine extends PathLastTime, TimeLine{
 
     PathTimeLine CSV = new CsvPathTimeLine();
-    PathTimeLine JSON = new CsvPathTimeLine();
+    PathTimeLine JSON = new JsonPathTimeLine();
 
 }

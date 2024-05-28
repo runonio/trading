@@ -12,5 +12,7 @@ public class TradingGson {
     public static final Gson LOWER_CASE_WITH_UNDERSCORES_PRETTY =  new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
 
     public static final Gson LOWER_CASE_WITH_UNDERSCORES =  new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    public static final Gson PRETTY =  new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson DEFAULT = new Gson();
 
 }
