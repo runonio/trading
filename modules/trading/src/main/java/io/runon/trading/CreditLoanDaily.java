@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class CreditLoanDaily {
 
+    long t;
     //거래일
     Integer tradeYmd;
     Integer paymentYmd;
@@ -35,6 +36,14 @@ public class CreditLoanDaily {
     @Override
     public String toString(){
         return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+    }
+
+    public long getTime(){
+        return t;
+    }
+
+    public void setTime(long time){
+        this.t = time;
     }
 
     public static CreditLoanDaily make(String jsonText){

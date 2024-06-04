@@ -1,5 +1,6 @@
 package io.runon.trading;
 
+import com.seomse.commons.exception.UndefinedException;
 import com.seomse.commons.utils.string.Check;
 import com.seomse.commons.utils.time.Times;
 
@@ -22,6 +23,29 @@ public class TradingTimes {
     public static ZoneId SGP_ZONE_ID = ZoneId.of("Asia/Singapore");
 
     public static ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
+
+    public static ZoneId getZoneId(String countryCode){
+        return getZoneId(CountryCode.valueOf(countryCode.toUpperCase()));
+    }
+
+    public static ZoneId getZoneId(CountryCode countryCode){
+        switch (countryCode){
+            case KOR -> {
+                return KOR_ZONE_ID;
+            }
+            case USA -> {
+                return USA_ZONE_ID;
+            }
+            case SGP -> {
+                return SGP_ZONE_ID;
+            }
+            case INR -> {
+               return INR_ZONE_ID;
+            }
+            default -> throw new UndefinedException();
+        }
+
+    }
 
 
     public static String getInterval(long time){
