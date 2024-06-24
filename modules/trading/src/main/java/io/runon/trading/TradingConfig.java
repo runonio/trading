@@ -1,6 +1,8 @@
 package io.runon.trading;
 
 import com.seomse.commons.config.Config;
+import com.seomse.commons.utils.ExceptionUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZoneId;
 
@@ -8,6 +10,7 @@ import java.time.ZoneId;
  * 트레이딩 기본 설정 모음
  * @author macle
  */
+@Slf4j
 public class TradingConfig {
 
     //텍스트 표시에 사용하는 기본설정
@@ -28,6 +31,15 @@ public class TradingConfig {
             defaultDir = "/app/runon/data";
         }
         return defaultDir;
+    }
+
+    public static CountryCode getDefaultCountryCode(){
+        try{
+            return CountryCode.valueOf(Config.getConfig("trading.default.country.code","KOR"));
+        }catch (Exception e){
+            log.error(ExceptionUtil.getStackTrace(e));
+        }
+        return CountryCode.KOR;
     }
 
     private static int TRADING_THREAD_COUNT= -1;
