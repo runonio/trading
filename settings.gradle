@@ -9,7 +9,5 @@ project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
 include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 
-
-include 'backtesting'
-project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
-
+include ':seomse-commons'
+project(':seomse-commons').projectDir = new File(settingsDir,'../../seomse/seomse-commons/modules/commons')
