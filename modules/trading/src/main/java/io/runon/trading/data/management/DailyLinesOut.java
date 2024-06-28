@@ -17,7 +17,7 @@ import java.time.ZoneId;
 public class DailyLinesOut {
 
     protected String initYmd = "19900101";
-    protected int nextDay = 100;
+    protected int nextDay = 30;
 
     protected DailyLineGet dailyLineGet;
 
