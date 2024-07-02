@@ -1,5 +1,6 @@
 package io.runon.trading.data.json;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -30,5 +31,16 @@ public class JsonOrgUtils {
         }
 
     }
+
+
+    public static JSONArray getStrArray(String [] textArray){
+        JSONArray array = new JSONArray();
+        for(String str : textArray){
+            array.put(str);
+        }
+
+        return array;
+    }
+
 
 }
