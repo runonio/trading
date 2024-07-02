@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author macle
  */
-public class TimeLineOut {
+public class TimeLineLock {
 
     private final String dirPath;
     private final TimeLine timeLine;
@@ -17,7 +17,7 @@ public class TimeLineOut {
     private final TimeName timeName;
 
     private final Object lock = new Object();
-    public TimeLineOut(String dirPath, TimeLine timeLine, TimeName timeName){
+    public TimeLineLock(String dirPath, TimeLine timeLine, TimeName timeName){
         this.dirPath = dirPath;
         this.timeLine = timeLine;
         this.timeName = timeName;
@@ -179,6 +179,12 @@ public class TimeLineOut {
         }
 
         return sb.toString();
+    }
+
+    public String [] load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, long beginTime, int count){
+        synchronized (lock) {
+            return TimeLines.load(dirPath, timeNameType, timeLine, beginTime, count);
+        }
     }
 
 }

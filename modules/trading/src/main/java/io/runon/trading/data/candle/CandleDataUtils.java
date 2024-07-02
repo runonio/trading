@@ -57,7 +57,7 @@ public class CandleDataUtils {
         String [] candlePaths = getCandlePaths(dirPath);
         for(String candlePath : candlePaths){
             long intervalTime = TradingTimes.getIntervalTime(new File(candlePath).getName());
-            TimeFileOverride timeFileOverride =  new TimeFileOverride(candlePath, new CsvTimeLine(), TimeName.getCandleType(intervalTime));
+            TimeFileOverride timeFileOverride =  new TimeFileOverride(candlePath, new CsvTimeLine(), TimeName.getDefaultType(intervalTime));
             timeFileOverride.setZoneId(zoneId);
             timeFileOverride.run();
         }

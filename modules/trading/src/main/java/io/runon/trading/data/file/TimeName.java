@@ -35,7 +35,7 @@ public interface TimeName {
     }
 
 
-    static Type getCandleType(long intervalTime){
+    static Type getDefaultType(long intervalTime){
         Type type;
         if(intervalTime >= Times.DAY_1){
             //100년
