@@ -34,7 +34,6 @@ public interface TimeName {
         , HOUR_1
     }
 
-
     static Type getDefaultType(long intervalTime){
         Type type;
         if(intervalTime >= Times.DAY_1){
@@ -133,7 +132,6 @@ public interface TimeName {
                     + DateUtil.getDateText(zonedDateTime.getDayOfMonth()) + DateUtil.getDateText(zonedDateTime.getHour());
         }
     }
-
 
     static String [] getNames(long beginTime, long endTime , Type type, ZoneId zoneId){
 

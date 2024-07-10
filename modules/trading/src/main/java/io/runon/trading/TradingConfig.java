@@ -16,6 +16,8 @@ public class TradingConfig {
     //텍스트 표시에 사용하는 기본설정
     public static final ZoneId DEFAULT_TIME_ZONE_ID = ZoneId.of(Config.getConfig("trading.view.time.zone.id","Asia/Seoul"));
 
+    public static final String RUNON_API_ADDRESS = Config.getConfig("runon.api.address","https://api.runon.io");
+
     public static String getTradingDataPath(){
 
         String dataPath = Config.getConfig("trading.data.path");
