@@ -20,7 +20,16 @@ public interface TimeLine {
         }else if(type.equals("JSON")){
             return JSON;
         }else{
-            throw new UndefinedException("Only csv and json are supported -> " + type);
+            throw new UndefinedException("Only CSV, JSON are supported -> " + type);
+        }
+    }
+
+    static String getTimeLineType(String line){
+        line = line.trim();
+        if(line.startsWith("{")){
+            return "JSON";
+        }else{
+            return "CSV";
         }
     }
 

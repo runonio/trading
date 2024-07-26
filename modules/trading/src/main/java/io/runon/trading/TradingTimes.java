@@ -44,9 +44,7 @@ public class TradingTimes {
             }
             default -> throw new UndefinedException();
         }
-
     }
-
 
     public static String getInterval(long time){
         if(time >= Times.WEEK_1 && time%Times.WEEK_1 == 0 ) {

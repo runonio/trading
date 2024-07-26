@@ -194,22 +194,5 @@ public class TimeLines {
         return YmdUtil.getYmd(maxTime, zoneId);
     }
 
-    public static String getPathInterval(String dirPath){
-        String intervalGet = dirPath.replace("\\","/");
-        int lastIndex = intervalGet.lastIndexOf("/");
-        return intervalGet.substring(lastIndex+1);
-    }
-
-    public static long getPathIntervalTime(String dirPath){
-        String interval = getPathInterval(dirPath);
-        return TradingTimes.getIntervalTime(interval);
-    }
-
-
-    public static TimeName.Type getPatTimeNameType(String dirPath){
-        long intervalTime = getPathIntervalTime(dirPath);
-        return TimeName.getDefaultType(intervalTime);
-    }
-
 
 }

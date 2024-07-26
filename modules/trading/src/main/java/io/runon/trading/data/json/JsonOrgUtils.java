@@ -24,16 +24,13 @@ public class JsonOrgUtils {
             }
 
             return new BigDecimal(str);
-
-
         }else{
             return new BigDecimal(data.toString());
         }
 
     }
 
-
-    public static JSONArray getStrArray(String [] textArray){
+    public static JSONArray getArray(String [] textArray){
         JSONArray array = new JSONArray();
         for(String str : textArray){
             array.put(str);
@@ -41,6 +38,15 @@ public class JsonOrgUtils {
 
         return array;
     }
+
+    public static String [] getStrings(JSONArray array){
+        String [] strings = new String[array.length()];
+        for (int i = 0; i <strings.length ; i++) {
+            strings[i] = array.getString(i);
+        }
+        return strings;
+    }
+
 
 
 }
