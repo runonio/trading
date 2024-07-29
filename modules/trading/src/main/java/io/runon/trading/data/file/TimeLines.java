@@ -162,10 +162,15 @@ public class TimeLines {
     }
 
     public static void updateCandle(String dirPath, ZoneId zoneId, String [] lines ){
-        TimeLineOut timeLineOut = LineOutManager.getInstance().getCandleLineOut(dirPath, zoneId);
-        timeLineOut.update(lines);
+        TimeLineLock timeLineLock = LineOutManager.getInstance().getTimeLineLock(dirPath, zoneId);
+        timeLineLock.update(lines);
     }
 
+
+    public static String [] loadLinesLock(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, long beginTime, int count ){
+        TimeLineLock timeLineLock = LineOutManager.getInstance().getTimeLineLock(dirPath);
+        return timeLineLock.load(dirPath, timeNameType, timeLine, beginTime, count);
+    }
 
     public static long getMaxTime(TimeLine timeLine, String [] lines){
 

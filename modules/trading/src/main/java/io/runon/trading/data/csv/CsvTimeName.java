@@ -38,7 +38,7 @@ public class CsvTimeName {
     }
 
     public static String getName(long time, long intervalTime, ZoneId zoneId){
-        TimeName.Type type = TimeName.getCandleType(intervalTime);
+        TimeName.Type type = TimeName.getDefaultType(intervalTime);
         return TimeName.getName(time,type,zoneId);
     }
 

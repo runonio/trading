@@ -21,15 +21,14 @@ public class LineOutManager {
 
     private final Object lock = new Object();
     
-    private final Map<String, TimeLineOut> lockMap = new HashMap<>();
+    private final Map<String, TimeLineLock> lockMap = new HashMap<>();
 
-    public static final CsvTimeLine csvTimeLine = new CsvTimeLine();
 
-    public TimeLineOut get(String dirPath, TimeLine timeLine, TimeName timeName){
+    public TimeLineLock get(String dirPath, TimeLine timeLine, TimeName timeName){
         synchronized (lock){
-            TimeLineOut timeLineOut =  lockMap.get(dirPath);
+            TimeLineLock timeLineOut =  lockMap.get(dirPath);
             if(timeLineOut == null){
-                timeLineOut = new TimeLineOut(dirPath, timeLine, timeName);
+                timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
             return timeLineOut;
@@ -37,35 +36,37 @@ public class LineOutManager {
 
     }
 
-    public TimeLineOut get(String dirPath){
+    public TimeLineLock get(String dirPath){
         synchronized (lock){
             return lockMap.get(dirPath);
         }
     }
 
-    public TimeLineOut getCandleLineOut(String dirPath){
-        return getCandleLineOut(dirPath, null);
+    public TimeLineLock getTimeLineLock(String dirPath){
+        return getTimeLineLock(dirPath, null);
     }
 
-    public TimeLineOut getCandleLineOut(String dirPath, ZoneId zoneId){
+    public TimeLineLock getTimeLineLock(String dirPath, ZoneId zoneId){
         synchronized (lock){
-            TimeLineOut timeLineOut = lockMap.get(dirPath);
+            TimeLineLock timeLineOut = lockMap.get(dirPath);
             if(timeLineOut == null){
                 String intervalGet = dirPath.replace("\\","/");
                 int lastIndex = intervalGet.lastIndexOf("/");
                 String interval = intervalGet.substring(lastIndex+1);
                 long intervalTime = TradingTimes.getIntervalTime(interval);
-                TimeNameImpl timeName = new TimeNameImpl(TimeName.getCandleType(intervalTime));
+                TimeNameImpl timeName = new TimeNameImpl(TimeName.getDefaultType(intervalTime));
                 if(zoneId != null){
                     timeName.setZoneId(zoneId);
                 }
-                timeLineOut = new TimeLineOut(dirPath, csvTimeLine, timeName);
+                timeLineOut = new TimeLineLock(dirPath, TimeLine.CSV, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
             return timeLineOut;
         }
 
     }
+
+
 
 
 }

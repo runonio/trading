@@ -20,7 +20,7 @@ public class TimeLineAddExample {
 
 
 
-        TimeLineOut timeLineOut = LineOutManager.getInstance().get("D:\\data\\temp", JSON_TIME_LINE, new TimeNameImpl(TimeName.Type.HOUR_1));
+        TimeLineLock timeLineOut = LineOutManager.getInstance().get("D:\\data\\temp", JSON_TIME_LINE, new TimeNameImpl(TimeName.Type.HOUR_1));
 
         long beginTime =  YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID);
         for (int i = 0; i <2000 ; i++) {

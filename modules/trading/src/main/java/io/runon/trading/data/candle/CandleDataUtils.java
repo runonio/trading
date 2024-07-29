@@ -2,8 +2,8 @@ package io.runon.trading.data.candle;
 
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.TradingTimes;
-import io.runon.trading.data.file.CsvTimeLine;
 import io.runon.trading.data.file.TimeFileOverride;
+import io.runon.trading.data.file.TimeLine;
 import io.runon.trading.data.file.TimeName;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class CandleDataUtils {
         String [] candlePaths = getCandlePaths(dirPath);
         for(String candlePath : candlePaths){
             long intervalTime = TradingTimes.getIntervalTime(new File(candlePath).getName());
-            TimeFileOverride timeFileOverride =  new TimeFileOverride(candlePath, new CsvTimeLine(), TimeName.getCandleType(intervalTime));
+            TimeFileOverride timeFileOverride =  new TimeFileOverride(candlePath, TimeLine.CSV, TimeName.getDefaultType(intervalTime));
             timeFileOverride.setZoneId(zoneId);
             timeFileOverride.run();
         }

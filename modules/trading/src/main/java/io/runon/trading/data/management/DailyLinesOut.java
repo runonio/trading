@@ -84,7 +84,7 @@ public class DailyLinesOut {
             }
         }
 
-        TimeName.Type timeNameType = TimeName.getCandleType(Times.DAY_1);
+        TimeName.Type timeNameType = TimeName.getDefaultType(Times.DAY_1);
 
         boolean isFirst = true;
 
@@ -121,10 +121,7 @@ public class DailyLinesOut {
                 nextYmd = YmdUtil.getYmd(TimeLines.getMaxYmd(pathTimeLine, lines, zoneId),1);
             }
         }
-
-
     }
-
 
     public void sleep(){
         try{

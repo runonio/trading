@@ -16,4 +16,9 @@ public class JsonPathTimeLine implements PathTimeLine{
     public long getTime(String line) {
         return JsonTimeFile.getTime(line);
     }
+
+    @Override
+    public String toString(){
+        return "JSON";
+    }
 }

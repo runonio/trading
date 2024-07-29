@@ -9,4 +9,9 @@ public class JsonPathLastTime implements PathLastTime{
     public long getLastTime(String path) {
         return JsonTimeFile.getLastTime(path);
     }
+
+    @Override
+    public String toString(){
+        return "JSON";
+    }
 }

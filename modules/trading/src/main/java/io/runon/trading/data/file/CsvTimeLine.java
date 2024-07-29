@@ -11,4 +11,10 @@ public class CsvTimeLine implements TimeLine {
     public long getTime(String line) {
         return CsvTimeFile.getTime(line);
     }
+
+    @Override
+    public String toString(){
+        return "CSV";
+    }
+
 }
