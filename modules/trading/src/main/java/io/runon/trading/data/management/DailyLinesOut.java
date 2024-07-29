@@ -121,10 +121,7 @@ public class DailyLinesOut {
                 nextYmd = YmdUtil.getYmd(TimeLines.getMaxYmd(pathTimeLine, lines, zoneId),1);
             }
         }
-
-
     }
-
 
     public void sleep(){
         try{

@@ -16,4 +16,9 @@ public class CsvPathTimeLine implements PathTimeLine{
     public long getTime(String line) {
         return CsvTimeFile.getTime(line);
     }
+
+    @Override
+    public String toString(){
+        return "CSV";
+    }
 }

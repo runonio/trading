@@ -10,4 +10,9 @@ public class CsvPathLastTime implements PathLastTime{
     public long getLastTime(String path) {
         return CsvTimeFile.getLastTime(path);
     }
+
+    @Override
+    public String toString(){
+        return "CSV";
+    }
 }

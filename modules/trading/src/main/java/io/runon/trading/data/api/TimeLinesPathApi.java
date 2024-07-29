@@ -2,18 +2,21 @@ package io.runon.trading.data.api;
 
 import com.seomse.commons.http.HttpApiResponse;
 import com.seomse.commons.http.HttpApis;
+import com.seomse.commons.utils.time.Times;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.data.file.TimeFiles;
 import io.runon.trading.data.file.TimeLine;
 import io.runon.trading.data.file.TimeName;
 import io.runon.trading.data.json.JsonOrgUtils;
 import io.runon.trading.exception.TradingApiException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * @author macle
  */
+@Slf4j
 public class TimeLinesPathApi {
 
     public static String [] getLines(String dirPath, TimeLine timeLine, long beginTime, int count){
@@ -52,7 +55,8 @@ public class TimeLinesPathApi {
     public static void main(String[] args) {
         TimeLine timeLine = TimeLine.CSV;
         String dirPath = "bonds/futures/candle/USA_10_year/15m";
-        long beginTime = 623635200000L;
+//        long beginTime = 623635200000L;
+        long beginTime = System.currentTimeMillis() - Times.DAY_1;
         int count = 500;
 
         String [] lines = getLines(dirPath, timeLine, beginTime, count);
@@ -61,6 +65,8 @@ public class TimeLinesPathApi {
         }
 
         System.out.println(TradingConfig.getTradingDataPath());
+
+        System.out.println(lines.length);
 
     }
 }

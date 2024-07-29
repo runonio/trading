@@ -21,6 +21,8 @@ public class TradingConfig {
 
     public static final String RUNON_API_ADDRESS = Config.getConfig("runon.api.address","https://api.runon.io");
 
+    public static final long RUNON_API_SLEEP_TIME = Config.getLong("runon.api.sleep.time", 200L);
+
     public static final JsonFileProperties DEFAULT_JSON_PROPERTIES =  JsonFilePropertiesManager.getInstance().getByName(Config.getConfig("trading.json.properties.path", ConfigSet.CONFIG_DIR_PATH + "/trading_properties.json"));
 
     public static String getTradingDataPath(){
@@ -82,6 +84,7 @@ public class TradingConfig {
         TRADING_THREAD_COUNT = maxThreadCount;
         return TRADING_THREAD_COUNT;
     }
+
 
 
     public static final String [] DEFAULT_API_CANDLE_DATA_PATHS = {
