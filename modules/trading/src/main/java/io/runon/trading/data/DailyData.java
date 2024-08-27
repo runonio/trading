@@ -31,6 +31,6 @@ public class DailyData {
 
     @DateTime
     @Column(name = "updated_at")
-    long updatedAt;
+    long updatedAt = System.currentTimeMillis();
 
 }
