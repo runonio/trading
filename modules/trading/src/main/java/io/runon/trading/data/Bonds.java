@@ -7,23 +7,21 @@ import com.seomse.jdbc.annotation.Table;
 import lombok.Data;
 
 /**
- * Id, 경로 정보
  * @author macle
  */
 @Data
-@Table(name="exchange")
-public class Exchange {
-
+@Table(name="bonds")
+public class Bonds {
 
     @PrimaryKey(seq = 1)
-    @Column(name = "exchange")
-    String exchange;
+    @Column(name = "bond_id")
+    String bondId;
 
     @Column(name = "country")
     String country;
 
-    @Column(name = "currency")
-    String currency;
+    @Column(name = "maturity")
+    String maturity;
 
     @Column(name = "name_ko")
     String nameKo;
@@ -31,10 +29,17 @@ public class Exchange {
     @Column(name = "name_en")
     String nameEn;
 
+    @Column(name = "candle_path")
+    String candlePath;
+
     @Column(name = "description")
     String description;
+
+    @Column(name = "data_value")
+    String dataValue;
 
     @DateTime
     @Column(name = "updated_at")
     long updatedAt = System.currentTimeMillis();
+
 }

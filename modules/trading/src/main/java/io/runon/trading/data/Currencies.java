@@ -5,25 +5,16 @@ import com.seomse.jdbc.annotation.DateTime;
 import com.seomse.jdbc.annotation.PrimaryKey;
 import com.seomse.jdbc.annotation.Table;
 import lombok.Data;
-
 /**
- * Id, 경로 정보
  * @author macle
  */
 @Data
-@Table(name="exchange")
-public class Exchange {
-
+@Table(name="currencies")
+public class Currencies {
 
     @PrimaryKey(seq = 1)
-    @Column(name = "exchange")
-    String exchange;
-
-    @Column(name = "country")
-    String country;
-
-    @Column(name = "currency")
-    String currency;
+    @Column(name = "currency_id")
+    String currencyId;
 
     @Column(name = "name_ko")
     String nameKo;
@@ -31,8 +22,14 @@ public class Exchange {
     @Column(name = "name_en")
     String nameEn;
 
+    @Column(name = "candle_path")
+    String candlePath;
+
     @Column(name = "description")
     String description;
+
+    @Column(name = "data_value")
+    String dataValue;
 
     @DateTime
     @Column(name = "updated_at")
