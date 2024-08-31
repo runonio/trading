@@ -23,11 +23,23 @@ public class LineOutManager {
     
     private final Map<String, TimeLineLock> lockMap = new HashMap<>();
 
-
-    public TimeLineLock get(String dirPath, TimeLine timeLine, TimeName timeName){
+    public TimeLineLock get(String dirPath, PathTimeLine timeLine, TimeName timeName){
         synchronized (lock){
             TimeLineLock timeLineOut =  lockMap.get(dirPath);
             if(timeLineOut == null){
+                timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
+                lockMap.put(dirPath, timeLineOut);
+            }
+            return timeLineOut;
+        }
+
+    }
+
+    public TimeLineLock get(String dirPath, PathTimeLine timeLine, ZoneId zoneId, TimeName.Type timeNameType){
+        synchronized (lock){
+            TimeLineLock timeLineOut =  lockMap.get(dirPath);
+            if(timeLineOut == null){
+                TimeName timeName = new TimeNameImpl(timeNameType, zoneId);
                 timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
@@ -58,15 +70,11 @@ public class LineOutManager {
                 if(zoneId != null){
                     timeName.setZoneId(zoneId);
                 }
-                timeLineOut = new TimeLineLock(dirPath, TimeLine.CSV, timeName);
+                timeLineOut = new TimeLineLock(dirPath, PathTimeLine.CSV, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
             return timeLineOut;
         }
-
     }
-
-
-
 
 }

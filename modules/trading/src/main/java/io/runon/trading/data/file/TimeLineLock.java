@@ -12,12 +12,12 @@ import java.util.*;
 public class TimeLineLock {
 
     private final String dirPath;
-    private final TimeLine timeLine;
+    private final PathTimeLine timeLine;
 
     private final TimeName timeName;
 
     private final Object lock = new Object();
-    public TimeLineLock(String dirPath, TimeLine timeLine, TimeName timeName){
+    public TimeLineLock(String dirPath, PathTimeLine timeLine, TimeName timeName){
         this.dirPath = dirPath;
         this.timeLine = timeLine;
         this.timeName = timeName;
@@ -186,5 +186,12 @@ public class TimeLineLock {
             return TimeLines.load(dirPath, timeNameType, timeLine, beginTime, count);
         }
     }
+
+    public long getLastTime(){
+        synchronized (lock) {
+            return timeLine.getLastTime(dirPath);
+        }
+    }
+
 
 }

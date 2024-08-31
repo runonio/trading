@@ -3,6 +3,7 @@ package io.runon.trading;
 import com.seomse.commons.exception.UndefinedException;
 import com.seomse.commons.utils.string.Check;
 import com.seomse.commons.utils.time.Times;
+import com.seomse.commons.utils.time.YmdUtil;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -219,5 +220,16 @@ public class TradingTimes {
         return array;
     }
 
+
+    public static long getDailyOpenTime( CountryCode countryCode, String ymd){
+
+        if(countryCode == CountryCode.KOR){
+            ZoneId zoneId = TradingTimes.getZoneId(countryCode);
+            long time = YmdUtil.getTime(ymd, zoneId);
+            return time + Times.getTimeHm("0900");
+        }else{
+            throw new UndefinedException("undefined code: " + countryCode.toString());
+        }
+    }
 
 }

@@ -63,7 +63,7 @@ public class Files {
             return null;
         }
 
-        TimeLine timeLine = TimeLineFactory.newTimeLine(files);
+        TimeLine timeLine = TimeLines.getTimeLine(files);
 
         String startLine = FileUtil.getLine(files[0], StandardCharsets.UTF_8, 0);
         String endLine = FileUtil.getLastTextLine(files[files.length-1]);

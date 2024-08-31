@@ -2,11 +2,14 @@ package io.runon.trading.data.file;
 
 import com.seomse.commons.callback.StrCallback;
 import com.seomse.commons.exception.IORuntimeException;
+import com.seomse.commons.exception.UndefinedException;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.YmdUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingTimes;
+import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.exception.TradingDataException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -133,7 +136,7 @@ public class TimeLines {
             if(endFileNum >= 0 && fileNum > endFileNum){
                 break;
             }
-            
+
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -194,5 +197,79 @@ public class TimeLines {
         return YmdUtil.getYmd(maxTime, zoneId);
     }
 
+    public static PathTimeLine getTimeLine(File file) {
+        if(file.isDirectory()){
+            File [] files = FileUtil.getFiles(file, new NumberNameFileValidation());
+            return getTimeLine(files);
+        }else{
+            String line = FileUtil.getLine(file, StandardCharsets.UTF_8, 0);
+            return getTimeLine(line);
+        }
+
+    }
+    public static PathTimeLine getTimeLine(File [] dataFiles ) {
+        String line = null;
+        for(File dataFile : dataFiles){
+            try {
+                line  = FileUtil.getLine(dataFile, StandardCharsets.UTF_8, 0);
+                if(line == null || "".equals(line)){
+                    continue;
+                }
+                break;
+            }catch (Exception ignore){}
+        }
+
+        return getTimeLine(line);
+    }
+
+    public static PathTimeLine getTimeLine(String line){
+
+        line = line.trim();
+        if(line.startsWith("{")){
+            return PathTimeLine.JSON;
+        }else{
+            return PathTimeLine.CSV;
+        }
+
+    }
+
+    public static TimeLineLock getTimeLineLock(JSONObject jsonObject, String line){
+        PathTimeLine timeLine = TimeLines.getTimeLine(line);
+        return getTimeLineLock(jsonObject, timeLine);
+    }
+
+    //api에서 주로 사용하는 메소드, 사용할 일이 많아서 공통에 구현함
+    public static TimeLineLock getTimeLineLock(JSONObject jsonObject, PathTimeLine timeLine){
+        String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
+
+        ZoneId zoneId = ZoneId.of(jsonObject.getString("zone_id"));
+        TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
+        LineOutManager lineOutManager = LineOutManager.getInstance();
+
+        return lineOutManager.get(dirPath, timeLine, zoneId, timeNameType);
+    }
+
+    public static TimeLineLock getTimeLineLock(JSONObject jsonObject){
+        String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
+
+        ZoneId zoneId = ZoneId.of(jsonObject.getString("zone_id"));
+        TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
+        LineOutManager lineOutManager = LineOutManager.getInstance();
+
+
+        String timeLineType = jsonObject.getString("time_line_type");
+
+        PathTimeLine timeLine;
+
+        if(timeLineType.equals("CSV")){
+            timeLine = PathTimeLine.CSV;
+        }else if(timeLineType.equals("JSON")){
+            timeLine = PathTimeLine.JSON;
+        }else{
+            throw new UndefinedException("time_line_type in(CSV, JSON) : " + timeLineType);
+        }
+
+        return lineOutManager.get(dirPath, timeLine, zoneId, timeNameType);
+    }
 
 }

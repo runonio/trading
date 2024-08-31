@@ -1,4 +1,5 @@
 package io.runon.trading.data;
+
 /**
  * 문자열 전달받기
  * @author macle
@@ -15,4 +16,5 @@ public class TradingLines {
 
         return lines;
     }
+
 }

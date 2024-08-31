@@ -27,7 +27,6 @@ public class JsonOrgUtils {
         }else{
             return new BigDecimal(data.toString());
         }
-
     }
 
     public static JSONArray getArray(String [] textArray){
@@ -35,7 +34,6 @@ public class JsonOrgUtils {
         for(String str : textArray){
             array.put(str);
         }
-
         return array;
     }
 
@@ -46,7 +44,5 @@ public class JsonOrgUtils {
         }
         return strings;
     }
-
-
 
 }
