@@ -5,6 +5,7 @@ import com.seomse.commons.config.ConfigSet;
 import com.seomse.commons.config.JsonFileProperties;
 import com.seomse.commons.config.JsonFilePropertiesManager;
 import com.seomse.commons.utils.ExceptionUtil;
+import io.runon.trading.data.TradingDataPath;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZoneId;
@@ -29,7 +30,7 @@ public class TradingConfig {
 
         String dataPath = Config.getConfig("trading.data.path");
         if( dataPath != null){
-            return dataPath;
+            return TradingDataPath.changeSeparator(dataPath);
         }
 
         String defaultDir ;

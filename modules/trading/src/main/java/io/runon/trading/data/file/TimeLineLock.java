@@ -1,6 +1,7 @@
 package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.FileUtil;
+import io.runon.trading.data.TradingDataPath;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -18,13 +19,13 @@ public class TimeLineLock {
 
     private final Object lock = new Object();
     public TimeLineLock(String dirPath, PathTimeLine timeLine, TimeName timeName){
-        this.dirPath = dirPath;
+        this.dirPath = TradingDataPath.getAbsolutePath(dirPath);
         this.timeLine = timeLine;
         this.timeName = timeName;
     }
 
     public void update(String [] lines){
-        Arrays.sort(lines,  Comparator.comparingLong(timeLine::getTime));
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
 
         String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
         List<String> lineList = new ArrayList<>();
@@ -49,6 +50,14 @@ public class TimeLineLock {
 
         }
     }
+    //실시간 데이터를 여러 서버에수 서집할 경우 데이터 합치기
+    public void updateSum(String [] lines, long lineTimeTerm){
+
+
+    }
+
+//    public void updateSum()
+
 
     /**
      * 정렬없이 데이터추가

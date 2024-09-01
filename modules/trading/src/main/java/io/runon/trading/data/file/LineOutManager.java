@@ -1,6 +1,7 @@
 package io.runon.trading.data.file;
 
 import io.runon.trading.TradingTimes;
+import io.runon.trading.data.TradingDataPath;
 
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class LineOutManager {
 
     public TimeLineLock get(String dirPath, PathTimeLine timeLine, TimeName timeName){
         synchronized (lock){
-            TimeLineLock timeLineOut =  lockMap.get(dirPath);
+            TimeLineLock timeLineOut = lockMap.get(dirPath);
             if(timeLineOut == null){
                 timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
@@ -37,7 +38,9 @@ public class LineOutManager {
 
     public TimeLineLock get(String dirPath, PathTimeLine timeLine, ZoneId zoneId, TimeName.Type timeNameType){
         synchronized (lock){
-            TimeLineLock timeLineOut =  lockMap.get(dirPath);
+            String relativePath = TradingDataPath.getRelativePath(dirPath);
+
+            TimeLineLock timeLineOut =  lockMap.get(relativePath);
             if(timeLineOut == null){
                 TimeName timeName = new TimeNameImpl(timeNameType, zoneId);
                 timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
