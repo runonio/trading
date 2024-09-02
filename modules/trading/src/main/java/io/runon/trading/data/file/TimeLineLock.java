@@ -56,8 +56,12 @@ public class TimeLineLock {
 
     }
 
-//    public void updateSum()
-
+    public void add(List<String> lineList){
+        if(lineList == null || lineList.isEmpty()){
+            return;
+        }
+        add(lineList.toArray(new String[0]));
+    }
 
     /**
      * 정렬없이 데이터추가
@@ -65,6 +69,11 @@ public class TimeLineLock {
      * @param lines 라인데이터 추가
      */
     public void add(String [] lines){
+
+        if(lines == null || lines.length == 0){
+            return ;
+        }
+
         String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
         List<String> lineList = new ArrayList<>();
         lineList.add(lines[0]);
