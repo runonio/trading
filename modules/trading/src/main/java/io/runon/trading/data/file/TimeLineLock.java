@@ -1,6 +1,7 @@
 package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.FileUtil;
+import io.runon.trading.data.TradingDataPath;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -12,19 +13,23 @@ import java.util.*;
 public class TimeLineLock {
 
     private final String dirPath;
-    private final TimeLine timeLine;
+    private final PathTimeLine timeLine;
 
     private final TimeName timeName;
 
     private final Object lock = new Object();
-    public TimeLineLock(String dirPath, TimeLine timeLine, TimeName timeName){
-        this.dirPath = dirPath;
+    public TimeLineLock(String dirPath, PathTimeLine timeLine, TimeName timeName){
+        this.dirPath = TradingDataPath.getAbsolutePath(dirPath);
         this.timeLine = timeLine;
         this.timeName = timeName;
+
+        try{
+            new File(dirPath).mkdirs();
+        }catch (Exception ignore){}
     }
 
     public void update(String [] lines){
-        Arrays.sort(lines,  Comparator.comparingLong(timeLine::getTime));
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
 
         String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
         List<String> lineList = new ArrayList<>();
@@ -49,6 +54,72 @@ public class TimeLineLock {
 
         }
     }
+    //실시간 데이터를 여러 서버에수 서집할 경우 데이터 합치기
+    public void updateSum(String [] lines, long lineTimeTerm){
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
+        String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
+        List<String> lineList = new ArrayList<>();
+        lineList.add(lines[0]);
+
+        synchronized (lock) {
+            for (int i = 1; i < lines.length ; i++) {
+                String line = lines[i];
+                String fileName = timeName.getName(timeLine.getTime(line));
+                if(!fileName.equals(lastFileName)){
+                    updateSum(lastFileName, lineTimeTerm, lineList);
+                    lineList.clear();
+                    lastFileName = fileName;
+                }
+                lineList.add(line);
+            }
+
+            if(lineList.size() > 0){
+                updateSum(lastFileName, lineTimeTerm, lineList);
+                lineList.clear();
+            }
+
+        }
+    }
+    public void updateSum(String fileName, long lineTimeTerm, List<String> lineList){
+        if(lineList.size() == 0){
+            return ;
+        }
+
+        String path = dirPath + "/" + fileName;
+
+        List<String> sumList = new ArrayList<>(lineList);
+
+        if(FileUtil.isFile(path)){
+            List<String> saveLines =  FileUtil.getLineList(new File(path), StandardCharsets.UTF_8);
+            sumList.addAll(saveLines);
+        }
+
+        String [] lines =sumList.toArray(new String[0]);
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
+
+        StringBuilder sb =new StringBuilder();
+        sb.append(lines[0]);
+        long lastTime = timeLine.getTime(lines[0]);
+        for (int i = 1; i <lines.length ; i++) {
+
+            String line = lines[i];
+            long time = timeLine.getTime(line);
+            if(lastTime + lineTimeTerm > time){
+                continue;
+            }
+            lastTime = time;
+            sb.append("\n").append(line);
+        }
+        FileUtil.fileOutput(sb.toString(), path, false);
+    }
+
+
+    public void add(List<String> lineList){
+        if(lineList == null || lineList.isEmpty()){
+            return;
+        }
+        add(lineList.toArray(new String[0]));
+    }
 
     /**
      * 정렬없이 데이터추가
@@ -56,6 +127,11 @@ public class TimeLineLock {
      * @param lines 라인데이터 추가
      */
     public void add(String [] lines){
+
+        if(lines == null || lines.length == 0){
+            return ;
+        }
+
         String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
         List<String> lineList = new ArrayList<>();
         lineList.add(lines[0]);
@@ -181,10 +257,17 @@ public class TimeLineLock {
         return sb.toString();
     }
 
-    public String [] load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, long beginTime, int count){
+    public String [] load( long beginTime, int count){
         synchronized (lock) {
-            return TimeLines.load(dirPath, timeNameType, timeLine, beginTime, count);
+            return TimeLines.load(dirPath,  timeName, timeLine, beginTime, count);
         }
     }
+
+    public long getLastTime(){
+        synchronized (lock) {
+            return timeLine.getLastTime(dirPath);
+        }
+    }
+
 
 }

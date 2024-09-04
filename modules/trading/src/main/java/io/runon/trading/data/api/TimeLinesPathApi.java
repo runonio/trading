@@ -28,7 +28,7 @@ public class TimeLinesPathApi {
             dirPath = dirPath.substring(dataPath.length());
         }
 
-        TimeName.Type timeNameType = TimeFiles.getPatTimeNameType(dirPath);
+        TimeName.Type timeNameType = TimeFiles.getPathTimeNameType(dirPath);
 
         JSONObject param = new JSONObject();
         param.put("dir_path", dirPath);

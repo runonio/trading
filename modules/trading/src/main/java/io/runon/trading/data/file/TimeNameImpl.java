@@ -16,6 +16,12 @@ public class TimeNameImpl implements TimeName{
         this.type = type;
     }
 
+    public TimeNameImpl(Type type, ZoneId zoneId){
+        this.type = type;
+        this.zoneId = zoneId;
+    }
+
+
     public void setZoneId(ZoneId zoneId) {
         this.zoneId = zoneId;
     }
