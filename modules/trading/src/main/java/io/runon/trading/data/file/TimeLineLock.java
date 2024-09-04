@@ -52,6 +52,7 @@ public class TimeLineLock {
     }
     //실시간 데이터를 여러 서버에수 서집할 경우 데이터 합치기
     public void updateSum(String [] lines, long lineTimeTerm){
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
 
 
     }
@@ -199,9 +200,9 @@ public class TimeLineLock {
         return sb.toString();
     }
 
-    public String [] load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, long beginTime, int count){
+    public String [] load( long beginTime, int count){
         synchronized (lock) {
-            return TimeLines.load(dirPath, timeNameType, timeLine, beginTime, count);
+            return TimeLines.load(dirPath,  timeName, timeLine, beginTime, count);
         }
     }
 

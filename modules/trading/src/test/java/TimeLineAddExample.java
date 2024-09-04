@@ -22,8 +22,11 @@ public class TimeLineAddExample {
         TimeLineLock timeLineOut = LineOutManager.getInstance().get("D:\\data\\temp", PathTimeLine.JSON, new TimeNameImpl(TimeName.Type.HOUR_1));
 
         long beginTime =  YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID);
+
+        TimeName timeName = new TimeNameImpl(TimeName.Type.HOUR_4, TradingTimes.UTC_ZONE_ID);
+
         for (int i = 0; i <2000 ; i++) {
-            String [] lines = TimeLines.load(dirPath, TimeName.Type.HOUR_4, timeLine, beginTime, count);
+            String [] lines = TimeLines.load(dirPath, timeName, timeLine, beginTime, count);
             timeLineOut.add(lines);
             beginTime = timeLine.getTime(lines[lines.length-1]) + 1;
 

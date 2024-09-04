@@ -202,7 +202,7 @@ public class TimeFiles {
         return TradingTimes.getIntervalTime(interval);
     }
 
-    public static TimeName.Type getPatTimeNameType(String dirPath){
+    public static TimeName.Type getPathTimeNameType(String dirPath){
         long intervalTime = getPathIntervalTime(dirPath);
         return TimeName.getDefaultType(intervalTime);
     }

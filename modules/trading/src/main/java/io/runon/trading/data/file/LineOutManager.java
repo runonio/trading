@@ -57,11 +57,11 @@ public class LineOutManager {
         }
     }
 
-    public TimeLineLock getTimeLineLock(String dirPath){
-        return getTimeLineLock(dirPath, null);
+    public TimeLineLock getTimeLineLock(String dirPath, PathTimeLine timeLine){
+        return getTimeLineLock(dirPath, timeLine, TradingTimes.UTC_ZONE_ID);
     }
 
-    public TimeLineLock getTimeLineLock(String dirPath, ZoneId zoneId){
+    public TimeLineLock getTimeLineLock(String dirPath,PathTimeLine timeLine, ZoneId zoneId){
         synchronized (lock){
             TimeLineLock timeLineOut = lockMap.get(dirPath);
             if(timeLineOut == null){
