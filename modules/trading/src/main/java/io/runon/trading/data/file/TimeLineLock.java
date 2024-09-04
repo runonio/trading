@@ -53,9 +53,61 @@ public class TimeLineLock {
     //실시간 데이터를 여러 서버에수 서집할 경우 데이터 합치기
     public void updateSum(String [] lines, long lineTimeTerm){
         Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
+        String lastFileName = timeName.getName(timeLine.getTime(lines[0]));
+        List<String> lineList = new ArrayList<>();
+        lineList.add(lines[0]);
 
+        synchronized (lock) {
+            for (int i = 1; i < lines.length ; i++) {
+                String line = lines[i];
+                String fileName = timeName.getName(timeLine.getTime(line));
+                if(!fileName.equals(lastFileName)){
+                    updateSum(lastFileName, lineTimeTerm, lineList);
+                    lineList.clear();
+                    lastFileName = fileName;
+                }
+                lineList.add(line);
+            }
 
+            if(lineList.size() > 0){
+                updateSum(lastFileName, lineTimeTerm, lineList);
+                lineList.clear();
+            }
+
+        }
     }
+    public void updateSum(String fileName, long lineTimeTerm, List<String> lineList){
+        if(lineList.size() == 0){
+            return ;
+        }
+
+        String path = dirPath + "/" + fileName;
+
+        List<String> sumList = new ArrayList<>(lineList);
+
+        if(FileUtil.isFile(path)){
+            List<String> saveLines =  FileUtil.getLineList(new File(path), StandardCharsets.UTF_8);
+            sumList.addAll(saveLines);
+        }
+
+        String [] lines =sumList.toArray(new String[0]);
+        Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
+
+        StringBuilder sb =new StringBuilder();
+        sb.append(lines[0]);
+        long lastTime = timeLine.getTime(lines[0]);
+        for (int i = 1; i <lines.length ; i++) {
+
+            String line = lines[i];
+            long time = timeLine.getTime(line);
+            if(lastTime + lineTimeTerm > time){
+                continue;
+            }
+            sb.append("\n").append(line);
+        }
+        FileUtil.fileOutput(sb.toString(), path, false);
+    }
+
 
     public void add(List<String> lineList){
         if(lineList == null || lineList.isEmpty()){
