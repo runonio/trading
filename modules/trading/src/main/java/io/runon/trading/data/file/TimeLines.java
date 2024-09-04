@@ -236,7 +236,19 @@ public class TimeLines {
     }
 
     public static TimeLineLock getTimeLineLock(JSONObject jsonObject, String line){
-        PathTimeLine timeLine = TimeLines.getTimeLine(line);
+        PathTimeLine timeLine ;
+
+        if(!jsonObject.isNull("time_line_type")){
+            String lineType = jsonObject.getString("time_line_type").toUpperCase();
+            if(lineType.equals("CSV")){
+                timeLine = PathTimeLine.CSV;
+            }else{
+                timeLine = PathTimeLine.JSON;
+            }
+        }else{
+            timeLine = TimeLines.getTimeLine(line);
+        }
+
         return getTimeLineLock(jsonObject, timeLine);
     }
 

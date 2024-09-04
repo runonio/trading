@@ -87,7 +87,6 @@ public class TradingConfig {
     }
 
 
-
     public static final String [] DEFAULT_API_CANDLE_DATA_PATHS = {
             "bonds"
             , "commodities"
