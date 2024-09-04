@@ -107,6 +107,7 @@ public class TimeLineLock {
             if(lastTime + lineTimeTerm > time){
                 continue;
             }
+            lastTime = time;
             sb.append("\n").append(line);
         }
         FileUtil.fileOutput(sb.toString(), path, false);
