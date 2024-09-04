@@ -22,6 +22,10 @@ public class TimeLineLock {
         this.dirPath = TradingDataPath.getAbsolutePath(dirPath);
         this.timeLine = timeLine;
         this.timeName = timeName;
+
+        try{
+            new File(dirPath).mkdirs();
+        }catch (Exception ignore){}
     }
 
     public void update(String [] lines){
