@@ -33,4 +33,13 @@ public class DailyData {
     @Column(name = "updated_at")
     long updatedAt = System.currentTimeMillis();
 
+
+    public void setYmd(String ymd){
+        this.ymd = Integer.parseInt(ymd);
+    }
+
+    public void setYmd(int ymd){
+        this.ymd = ymd;
+    }
+
 }
