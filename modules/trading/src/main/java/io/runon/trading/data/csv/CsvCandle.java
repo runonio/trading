@@ -300,17 +300,17 @@ public class CsvCandle {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    String [] values = line.split(",");
-                    long openTime = Long.parseLong(values[0]);
-                    long closeTime = openTime + candleTime;
+
+                    long openTime = CsvTimeFile.getTime(line);
+//                    long closeTime = openTime + candleTime;
                     if(openTime < beginTime){
                         continue;
                     }
 
-                    if(closeTime > endTime){
+                    if(openTime >= endTime){
                         break outer;
                     }
-                    candleList.add(make(values, candleTime));
+                    candleList.add(make(line, candleTime));
                 }
             } catch (IOException e) {
                 throw new IORuntimeException(e);
