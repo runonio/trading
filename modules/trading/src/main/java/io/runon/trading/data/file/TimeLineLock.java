@@ -2,6 +2,7 @@ package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.data.TradingDataPath;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -10,6 +11,7 @@ import java.util.*;
 /**
  * @author macle
  */
+@Slf4j
 public class TimeLineLock {
 
     private final String dirPath;
@@ -64,7 +66,18 @@ public class TimeLineLock {
         synchronized (lock) {
             for (int i = 1; i < lines.length ; i++) {
                 String line = lines[i];
-                String fileName = timeName.getName(timeLine.getTime(line));
+
+
+                String fileName ;
+                try{
+                    fileName = timeName.getName(timeLine.getTime(line));
+                }catch (Exception e){
+                    log.error(TradingDataPath.getAbsolutePath(dirPath) + ", " + line);
+                    //에러 라인일 경우 업데이트 하면서 버림
+                    continue;
+
+                }
+
                 if(!fileName.equals(lastFileName)){
                     updateSum(lastFileName, lineTimeTerm, lineList);
                     lineList.clear();
