@@ -11,3 +11,6 @@ project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 
 include ':seomse-commons'
 project(':seomse-commons').projectDir = new File(settingsDir,'../../seomse/seomse-commons/modules/commons')
+
+include ':jdbc'
+project(':jdbc').projectDir = new File(settingsDir,'../../seomse/seomse-commons/modules/jdbc')
