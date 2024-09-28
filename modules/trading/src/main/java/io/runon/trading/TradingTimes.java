@@ -17,13 +17,13 @@ public class TradingTimes {
 
     //기본 타임 존은 뉴욕증시 시간으로 설정 (동부 표준시)
     //America/New_York == US/Eastern 서머타임에는 1시간 빠른시간을 활용
-    public static ZoneId USA_ZONE_ID = ZoneId.of("America/New_York");
-    public static ZoneId KOR_ZONE_ID = ZoneId.of("Asia/Seoul");
-    public static ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
+    public static final ZoneId USA_ZONE_ID = ZoneId.of("America/New_York");
+    public static final ZoneId KOR_ZONE_ID = ZoneId.of("Asia/Seoul");
+    public static final ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
-    public static ZoneId SGP_ZONE_ID = ZoneId.of("Asia/Singapore");
+    public static final ZoneId SGP_ZONE_ID = ZoneId.of("Asia/Singapore");
 
-    public static ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
+    public static final ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
 
     public static ZoneId getZoneId(String countryCode){
         return getZoneId(CountryCode.valueOf(countryCode.toUpperCase()));

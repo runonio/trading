@@ -9,6 +9,7 @@ import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.exception.TradingDataException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -25,6 +26,7 @@ import java.util.List;
  * 데이터 구조에서 일별데이터를 ymd int 형으로 사용할때의 유틸성 매스도
  * @author macle
  */
+@Slf4j
 public class TimeLines {
 
     public static String [] load(String dirPath, TimeName timeName, TimeLine timeLine, long beginTime, int count){
@@ -56,9 +58,9 @@ public class TimeLines {
             if(fileNum < beginFileNum){
                 continue;
             }
-
+            String line = null;
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
-                String line;
+
                 while ((line = br.readLine()) != null) {
                     line = line.trim();
                     if("".equals(line)){
@@ -78,6 +80,8 @@ public class TimeLines {
 
                 }
             } catch (IOException e) {
+                log.error("error file: " + file.getAbsolutePath() + "\n " + line);
+
                 throw new IORuntimeException(e);
             }
         }
