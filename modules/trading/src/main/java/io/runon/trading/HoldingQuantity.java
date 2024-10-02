@@ -12,4 +12,5 @@ public interface HoldingQuantity {
     void setQuantity(BigDecimal quantity);
 
 
+
 }

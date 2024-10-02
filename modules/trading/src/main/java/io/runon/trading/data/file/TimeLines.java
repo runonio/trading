@@ -276,8 +276,12 @@ public class TimeLines {
 
     public static TimeLineLock getTimeLineLock(JSONObject jsonObject){
         String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
-
-        ZoneId zoneId = ZoneId.of(jsonObject.getString("zone_id"));
+        ZoneId zoneId;
+        if(jsonObject.isNull("zone_id")) {
+            zoneId = ZoneId.of(jsonObject.getString("zone_id"));
+        }else{
+            zoneId = TradingTimes.USA_ZONE_ID;
+        }
         TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
         LineOutManager lineOutManager = LineOutManager.getInstance();
 
