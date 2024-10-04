@@ -4,6 +4,7 @@ import com.seomse.commons.http.HttpApiResponse;
 import com.seomse.commons.http.HttpApis;
 import com.seomse.commons.utils.time.Times;
 import io.runon.trading.TradingConfig;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.TimeFiles;
 import io.runon.trading.data.file.TimeLine;
 import io.runon.trading.data.file.TimeName;
@@ -13,13 +14,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.ZoneId;
+
 /**
  * @author macle
  */
 @Slf4j
 public class TimeLinesPathApi {
 
+
     public static String [] getLines(String dirPath, TimeLine timeLine, long beginTime, int count){
+        //zonid 구하는 것 추가하기
+        
+        return getLines(dirPath, timeLine, beginTime, count, null);
+    }
+
+    public static String [] getLines(String dirPath, TimeLine timeLine, long beginTime, int count, ZoneId zoneId){
 
 
         String dataPath = TradingConfig.getTradingDataPath();
@@ -34,6 +44,8 @@ public class TimeLinesPathApi {
         param.put("dir_path", dirPath);
         param.put("time_name_type", timeNameType .toString());
         param.put("time_line_type", timeLine.toString());
+        if(zoneId !=null)
+            param.put("zone_id", zoneId.toString());
         param.put("begin_time", beginTime);
         param.put("count", count);
 
@@ -59,7 +71,7 @@ public class TimeLinesPathApi {
         long beginTime = System.currentTimeMillis() - Times.DAY_1;
         int count = 500;
 
-        String [] lines = getLines(dirPath, timeLine, beginTime, count);
+        String [] lines = getLines(dirPath, timeLine, beginTime, count, TradingTimes.USA_ZONE_ID);
         for(String line : lines){
             System.out.println(line);
         }
