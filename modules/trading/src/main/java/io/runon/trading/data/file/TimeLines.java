@@ -154,11 +154,16 @@ public class TimeLines {
                         continue;
                     }
 
-                    if(endTime >= 0 && time >= endTime){
+                    if(endTime >= 0 && time == endTime){
+                        callback.callback(line);
                         break outer;
                     }
 
+                    if(endTime >= 0 && time > endTime){
+                        break outer;
+                    }
                     callback.callback(line);
+
                 }
             } catch (IOException e) {
                 throw new IORuntimeException(e);
@@ -172,8 +177,6 @@ public class TimeLines {
         TimeLineLock timeLineLock = LineOutManager.getInstance().getTimeLineLock(dirPath, PathTimeLine.CSV, zoneId);
         timeLineLock.update(lines);
     }
-
-
 
 
     public static String [] loadLinesLock(String dirPath,  PathTimeLine timeLine, long beginTime, int count ){
@@ -267,7 +270,6 @@ public class TimeLines {
             zoneId = TradingTimes.UTC_ZONE_ID;
         }
 
-
         TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
         LineOutManager lineOutManager = LineOutManager.getInstance();
 
@@ -277,10 +279,10 @@ public class TimeLines {
     public static TimeLineLock getTimeLineLock(JSONObject jsonObject){
         String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
         ZoneId zoneId;
-        if(jsonObject.isNull("zone_id")) {
+        if(!jsonObject.isNull("zone_id")) {
             zoneId = ZoneId.of(jsonObject.getString("zone_id"));
         }else{
-            zoneId = TradingTimes.USA_ZONE_ID;
+            zoneId = TradingTimes.UTC_ZONE_ID;
         }
         TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
         LineOutManager lineOutManager = LineOutManager.getInstance();

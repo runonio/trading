@@ -12,22 +12,16 @@ import java.util.List;
 public class DailyDataJdbc {
     public static RatingScoreDaily [] getRatingScores(String dataKey, int beginYmd, int endYmd){
 
-
-        List<DailyData> list = JdbcObjects.getObjList(DailyData.class ,"data_key='" + dataKey +"' and ymd >= " + beginYmd +" and ymd <=" + endYmd +" order by ymd asc");
-
+        List<DailyData> list = getDataList(dataKey, beginYmd, endYmd);
         RatingScoreDaily [] dailies = new RatingScoreDaily[list.size()];
-
-//        int idx = 0;
-//
-//        for (int i = dailies.length-1; i  > -1 ; i--) {
-//            dailies[idx++] = RatingScoreDaily.make(list.get(i));
-//        }
-
         for (int i = 0; i <dailies.length ; i++) {
             dailies[i] = RatingScoreDaily.make(list.get(i));
         }
-
         return dailies;
+    }
+
+    public static List<DailyData> getDataList(String dataKey, int beginYmd, int endYmd){
+        return  JdbcObjects.getObjList(DailyData.class ,"data_key='" + dataKey +"' and ymd >= " + beginYmd +" and ymd <=" + endYmd +" order by ymd asc");
     }
 
 
