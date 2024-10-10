@@ -2,8 +2,11 @@ package io.runon.trading.data.csv;
 
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
+import com.seomse.commons.utils.time.Times;
+import com.seomse.commons.utils.time.YmdUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.PriceChangeType;
+import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.technical.analysis.candle.TimeCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import org.json.JSONObject;
@@ -211,7 +214,7 @@ public class CsvCandle {
             tradeCandle.setTradingPrice(CsvCommon.getBigDecimal(values[7]));
 
         if(values.length > 8) {
-            if (values[8] != null && !values[8].equals("")) {
+            if (values[8] != null && !values[8].isEmpty()) {
                 tradeCandle.setTradeCount(Integer.parseInt(values[8]));
             }
         }
@@ -221,14 +224,14 @@ public class CsvCandle {
         }
 
         if(values.length > 9) {
-            if (values[9] != null && !values[9].equals("")) {
+            if (values[9] != null && !values[9].isEmpty()) {
                 tradeCandle.setBuyVolume(CsvCommon.getBigDecimal(values[9]));
                 tradeCandle.setSellVolume();
             }
 
         }
         if(values.length > 10) {
-            if (values[10] != null && !values[10].equals("")) {
+            if (values[10] != null && !values[10].isEmpty()) {
                 tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
                 tradeCandle.setSellTradingPrice();
             }
@@ -236,7 +239,7 @@ public class CsvCandle {
         }
 
         if(values.length > 11){
-            if (values[11] != null && !values[11].equals("")) {
+            if (values[11] != null && !values[11].isEmpty()) {
 
                 String flagValue = values[11].toLowerCase();
                 if(flagValue.equals("y") || flagValue.equals("true")){
@@ -248,7 +251,7 @@ public class CsvCandle {
         }
 
         if(values.length > 12){
-            if (values[12] != null && !values[12].trim().equals("")) {
+            if (values[12] != null && !values[12].trim().isEmpty()) {
                 try{
                     tradeCandle.setPriceChangeType(PriceChangeType.valueOf(values[12].trim()));
                 }catch (Exception ignore){}
@@ -267,6 +270,12 @@ public class CsvCandle {
         tradeCandle.setChange();
         tradeCandle.setEndTrade();
         return tradeCandle;
+    }
+
+    public static TradeCandle [] loadDailyCandles(String path,  int beginYmd, int endYmd, ZoneId zoneId) {
+        long beginTime = YmdUtil.getTime(beginYmd, zoneId);
+        long endTime = YmdUtil.getTime(endYmd, zoneId) + Times.DAY_1 ;
+        return load(TradingDataPath.getAbsolutePath(path), Times.DAY_1, beginTime,  endTime, zoneId);
     }
 
     public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime, ZoneId zoneId){

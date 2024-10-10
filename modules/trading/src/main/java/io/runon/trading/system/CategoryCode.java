@@ -30,6 +30,9 @@ public class CategoryCode {
     @Column(name = "description")
     String description;
 
+    @Column(name = "is_del")
+    boolean isDel = false;
+
     @DateTime
     @Column(name = "updated_at")
     Long updatedAt;

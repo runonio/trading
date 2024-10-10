@@ -4,6 +4,7 @@ import com.seomse.jdbc.annotation.Column;
 import com.seomse.jdbc.annotation.Table;
 import com.seomse.jdbc.annotation.PrimaryKey;
 import com.seomse.jdbc.annotation.DateTime;
+import io.runon.trading.TradingGson;
 
 /**
  * @author macle
@@ -16,14 +17,10 @@ public class EventCalendarItem {
     String eventId;
 
     @PrimaryKey(seq = 2)
-    @Column(name = "event_time")
-    Long eventTime;
-
-    @PrimaryKey(seq = 3)
     @Column(name = "item_type")
     String itemType;
 
-    @PrimaryKey(seq = 4)
+    @PrimaryKey(seq = 3)
     @Column(name = "item_id")
     String itemId;
 
@@ -31,4 +28,8 @@ public class EventCalendarItem {
     @Column(name = "updated_at")
     Long updatedAt;
 
+    @Override
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+    }
 }

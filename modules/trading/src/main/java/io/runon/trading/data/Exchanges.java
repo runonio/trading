@@ -56,9 +56,19 @@ public class Exchanges {
         }
     }
 
-    public static String getOpenTimeYm(String exchange){
+    public static String getOpenTimeHm(String exchange){
         return switch (exchange) {
             case "KOSPI", "KOSDAQ", "KONEX" -> "0900";
+//            case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> TradingTimes.USA_ZONE_ID;
+//            case "SGX" -> TradingTimes.SGP_ZONE_ID;
+//            case "NSE" -> TradingTimes.INR_ZONE_ID;
+            default -> throw new UndefinedException();
+        };
+    }
+
+    public static String getCloseTimeHm(String exchange){
+        return switch (exchange) {
+            case "KOSPI", "KOSDAQ", "KONEX" -> "1530";
 //            case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> TradingTimes.USA_ZONE_ID;
 //            case "SGX" -> TradingTimes.SGP_ZONE_ID;
 //            case "NSE" -> TradingTimes.INR_ZONE_ID;

@@ -41,7 +41,6 @@ public class RunonSystemManager implements Synchronizer {
 
         //동기화 서비스 실행
         new SyncService().start();
-
     }
 
     private long configUpdateTime = -1;
