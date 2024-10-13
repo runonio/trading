@@ -199,7 +199,7 @@ public class TimeLineLock {
             long firstTime = timeLine.getTime(lineList.get(0));
             if(firstTime > lastSaveTime){
                 //저장된 시간보다크면 뒤에다 붙임
-                FileUtil.fileOutput(outValue(lineList), path, true);
+                FileUtil.fileOutput("\n" + outValue(lineList), path, true);
 
             }else if(firstTime == lastSaveTime ){
                 //마지막 한줄만 수정이면

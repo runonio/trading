@@ -15,10 +15,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * csv 파일을 활용한 캔들 생성
@@ -272,10 +269,60 @@ public class CsvCandle {
         return tradeCandle;
     }
 
-    public static TradeCandle [] loadDailyCandles(String path,  int beginYmd, int endYmd, ZoneId zoneId) {
+    public static TradeCandle [] loadDailyCandles(String path, TradeCandle [] lastCandles, int beginYmd, int endYmd, ZoneId zoneId) {
+        
+        //여기 체크해보기
         long beginTime = YmdUtil.getTime(beginYmd, zoneId);
-        long endTime = YmdUtil.getTime(endYmd, zoneId) + Times.DAY_1 ;
-        return load(TradingDataPath.getAbsolutePath(path), Times.DAY_1, beginTime,  endTime, zoneId);
+        // 0시 0분 0초를 주므로 +1일을 해준다.
+        long endTime = YmdUtil.getTime(endYmd, zoneId) + (Times.DAY_1 - 1L) ;
+
+        if(lastCandles == null) {
+            return load(TradingDataPath.getAbsolutePath(path), Times.DAY_1, beginTime, endTime, zoneId);
+        }else{
+            //메모리 데이터 살리기
+            return load(TradingDataPath.getAbsolutePath(path), lastCandles,  Times.DAY_1, beginTime, endTime, zoneId );
+        }
+    }
+
+    //하드 입출력 시간을 줄이기 위해 메모리 데이터를 살린다. (신규데이터만 불러오기)
+    public static TradeCandle [] load(String path, TradeCandle [] lastCandles,long candleTime, long beginTime, long endTime, ZoneId zoneId) {
+        if(lastCandles == null || lastCandles.length == 0){
+            return load(path, candleTime, beginTime, endTime, zoneId);
+        }
+
+        //라스트 1개는 다시 불러 온다. 값이 변경될 수 있다.
+
+        List<TradeCandle> list = new ArrayList<>();
+        int end = lastCandles.length-1;
+
+        for (int i = 0; i < end ; i++) {
+            TradeCandle candle = lastCandles[i];
+
+
+            long openTime = candle.getOpenTime();
+
+            if(openTime < beginTime){
+                continue;
+            }
+
+            if(openTime >= endTime){
+                break ;
+            }
+
+            if(candle.getCloseTime() > 0 &&  candle.getCloseTime() > endTime){
+                break ;
+            }
+
+            list.add(candle);
+        }
+
+        if(list.isEmpty()){
+            return load(path, candleTime, beginTime, endTime, zoneId);
+        }
+
+        beginTime = lastCandles[lastCandles.length-1].getOpenTime();
+        list.addAll(Arrays.asList(load(path, candleTime, beginTime, endTime, zoneId)));
+        return list.toArray(new TradeCandle[0]);
     }
 
     public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime, ZoneId zoneId){
@@ -294,6 +341,7 @@ public class CsvCandle {
 
         List<TradeCandle> candleList = new ArrayList<>();
 
+
         outer:
         for(File file : files){
             int fileNum = Integer.parseInt(file.getName());
@@ -305,13 +353,15 @@ public class CsvCandle {
             if(fileNum > endFileNum){
                 break;
             }
-
+            String line= null;
             try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
-                String line;
+
                 while ((line = br.readLine()) != null) {
 
-                    long openTime = CsvTimeFile.getTime(line);
-//                    long closeTime = openTime + candleTime;
+                    TradeCandle candle = make(line, candleTime);
+
+                    long openTime = candle.getOpenTime();
+
                     if(openTime < beginTime){
                         continue;
                     }
@@ -319,10 +369,17 @@ public class CsvCandle {
                     if(openTime >= endTime){
                         break outer;
                     }
-                    candleList.add(make(line, candleTime));
+
+                    if(candle.getCloseTime() > 0 && candle.getCloseTime() > endTime){
+                        break outer;
+                    }
+
+                    candleList.add(candle);
                 }
-            } catch (IOException e) {
-                throw new IORuntimeException(e);
+            } catch (Exception e) {
+
+//                System.out.println(line);
+                throw new RuntimeException(line);
             }
         }
 
