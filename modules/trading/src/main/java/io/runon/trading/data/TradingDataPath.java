@@ -45,15 +45,33 @@ public class TradingDataPath {
         return path;
     }
 
-
     public static String getDataPath(){
         return TradingConfig.getTradingDataPath();
     }
 
-    public static void main(String[] args) {
-        String path = getAbsolutePath("commodities\\futures\\candle\\GBR_brent_oil\\1h");
-        System.out.println(path);
-
-
+    public static String getFuturesCandlePath(String dataClassification, String itemId){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        String dataPath = TradingConfig.getTradingDataPath();
+        return dataPath + fileSeparator + dataClassification + fileSeparator + "futures" + fileSeparator + "candle" + fileSeparator + itemId ;
     }
+
+    public static String getFuturesCandleRelativePathPath(String dataClassification, String itemId){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        String dataPath = TradingConfig.getTradingDataPath();
+        return  dataClassification + fileSeparator + "futures" + fileSeparator + "candle" + fileSeparator + itemId ;
+    }
+
+
+    public static String getFuturesCandlePath(String dataClassification, String itemId, String interval){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        return getFuturesCandlePath(dataClassification, itemId) + fileSeparator + interval;
+    }
+
+
+    public static void main(String[] args) {
+        String path = getFuturesCandleRelativePathPath("indices","USA_snp_500_vix");
+        System.out.println(path);
+    }
+
+
 }

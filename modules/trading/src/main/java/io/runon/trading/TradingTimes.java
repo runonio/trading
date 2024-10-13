@@ -226,11 +226,26 @@ public class TradingTimes {
         if(countryCode == CountryCode.KOR){
             ZoneId zoneId = TradingTimes.getZoneId(countryCode);
             long time = YmdUtil.getTime(ymd, zoneId);
-            return time + Times.getTimeHm("0900");
+            return time + Times.getTimeHm(getOpenTimeHm(countryCode));
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }
     }
 
 
+    public static String getOpenTimeHm(CountryCode countryCode){
+        if(countryCode == CountryCode.KOR){
+            return "0900";
+        }else{
+            throw new UndefinedException("undefined code: " + countryCode.toString());
+        }
+    }
+
+    public static String getCloseTimeHm(CountryCode countryCode){
+        if(countryCode == CountryCode.KOR){
+            return "1530";
+        }else{
+            throw new UndefinedException("undefined code: " + countryCode.toString());
+        }
+    }
 }

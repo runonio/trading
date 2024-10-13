@@ -4,6 +4,7 @@ import com.seomse.commons.utils.time.Times;
 import com.seomse.commons.utils.time.YmdUtil;
 import io.runon.trading.Time;
 import io.runon.trading.TradingGson;
+import io.runon.trading.data.json.JsonOutLine;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,7 +15,7 @@ import java.time.ZoneId;
  * @author macle
  */
 @Data
-public class DailyNumber implements Time {
+public class DailyNumber implements Time , JsonOutLine {
 
     Long t;
 
@@ -57,9 +58,18 @@ public class DailyNumber implements Time {
         return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonStr, DailyNumber.class);
     }
 
+
+    @Override
     public String outTimeLineJsonText(){
         return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
+
+    @Override
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+    }
+
+
 
     @Override
     public long getTime(){

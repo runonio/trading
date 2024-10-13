@@ -73,7 +73,7 @@ public class LineOutManager {
                 if(zoneId != null){
                     timeName.setZoneId(zoneId);
                 }
-                timeLineOut = new TimeLineLock(dirPath, PathTimeLine.CSV, timeName);
+                timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
             return timeLineOut;
