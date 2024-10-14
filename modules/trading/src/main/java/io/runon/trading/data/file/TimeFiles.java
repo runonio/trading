@@ -84,7 +84,6 @@ public class TimeFiles {
     }
 
     public static String [] getApiCandleDataIntervalDirs(){
-        String [] dataPaths = TradingConfig.getApiCandleDataPaths();
 
         List<String> dirList = new ArrayList<>();
 

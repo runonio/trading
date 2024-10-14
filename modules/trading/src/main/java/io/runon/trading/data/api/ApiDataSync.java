@@ -1,5 +1,6 @@
 package io.runon.trading.data.api;
 
+import com.seomse.commons.utils.FileUtil;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.FileLineOut;
@@ -8,13 +9,17 @@ import io.runon.trading.data.file.TimeFiles;
 import io.runon.trading.data.file.TimeLines;
 import lombok.extern.slf4j.Slf4j;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author macle
  */
 @Slf4j
 public class ApiDataSync {
     public static void candleSyncAll(){
-        String [] dirs = TimeFiles.getApiCandleDataIntervalDirs();
+//        String [] dirs = TimeFiles.getApiCandleDataIntervalDirs();
+        String [] dirs = FileUtil.getFileContents("config/candle_sync_path.txt", StandardCharsets.UTF_8).split("\n");
+
         for(String dir: dirs){
             log.debug("candle sync dir: " + dir);
             dataSync(dir, PathTimeLine.CSV);
@@ -68,7 +73,7 @@ public class ApiDataSync {
     }
 
     public static void main(String[] args) {
-        candleSyncAll();
+//        candleSyncAll();
     }
 
 

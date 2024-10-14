@@ -262,9 +262,16 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
             return;
         }
 
+
+
         change = close.subtract(previous);
-        changeRate = change.divide(previous, MathContext.DECIMAL128);
-        changePercent = changeRate.multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+        if(previous.compareTo( BigDecimal.ZERO) == 0){
+            changeRate = BigDecimal.ZERO;
+            changePercent = BigDecimal.ZERO;
+        }else {
+            changeRate = change.divide(previous, MathContext.DECIMAL128);
+            changePercent = changeRate.multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
+        }
     }
 
     /**
