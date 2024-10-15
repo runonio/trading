@@ -6,12 +6,15 @@ import io.runon.trading.data.json.JsonOutLine;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 
 /**
  * @author macle
  */
 @Data
 public class RatingScore implements Time {
+
+    public static final Comparator<RatingScore> SORT = Comparator.comparingLong(o -> o.time);
 
     protected long time;
 
