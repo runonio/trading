@@ -268,4 +268,16 @@ public class TradingTimes {
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }
     }
+
+    /**
+     * 정각시각얻기
+     * @param time 지금시간
+     * @param zoneId zone id
+     * @return 하루 시작시작 0h 0m 0s
+     */
+    public static long getDayOpenTime(long time, ZoneId zoneId){
+        String ymd = YmdUtil.getYmd(time, zoneId);
+        long openTime =  YmdUtil.getTime(ymd, zoneId);
+        return YmdUtil.getTime(ymd, zoneId);
+    }
 }
