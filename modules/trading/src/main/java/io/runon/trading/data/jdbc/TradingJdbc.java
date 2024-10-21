@@ -2,7 +2,11 @@ package io.runon.trading.data.jdbc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.seomse.commons.exception.ReflectiveOperationRuntimeException;
+import com.seomse.jdbc.objects.JdbcObjects;
 import io.runon.trading.TradingGson;
+
+import java.util.Set;
 
 /**
  * trading 에서 사용하는 db관련 유틸성
@@ -10,11 +14,46 @@ import io.runon.trading.TradingGson;
  */
 public class TradingJdbc {
 
+
+    public static void updateTimeCheck(Object [] array) {
+        for(Object o : array){
+            updateTimeCheck(o);
+        }
+    }
+
+    public static void updateTimeCheck(Object o) {
+        try {
+            String where = JdbcObjects.getCheckWhere(o);
+            Object source = JdbcObjects.getObj(o.getClass(), where);
+
+            if (source == null) {
+                JdbcObjects.insert(o);
+            } else {
+                if (!TradingJdbc.equalsOutUpdatedAt(source, o)) {
+                    JdbcObjects.update(o, false);
+                }
+            }
+        }catch (ReflectiveOperationException e){
+            throw new ReflectiveOperationRuntimeException(e);
+        }
+    }
+
     public static boolean equalsOutUpdatedAt(Object source, Object target){
 
         String sourceOutUpdatedAt = getOutUpdateAtJson(source);
-        String targetSourceOutUpdatedAt = getOutUpdateAtJson(target);
+        JsonObject sourceObject = TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(sourceOutUpdatedAt, JsonObject.class);
+        String [] sourceKeys = sourceObject.keySet().toArray(new String[0]);
 
+        String targetSourceOutUpdatedAt = getOutUpdateAtJson(target);
+        JsonObject targetObject =  TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(targetSourceOutUpdatedAt, JsonObject.class);
+        Set<String> targetKeySet = targetObject.keySet();
+        for(String sourceKey : sourceKeys){
+            if(targetKeySet.contains(sourceKey)){
+                continue;
+            }
+            sourceObject.remove(sourceKey);
+        }
+        sourceOutUpdatedAt = TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(sourceObject);
         return sourceOutUpdatedAt.equals(targetSourceOutUpdatedAt);
 
     }
@@ -29,7 +68,5 @@ public class TradingJdbc {
 
         return gson.toJson(jsonObject);
     }
-
-
 
 }

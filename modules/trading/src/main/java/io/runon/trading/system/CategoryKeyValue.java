@@ -10,24 +10,21 @@ import lombok.Data;
  * @author macle
  */
 @Data
-@Table(name="common_config")
-public class CommonConfig {
+@Table(name="category_key_value")
+public class CategoryKeyValue {
 
     @PrimaryKey(seq = 1)
-    @Column(name = "config_key")
+    @Column(name = "category_id")
+    String categoryId;
+
+    @PrimaryKey(seq = 2)
+    @Column(name = "data_key")
     String key;
 
-    @Column(name = "config_value")
+    @Column(name = "data_value")
     String value;
-
-    @Column(name = "description")
-    String description;
-
-    @Column(name = "is_del")
-    boolean isDel = false;
 
     @DateTime
     @Column(name = "updated_at")
     long updatedAt = System.currentTimeMillis();
-
 }

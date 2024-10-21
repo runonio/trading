@@ -69,7 +69,6 @@ public class TradingDataPath {
         return getFuturesCandlePath(dataClassification, itemId) + fileSeparator + interval;
     }
 
-
     public static String [] getDirNames(String path){
         path = getAbsolutePath(path);
 
@@ -94,14 +93,18 @@ public class TradingDataPath {
         return list.toArray(new String[0]);
     }
 
-
-    public static void main(String[] args) {
-
-        String [] dirNames = getDirNames("indices\\futures\\candle");
-        for(String dirName: dirNames){
-            System.out.println(dirName);
-        }
+    public static String getTempPath(){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        return getDataPath()+fileSeparator + "temp";
     }
 
+    public static String getTempPath(String relativePath){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        return getDataPath()+fileSeparator + "temp" + fileSeparator + relativePath;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getTempPath());
+    }
 
 }
