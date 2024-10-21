@@ -303,4 +303,16 @@ public class TimeLines {
         return lineOutManager.get(dirPath, timeLine, zoneId, timeNameType);
     }
 
+    public static String outValue(List<String> lineList){
+        StringBuilder sb = new StringBuilder();
+        sb.append(lineList.get(0));
+
+        int size = lineList.size();
+        for (int i = 1; i <size ; i++) {
+            sb.append("\n").append(lineList.get(i));
+        }
+
+        return sb.toString();
+    }
+
 }

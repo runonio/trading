@@ -34,5 +34,5 @@ public class Category {
 
     @DateTime
     @Column(name = "updated_at")
-    long updatedAt;
+    long updatedAt  = System.currentTimeMillis();
 }

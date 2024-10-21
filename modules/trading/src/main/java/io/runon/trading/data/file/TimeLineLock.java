@@ -156,9 +156,9 @@ public class TimeLineLock {
                     String path = dirPath + "/" + lastFileName;
 
                     if(FileUtil.isFile(path)){
-                        FileUtil.fileOutput("\n" + outValue(lineList), path, true);
+                        FileUtil.fileOutput("\n" + TimeLines.outValue(lineList), path, true);
                     }else{
-                        FileUtil.fileOutput(outValue(lineList), path, false);
+                        FileUtil.fileOutput(TimeLines.outValue(lineList), path, false);
                     }
 
                     lineList.clear();
@@ -170,9 +170,9 @@ public class TimeLineLock {
             if(lineList.size() > 0){
                 String path = dirPath + "/" + lastFileName;
                 if(FileUtil.isFile(path)){
-                    FileUtil.fileOutput("\n" + outValue(lineList), path, true);
+                    FileUtil.fileOutput("\n" + TimeLines.outValue(lineList), path, true);
                 }else{
-                    FileUtil.fileOutput(outValue(lineList), path, false);
+                    FileUtil.fileOutput(TimeLines.outValue(lineList), path, false);
                 }
                 lineList.clear();
             }
@@ -191,7 +191,7 @@ public class TimeLineLock {
             String saveLastLine = FileUtil.getLastTextLine(path);
             if(saveLastLine.equals("")){
                 //내용이 없으면 파일이 비어 있으면
-                FileUtil.fileOutput(outValue(lineList), path, false);
+                FileUtil.fileOutput(TimeLines.outValue(lineList), path, false);
                 return;
             }
 
@@ -199,7 +199,7 @@ public class TimeLineLock {
             long firstTime = timeLine.getTime(lineList.get(0));
             if(firstTime > lastSaveTime){
                 //저장된 시간보다크면 뒤에다 붙임
-                FileUtil.fileOutput("\n" + outValue(lineList), path, true);
+                FileUtil.fileOutput("\n" + TimeLines.outValue(lineList), path, true);
 
             }else if(firstTime == lastSaveTime ){
                 //마지막 한줄만 수정이면
@@ -253,22 +253,12 @@ public class TimeLineLock {
                 newList.clear();
             }
         }else{
-            FileUtil.fileOutput(outValue(lineList), path, false);
+            FileUtil.fileOutput(TimeLines.outValue(lineList), path, false);
         }
     }
 
 
-    public String outValue(List<String> lineList){
-        StringBuilder sb = new StringBuilder();
-        sb.append(lineList.get(0));
 
-        int size = lineList.size();
-        for (int i = 1; i <size ; i++) {
-            sb.append("\n").append(lineList.get(i));
-        }
-
-        return sb.toString();
-    }
 
     public String [] load( long beginTime, int count){
         synchronized (lock) {

@@ -384,6 +384,12 @@ public class TradeCandle extends CandleStick implements Volume {
         if(buyVolume == null || volume == null){
             return ;
         }
+
+        if(buyVolume.compareTo(BigDecimal.ZERO) == 0 && sellVolume.compareTo(BigDecimal.ZERO) == 0){
+            return ;
+        }
+
+
         sellVolume = volume.subtract(buyVolume);
     }
 
@@ -409,6 +415,10 @@ public class TradeCandle extends CandleStick implements Volume {
      */
     public void setSellTradingPrice() {
         if(tradingPrice == null || buyTradingPrice == null){
+            return ;
+        }
+
+        if(buyTradingPrice.compareTo(BigDecimal.ZERO) == 0 && sellTradingPrice.compareTo(BigDecimal.ZERO) == 0){
             return ;
         }
 

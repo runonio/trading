@@ -4,7 +4,10 @@ import com.seomse.jdbc.annotation.Column;
 import com.seomse.jdbc.annotation.DateTime;
 import com.seomse.jdbc.annotation.PrimaryKey;
 import com.seomse.jdbc.annotation.Table;
+import io.runon.trading.TradingGson;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * @author macle
@@ -17,8 +20,8 @@ public class Futures {
     @Column(name = "futures_id")
     String futuresId;
 
-    @Column(name = "market_type")
-    String marketType;
+    @Column(name = "underlying_assets_type")
+    String underlyingAssetsType;
 
     @Column(name = "exchange")
     String exchange;
@@ -29,38 +32,35 @@ public class Futures {
     @Column(name = "name_en")
     String nameEn;
 
-    @Column(name = "currency")
-    String currency;
-
     @Column(name = "candle_path")
     String candlePath;
 
-    @Column(name = "tick_size")
-    String tickSize;
+    @Column(name = "currency")
+    String currency;
 
-    @Column(name = "tick_value")
-    String tickValue;
+    @Column(name = "underlying_assets_id")
+    String underlyingAssetsId;
+
+    @Column(name = "product_type")
+    String productType = "futures";
 
     @Column(name = "symbol")
     String symbol;
 
-    @Column(name = "point_value")
-    String pointValue;
+    @Column(name = "standard_code")
+    String standardCode;
 
-    @Column(name = "maturity_month")
-    String maturityMonth;
+    @Column(name = "listing_ymd")
+    Integer listingYmd;
 
-    @Column(name = "contract_size")
-    String contractSize;
+    @Column(name = "last_trading_ymd")
+    Integer lastTradingYmd;
 
-    @Column(name = "settlement_type")
-    String settlementType;
+    @Column(name = "settlement_ymd")
+    Integer settlementYmd;
 
-    @Column(name = "settlement_day")
-    String settlementDay;
-
-    @Column(name = "last_rollover_day")
-    String lastRolloverDay;
+    @Column(name = "trade_multiplier")
+    BigDecimal tradeMultiplier;
 
     @Column(name = "description")
     String description;
@@ -73,4 +73,8 @@ public class Futures {
     long updatedAt = System.currentTimeMillis();
 
 
+    @Override
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+    }
 }

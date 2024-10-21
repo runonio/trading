@@ -221,17 +221,37 @@ public class TradingTimes {
     }
 
 
+
+    public static long getDailyOpenTime( CountryCode countryCode, int ymd){
+        return getDailyOpenTime(countryCode, Integer.toString(ymd));
+    }
+
     public static long getDailyOpenTime( CountryCode countryCode, String ymd){
+
+            if(countryCode == CountryCode.KOR){
+                ZoneId zoneId = TradingTimes.getZoneId(countryCode);
+                long time = YmdUtil.getTime(ymd, zoneId);
+                return time + Times.getTimeHm(getOpenTimeHm(countryCode));
+            }else{
+                throw new UndefinedException("undefined code: " + countryCode.toString());
+            }
+    }
+
+
+    public static long getDailyCloseTime( CountryCode countryCode, int ymd){
+        return getDailyCloseTime(countryCode, Integer.toString(ymd));
+    }
+
+    public static long getDailyCloseTime( CountryCode countryCode, String ymd){
 
         if(countryCode == CountryCode.KOR){
             ZoneId zoneId = TradingTimes.getZoneId(countryCode);
             long time = YmdUtil.getTime(ymd, zoneId);
-            return time + Times.getTimeHm(getOpenTimeHm(countryCode));
+            return time + Times.getTimeHm(getCloseTimeHm(countryCode));
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }
     }
-
 
     public static String getOpenTimeHm(CountryCode countryCode){
         if(countryCode == CountryCode.KOR){
@@ -247,5 +267,17 @@ public class TradingTimes {
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }
+    }
+
+    /**
+     * 정각시각얻기
+     * @param time 지금시간
+     * @param zoneId zone id
+     * @return 하루 시작시작 0h 0m 0s
+     */
+    public static long getDayOpenTime(long time, ZoneId zoneId){
+        String ymd = YmdUtil.getYmd(time, zoneId);
+        long openTime =  YmdUtil.getTime(ymd, zoneId);
+        return YmdUtil.getTime(ymd, zoneId);
     }
 }

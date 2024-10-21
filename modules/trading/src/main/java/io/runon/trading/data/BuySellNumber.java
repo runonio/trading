@@ -1,5 +1,6 @@
 package io.runon.trading.data;
 
+import io.runon.trading.TradingGson;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,5 +25,11 @@ public class BuySellNumber {
 
     public BigDecimal getGap() {
         return buy.subtract(sell);
+    }
+
+
+    @Override
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 }

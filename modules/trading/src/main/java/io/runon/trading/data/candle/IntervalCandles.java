@@ -44,7 +44,6 @@ public class IntervalCandles {
 
 
         String filesDirPath = absolutePath + fileSeparator + interval;
-        System.out.println(filesDirPath);
         TradeCandle [] lastCandles = intervalMap.get(interval);
         long candleTime = TradingTimes.getIntervalTime(interval);
         TradeCandle [] candles = CsvCandle.load(filesDirPath, lastCandles, candleTime, beginTime, endTime, zoneId);
@@ -67,13 +66,11 @@ public class IntervalCandles {
     public static void main(String[] args) {
         ZoneId zoneId = TradingTimes.KOR_ZONE_ID;
 
-        IntervalCandles   vixCandles = new IntervalCandles(TradingDataPath.getFuturesCandleRelativePathPath("indices","USA_snp_500_vix"));
+//        IntervalCandles   intervalCandles = new IntervalCandles(TradingDataPath.getFuturesCandleRelativePathPath("bonds","USA_30_year"));
+        IntervalCandles   intervalCandles =  new IntervalCandles(TradingDataPath.getFuturesCandleRelativePathPath("commodities","USA_gold"));
+        intervalCandles.setCandle("1d", YmdUtil.getTime(20000101, zoneId), YmdUtil.getTime(20101013, zoneId));
 
-
-
-        vixCandles.setCandle("1d", YmdUtil.getTime(20241001, zoneId), YmdUtil.getTime(20241013, zoneId));
-
-        TradeCandle []candles = vixCandles.getCandles("1d");
+        TradeCandle []candles = intervalCandles.getCandles("1d");
         for(TradeCandle candle : candles){
             System.out.println(candle);
         }
