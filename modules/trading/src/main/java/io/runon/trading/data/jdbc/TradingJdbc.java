@@ -3,8 +3,10 @@ package io.runon.trading.data.jdbc;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.seomse.commons.exception.ReflectiveOperationRuntimeException;
+import com.seomse.commons.utils.GsonUtils;
 import com.seomse.jdbc.objects.JdbcObjects;
 import io.runon.trading.TradingGson;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
@@ -12,8 +14,8 @@ import java.util.Set;
  * trading 에서 사용하는 db관련 유틸성
  * @author macle
  */
+@Slf4j
 public class TradingJdbc {
-
 
     public static void updateTimeCheck(Object [] array) {
         for(Object o : array){
@@ -30,6 +32,7 @@ public class TradingJdbc {
                 JdbcObjects.insert(o);
             } else {
                 if (!TradingJdbc.equalsOutUpdatedAt(source, o)) {
+                    GsonUtils.mergeJsonField("dataValue", source, o);
                     JdbcObjects.update(o, false);
                 }
             }
