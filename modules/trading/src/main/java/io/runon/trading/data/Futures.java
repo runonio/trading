@@ -50,8 +50,8 @@ public class Futures {
     @Column(name = "standard_code")
     String standardCode;
 
-    @Column(name = "listing_ymd")
-    Integer listingYmd;
+    @Column(name = "listed_ymd")
+    Integer listedYmd;
 
     @Column(name = "last_trading_ymd")
     Integer lastTradingYmd;

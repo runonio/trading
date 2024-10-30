@@ -142,25 +142,25 @@ public abstract class SplitOrder {
     protected final Object openOrderLock = new Object();
 
     //체결수량
-    protected BigDecimal totalTradingQuantity = BigDecimal.ZERO;
+    protected BigDecimal quantitySum = BigDecimal.ZERO;
 
     //평단가
-    protected BigDecimal totalTradingPrice = BigDecimal.ZERO;
+    protected BigDecimal amountSum = BigDecimal.ZERO;
 
 
-    public BigDecimal getTotalTradingQuantity() {
-        return totalTradingQuantity.add(sumCloseQuantity());
+    public BigDecimal getQuantitySum() {
+        return quantitySum.add(sumCloseQuantity());
     }
 
-    public BigDecimal getTotalTradingPrice() {
-        return totalTradingPrice.add(sumClosePrice());
+    public BigDecimal getAmountSum() {
+        return amountSum.add(sumClosePrice());
     }
 
-    public BigDecimal getAverageTradingPrice(int scale) {
-        if(totalTradingQuantity.compareTo(BigDecimal.ZERO) == 0 || totalTradingPrice.compareTo(BigDecimal.ZERO) == 0){
+    public BigDecimal getAverageAmount(int scale) {
+        if(quantitySum.compareTo(BigDecimal.ZERO) == 0 || amountSum.compareTo(BigDecimal.ZERO) == 0){
             return BigDecimal.ZERO;
         }
-        return totalTradingPrice.add(sumClosePrice()).divide(totalTradingQuantity.add(sumCloseQuantity()),scale, RoundingMode.HALF_UP);
+        return amountSum.add(sumClosePrice()).divide(quantitySum.add(sumCloseQuantity()),scale, RoundingMode.HALF_UP);
     }
 
     public void addOpenOrder(LimitOrderTrade limitOrderTrade){
@@ -182,15 +182,15 @@ public abstract class SplitOrder {
             for(LimitOrderTrade order : orders){
                 if(order.getOpenQuantity().compareTo(BigDecimal.ZERO) <= 0){
                     openOrderList.remove(order);
-                    totalTradingQuantity = totalTradingQuantity.add(order.getCloseQuantity());
-                    totalTradingPrice = totalTradingPrice.add(order.getPrice().multiply(order.getCloseQuantity()));
+                    quantitySum = quantitySum.add(order.getCloseQuantity());
+                    amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
                 }else{
                     if(reorderTime > 0 && System.currentTimeMillis() - order.getOrderTime() > reorderTime){
                         //재주문 시간 초과인경우
                         //금액 정산후 주문 취소
                         openOrderList.remove(order);
-                        totalTradingQuantity = totalTradingQuantity.add(order.getCloseQuantity());
-                        totalTradingPrice = totalTradingPrice.add(order.getPrice().multiply(order.getCloseQuantity()));
+                        quantitySum = quantitySum.add(order.getCloseQuantity());
+                        amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
                         openOrderCancel(order);
                     }
                 }

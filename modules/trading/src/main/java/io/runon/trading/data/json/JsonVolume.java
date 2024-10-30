@@ -82,7 +82,7 @@ public class JsonVolume {
             JSONArray array = obj.getJSONArray(interval);
             VolumeData volumeData = new VolumeData();
             volumeData.setVolume(array.getBigDecimal(0));
-            volumeData.setTradingPrice(array.getBigDecimal(1));
+            volumeData.setAmount(array.getBigDecimal(1));
             volumeData.setVolumePower(array.getBigDecimal(2));
             timeVolumes.put(time, volumeData);
         }

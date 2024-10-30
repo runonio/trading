@@ -54,17 +54,17 @@ public class TradeCandle extends CandleStick implements Volume {
     /**
      * 거래대금
      */
-    private BigDecimal tradingPrice = BigDecimal.ZERO;
+    private BigDecimal amount = BigDecimal.ZERO;
 
     /**
      * 매수 거래대금
      */
-    private BigDecimal buyTradingPrice = BigDecimal.ZERO;
+    private BigDecimal buyAmount = BigDecimal.ZERO;
 
     /**
      * 매도 거래대금
      */
-    private BigDecimal sellTradingPrice = BigDecimal.ZERO;
+    private BigDecimal sellAmount = BigDecimal.ZERO;
 
     /**
      * 평균가격 얻기
@@ -74,11 +74,11 @@ public class TradeCandle extends CandleStick implements Volume {
      * @return  평균가격
      */
     public BigDecimal getAverage() {
-        if(tradingPrice.compareTo(BigDecimal.ZERO) == 0){
+        if(amount.compareTo(BigDecimal.ZERO) == 0){
             return close.add(high).add(low).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
         }
 
-        return tradingPrice.divide(volume, MathContext.DECIMAL128);
+        return amount.divide(volume, MathContext.DECIMAL128);
     }
 
     /**
@@ -159,14 +159,14 @@ public class TradeCandle extends CandleStick implements Volume {
 
         if(trade.getType() == Trade.Type.BUY){
             buyVolume = buyVolume.add(trade.getVolume());
-            buyTradingPrice = buyTradingPrice.add(trade.getTradingPrice());
+            buyAmount = buyAmount.add(trade.getAmount());
         }else if(trade.getType() == Trade.Type.SELL){
             sellVolume = sellVolume.add(trade.getVolume());
-            sellTradingPrice = sellTradingPrice.add(trade.getTradingPrice());
+            sellAmount = sellAmount.add(trade.getAmount());
         }
 
         volume = volume.add(trade.getVolume());
-        tradingPrice = tradingPrice.add(trade.getTradingPrice());
+        amount = amount.add(trade.getAmount());
     }
 
     /**
@@ -210,13 +210,13 @@ public class TradeCandle extends CandleStick implements Volume {
 
     public void addVolume(TradeCandle addCandle){
         buyVolume = buyVolume.add(addCandle.getBuyVolume());
-        buyTradingPrice = buyTradingPrice.add(addCandle.getBuyTradingPrice());
+        buyAmount = buyAmount.add(addCandle.getBuyAmount());
 
         sellVolume = sellVolume.add(addCandle.getSellVolume());
-        sellTradingPrice = sellTradingPrice.add(addCandle.getSellTradingPrice());
+        sellAmount = sellAmount.add(addCandle.getSellAmount());
 
         volume = volume.add(addCandle.getVolume());
-        tradingPrice = tradingPrice.add(addCandle.getTradingPrice());
+        amount = amount.add(addCandle.getAmount());
     }
 
     /**
@@ -328,36 +328,36 @@ public class TradeCandle extends CandleStick implements Volume {
      * 거래대금이 설정되지 않은경우 (종가 + 고가 + 저가 )/3 * 거래량
      * @return 거래대금
      */
-    public BigDecimal getTradingPrice() {
-        if(tradingPrice.compareTo(BigDecimal.ZERO) == 0 && volume.compareTo(BigDecimal.ZERO) > 0){
+    public BigDecimal getAmount() {
+        if(amount.compareTo(BigDecimal.ZERO) == 0 && volume.compareTo(BigDecimal.ZERO) > 0){
             return close.add(high).add(low).multiply(volume).divide(BigDecimals.DECIMAL_3, MathContext.DECIMAL128);
         }
 
-        return tradingPrice;
+        return amount;
     }
 
     /**
      * 매수거래대금 얻기
      * @return 매수거래대금
      */
-    public BigDecimal getBuyTradingPrice() {
-        return buyTradingPrice;
+    public BigDecimal getBuyAmount() {
+        return buyAmount;
     }
 
     /**
      * 매도거래대금 얻기
      * @return 매도거래대금
      */
-    public BigDecimal getSellTradingPrice() {
-        return sellTradingPrice;
+    public BigDecimal getSellAmount() {
+        return sellAmount;
     }
 
     /**
      * 거래대금 설정
-     * @param tradingPrice 거래대금
+     * @param amount 거래대금
      */
-    public void setTradingPrice(BigDecimal tradingPrice) {
-        this.tradingPrice = tradingPrice;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     /**
@@ -395,34 +395,34 @@ public class TradeCandle extends CandleStick implements Volume {
 
     /**
      * 매수거래대금 설정
-     * @param buyTradingPrice 매수거래대금
+     * @param buyAmount 매수거래대금
      */
-    public void setBuyTradingPrice(BigDecimal buyTradingPrice) {
-        this.buyTradingPrice = buyTradingPrice;
+    public void setBuyAmount(BigDecimal buyAmount) {
+        this.buyAmount = buyAmount;
     }
 
     /**
      * 매도거래대금 설정
-     * @param sellTradingPrice 매도거래대금
+     * @param sellAmount 매도거래대금
      */
-    public void setSellTradingPrice(BigDecimal sellTradingPrice) {
-        this.sellTradingPrice = sellTradingPrice;
+    public void setSellAmount(BigDecimal sellAmount) {
+        this.sellAmount = sellAmount;
     }
 
     /**
      * 매도거래대금 설정
      * 매수대금을 활용한다
      */
-    public void setSellTradingPrice() {
-        if(tradingPrice == null || buyTradingPrice == null){
+    public void setSellAmount() {
+        if(amount == null || buyAmount == null){
             return ;
         }
 
-        if(buyTradingPrice.compareTo(BigDecimal.ZERO) == 0 && sellTradingPrice.compareTo(BigDecimal.ZERO) == 0){
+        if(buyAmount.compareTo(BigDecimal.ZERO) == 0 && sellAmount.compareTo(BigDecimal.ZERO) == 0){
             return ;
         }
 
-        this.sellTradingPrice = tradingPrice.subtract(buyTradingPrice);
+        this.sellAmount = amount.subtract(buyAmount);
     }
 
     /**

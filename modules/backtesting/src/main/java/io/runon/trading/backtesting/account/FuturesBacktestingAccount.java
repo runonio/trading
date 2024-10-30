@@ -168,14 +168,14 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         }
 
         FuturesPositionData futuresPositionData = positionMap.get(symbol);
-        BigDecimal tradingPrice = price.multiply(quantity);
+        BigDecimal amount = price.multiply(quantity);
         
         if(futuresPositionData == null){
             futuresPositionData = new FuturesPositionData();
             futuresPositionData.setSymbol(symbol);
             futuresPositionData.setPrice(price);
             futuresPositionData.setQuantity(quantity);
-            futuresPositionData.setTradingPrice(tradingPrice);
+            futuresPositionData.setAmount(amount);
             futuresPositionData.setPosition(Position.LONG);
             futuresPositionData.setLeverage(BigDecimal.ONE);
             positionMap.put(symbol, futuresPositionData);
@@ -186,12 +186,12 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             //누적수량변경
             futuresPositionData.setQuantity(futuresPositionData.getQuantity().add(quantity));
             //누적금액변경
-            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().add(tradingPrice));
+            futuresPositionData.setAmount(futuresPositionData.getAmount().add(amount));
             //평단가변경
-            futuresPositionData.setPrice(futuresPositionData.getTradingPrice().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
+            futuresPositionData.setPrice(futuresPositionData.getAmount().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
         }
 
-        cash = cash.subtract(tradingPrice).subtract(tradingPrice.multiply(buyFee));
+        cash = cash.subtract(amount).subtract(amount.multiply(buyFee));
 
     }
 
@@ -214,7 +214,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         if(quantity.compareTo(BigDecimal.ZERO) == 0){
             return;
         }
-        BigDecimal tradingPrice = price.multiply(quantity);
+        BigDecimal amount = price.multiply(quantity);
 
 
         FuturesPositionData futuresPositionData = positionMap.get(symbol);
@@ -224,7 +224,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             futuresPositionData.setSymbol(symbol);
             futuresPositionData.setPrice(price);
             futuresPositionData.setQuantity(quantity);
-            futuresPositionData.setTradingPrice(tradingPrice);
+            futuresPositionData.setAmount(amount);
             futuresPositionData.setPosition(Position.SHORT);
             futuresPositionData.setLeverage(BigDecimal.ONE);
             positionMap.put(symbol, futuresPositionData);
@@ -232,12 +232,12 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             //누적수량변경
             futuresPositionData.setQuantity(futuresPositionData.getQuantity().add(quantity));
             //누적금액변경
-            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().add(tradingPrice));
+            futuresPositionData.setAmount(futuresPositionData.getAmount().add(amount));
             //평단가변경
-            futuresPositionData.setPrice(futuresPositionData.getTradingPrice().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
+            futuresPositionData.setPrice(futuresPositionData.getAmount().divide(futuresPositionData.getQuantity(),MathContext.DECIMAL128));
         }
 
-        cash = cash.subtract(tradingPrice).subtract(tradingPrice.multiply(sellFee));
+        cash = cash.subtract(amount).subtract(amount.multiply(sellFee));
     }
 
     public void close(String symbol){
@@ -289,7 +289,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
                 return BigDecimal.ZERO;
             }
 
-            return orderPrice.subtract(buyPrice(price, futuresPositionData.getQuantity()));
+            return orderPrice.subtract(buyAmount(price, futuresPositionData.getQuantity()));
         }else {
             //건수 만큼만 닫기
             BigDecimal positionPrice = futuresPositionData.getPrice();
@@ -299,7 +299,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             BigDecimal closePrice = positionPrice.multiply(quantity);
             
             futuresPositionData.setQuantity( futuresPositionData.getQuantity().subtract(quantity));
-            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().subtract(closePrice));
+            futuresPositionData.setAmount(futuresPositionData.getAmount().subtract(closePrice));
 
             closePrice = closePrice.add(closePrice.multiply(rate));
             closePrice = closePrice.subtract(orderPrice.multiply(buyFee)); //사는것이므로 구매 수수료료
@@ -310,13 +310,13 @@ public class FuturesBacktestingAccount implements FuturesAccount {
 
     }
 
-    public BigDecimal buyPrice(BigDecimal price, BigDecimal quantity){
-        BigDecimal tradingPrice = price.multiply(quantity);
-        return tradingPrice.add(tradingPrice.multiply(buyFee));
+    public BigDecimal buyAmount(BigDecimal price, BigDecimal quantity){
+        BigDecimal amount = price.multiply(quantity);
+        return amount.add(amount.multiply(buyFee));
     }
-    public BigDecimal sellPrice(BigDecimal price, BigDecimal quantity){
-        BigDecimal tradingPrice = price.multiply(quantity);
-        return tradingPrice.add(tradingPrice.multiply(sellFee));
+    public BigDecimal sellAmount(BigDecimal price, BigDecimal quantity){
+        BigDecimal amount = price.multiply(quantity);
+        return amount.add(amount.multiply(sellFee));
     }
 
     public BigDecimal longClose(String symbol, BigDecimal orderPrice, BigDecimal price){
@@ -345,7 +345,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
                 return BigDecimal.ZERO;
             }
 
-            return orderPrice.subtract(sellPrice(price, futuresPositionData.getQuantity()));
+            return orderPrice.subtract(sellAmount(price, futuresPositionData.getQuantity()));
         }else {
             //건수 만큼만 닫기
             BigDecimal positionPrice = futuresPositionData.getPrice();
@@ -354,7 +354,7 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             BigDecimal closePrice = futuresPositionData.getPrice().multiply(quantity);
 
             futuresPositionData.setQuantity( futuresPositionData.getQuantity().subtract(quantity));
-            futuresPositionData.setTradingPrice(futuresPositionData.getTradingPrice().subtract(closePrice));
+            futuresPositionData.setAmount(futuresPositionData.getAmount().subtract(closePrice));
 
             closePrice = closePrice.add(closePrice.multiply(rate));
             closePrice = closePrice.subtract(orderPrice.multiply(sellFee)); //사는것이므로 구매 수수료료
@@ -393,21 +393,21 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         Position position = futuresPosition.getPosition();
         //평단가
         BigDecimal positionPrice = futuresPosition.getPrice();
-        BigDecimal tradingPrice = futuresPosition.getTradingPrice();
+        BigDecimal amount = futuresPosition.getAmount();
         //손실율 혹은 이익율
         if(position == Position.LONG){
             
             //매매대금
             BigDecimal price = idPrice.getSellPrice(futuresPosition.getSymbol());
             BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
-            tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
-            return tradingPrice.subtract(tradingPrice.multiply(sellFee)); //파는것이므로 판매 수수료
+            amount = amount.add(amount.multiply(rate));
+            return amount.subtract(amount.multiply(sellFee)); //파는것이므로 판매 수수료
         }else if(position == Position.SHORT){
             BigDecimal price = idPrice.getBuyPrice(futuresPosition.getSymbol());
             BigDecimal rate = price.subtract(positionPrice).divide(positionPrice, MathContext.DECIMAL128);
             rate = rate.multiply(new BigDecimal(-1));
-            tradingPrice = tradingPrice.add(tradingPrice.multiply(rate));
-            return tradingPrice.subtract(tradingPrice.multiply(buyFee)); //사는것이므로 구매 수수료료
+            amount = amount.add(amount.multiply(rate));
+            return amount.subtract(amount.multiply(buyFee)); //사는것이므로 구매 수수료료
        }
         return BigDecimal.ZERO;
     }

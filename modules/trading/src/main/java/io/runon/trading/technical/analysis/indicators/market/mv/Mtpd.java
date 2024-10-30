@@ -90,18 +90,18 @@ public class Mtpd extends Mvd{
             }
 
             TradeCandle candle = candles[openTimeIndex];
-            if(minTradingPrice != null &&  candle.getTradingPrice().compareTo(minTradingPrice) < 0) {
+            if(minAmount != null &&  candle.getAmount().compareTo(minAmount) < 0) {
                 continue;
             }
 
-            BigDecimal [] tradingPrices = Volumes.getTradingPrices(candles, averageStartIndex , openTimeIndex);
-            Arrays.sort(tradingPrices);
-            BigDecimal avg = TradingMath.average(tradingPrices, highestExclusionRate);
+            BigDecimal [] amountArray = Volumes.getAmountSum(candles, averageStartIndex , openTimeIndex);
+            Arrays.sort(amountArray);
+            BigDecimal avg = TradingMath.average(amountArray, highestExclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }
 
-            sum = sum.add(candle.getTradingPrice());
+            sum = sum.add(candle.getAmount());
             avgSum = avgSum.add(avg);
 
         }

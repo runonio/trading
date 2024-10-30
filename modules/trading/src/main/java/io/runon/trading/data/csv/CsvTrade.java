@@ -14,11 +14,11 @@ import java.math.BigDecimal;
 @Slf4j
 public class CsvTrade {
 
-    private static final Field TRADING_PRICE_FILED = getTradingPriceFiled();
+    private static final Field TRADING_PRICE_FILED = getAmount();
 
-    private static Field getTradingPriceFiled(){
+    private static Field getAmount(){
         try {
-            Field field = Trade.class.getDeclaredField("tradingPrice");
+            Field field = Trade.class.getDeclaredField("amount");
             field.setAccessible(true);
             return field;
         }catch (Exception e){
@@ -38,7 +38,7 @@ public class CsvTrade {
         try {
             Object obj = TRADING_PRICE_FILED.get(trade);
             if(obj != null) {
-                CsvCommon.append(sb, trade.getTradingPrice());
+                CsvCommon.append(sb, trade.getAmount());
             }
         }catch (Exception ignore){}
         return sb.toString();
@@ -51,7 +51,7 @@ public class CsvTrade {
         Trade.Type type = Trade.Type.valueOf(values[1]);
         Trade trade = new Trade(type, CsvCommon.getBigDecimal(values[2]), CsvCommon.getBigDecimal(values[3]), time);
         if(values.length > 4){
-            trade.setTradingPrice(CsvCommon.getBigDecimal(values[4]));
+            trade.setAmount(CsvCommon.getBigDecimal(values[4]));
         }
         return trade;
     }
@@ -60,7 +60,7 @@ public class CsvTrade {
     public static void main(String[] args) {
         Trade trade = new Trade(Trade.Type.BUY, new BigDecimal(1), new BigDecimal(2), System.currentTimeMillis());
         //거래대금 추가 테스트
-//        trade.setTradingPrice(new BigDecimal(3)); 
+//        trade.setAmount(new BigDecimal(3));
         String value = value(trade);
         System.out.println(value);
 

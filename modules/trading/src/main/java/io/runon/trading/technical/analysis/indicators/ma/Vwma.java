@@ -28,7 +28,7 @@ public class Vwma {
         BigDecimal sum = BigDecimal.ZERO;
         BigDecimal vSum = BigDecimal.ZERO;
         for (int i = array.length - averageCount; i < array.length; i++) {
-            sum = sum.add(array[i].getTradingPrice());
+            sum = sum.add(array[i].getAmount());
             vSum = vSum.add(array[i].getVolume());
         }
 
@@ -44,7 +44,7 @@ public class Vwma {
         BigDecimal sum = BigDecimal.ZERO;
         BigDecimal vSum = BigDecimal.ZERO;
         for (int i = start; i < end; i++) {
-            sum = sum.add(array[i].getTradingPrice());
+            sum = sum.add(array[i].getAmount());
             vSum = vSum.add(array[i].getVolume());
         }
         return sum.divide(vSum, MathContext.DECIMAL128);

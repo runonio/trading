@@ -98,7 +98,7 @@ public class Volumes {
         }
         return volumes;
     }
-    public static BigDecimal [] getTradingPrices(TradeCandle [] candles, int startIndex, int end){
+    public static BigDecimal [] getAmountSum(TradeCandle [] candles, int startIndex, int end){
         if (end > candles.length) {
             end = candles.length;
         }
@@ -107,11 +107,11 @@ public class Volumes {
         }
 
         int length = end - startIndex;
-        BigDecimal [] tradingPrices = new BigDecimal[length];
+        BigDecimal [] amountArray = new BigDecimal[length];
         for (int i = 0; i < length; i++) {
-            tradingPrices[i] = candles[i+startIndex].getTradingPrice();
+            amountArray[i] = candles[i+startIndex].getAmount();
         }
-        return tradingPrices;
+        return amountArray;
     }
 
     public static BigDecimal getVolumePower(TradeCandle [] candles){

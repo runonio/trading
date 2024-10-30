@@ -7,6 +7,6 @@ import java.math.BigDecimal;
  */
 public interface Volume {
     BigDecimal getVolume();
-    BigDecimal getTradingPrice();
+    BigDecimal getAmount();
     BigDecimal getVolumePower();
 }

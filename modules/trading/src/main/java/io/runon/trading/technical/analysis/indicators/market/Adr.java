@@ -64,7 +64,7 @@ public class Adr extends MarketIndicators<TimeNumber> {
             }
 
             TradeCandle candle = candles[openTimeIndex];
-            if(minTradingPrice != null &&  candle.getTradingPrice().compareTo(minTradingPrice) < 0) {
+            if(minAmount != null &&  candle.getAmount().compareTo(minAmount) < 0) {
                 continue;
             }
 

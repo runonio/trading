@@ -39,5 +39,5 @@ public interface FuturesPosition {
      */
     Position getPosition();
 
-    BigDecimal getTradingPrice();
+    BigDecimal getAmount();
 }

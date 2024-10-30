@@ -95,12 +95,12 @@ public class SplitBuy extends SplitOrder{
 
             MarketOrderTrade marketOrderTrade =  account.marketOrderCash(symbol, Trade.Type.BUY, orderCash);
 
-            BigDecimal tradingPrice = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
-            totalTradingQuantity = totalTradingQuantity.add(marketOrderTrade.getQuantity());
-            totalTradingPrice = totalTradingPrice.add(tradingPrice);
+            BigDecimal tradePrice = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
+            quantitySum = quantitySum.add(marketOrderTrade.getQuantity());
+            amountSum = amountSum.add(tradePrice);
 
             //주문후 남은금액
-            BigDecimal orderRemainder = orderCash.subtract(tradingPrice.add(marketOrderTrade.getFee()));
+            BigDecimal orderRemainder = orderCash.subtract(tradePrice.add(marketOrderTrade.getFee()));
             if(orderRemainder.compareTo(BigDecimal.ZERO) > 0){
                 remainderCash = remainderCash.add(orderRemainder);
             }
