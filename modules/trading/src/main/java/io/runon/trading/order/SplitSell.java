@@ -79,9 +79,9 @@ public class SplitSell extends SplitOrder{
 
             MarketOrderTrade marketOrderTrade =  account.marketOrderQuantity(symbol, Trade.Type.BUY, orderQuantity);
 
-            BigDecimal tradingPrice = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
-            totalTradingQuantity = totalTradingQuantity.add(marketOrderTrade.getQuantity());
-            totalTradingPrice = totalTradingPrice.add(tradingPrice);
+            BigDecimal tradePriceSum = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
+            quantitySum = quantitySum.add(marketOrderTrade.getQuantity());
+            amountSum = amountSum.add(tradePriceSum);
 
         }else if(orderCase == OrderCase.ASK){
 

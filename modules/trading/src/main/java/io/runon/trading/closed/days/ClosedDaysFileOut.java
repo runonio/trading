@@ -32,14 +32,15 @@ public class ClosedDaysFileOut{
         this.countryCode = countryCode;
     }
 
-    public void out() {
+    private boolean isChange = false;
+    public synchronized boolean out() {
 
+        isChange = false;
         try{
             String nowYmd = YmdUtil.now(TradingTimes.KOR_ZONE_ID);
 
             if(lastCheckYmd != null && lastCheckYmd.equals(nowYmd)){
-                return;
-
+                return isChange;
             }
 
             lastCheckYmd = nowYmd;
@@ -59,7 +60,7 @@ public class ClosedDaysFileOut{
             }
 
             if(YmdUtil.compare(beginYmd,nowYmd) > 0){
-                return;
+                return isChange;
             }
 
 
@@ -69,6 +70,7 @@ public class ClosedDaysFileOut{
                 ymdList.add(ymd);
 
                 if(ymdList.size() > 100){
+                    isChange = true;
                     YmdFiles.outAppend(filePath, ymdList);
                     ymdList.clear();
                 }
@@ -78,6 +80,7 @@ public class ClosedDaysFileOut{
             closedDaysCallback.callbackClosedDays(beginYmd, nowYmd, callback);
 
             if(!ymdList.isEmpty()){
+                isChange = true;
                 YmdFiles.outAppend(filePath, ymdList);
                 ymdList.clear();
             }
@@ -85,5 +88,7 @@ public class ClosedDaysFileOut{
         }catch (Exception e){
             log.error(ExceptionUtil.getStackTrace(e));
         }
+
+        return isChange;
     }
 }

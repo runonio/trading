@@ -1,9 +1,11 @@
 package io.runon.trading.closed.days;
 
+import com.seomse.commons.utils.time.YmdUtil;
 import io.runon.trading.CountryCode;
 import io.runon.trading.TradingConfig;
 
 import java.nio.file.FileSystems;
+import java.util.Set;
 
 /**
  * 휴장일 관련 처리
@@ -24,4 +26,20 @@ public interface ClosedDays {
         String fileSeparator = FileSystems.getDefault().getSeparator();
         return TradingConfig.getTradingDataPath() + fileSeparator + "market" + fileSeparator +"closed_days" + fileSeparator+  countryCode.toString() + "_closed_days.txt";
     }
+
+    static String getLastTradeYmd(ClosedDays closedDays, String ymd){
+
+        String tradeYmd = ymd;
+
+        for(;;){
+            if(closedDays.isClosedDay(tradeYmd)){
+                tradeYmd = YmdUtil.getYmd(tradeYmd, -1);
+                continue;
+            }
+
+            return tradeYmd;
+        }
+
+    }
+
 }

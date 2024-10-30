@@ -7,6 +7,11 @@ import java.time.ZoneId;
  * @author macle
  */
 public class CountryUtils {
+
+    public static String getCountryCode(String id){
+        return id.substring(0, id.indexOf("_"));
+    }
+
     public static ZoneId getZoneId(String countryCode){
         try{
             CountryCode c = CountryCode.valueOf(countryCode);

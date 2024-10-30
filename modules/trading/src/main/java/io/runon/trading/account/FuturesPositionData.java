@@ -17,7 +17,7 @@ public class FuturesPositionData implements FuturesPosition{
     //포지션
     protected Position position =  Position.NONE;
     //매매대금 (실제 달러)
-    protected BigDecimal tradingPrice = BigDecimal.ZERO;
+    protected BigDecimal amount = BigDecimal.ZERO;
     //평단가
     protected BigDecimal price = BigDecimal.ZERO;
 
@@ -32,7 +32,7 @@ public class FuturesPositionData implements FuturesPosition{
     @Override
     public String toString(){
         return  symbol + ": position: " +  position
-                + ", tradingPrice: " +  tradingPrice.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
+                + ", amount: " +  amount.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
                 + ", price: " + price.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
                 + ", quantity: " +  quantity.setScale(6, RoundingMode.DOWN).stripTrailingZeros().toPlainString()
                 + ", leverage: " +  leverage.setScale(2, RoundingMode.DOWN).stripTrailingZeros().toPlainString()

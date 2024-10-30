@@ -5,9 +5,11 @@ import com.seomse.commons.utils.string.Check;
 import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
+import io.runon.trading.data.TextChange;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * 시간정보가 있는 파일
  * @author macle
  */
+
 public class TimeFiles {
 
     public static File [] getFilesDir(String path){
@@ -206,6 +209,73 @@ public class TimeFiles {
         return TimeName.getDefaultType(intervalTime);
     }
 
+    //상위 dir
+    public static void changeTimeFileUpDirs(String dirPath, TextChange change){
+
+        File dirFile = new File(dirPath);
+        if(!dirFile.isDirectory()){
+            return;
+        }
+
+        File [] files = dirFile.listFiles();
+
+        if(files == null || files.length == 0){
+            return;
+        }
+
+        List<File> list = new ArrayList<>();
+
+        for(File file : files){
+            if(!file.isDirectory()){
+                continue;
+            }
+
+            File [] timeFiles = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), null);
+            if( timeFiles.length ==0){
+                continue;
+            }
+            list.addAll(Arrays.asList(timeFiles));
+        }
+
+        changeTimeFiles(list.toArray(new File[0]), change);
+    }
+
+    public static void changeTimeFiles(File [] timeFiles, TextChange change){
+        for(File timeFile : timeFiles){
+            changeTimeFile(timeFile, change);
+        }
+    }
+
+    public static void changeTimeFile(File timeFile, TextChange change){
+        String [] lines = FileUtil.getLines(timeFile);
+
+        if(lines.length ==0 ){
+            return ;
+        }
+
+        boolean isChange = false;
+
+        String firstChange = change.change(lines[0]);
+        if(!firstChange.equals(lines[0])){
+            isChange = true;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(firstChange);
+        for (int i = 1; i <lines.length ; i++) {
+            String changeText = change.change(lines[i]);
+            if(!changeText.equals(lines[i])){
+                isChange = true;
+            }
+            sb.append("\n").append(changeText);
+        }
+
+        if(!isChange)
+            return;
+
+        FileUtil.fileOutput(sb.toString(), timeFile.getAbsolutePath(), false);
+
+    }
 
     public static void main(String[] args) {
 

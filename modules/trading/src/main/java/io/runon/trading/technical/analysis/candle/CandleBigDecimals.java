@@ -62,14 +62,14 @@ public class CandleBigDecimals {
     }
 
 
-    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array){
-        return getTradingPriceArray(array, 0 , array.length);
+    public static BigDecimal[] getAmountArray(TradeCandle[] array){
+        return getAmountArray(array, 0 , array.length);
     }
-    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array, int resultLength){
-        return getTradingPriceArray(array, array.length - resultLength, array.length);
+    public static BigDecimal[] getAmountArray(TradeCandle[] array, int resultLength){
+        return getAmountArray(array, array.length - resultLength, array.length);
     }
 
-    public static BigDecimal[] getTradingPriceArray(TradeCandle[] array, int startIndex, int end){
+    public static BigDecimal[] getAmountArray(TradeCandle[] array, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -77,7 +77,7 @@ public class CandleBigDecimals {
         BigDecimal [] result = new BigDecimal[end-startIndex];
         int index = 0;
         for (int i = startIndex; i <end ; i++) {
-            result[index++] = array[i].getTradingPrice() ;
+            result[index++] = array[i].getAmount() ;
         }
         return result;
     }

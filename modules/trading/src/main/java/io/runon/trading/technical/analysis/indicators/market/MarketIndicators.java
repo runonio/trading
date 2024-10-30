@@ -43,10 +43,10 @@ public abstract class MarketIndicators<T> {
     }
 
 
-    protected BigDecimal minTradingPrice = null;
+    protected BigDecimal minAmount = null;
 
-    public void setMinTradingPrice(BigDecimal minTradingPrice) {
-        this.minTradingPrice = minTradingPrice;
+    public void setMinAmount(BigDecimal minAmount) {
+        this.minAmount = minAmount;
     }
 
     public IdCandles[] getIdCandles() {

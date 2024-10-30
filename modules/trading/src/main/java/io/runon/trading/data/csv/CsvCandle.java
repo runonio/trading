@@ -101,10 +101,10 @@ public class CsvCandle {
         CsvCommon.append(sb, tradeCandle.getLow());
         CsvCommon.append(sb, tradeCandle.getPrevious());
         CsvCommon.append(sb, tradeCandle.getVolume());
-        CsvCommon.append(sb, tradeCandle.getTradingPrice());
+        CsvCommon.append(sb, tradeCandle.getAmount());
         sb.append(",").append(tradeCandle.getTradeCount());
         CsvCommon.append(sb, tradeCandle.getBuyVolume());
-        CsvCommon.append(sb, tradeCandle.getBuyTradingPrice());
+        CsvCommon.append(sb, tradeCandle.getBuyAmount());
         if(tradeCandle.isPriceLimit()){
             sb.append(",").append("y");
         }else{
@@ -208,7 +208,7 @@ public class CsvCandle {
             tradeCandle.setVolume(CsvCommon.getBigDecimal(values[6]));
 
         if(values.length > 7)
-            tradeCandle.setTradingPrice(CsvCommon.getBigDecimal(values[7]));
+            tradeCandle.setAmount(CsvCommon.getBigDecimal(values[7]));
 
         if(values.length > 8) {
             if (values[8] != null && !values[8].isEmpty()) {
@@ -229,8 +229,8 @@ public class CsvCandle {
         }
         if(values.length > 10) {
             if (values[10] != null && !values[10].isEmpty()) {
-                tradeCandle.setBuyTradingPrice(CsvCommon.getBigDecimal(values[10]));
-                tradeCandle.setSellTradingPrice();
+                tradeCandle.setBuyAmount(CsvCommon.getBigDecimal(values[10]));
+                tradeCandle.setSellAmount();
             }
 
         }

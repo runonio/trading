@@ -20,7 +20,7 @@ public class VolumeProfileData {
     private BigDecimal startPriceRange = BigDecimal.ZERO;
     private BigDecimal endPriceRange = BigDecimal.ZERO;
     private BigDecimal volume = BigDecimal.ZERO;
-    private BigDecimal volumePer = BigDecimal.ZERO;
-    private BigDecimal tradingPrice = BigDecimal.ZERO;
-    private BigDecimal tradingPricePer = BigDecimal.ZERO;
+    private BigDecimal volumeRate = BigDecimal.ZERO;
+    private BigDecimal amount = BigDecimal.ZERO;
+    private BigDecimal amountRate = BigDecimal.ZERO;
 }

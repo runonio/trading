@@ -71,12 +71,12 @@ public class VolumeProfile {
             vpDataArr[i] = vpData;
         }
 
-        BigDecimal totalVolume = new BigDecimal(0);
-        BigDecimal totalTradingPrice = new BigDecimal(0);
+        BigDecimal volumeSum = new BigDecimal(0);
+        BigDecimal amountSum = new BigDecimal(0);
 
         for (int i = 0; i < candleArr.length; i++) {
             TradeCandle tradeCandle = candleArr[i];
-            totalVolume = totalVolume.add(tradeCandle.getVolume());
+            volumeSum = volumeSum.add(tradeCandle.getVolume());
             BigDecimal closePrice = tradeCandle.getClose();
             int priceIndex = closePrice.subtract(minPrice).divide(priceRangeTick, RoundingMode.HALF_UP).intValue();
             if(priceIndex == vpSize){
@@ -84,15 +84,15 @@ public class VolumeProfile {
             }
             VolumeProfileData vpData = vpDataArr[priceIndex];
             vpData.setVolume(vpData.getVolume().add(tradeCandle.getVolume()));
-            vpData.setTradingPrice(vpData.getTradingPrice().add(tradeCandle.getTradingPrice()));
+            vpData.setAmount(vpData.getAmount().add(tradeCandle.getAmount()));
         }
 
         for (int i = 0; i < vpDataArr.length; i++) {
             VolumeProfileData vpData = vpDataArr[i];
             BigDecimal volume = vpData.getVolume();
-            BigDecimal tradingPrice = vpData.getTradingPrice();
-            vpData.setVolumePer( volume.divide(totalVolume, 4, RoundingMode.HALF_UP) );
-            vpData.setTradingPricePer( tradingPrice.divide(totalTradingPrice, 4, RoundingMode.HALF_UP));
+            BigDecimal amount = vpData.getAmount();
+            vpData.setVolumeRate( volume.divide(volumeSum, 4, RoundingMode.HALF_UP) );
+            vpData.setAmountRate( amount.divide(amountSum, 4, RoundingMode.HALF_UP));
         }
         return vpDataArr;
     }

@@ -16,7 +16,7 @@ public class VolumeData implements Volume {
     //체결강도
     protected BigDecimal volumePower;
     //거래대금
-    protected BigDecimal tradingPrice;
+    protected BigDecimal amount;
 
     @Override
     public String toString(){

@@ -52,7 +52,7 @@ public class Trade implements TimeNumber{
     /**
      * 거래대금
      */
-    private BigDecimal tradingPrice = null;
+    private BigDecimal amount = null;
 
 
     /**
@@ -123,19 +123,19 @@ public class Trade implements TimeNumber{
      * 설정하였으면 설정한 가격
      * @return 거래대금
      */
-    public BigDecimal getTradingPrice() {
-        if(tradingPrice == null){
-            tradingPrice = price.multiply(volume);
+    public BigDecimal getAmount() {
+        if(amount == null){
+            amount = price.multiply(volume);
         }
-        return tradingPrice;
+        return amount;
     }
 
     /**
      * 거래대금 설정
-     * @param tradingPrice 거래대금
+     * @param amount 거래대금
      */
-    public void setTradingPrice(BigDecimal tradingPrice) {
-        this.tradingPrice = tradingPrice;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
 
