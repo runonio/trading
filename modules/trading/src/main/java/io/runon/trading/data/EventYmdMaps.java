@@ -1,5 +1,7 @@
 package io.runon.trading.data;
 
+import io.runon.trading.data.calendar.EventCalendar;
+
 import java.util.*;
 
 /**
@@ -46,7 +48,7 @@ public class EventYmdMaps {
         return map.get(eventIdStartWith);
     }
 
-    public EventCalendar [] getAllEvent(){
+    public EventCalendar[] getAllEvent(){
         List<EventCalendar> list = new ArrayList<>();
         for(EventYmdMap map : maps){
             list.addAll(Arrays.asList(map.getEventCalendars()));

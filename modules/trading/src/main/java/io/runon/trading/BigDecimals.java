@@ -10,6 +10,12 @@ import java.math.RoundingMode;
  */
 public class BigDecimals {
 
+
+    public final static BigDecimal DECIMAL_K = new BigDecimal(1000);
+    public final static BigDecimal DECIMAL_M = new BigDecimal(1000000);
+    public final static BigDecimal DECIMAL_B = new BigDecimal(1000000000);
+
+
     // -1
     public final static BigDecimal DECIMAL_M_1 = new BigDecimal(-1);
 
@@ -47,6 +53,8 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_10000 = new BigDecimal(10000);
     public final static BigDecimal DECIMAL_100000 = new BigDecimal(100000);
     public final static BigDecimal DECIMAL_1000000 = new BigDecimal(1000000);
+
+
 
     //0.1
     public final static BigDecimal DECIMAL_0_1 = new BigDecimal("0.1");
@@ -91,5 +99,24 @@ public class BigDecimals {
             return "";
         }
         return num.setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+    }
+
+    public static BigDecimal getNumber(String numberText){
+        numberText = numberText.toUpperCase();
+        numberText = numberText.replace(",","");
+        if(numberText.endsWith("K")){
+            String number = numberText.substring(0, numberText.length()-1);
+            return new BigDecimal(number).multiply(DECIMAL_K);
+
+        }else if(numberText.endsWith("M")){
+            String number = numberText.substring(0, numberText.length()-1);
+            return new BigDecimal(number).multiply(DECIMAL_M);
+        }else if(numberText.endsWith("B")){
+            String number = numberText.substring(0, numberText.length()-1);
+            return new BigDecimal(number).multiply(DECIMAL_B);
+        }else{
+            return new BigDecimal(numberText);
+        }
+
     }
 }
