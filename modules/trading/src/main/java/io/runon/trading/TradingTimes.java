@@ -25,6 +25,8 @@ public class TradingTimes {
 
     public static final ZoneId INR_ZONE_ID = ZoneId.of("Asia/Kolkata");
 
+//    UTC/GMT
+
     public static ZoneId getZoneId(String countryCode){
         return getZoneId(CountryCode.valueOf(countryCode.toUpperCase()));
     }
@@ -256,6 +258,8 @@ public class TradingTimes {
     public static String getOpenTimeHm(CountryCode countryCode){
         if(countryCode == CountryCode.KOR){
             return "0900";
+        }else if(countryCode == CountryCode.USA){
+            return "0930";
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }
@@ -264,6 +268,8 @@ public class TradingTimes {
     public static String getCloseTimeHm(CountryCode countryCode){
         if(countryCode == CountryCode.KOR){
             return "1530";
+        }else if(countryCode == CountryCode.USA){
+            return "1600";
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
         }

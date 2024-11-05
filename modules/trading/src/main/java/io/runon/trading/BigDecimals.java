@@ -14,7 +14,7 @@ public class BigDecimals {
     public final static BigDecimal DECIMAL_K = new BigDecimal(1000);
     public final static BigDecimal DECIMAL_M = new BigDecimal(1000000);
     public final static BigDecimal DECIMAL_B = new BigDecimal(1000000000);
-
+    public final static BigDecimal DECIMAL_T = new BigDecimal("1000000000000");
 
     // -1
     public final static BigDecimal DECIMAL_M_1 = new BigDecimal(-1);
@@ -114,6 +114,9 @@ public class BigDecimals {
         }else if(numberText.endsWith("B")){
             String number = numberText.substring(0, numberText.length()-1);
             return new BigDecimal(number).multiply(DECIMAL_B);
+        }else if(numberText.endsWith("T")){
+            String number = numberText.substring(0, numberText.length()-1);
+            return new BigDecimal(number).multiply(DECIMAL_T);
         }else{
             return new BigDecimal(numberText);
         }
