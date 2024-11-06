@@ -118,7 +118,7 @@ public class BigDecimals {
             String number = numberText.substring(0, numberText.length()-1);
             return new BigDecimal(number).multiply(DECIMAL_T);
         }else{
-            return new BigDecimal(numberText);
+            return new BigDecimal(numberText).stripTrailingZeros();
         }
 
     }
