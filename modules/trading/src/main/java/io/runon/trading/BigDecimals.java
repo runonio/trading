@@ -106,17 +106,17 @@ public class BigDecimals {
         numberText = numberText.replace(",","");
         if(numberText.endsWith("K")){
             String number = numberText.substring(0, numberText.length()-1);
-            return new BigDecimal(number).multiply(DECIMAL_K);
+            return new BigDecimal(number).multiply(DECIMAL_K).stripTrailingZeros();
 
         }else if(numberText.endsWith("M")){
             String number = numberText.substring(0, numberText.length()-1);
-            return new BigDecimal(number).multiply(DECIMAL_M);
+            return new BigDecimal(number).multiply(DECIMAL_M).stripTrailingZeros();
         }else if(numberText.endsWith("B")){
             String number = numberText.substring(0, numberText.length()-1);
-            return new BigDecimal(number).multiply(DECIMAL_B);
+            return new BigDecimal(number).multiply(DECIMAL_B).stripTrailingZeros();
         }else if(numberText.endsWith("T")){
             String number = numberText.substring(0, numberText.length()-1);
-            return new BigDecimal(number).multiply(DECIMAL_T);
+            return new BigDecimal(number).multiply(DECIMAL_T).stripTrailingZeros();
         }else{
             return new BigDecimal(numberText).stripTrailingZeros();
         }
