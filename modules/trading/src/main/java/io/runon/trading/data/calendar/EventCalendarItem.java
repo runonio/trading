@@ -1,9 +1,9 @@
-package io.runon.trading.data;
+package io.runon.trading.data.calendar;
 
 import com.seomse.jdbc.annotation.Column;
-import com.seomse.jdbc.annotation.Table;
-import com.seomse.jdbc.annotation.PrimaryKey;
 import com.seomse.jdbc.annotation.DateTime;
+import com.seomse.jdbc.annotation.PrimaryKey;
+import com.seomse.jdbc.annotation.Table;
 import io.runon.trading.TradingGson;
 
 /**

@@ -6,6 +6,7 @@ import com.seomse.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.TextChange;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
  * 시간정보가 있는 파일
  * @author macle
  */
-
+@Slf4j
 public class TimeFiles {
 
     public static File [] getFilesDir(String path){
@@ -223,25 +224,26 @@ public class TimeFiles {
             return;
         }
 
-        List<File> list = new ArrayList<>();
-
         for(File file : files){
             if(!file.isDirectory()){
                 continue;
             }
+            log.debug("change: " + file.getName());
 
-            File [] timeFiles = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), null);
+            File [] timeFiles = FileUtil.getFiles(file, new NumberNameFileValidation(), null);
             if( timeFiles.length ==0){
                 continue;
             }
-            list.addAll(Arrays.asList(timeFiles));
+
+            changeTimeFiles(timeFiles, change);
+
         }
 
-        changeTimeFiles(list.toArray(new File[0]), change);
     }
 
     public static void changeTimeFiles(File [] timeFiles, TextChange change){
         for(File timeFile : timeFiles){
+            log.debug("change: " + timeFile.getName());
             changeTimeFile(timeFile, change);
         }
     }

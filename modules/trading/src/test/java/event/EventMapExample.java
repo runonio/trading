@@ -1,7 +1,8 @@
 package event;
 
-import io.runon.trading.data.EventCalendar;
 import io.runon.trading.data.EventYmdMap;
+import io.runon.trading.data.calendar.EventCalendar;
+
 /**
  * @author macle
  */
