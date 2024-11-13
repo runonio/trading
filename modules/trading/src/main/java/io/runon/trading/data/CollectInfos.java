@@ -16,7 +16,6 @@ import java.util.Map;
  */
 public class CollectInfos {
 
-
     public static Map<String, String> getInfoMap(Connection conn, String collectId){
         try {
             List<CollectInfo> collectInfoList = JdbcObjects.getObjList(conn, CollectInfo.class, "collect_id='" + collectId + "'");
