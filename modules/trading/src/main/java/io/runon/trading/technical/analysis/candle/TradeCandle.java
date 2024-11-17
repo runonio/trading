@@ -336,6 +336,11 @@ public class TradeCandle extends CandleStick implements Volume {
         return amount;
     }
 
+    public BigDecimal getSetAmount(){
+        return amount;
+    }
+
+
     /**
      * 매수거래대금 얻기
      * @return 매수거래대금

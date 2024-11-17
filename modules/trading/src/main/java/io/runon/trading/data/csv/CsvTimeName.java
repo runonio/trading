@@ -3,8 +3,6 @@ package io.runon.trading.data.csv;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.TimeName;
 
-import java.time.ZoneId;
-
 /**
  * //    candle/symbol/1d/2000 = 100년 (36500)
  * //    candle/symbol/4h/2000 = 20년 (43800)
@@ -24,22 +22,18 @@ public class CsvTimeName {
 
 
 
-    public static String getPath(String dirPath, String symbol, long intervalTime, ZoneId zoneId, long time){
-        return dirPath +"/" + symbol +"/" + TradingTimes.getInterval(intervalTime) + "/" + getName(time, intervalTime, zoneId);
+    public static String getPath(String dirPath, String symbol, long intervalTime,  long time){
+        return dirPath +"/" + symbol +"/" + TradingTimes.getInterval(intervalTime) + "/" + getName(time, intervalTime);
     }
 
-    public static String getPath(String dirPath, String symbol, long intervalTime, ZoneId zoneId, String interval, long time){
-        return dirPath +"/" + symbol +"/" + interval + "/" + getName(time, intervalTime, zoneId);
+    public static String getPath(String dirPath, String symbol, long intervalTime, String interval, long time){
+        return dirPath +"/" + symbol +"/" + interval + "/" + getName(time, intervalTime);
     }
 
-    //기본 타임 존은 UTC로 설정
+
     public static String getName(long time, long intervalTime){
-        return getName(time, intervalTime, TradingTimes.UTC_ZONE_ID);
-    }
-
-    public static String getName(long time, long intervalTime, ZoneId zoneId){
         TimeName.Type type = TimeName.getDefaultType(intervalTime);
-        return TimeName.getName(time,type,zoneId);
+        return TimeName.getName(time,type);
     }
 
 }

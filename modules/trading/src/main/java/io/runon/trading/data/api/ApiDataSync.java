@@ -58,7 +58,7 @@ public class ApiDataSync {
                 break;
             }
 
-            FileLineOut.outBackPartChange(pathTimeLine, lines, dataAbsolutePath,  TimeFiles.getPathTimeNameType(dirRelativePath), TradingTimes.KOR_ZONE_ID);
+            FileLineOut.outBackPartChange(pathTimeLine, lines, dataAbsolutePath,  TimeFiles.getPathTimeNameType(dirRelativePath));
 
             try{
                 Thread.sleep(TradingConfig.RUNON_API_SLEEP_TIME);

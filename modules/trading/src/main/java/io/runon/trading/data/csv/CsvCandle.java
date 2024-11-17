@@ -36,8 +36,6 @@ public class CsvCandle {
         return load(new File(path),time);
     }
 
-
-
     public static TradeCandle [] load(File file, long time){
         List<TradeCandle> list = new ArrayList<>();
 
@@ -101,7 +99,7 @@ public class CsvCandle {
         CsvCommon.append(sb, tradeCandle.getLow());
         CsvCommon.append(sb, tradeCandle.getPrevious());
         CsvCommon.append(sb, tradeCandle.getVolume());
-        CsvCommon.append(sb, tradeCandle.getAmount());
+        CsvCommon.append(sb, tradeCandle.getSetAmount());
         sb.append(",").append(tradeCandle.getTradeCount());
         CsvCommon.append(sb, tradeCandle.getBuyVolume());
         CsvCommon.append(sb, tradeCandle.getBuyAmount());
@@ -277,17 +275,17 @@ public class CsvCandle {
         long endTime = YmdUtil.getTime(endYmd, zoneId) + (Times.DAY_1 - 1L) ;
 
         if(lastCandles == null) {
-            return load(TradingDataPath.getAbsolutePath(path), Times.DAY_1, beginTime, endTime, zoneId);
+            return load(TradingDataPath.getAbsolutePath(path), Times.DAY_1, beginTime, endTime);
         }else{
             //메모리 데이터 살리기
-            return load(TradingDataPath.getAbsolutePath(path), lastCandles,  Times.DAY_1, beginTime, endTime, zoneId );
+            return load(TradingDataPath.getAbsolutePath(path), lastCandles,  Times.DAY_1, beginTime, endTime );
         }
     }
 
     //하드 입출력 시간을 줄이기 위해 메모리 데이터를 살린다. (신규데이터만 불러오기)
-    public static TradeCandle [] load(String path, TradeCandle [] lastCandles,long candleTime, long beginTime, long endTime, ZoneId zoneId) {
+    public static TradeCandle [] load(String path, TradeCandle [] lastCandles,long candleTime, long beginTime, long endTime) {
         if(lastCandles == null || lastCandles.length == 0){
-            return load(path, candleTime, beginTime, endTime, zoneId);
+            return load(path, candleTime, beginTime, endTime);
         }
 
         //라스트 1개는 다시 불러 온다. 값이 변경될 수 있다.
@@ -317,15 +315,15 @@ public class CsvCandle {
         }
 
         if(list.isEmpty()){
-            return load(path, candleTime, beginTime, endTime, zoneId);
+            return load(path, candleTime, beginTime, endTime);
         }
 
         beginTime = lastCandles[lastCandles.length-1].getOpenTime();
-        list.addAll(Arrays.asList(load(path, candleTime, beginTime, endTime, zoneId)));
+        list.addAll(Arrays.asList(load(path, candleTime, beginTime, endTime)));
         return list.toArray(new TradeCandle[0]);
     }
 
-    public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime, ZoneId zoneId){
+    public static TradeCandle [] load(String path, long candleTime, long beginTime, long endTime){
 
         File [] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
@@ -333,8 +331,8 @@ public class CsvCandle {
             return TradeCandle.EMPTY_CANDLES;
         }
 
-        String beginName = CsvTimeName.getName(beginTime , candleTime, zoneId);
-        String endName = CsvTimeName.getName(endTime , candleTime, zoneId);
+        String beginName = CsvTimeName.getName(beginTime , candleTime);
+        String endName = CsvTimeName.getName(endTime , candleTime);
 
         int beginFileNum = Integer.parseInt(beginName);
         int endFileNum = Integer.parseInt(endName);

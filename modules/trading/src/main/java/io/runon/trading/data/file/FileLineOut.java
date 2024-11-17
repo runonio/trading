@@ -5,7 +5,6 @@ import com.seomse.commons.utils.FileUtil;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
-import java.time.ZoneId;
 import java.util.List;
 /**
  * csv 파일을 활용한 캔들 생성
@@ -16,7 +15,7 @@ public class FileLineOut {
     /**
      * 파일에 새로운 내용을 추가한다.
      */
-    public static void outNewLines(TimeLine timeLine, String [] lines, String filesDirPath, TimeName.Type type, ZoneId zoneId){
+    public static void outNewLines(TimeLine timeLine, String [] lines, String filesDirPath, TimeName.Type type){
 
         String fileSeparator = FileSystems.getDefault().getSeparator();
 
@@ -30,7 +29,7 @@ public class FileLineOut {
 
         for(String line: lines){
             long time = timeLine.getTime(line);
-            String outPath = filesDirPath + TimeName.getName(time, type, zoneId);
+            String outPath = filesDirPath + TimeName.getName(time, type);
 
             if(lastOutPath == null || !lastOutPath.equals(outPath)){
 
@@ -73,16 +72,15 @@ public class FileLineOut {
      * 관련 메소드는 마지막 파일 전체를 다시쓰는 부분이 존재한다.
      * 장중에 데이터를 호출했을떄 마지막 캔들은 계속해서 데이터가 변한다. 데이터 변화가 필요한 경우에 관련 메소드를 이용한다.
      */
-    public static void outBackPartChange(PathTimeLine pathTimeLine, String [] lines, String filesDirPath, TimeName.Type type, ZoneId zoneId){
+    public static void outBackPartChange(PathTimeLine pathTimeLine, String [] lines, String filesDirPath, TimeName.Type type){
         if(lines.length == 0){
             return;
         }
 
-
         long lastOpenTime = pathTimeLine.getLastTime(filesDirPath);
 
         if(lastOpenTime == -1){
-            outNewLines(pathTimeLine, lines, filesDirPath,type, zoneId);
+            outNewLines(pathTimeLine, lines, filesDirPath,type);
             return;
         }
 
@@ -94,9 +92,9 @@ public class FileLineOut {
             filesDirPath = filesDirPath+fileSeparator;
         }
 
-        String outPath = filesDirPath + TimeName.getName(openTime, type, zoneId);
+        String outPath = filesDirPath + TimeName.getName(openTime, type);
         if(!FileUtil.isFile(outPath)){
-            outNewLines(pathTimeLine, lines, filesDirPath,type, zoneId);
+            outNewLines(pathTimeLine, lines, filesDirPath,type);
             return;
         }
 
@@ -116,7 +114,7 @@ public class FileLineOut {
                     String [] newLines = new String[lines.length-1];
                     //1번째 라인부터 복사해서 새로운 배열을 만듬
                     System.arraycopy(lines, 1, newLines, 0, newLines.length);
-                    outNewLines(pathTimeLine, newLines, filesDirPath,type, zoneId);
+                    outNewLines(pathTimeLine, newLines, filesDirPath,type);
                     return;
                 }
                 isChange = true;
@@ -126,19 +124,19 @@ public class FileLineOut {
         }
 
         if(!isChange){
-            outNewLines(pathTimeLine, lines, filesDirPath,type, zoneId);
+            outNewLines(pathTimeLine, lines, filesDirPath,type);
             return;
         }
 
         if(sb.isEmpty()){
             //noinspection ResultOfMethodCallIgnored
             new File(outPath).delete();
-            outNewLines(pathTimeLine, lines, filesDirPath,type, zoneId);
+            outNewLines(pathTimeLine, lines, filesDirPath,type);
             return;
         }
 
         //마지막 라인을 제외하고 다시저장
         FileUtil.fileOutput( sb.substring(1), outPath, false);
-        outNewLines(pathTimeLine, lines, filesDirPath,type, zoneId);
+        outNewLines(pathTimeLine, lines, filesDirPath,type);
     }
 }

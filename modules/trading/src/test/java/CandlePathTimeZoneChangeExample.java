@@ -7,6 +7,6 @@ import io.runon.trading.data.candle.CandleDataUtils;
  */
 public class CandlePathTimeZoneChangeExample {
     public static void main(String[] args) {
-        CandleDataUtils.changeTimeZone(TradingConfig.getTradingDataPath() + "/commodities", TradingTimes.UTC_ZONE_ID);
+        CandleDataUtils.changeTimeZone(TradingConfig.getTradingDataPath() + "/commodities");
     }
 }

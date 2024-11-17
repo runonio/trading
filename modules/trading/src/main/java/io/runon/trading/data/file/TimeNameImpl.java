@@ -10,24 +10,15 @@ import java.time.ZoneId;
  */
 public class TimeNameImpl implements TimeName{
 
-    private ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
     private final Type type;
     public TimeNameImpl(Type type){
         this.type = type;
     }
 
-    public TimeNameImpl(Type type, ZoneId zoneId){
-        this.type = type;
-        this.zoneId = zoneId;
-    }
 
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     @Override
     public String getName(long time) {
-        return TimeName.getName(time, type, zoneId);
+        return TimeName.getName(time, type);
     }
 }

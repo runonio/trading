@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 public class TimeText {
     public static void main(String[] args) {
 
-        long time = 1648927560000L;
+        long time = 1187616600000L;
 
         Instant i = Instant.ofEpochMilli(time);
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, TradingTimes.UTC_ZONE_ID);

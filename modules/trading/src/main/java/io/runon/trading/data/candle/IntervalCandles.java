@@ -21,14 +21,12 @@ public class IntervalCandles {
 
     final String fileSeparator = FileSystems.getDefault().getSeparator();
 
-    ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
     final String relativePathPath;
 
     public IntervalCandles(String candlePath, ZoneId zoneId){
         this.absolutePath = TradingDataPath.getAbsolutePath(candlePath);
         this.relativePathPath = TradingDataPath.getRelativePath(candlePath);
-        this.zoneId = zoneId;
     }
 
     public IntervalCandles(String candlePath){
@@ -36,9 +34,6 @@ public class IntervalCandles {
         this.absolutePath = TradingDataPath.getAbsolutePath(candlePath);
     }
 
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     public void setCandle(String interval, long beginTime, long endTime){
 
@@ -46,7 +41,7 @@ public class IntervalCandles {
         String filesDirPath = absolutePath + fileSeparator + interval;
         TradeCandle [] lastCandles = intervalMap.get(interval);
         long candleTime = TradingTimes.getIntervalTime(interval);
-        TradeCandle [] candles = CsvCandle.load(filesDirPath, lastCandles, candleTime, beginTime, endTime, zoneId);
+        TradeCandle [] candles = CsvCandle.load(filesDirPath, lastCandles, candleTime, beginTime, endTime);
         intervalMap.put(interval, candles);
     }
 

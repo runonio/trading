@@ -21,7 +21,6 @@ public class CsvSymbolCandleExample {
         ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
         CsvSymbolCandle csvSymbolCandle = new CsvSymbolCandle(path, "1m");
-        csvSymbolCandle.setZoneId(zoneId);
 
         long startTime = YmdUtil.getTime("20220701",zoneId);
         long endTime = YmdUtil.getTime("20220731",zoneId);

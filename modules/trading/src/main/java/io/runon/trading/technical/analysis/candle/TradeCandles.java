@@ -20,6 +20,7 @@ import io.runon.trading.Trade;
 import io.runon.trading.TradingTimes;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -453,6 +454,16 @@ public class TradeCandles implements GetCandles {
         // 속도 개선 작업으로 교체
         System.arraycopy(candles, startIndex, copy, 0, count);
         return copy;
+    }
+
+
+    public static BigDecimal sumVolume(TradeCandle [] candles){
+        BigDecimal sum = BigDecimal.ZERO;
+        for(TradeCandle candle : candles){
+            sum = sum.add(candle.getVolume());
+        }
+
+        return sum;
     }
 
 

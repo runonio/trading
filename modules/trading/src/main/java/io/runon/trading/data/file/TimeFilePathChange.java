@@ -98,7 +98,7 @@ public abstract class TimeFilePathChange {
 
 
 
-                    String name = TimeName.getName(time, type, zoneId);
+                    String name = TimeName.getName(time, type);
                     if(!name.equals(lastName)){
                         if(sb.length() > 0){
                             if(!overSet.contains(lastName)){

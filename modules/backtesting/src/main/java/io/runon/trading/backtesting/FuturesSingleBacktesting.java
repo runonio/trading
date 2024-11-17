@@ -1,6 +1,8 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.TradingConfig;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.backtesting.price.PriceCandle;
 import io.runon.trading.backtesting.price.CandlePrice;
 import io.runon.trading.backtesting.price.SlippageRandomPrice;
@@ -155,7 +157,7 @@ public abstract class FuturesSingleBacktesting<E extends PriceCandle> extends Fu
     @Override
     protected void end(){
         if(isLogging) {
-            log.info("backtesting end last valid time: " + Times.ymdhm(lastValidTime, zoneId));
+            log.info("backtesting end last valid time: " + Times.ymdhm(lastValidTime, TradingConfig.DEFAULT_TIME_ZONE_ID));
         }
         super.end();
     }

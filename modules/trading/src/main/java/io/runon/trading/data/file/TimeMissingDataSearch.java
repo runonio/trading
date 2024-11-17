@@ -4,9 +4,7 @@ import com.seomse.commons.callback.StrCallback;
 import io.runon.trading.BeginEndTime;
 import io.runon.trading.BeginEndTimeCallback;
 import io.runon.trading.BeginEndTimeData;
-import io.runon.trading.TradingTimes;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +25,7 @@ public class TimeMissingDataSearch {
         this.timeNameType = timeNameType;
     }
 
-    private ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     private long missingTime = 7000L;
     public void setMissingTime(long missingTime) {
@@ -87,7 +81,7 @@ public class TimeMissingDataSearch {
             }
         };
 
-        TimeLines.load(dirPath, zoneId, beginTime, endTime, timeNameType, timeLine, strCallback);
+        TimeLines.load(dirPath, beginTime, endTime, timeNameType, timeLine, strCallback);
     }
 
     public BeginEndTime [] search(long beginTime, long endTime){

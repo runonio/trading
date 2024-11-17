@@ -20,6 +20,21 @@ public class CountryUtils {
             return TradingTimes.UTC_ZONE_ID;
         }
     }
+
+    //한국 주식을 제외한 모든 해외자산은 UTC 타임을 기준으로 파일을 생성한다.
+    public static ZoneId getFileNameZoneId(String countryCode){
+        try{
+            CountryCode c = CountryCode.valueOf(countryCode);
+            if(c == CountryCode.KOR){
+                return TradingTimes.KOR_ZONE_ID;
+            }else{
+                return TradingTimes.UTC_ZONE_ID;
+            }
+
+        }catch (Exception ignore){
+            return TradingTimes.UTC_ZONE_ID;
+        }
+    }
     public static ZoneId getZoneId(CountryCode countryCode){
         if(countryCode == CountryCode.KOR){
             return TradingTimes.KOR_ZONE_ID;
