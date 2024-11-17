@@ -58,6 +58,8 @@ public class LineOutManager {
 
 
     public TimeLineLock getTimeLineLock(String dirPath,PathTimeLine timeLine){
+        dirPath = TradingDataPath.getRelativePath(dirPath);
+
         synchronized (lock){
             TimeLineLock timeLineOut = lockMap.get(dirPath);
             if(timeLineOut == null){

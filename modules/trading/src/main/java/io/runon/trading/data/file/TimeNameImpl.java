@@ -1,9 +1,5 @@
 package io.runon.trading.data.file;
 
-import io.runon.trading.TradingTimes;
-
-import java.time.ZoneId;
-
 /**
  * TimeName 기본형
  * @author macle

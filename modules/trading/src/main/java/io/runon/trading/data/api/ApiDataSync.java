@@ -73,7 +73,7 @@ public class ApiDataSync {
     }
 
     public static void main(String[] args) {
-//        candleSyncAll();
+        candleSyncAll();
     }
 
 
