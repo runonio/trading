@@ -57,6 +57,22 @@ public class CollectInfos {
         }
     }
 
+    public static void update(CollectInfo collectInfo){
+        try {
+            String where = JdbcObjects.getCheckWhere(collectInfo);
+            CollectInfo source = JdbcObjects.getObj(CollectInfo.class, where);
+            if(source == null){
+                JdbcObjects.insert( collectInfo);
+            }else{
+                if(!Check.isEquals(collectInfo.getCollectInfo(), source.getCollectInfo())){
+                    JdbcObjects.update( collectInfo, true);
+                }
+            }
+        }catch (ReflectiveOperationException e){
+            throw new ReflectiveOperationRuntimeException(e);
+        }
+    }
+
     public static void update(Connection conn, CollectInfo collectInfo){
         try {
             String where = JdbcObjects.getCheckWhere(collectInfo);

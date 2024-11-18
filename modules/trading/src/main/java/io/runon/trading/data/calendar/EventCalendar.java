@@ -48,7 +48,7 @@ public class EventCalendar implements Time {
 
     @DateTime
     @Column(name = "updated_at")
-    Long updatedAt;
+    long updatedAt = System.currentTimeMillis();
 
     @Override
     public String toString(){
