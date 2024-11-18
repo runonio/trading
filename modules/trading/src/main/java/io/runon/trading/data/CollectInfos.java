@@ -2,6 +2,7 @@ package io.runon.trading.data;
 
 import com.seomse.commons.exception.ReflectiveOperationRuntimeException;
 import com.seomse.commons.utils.string.Check;
+import com.seomse.jdbc.JdbcQuery;
 import com.seomse.jdbc.exception.SQLRuntimeException;
 import com.seomse.jdbc.objects.JdbcObjects;
 
@@ -15,6 +16,10 @@ import java.util.Map;
  * @author macle
  */
 public class CollectInfos {
+
+    public static void updateTime(String collectId, String dataKey){
+        JdbcQuery.execute("update collect_info set collected_at = CURRENT_TIMESTAMP where collect_id='" + collectId + "' and data_key='" + dataKey + "'");
+    }
 
     public static Map<String, String> getInfoMap(Connection conn, String collectId){
         try {
@@ -72,6 +77,9 @@ public class CollectInfos {
             throw new ReflectiveOperationRuntimeException(e);
         }
     }
+
+
+
 
     public static void update(Connection conn, CollectInfo collectInfo){
         try {
