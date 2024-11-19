@@ -61,7 +61,7 @@ public class NoDateDataUpdate {
         return dateValue.trim();
     }
 
-    public String getDateType() {
-        return dateType;
+    public String getDataType() {
+        return dataType;
     }
 }
