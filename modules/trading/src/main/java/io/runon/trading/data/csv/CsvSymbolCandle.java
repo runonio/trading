@@ -1,14 +1,12 @@
 package io.runon.trading.data.csv;
 
 import io.runon.trading.TradingTimes;
-import io.runon.trading.technical.analysis.candle.IdCandles;
 import io.runon.trading.technical.analysis.candle.IdCandleData;
+import io.runon.trading.technical.analysis.candle.IdCandles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,6 @@ public class CsvSymbolCandle {
 
     private final long candleTime;
 
-    private ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
     public CsvSymbolCandle(String path, String interval){
         this.path = path;
@@ -32,9 +29,6 @@ public class CsvSymbolCandle {
         candleTime = TradingTimes.getIntervalTime(interval);
     }
 
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     public IdCandles[] load(long startTime, long endTime){
         //형지정
@@ -98,7 +92,7 @@ public class CsvSymbolCandle {
             }
 
 
-            TradeCandle[] candles = CsvCandle.load(file.getAbsolutePath() + "/" + interval, candleTime, startTime, endTime, zoneId);
+            TradeCandle[] candles = CsvCandle.load(file.getAbsolutePath() + "/" + interval, candleTime, startTime, endTime);
 
             if(candles.length == 0){
                 continue;

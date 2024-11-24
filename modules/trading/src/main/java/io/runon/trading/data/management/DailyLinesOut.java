@@ -105,10 +105,10 @@ public class DailyLinesOut {
 
             if(isLastLineCheck && isFirst) {
 
-                FileLineOut.outBackPartChange(pathTimeLine, lines, filesDirPath, timeNameType, TradingTimes.KOR_ZONE_ID);
+                FileLineOut.outBackPartChange(pathTimeLine, lines, filesDirPath, timeNameType);
                 isFirst = false;
             }else{
-                FileLineOut.outNewLines(pathTimeLine, lines, filesDirPath, timeNameType, TradingTimes.KOR_ZONE_ID);
+                FileLineOut.outNewLines(pathTimeLine, lines, filesDirPath, timeNameType);
             }
 
             if(endYmdNum >= lastEndYmdNum){

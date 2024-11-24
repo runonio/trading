@@ -53,12 +53,11 @@ public class CandleDataUtils {
     }
 
 
-    public static void changeTimeZone(String dirPath, ZoneId zoneId){
+    public static void changeTimeZone(String dirPath){
         String [] candlePaths = getCandlePaths(dirPath);
         for(String candlePath : candlePaths){
             long intervalTime = TradingTimes.getIntervalTime(new File(candlePath).getName());
             TimeFileOverride timeFileOverride =  new TimeFileOverride(candlePath, TimeLine.CSV, TimeName.getDefaultType(intervalTime));
-            timeFileOverride.setZoneId(zoneId);
             timeFileOverride.run();
         }
     }

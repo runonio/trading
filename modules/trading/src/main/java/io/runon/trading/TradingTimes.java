@@ -212,7 +212,7 @@ public class TradingTimes {
 
     public static YearQuarter [] getYearQuarters(YearQuarter begin, ZoneId zoneId){
         List<YearQuarter> list = getYearQuarterList(begin,zoneId);
-        if(list.size() == 0){
+        if(list.isEmpty()){
             return YearQuarter.EMPTY_ARRAY;
         }
 
@@ -222,15 +222,13 @@ public class TradingTimes {
         return array;
     }
 
-
-
     public static long getDailyOpenTime( CountryCode countryCode, int ymd){
         return getDailyOpenTime(countryCode, Integer.toString(ymd));
     }
 
     public static long getDailyOpenTime( CountryCode countryCode, String ymd){
 
-            if(countryCode == CountryCode.KOR){
+            if(countryCode == CountryCode.KOR || countryCode == CountryCode.USA){
                 ZoneId zoneId = TradingTimes.getZoneId(countryCode);
                 long time = YmdUtil.getTime(ymd, zoneId);
                 return time + Times.getTimeHm(getOpenTimeHm(countryCode));
@@ -246,7 +244,7 @@ public class TradingTimes {
 
     public static long getDailyCloseTime( CountryCode countryCode, String ymd){
 
-        if(countryCode == CountryCode.KOR){
+        if(countryCode == CountryCode.KOR || countryCode == CountryCode.USA){
             ZoneId zoneId = TradingTimes.getZoneId(countryCode);
             long time = YmdUtil.getTime(ymd, zoneId);
             return time + Times.getTimeHm(getCloseTimeHm(countryCode));

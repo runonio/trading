@@ -453,4 +453,7 @@ public class Candles {
         return TradingMath.mdd(high,low);
     }
 
+
+
+
 }

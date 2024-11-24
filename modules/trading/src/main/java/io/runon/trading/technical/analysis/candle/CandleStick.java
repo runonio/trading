@@ -327,6 +327,10 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         return changePercent;
     }
 
+
+
+
+
     /**
      * 위꼬리 길이 얻기
      * @return 위 꼬리 길이

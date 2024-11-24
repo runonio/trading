@@ -336,6 +336,11 @@ public class TradeCandle extends CandleStick implements Volume {
         return amount;
     }
 
+    public BigDecimal getSetAmount(){
+        return amount;
+    }
+
+
     /**
      * 매수거래대금 얻기
      * @return 매수거래대금
@@ -503,6 +508,14 @@ public class TradeCandle extends CandleStick implements Volume {
             return LockType.NONE;
         }
         return LockType.valueOf(lockTypeText);
+    }
+
+    public BigDecimal volatilityRate(){
+        BigDecimal basePrice = previous;
+        if(basePrice == null){
+            basePrice = open;
+        }
+        return high.subtract(low).divide(basePrice,MathContext.DECIMAL128);
     }
 
 

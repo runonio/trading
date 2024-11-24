@@ -23,7 +23,7 @@ public class TimeLineAddExample {
 
         long beginTime =  YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID);
 
-        TimeName timeName = new TimeNameImpl(TimeName.Type.HOUR_4, TradingTimes.UTC_ZONE_ID);
+        TimeName timeName = new TimeNameImpl(TimeName.Type.HOUR_4);
 
         for (int i = 0; i <2000 ; i++) {
             String [] lines = TimeLines.load(dirPath, timeName, timeLine, beginTime, count);

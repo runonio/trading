@@ -1,12 +1,12 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.TradingTimes;
 import io.runon.trading.TimePrice;
+import io.runon.trading.TradingTimes;
 import io.runon.trading.account.FuturesPosition;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
-import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.backtesting.price.SlippageRatePrice;
+import io.runon.trading.backtesting.price.TimePriceData;
 import io.runon.trading.data.file.TimeFileLineRead;
 import io.runon.trading.data.file.TimeName;
 import io.runon.trading.order.OrderCash;
@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.ZoneId;
 
 /**
  * 실시간정보를 (초단위) 백테스팅하기위해 만든도구
@@ -64,16 +63,11 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
     }
 
     protected TimeName.Type fileTimeType = TimeName.Type.DAY_5;
-    protected ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
 
     public void setFileTimeType(TimeName.Type fileTimeType) {
         this.fileTimeType = fileTimeType;
     }
 
-    @Override
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     @Override
     public void run(){
@@ -108,11 +102,11 @@ public abstract class FuturesReadBacktesting<E extends TimePrice, T extends Time
         };
 
         if(beginTime >= 0){
-            lineRead.setStartName(TimeName.getName(beginTime, fileTimeType, zoneId));
+            lineRead.setStartName(TimeName.getName(beginTime, fileTimeType));
         }
 
         if(endTime >= 0){
-            lineRead.setEndName(TimeName.getName(endTime, fileTimeType, zoneId));
+            lineRead.setEndName(TimeName.getName(endTime, fileTimeType));
         }
 
 

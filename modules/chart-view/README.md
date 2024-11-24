@@ -57,19 +57,8 @@ implementation 'io.runon.trading:chart-view:0.2.7'
 - [github.com/seomse](https://github.com/seomse)
 - [www.seomse.com](https://www.seomse.com/)
 
-
-### email
-- iorunon@gmail.com
-
 ### cafe
 - [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
-
-
-### talk
-- 로보어드바이저, 시스템트레이딩, 퀀트 단톡방
-  - https://open.kakao.com/o/g6vzOKqb
-  - 참여코드: runon
-
 
 ## main developer
 - macle

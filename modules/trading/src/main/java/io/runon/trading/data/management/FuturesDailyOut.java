@@ -177,10 +177,10 @@ public class FuturesDailyOut {
             if(lines.length > 0) {
                 if (isLastLineCheck && isFirst) {
 
-                    FileLineOut.outBackPartChange(pathTimeLine, lines, filesDirPath, timeNameType, zoneId);
+                    FileLineOut.outBackPartChange(pathTimeLine, lines, filesDirPath, timeNameType);
                     isFirst = false;
                 } else {
-                    FileLineOut.outNewLines(pathTimeLine, lines, filesDirPath, timeNameType, zoneId);
+                    FileLineOut.outNewLines(pathTimeLine, lines, filesDirPath, timeNameType);
                 }
                 long maxTime = TimeLines.getMaxTime(PathTimeLine.CSV, lines);
                 FileUtil.fileOutput(Long.toString(maxTime), lastTimeFilePath, false);

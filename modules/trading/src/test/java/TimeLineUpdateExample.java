@@ -1,4 +1,3 @@
-import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.TimeLines;
 
 public class TimeLineUpdateExample {
@@ -18,6 +17,6 @@ public class TimeLineUpdateExample {
         };
 
 
-        TimeLines.updateCandle("D:\\data\\temp\\1m", TradingTimes.UTC_ZONE_ID, lines);
+        TimeLines.updateCandle("D:\\data\\temp\\1m", lines);
     }
 }

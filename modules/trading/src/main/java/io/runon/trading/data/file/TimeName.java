@@ -2,9 +2,9 @@ package io.runon.trading.data.file;
 
 import com.seomse.commons.utils.time.DateUtil;
 import com.seomse.commons.utils.time.Times;
+import io.runon.trading.TradingTimes;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +71,9 @@ public interface TimeName {
         return type;
     }
 
-    static String getName(long time, Type type, ZoneId zoneId){
+    static String getName(long time, Type type){
         Instant i = Instant.ofEpochMilli(time);
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, zoneId);
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(i, TradingTimes.UTC_ZONE_ID);
         if(type == Type.YEAR_100){
             //100년
             return zonedDateTime.getYear()/100 + "00";
@@ -133,10 +133,10 @@ public interface TimeName {
         }
     }
 
-    static String [] getNames(long beginTime, long endTime , Type type, ZoneId zoneId){
+    static String [] getNames(long beginTime, long endTime , Type type){
 
-        String beginName = getName(beginTime, type, zoneId);
-        String endName = getName(endTime, type, zoneId);
+        String beginName = getName(beginTime, type);
+        String endName = getName(endTime, type);
 
         if(beginName.equals(endName)){
             return new String[]{beginName};
@@ -187,7 +187,7 @@ public interface TimeName {
 
         for(;;){
             lastTime += addTime;
-            String nextName = getName(lastTime, type,zoneId);
+            String nextName = getName(lastTime, type);
             if(nextName.equals(lastName)){
                 continue;
             }

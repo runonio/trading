@@ -6,7 +6,6 @@ import com.seomse.commons.exception.UndefinedException;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.utils.time.YmdUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
-import io.runon.trading.TradingTimes;
 import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.exception.TradingDataException;
 import lombok.extern.slf4j.Slf4j;
@@ -93,23 +92,18 @@ public class TimeLines {
     }
 
     public static void load(String dirPath, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
-        load(dirPath, null, -1, -1, timeNameType, timeLine, callback);
+        load(dirPath, -1, -1, timeNameType, timeLine, callback);
     }
 
     /**
      *
      * @param dirPath 경로
-     * @param zoneId 타임존 아이디
-     * @param beginTime 시작오픈시간
      * @param endTime 종료시간
      * @param timeLine 시간 파싱
      * @param callback 결과를 전달받을 callback
      */
-    public static void load(String dirPath, ZoneId zoneId, long beginTime, long endTime, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
-        if(zoneId == null){
-            //기본
-            zoneId = TradingTimes.UTC_ZONE_ID;
-        }
+    public static void load(String dirPath, long beginTime, long endTime, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
+
         File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         if(files.length == 0){
@@ -120,12 +114,12 @@ public class TimeLines {
         int endFileNum = -1;
 
         if(beginTime >= 0) {
-            String beginName = TimeName.getName(beginTime, timeNameType, zoneId);
+            String beginName = TimeName.getName(beginTime, timeNameType);
             beginFileNum = Integer.parseInt(beginName);
         }
 
         if(endTime >= 0){
-            String endName = TimeName.getName(endTime , timeNameType, zoneId);
+            String endName = TimeName.getName(endTime , timeNameType);
             endFileNum = Integer.parseInt(endName);
         }
 
@@ -173,8 +167,8 @@ public class TimeLines {
 
     }
 
-    public static void updateCandle(String dirPath, ZoneId zoneId, String [] lines ){
-        TimeLineLock timeLineLock = LineOutManager.getInstance().getTimeLineLock(dirPath, PathTimeLine.CSV, zoneId);
+    public static void updateCandle(String dirPath, String [] lines ){
+        TimeLineLock timeLineLock = LineOutManager.getInstance().getTimeLineLock(dirPath, PathTimeLine.CSV);
         timeLineLock.update(lines);
     }
 
@@ -262,28 +256,16 @@ public class TimeLines {
     //api에서 주로 사용하는 메소드, 사용할 일이 많아서 공통에 구현함
     public static TimeLineLock getTimeLineLock(JSONObject jsonObject, PathTimeLine timeLine){
         String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
-        ZoneId zoneId ;
-
-        if(!jsonObject.isNull("zone_id")){
-            zoneId = ZoneId.of(jsonObject.getString("zone_id"));
-        }else{
-            zoneId = TradingTimes.UTC_ZONE_ID;
-        }
 
         TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
         LineOutManager lineOutManager = LineOutManager.getInstance();
 
-        return lineOutManager.get(dirPath, timeLine, zoneId, timeNameType);
+        return lineOutManager.get(dirPath, timeLine, timeNameType);
     }
 
     public static TimeLineLock getTimeLineLock(JSONObject jsonObject){
         String dirPath = TradingDataPath.getAbsolutePath(jsonObject.getString("dir_path"));
-        ZoneId zoneId;
-        if(!jsonObject.isNull("zone_id")) {
-            zoneId = ZoneId.of(jsonObject.getString("zone_id"));
-        }else{
-            zoneId = TradingTimes.UTC_ZONE_ID;
-        }
+
         TimeName.Type timeNameType = TimeName.Type.valueOf(jsonObject.getString("time_name_type"));
         LineOutManager lineOutManager = LineOutManager.getInstance();
 
@@ -300,7 +282,7 @@ public class TimeLines {
             throw new UndefinedException("time_line_type in(CSV, JSON) : " + timeLineType);
         }
 
-        return lineOutManager.get(dirPath, timeLine, zoneId, timeNameType);
+        return lineOutManager.get(dirPath, timeLine, timeNameType);
     }
 
     public static String outValue(List<String> lineList){

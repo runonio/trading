@@ -3,10 +3,8 @@ package io.runon.trading.data.file;
 import com.seomse.commons.exception.IORuntimeException;
 import com.seomse.commons.utils.FileUtil;
 import com.seomse.commons.validation.NumberNameFileValidation;
-import io.runon.trading.TradingTimes;
 
 import java.io.*;
-import java.time.ZoneId;
 
 /**
  * 시간파일 다시 정의
@@ -30,11 +28,6 @@ public class TimeFileOverride implements Runnable{
         this.timeNameType = timeNameType;
     }
 
-    private ZoneId zoneId = TradingTimes.UTC_ZONE_ID;
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
 
     @Override
     public void run() {
@@ -65,7 +58,7 @@ public class TimeFileOverride implements Runnable{
                     }
 
                     long time = timeLine.getTime(line);
-                    String fileName = TimeName.getName(time , timeNameType, zoneId);
+                    String fileName = TimeName.getName(time , timeNameType);
 
                     if(lastName == null){
                         lastName = fileName;

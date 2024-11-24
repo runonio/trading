@@ -3,7 +3,6 @@ package io.runon.trading.data.file;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.TradingDataPath;
 
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,13 +35,13 @@ public class LineOutManager {
 
     }
 
-    public TimeLineLock get(String dirPath, PathTimeLine timeLine, ZoneId zoneId, TimeName.Type timeNameType){
+    public TimeLineLock get(String dirPath, PathTimeLine timeLine, TimeName.Type timeNameType){
         synchronized (lock){
             String relativePath = TradingDataPath.getRelativePath(dirPath);
 
             TimeLineLock timeLineOut =  lockMap.get(relativePath);
             if(timeLineOut == null){
-                TimeName timeName = new TimeNameImpl(timeNameType, zoneId);
+                TimeName timeName = new TimeNameImpl(timeNameType);
                 timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }
@@ -57,11 +56,10 @@ public class LineOutManager {
         }
     }
 
-    public TimeLineLock getTimeLineLock(String dirPath, PathTimeLine timeLine){
-        return getTimeLineLock(dirPath, timeLine, TradingTimes.UTC_ZONE_ID);
-    }
 
-    public TimeLineLock getTimeLineLock(String dirPath,PathTimeLine timeLine, ZoneId zoneId){
+    public TimeLineLock getTimeLineLock(String dirPath,PathTimeLine timeLine){
+        dirPath = TradingDataPath.getRelativePath(dirPath);
+
         synchronized (lock){
             TimeLineLock timeLineOut = lockMap.get(dirPath);
             if(timeLineOut == null){
@@ -70,9 +68,7 @@ public class LineOutManager {
                 String interval = intervalGet.substring(lastIndex+1);
                 long intervalTime = TradingTimes.getIntervalTime(interval);
                 TimeNameImpl timeName = new TimeNameImpl(TimeName.getDefaultType(intervalTime));
-                if(zoneId != null){
-                    timeName.setZoneId(zoneId);
-                }
+
                 timeLineOut = new TimeLineLock(dirPath, timeLine, timeName);
                 lockMap.put(dirPath, timeLineOut);
             }

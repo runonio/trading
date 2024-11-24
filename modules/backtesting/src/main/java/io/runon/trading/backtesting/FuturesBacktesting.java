@@ -1,9 +1,7 @@
 package io.runon.trading.backtesting;
 
 import com.seomse.commons.utils.time.Times;
-import io.runon.trading.TimeNumber;
-import io.runon.trading.TimeNumberData;
-import io.runon.trading.TradingMath;
+import io.runon.trading.*;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -34,7 +32,6 @@ public abstract class FuturesBacktesting<E> {
         this.symbol = symbol;
     }
 
-    protected ZoneId zoneId =  ZoneId.of("Asia/Seoul");
     protected int cashScale = 2;
 
     protected BigDecimal subtractRate = new BigDecimal("0.1");
@@ -47,10 +44,6 @@ public abstract class FuturesBacktesting<E> {
 
     public void setCashScale(int cashScale) {
         this.cashScale = cashScale;
-    }
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
     }
 
     protected Position lastPosition = Position.NONE;
@@ -270,7 +263,7 @@ public abstract class FuturesBacktesting<E> {
 
     public String getLogMessage(BigDecimal price){
         BigDecimal assets = account.getAssets();
-        return Times.ymdhm(time, zoneId)+ " " + lastPosition + " " + price
+        return Times.ymdhm(time, TradingConfig.DEFAULT_TIME_ZONE_ID)+ " " + lastPosition + " " + price
                 + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + TradingMath.changePercent(startCash, assets) +"%";
     }
 }
