@@ -510,6 +510,14 @@ public class TradeCandle extends CandleStick implements Volume {
         return LockType.valueOf(lockTypeText);
     }
 
+    public BigDecimal volatilityRate(){
+        BigDecimal basePrice = previous;
+        if(basePrice == null){
+            basePrice = open;
+        }
+        return high.subtract(low).divide(basePrice,MathContext.DECIMAL128);
+    }
+
 
     @SuppressWarnings("RedundantMethodOverride")
     @Override
