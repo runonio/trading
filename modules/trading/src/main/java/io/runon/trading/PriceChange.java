@@ -23,7 +23,7 @@ import java.math.BigDecimal;
  * 가격과 가격 변화
  * @author macle
  */
-public interface PriceChange extends PriceChangeRate, Price{
+public interface PriceChange extends ChangeRate, Price{
 
     /**
      * previous 기준

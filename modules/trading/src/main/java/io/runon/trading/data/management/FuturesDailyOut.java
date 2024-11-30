@@ -75,7 +75,12 @@ public class FuturesDailyOut {
         }
 
         for(Futures futures :array){
-            out(futures);
+
+            try {
+                out(futures);
+            }catch (Exception e){
+                log.error(ExceptionUtil.getStackTrace(e));
+            }
         }
     }
 
