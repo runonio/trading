@@ -26,8 +26,8 @@ public class TradingConfig {
 
     public static final JsonFileProperties DEFAULT_JSON_PROPERTIES =  JsonFilePropertiesManager.getInstance().getByName(Config.getConfig("trading.json.properties.path", ConfigSet.CONFIG_DIR_PATH + "/trading_properties.json"));
 
-    public static String getTradingDataPath(){
-
+    private static final String  TRADING_DATA_PATH = initTradingDataPath();
+    public static String initTradingDataPath(){
         String dataPath = Config.getConfig("trading.data.path");
         if( dataPath != null){
             return TradingDataPath.changeSeparator(dataPath);
@@ -42,6 +42,14 @@ public class TradingConfig {
         }
         return defaultDir;
     }
+
+
+
+    public static String getTradingDataPath(){
+        return TRADING_DATA_PATH;
+    }
+
+
 
     public static CountryCode getDefaultCountryCode(){
         try{

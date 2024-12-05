@@ -45,10 +45,7 @@
  - https://github.com/tradingview/lightweight-charts
  - https://chromedriver.chromium.org/downloads
  - https://pure-js.com/
-# gradle
-implementation 'io.runon.trading:chart-view:0.2.7'
-- etc
-    - https://mvnrepository.com/artifact/io.runon.trading/chart-view/0.2.7
+
 
 # communication
 ### blog, homepage
@@ -60,7 +57,9 @@ implementation 'io.runon.trading:chart-view:0.2.7'
 ### cafe
 - [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
 
+
 ## main developer
 - macle
   - github(source code): [github.com/macle86](https://github.com/macle86)
   - email: ysys86a@gmail.com
+  - kakaotalk(1:1): https://open.kakao.com/o/sspZGH3g

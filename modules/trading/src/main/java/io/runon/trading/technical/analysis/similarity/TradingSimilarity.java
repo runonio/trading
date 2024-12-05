@@ -1,17 +1,24 @@
 package io.runon.trading.technical.analysis.similarity;
 
 import com.seomse.commons.data.BigDecimalArray;
+import com.seomse.commons.data.IdArray;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeChangePercent;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author macle
  */
 public class TradingSimilarity {
+
+    public final static Comparator<IdArray<BigDecimalArray>> SORT_SEARCH_DESC = (o1, o2) -> o2.getArray().get(1).compareTo(o1.getArray().get(1));
 
 
     public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray){
@@ -85,17 +92,21 @@ public class TradingSimilarity {
             similarity = new BigDecimal(inCount).divide(new BigDecimal(size), MathContext.DECIMAL128).multiply(BigDecimals.DECIMAL_100).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
         }
 
-        return new BigDecimalArray(similarity, sourceChangeSum.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros(), targetChangeSum.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros()
+        BigDecimal score = targetChangeSum.subtract(sourceChangeSum);
+
+
+        return new BigDecimalArray(similarity ,score.setScale(4,RoundingMode.HALF_UP).stripTrailingZeros(), sourceChangeSum.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros(), targetChangeSum.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros()
             , new BigDecimal(inCount), new BigDecimal(size)
         );
     }
 
-
-    public static SimilaritySearchData search(TimeChangeGet source, TimeChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent){
+    public static IdArray<BigDecimalArray> [] search(TimeChangeGet source, TimeChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent){
 
         String sourceId = source.getId();
 
         TimeChangePercent [] sourceArray = source.getChangeArray();
+
+        List<IdArray<BigDecimalArray>> list = new ArrayList<>();
 
         for(TimeChangeGet target : targets){
             String targetId = target.getId();
@@ -105,13 +116,37 @@ public class TradingSimilarity {
 
             TimeChangePercent [] targetArray = target.getChangeArray();
 
+            if(targetArray == null || targetArray.length ==0){
+                continue;
+            }
+
+            BigDecimalArray simData = changeSimilarity(sourceArray, targetArray, inPercentGap);
+
+            int size = simData.get(5).intValue();
+
+            if(size < minSize){
+                continue;
+            }
+
+            BigDecimal simPercent = simData.get(0);
+            if(simPercent.compareTo(minSimPercent) <0){
+                continue;
+            }
+
+            IdArray<BigDecimalArray> data = new IdArray<>(target.getId(), simData);
+            list.add(data);
 
         }
 
+        @SuppressWarnings("unchecked")
+        IdArray<BigDecimalArray> [] array = list.toArray(new IdArray[0]);
+        Arrays.sort(array,SORT_SEARCH_DESC);
+        return array;
+    }
 
 
+    public static void main(String[] args) {
 
-        return null;
     }
 
 }

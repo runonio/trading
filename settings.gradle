@@ -9,8 +9,8 @@ project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
 include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 
-include ':seomse-commons'
-project(':seomse-commons').projectDir = new File(settingsDir,'../../seomse/seomse-commons/modules/commons')
+include 'commons'
+findProject(':commons').projectDir = new File(settingsDir,'../../runon/commons-jdk8/modules/commons')
 
-include ':jdbc'
-project(':jdbc').projectDir = new File(settingsDir,'../../seomse/seomse-commons/modules/jdbc')
+include 'jdbc'
+findProject(':jdbc').projectDir = new File(settingsDir,'../../runon/commons-jdk8/modules/jdbc')
