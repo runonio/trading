@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.market.mv;
 
-import com.seomse.commons.config.Config;
+import io.runon.commons.config.Config;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.TradingMath;

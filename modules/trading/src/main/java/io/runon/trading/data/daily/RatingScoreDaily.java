@@ -1,7 +1,6 @@
 package io.runon.trading.data.daily;
 
 import com.google.gson.JsonObject;
-import com.seomse.jdbc.objects.JdbcObjects;
 import io.runon.trading.Time;
 import io.runon.trading.TradingGson;
 import io.runon.trading.data.DailyData;

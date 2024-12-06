@@ -1,6 +1,6 @@
 package io.runon.trading.closed.days;
 
-import com.seomse.commons.callback.StrCallback;
+import io.runon.commons.callback.StrCallback;
 
 /**
  * @author macle

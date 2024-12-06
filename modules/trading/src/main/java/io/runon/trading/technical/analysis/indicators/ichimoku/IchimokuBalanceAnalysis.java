@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.indicators.ichimoku;
 
-import com.seomse.commons.utils.time.DateUtil;
+import io.runon.commons.utils.time.DateUtil;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 
 /**

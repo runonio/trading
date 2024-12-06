@@ -2,7 +2,7 @@ package io.runon.trading.data.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.seomse.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtil;
 import io.runon.trading.TradingGson;
 import io.runon.trading.data.TextLong;
 import io.runon.trading.data.file.TimeFiles;

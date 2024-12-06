@@ -1,7 +1,7 @@
 package io.runon.trading.data.daily;
 
-import com.seomse.commons.config.Config;
-import com.seomse.jdbc.objects.JdbcObjects;
+import io.runon.commons.config.Config;
+import io.runon.jdbc.objects.JdbcObjects;
 import io.runon.trading.data.DailyData;
 
 import java.util.List;

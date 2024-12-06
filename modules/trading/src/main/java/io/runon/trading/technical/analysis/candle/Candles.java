@@ -1,8 +1,8 @@
 package io.runon.trading.technical.analysis.candle;
 
-import com.seomse.commons.data.BeginEnd;
-import com.seomse.commons.data.BeginEndImpl;
-import com.seomse.commons.utils.time.YmdUtil;
+import io.runon.commons.data.BeginEnd;
+import io.runon.commons.data.BeginEndImpl;
+import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.TradingMath;
 import io.runon.trading.TradingTimes;
 

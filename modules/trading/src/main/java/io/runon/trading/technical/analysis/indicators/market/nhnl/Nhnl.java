@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.market.nhnl;
 
-import com.seomse.commons.utils.time.Times;
+import io.runon.commons.utils.time.Times;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
 import io.runon.trading.technical.analysis.candle.Candles;

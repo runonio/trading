@@ -1,6 +1,6 @@
 package io.runon.trading.data.management;
 
-import com.seomse.jdbc.objects.JdbcObjects;
+import io.runon.jdbc.objects.JdbcObjects;
 import io.runon.trading.data.Futures;
 import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.data.csv.CsvTimeFile;

@@ -1,13 +1,11 @@
-rootProject.name = 'system-trading'
+rootProject.name = 'trading'
 
 include 'trading'
-project(':trading').projectDir = new File(settingsDir,'modules/trading')
-
-include 'chart-view'
-project(':chart-view').projectDir = new File(settingsDir,'modules/chart-view')
-
+project(':trading').projectDir = new File(settingsDir,'../../runon/trading/modules/trading')
 include 'backtesting'
-project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
+project(':backtesting').projectDir = new File(settingsDir,'../../runon/trading/modules/backtesting')
+include 'chart-view'
+project(':chart-view').projectDir = new File(settingsDir,'../../runon/trading/modules/chart-view')
 
 include 'commons'
 project(':commons').projectDir = new File(settingsDir,'../../runon/commons/modules/commons')

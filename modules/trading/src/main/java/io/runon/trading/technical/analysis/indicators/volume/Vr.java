@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.volume;
 
-import com.seomse.commons.config.Config;
+import io.runon.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;

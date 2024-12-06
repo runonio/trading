@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.volume.profile.gap;
 
-import com.seomse.commons.data.BeginEnd;
+import io.runon.commons.data.BeginEnd;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 

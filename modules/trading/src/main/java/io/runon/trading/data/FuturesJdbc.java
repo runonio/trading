@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import com.seomse.jdbc.objects.JdbcObjects;
+import io.runon.jdbc.objects.JdbcObjects;
 
 import java.util.List;
 

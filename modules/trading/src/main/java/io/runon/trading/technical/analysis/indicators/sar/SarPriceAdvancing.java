@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.sar;
 
-import com.seomse.commons.config.Config;
+import io.runon.commons.config.Config;
 
 import java.math.BigDecimal;
 

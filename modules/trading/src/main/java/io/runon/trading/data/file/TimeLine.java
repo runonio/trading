@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import com.seomse.commons.exception.UndefinedException;
+import io.runon.commons.exception.UndefinedException;
 
 /**
  * 시계열 라인데이터 구조

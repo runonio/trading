@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import com.seomse.commons.exception.UndefinedException;
+import io.runon.commons.exception.UndefinedException;
 import io.runon.trading.CountryCode;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.exception.TradingDataException;

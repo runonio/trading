@@ -1,7 +1,7 @@
 package io.runon.trading;
 
-import com.seomse.commons.config.Config;
-import com.seomse.commons.utils.time.Times;
+import io.runon.commons.config.Config;
+import io.runon.commons.utils.time.Times;
 
 /**
  * 숫자 데이터

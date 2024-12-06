@@ -1,7 +1,6 @@
 package io.runon.trading.data;
 
-import com.seomse.commons.config.Config;
-import io.runon.trading.CountryCode;
+import io.runon.commons.config.Config;
 import io.runon.trading.CountryUtils;
 import io.runon.trading.TradingConfig;
 
@@ -9,7 +8,6 @@ import java.io.File;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author macle

@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
-import com.seomse.commons.config.Config;
+import io.runon.commons.config.Config;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.TradeCandle;

@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import com.seomse.jdbc.objects.JdbcObjects;
+import io.runon.jdbc.objects.JdbcObjects;
 import io.runon.trading.data.calendar.EventCalendar;
 
 import java.util.HashMap;

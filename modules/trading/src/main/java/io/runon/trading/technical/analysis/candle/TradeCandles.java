@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.candle;
 
-import com.seomse.commons.utils.time.Times;
+import io.runon.commons.utils.time.Times;
 import io.runon.trading.Trade;
 import io.runon.trading.TradingTimes;
 import lombok.extern.slf4j.Slf4j;

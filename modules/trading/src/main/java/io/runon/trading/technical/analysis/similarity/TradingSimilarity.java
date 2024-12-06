@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.similarity;
 
-import com.seomse.commons.data.BigDecimalArray;
-import com.seomse.commons.data.IdArray;
+import io.runon.commons.data.BigDecimalArray;
+import io.runon.commons.data.IdArray;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeChangePercent;
 

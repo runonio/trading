@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import com.seomse.commons.callback.StrCallback;
+import io.runon.commons.callback.StrCallback;
 import io.runon.trading.BeginEndTime;
 import io.runon.trading.BeginEndTimeCallback;
 import io.runon.trading.BeginEndTimeData;

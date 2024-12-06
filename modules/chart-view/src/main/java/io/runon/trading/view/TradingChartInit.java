@@ -1,6 +1,6 @@
 package io.runon.trading.view;
 
-import com.seomse.commons.config.Config;
+import io.runon.commons.config.Config;
 import io.github.bonigarcia.wdm.WebDriverManager;
 /**
  * 트레이딩 차트 실행

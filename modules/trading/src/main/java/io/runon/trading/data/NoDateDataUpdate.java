@@ -1,7 +1,7 @@
 package io.runon.trading.data;
 
-import com.seomse.commons.data.StringArray;
-import com.seomse.commons.utils.string.Check;
+import io.runon.commons.data.StringArray;
+import io.runon.commons.utils.string.Check;
 import lombok.Setter;
 
 import java.util.List;
