@@ -3,7 +3,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.BigDecimals;
 import io.runon.trading.Price;
-import io.runon.trading.PriceChangeRate;
+import io.runon.trading.ChangeRate;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
@@ -39,17 +39,17 @@ public class CandleBigDecimals {
 
     }
 
-    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array){
+    public static BigDecimal[] getChangeRateArray(ChangeRate[] array){
         return getChangeRateArray(array, 0, array.length);
     }
 
 
-    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array, int resultLength){
+    public static BigDecimal[] getChangeRateArray(ChangeRate[] array, int resultLength){
         return getChangeRateArray(array,array.length - resultLength, array.length);
     }
 
 
-    public static BigDecimal[] getChangeRateArray(PriceChangeRate[] array, int startIndex, int end){
+    public static BigDecimal[] getChangeRateArray(ChangeRate[] array, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }

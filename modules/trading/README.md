@@ -8,11 +8,6 @@
 
 # 개발환경
 - open jdk 17
-
-# gradle
-implementation 'io.runon.trading:trading:0.4.7'
-- etc
-  - https://mvnrepository.com/artifact/io.runon.trading/trading/0.4.7
  
 ## interval
 - 분: m
@@ -216,3 +211,4 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - macle
   - github(source code): [github.com/macle86](https://github.com/macle86)
   - email: ysys86a@gmail.com
+  - kakaotalk(1:1): https://open.kakao.com/o/sspZGH3g

@@ -26,7 +26,7 @@ public class TimeLineLock {
         this.timeName = timeName;
 
         try{
-            new File(dirPath).mkdirs();
+            new File(this.dirPath).mkdirs();
         }catch (Exception ignore){}
     }
 
@@ -256,8 +256,6 @@ public class TimeLineLock {
             FileUtil.fileOutput(TimeLines.outValue(lineList), path, false);
         }
     }
-
-
 
 
     public String [] load( long beginTime, int count){
