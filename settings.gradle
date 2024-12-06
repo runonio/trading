@@ -10,7 +10,6 @@ include 'backtesting'
 project(':backtesting').projectDir = new File(settingsDir,'modules/backtesting')
 
 include 'commons'
-findProject(':commons').projectDir = new File(settingsDir,'../../runon/commons-jdk8/modules/commons')
-
+project(':commons').projectDir = new File(settingsDir,'../../runon/commons/modules/commons')
 include 'jdbc'
-findProject(':jdbc').projectDir = new File(settingsDir,'../../runon/commons-jdk8/modules/jdbc')
+project(':jdbc').projectDir = new File(settingsDir,'../../runon/commons/modules/jdbc')
