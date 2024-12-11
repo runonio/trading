@@ -4,6 +4,7 @@ package io.runon.trading;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.List;
 
 /**
  * @author macle
@@ -122,4 +123,51 @@ public class BigDecimals {
         }
 
     }
+
+
+    public static BigDecimal sum(List<BigDecimal> list){
+
+        if(list == null || list.isEmpty()){
+            return  BigDecimal.ZERO;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for(BigDecimal num : list){
+            sum = sum.add(num);
+        }
+
+        return sum;
+    }
+
+    public static BigDecimal average(List<BigDecimal> list){
+        if(list == null || list.isEmpty()){
+            return  BigDecimal.ZERO;
+        }
+
+        return sum(list).divide(new BigDecimal(list.size()),MathContext.DECIMAL128);
+    }
+
+    public static BigDecimal sum(BigDecimal [] array){
+
+        if(array == null || array.length == 0){
+            return  BigDecimal.ZERO;
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for(BigDecimal num : array){
+            sum = sum.add(num);
+        }
+
+        return sum;
+    }
+
+    public static BigDecimal average(BigDecimal [] array){
+        if(array == null || array.length == 0){
+            return  BigDecimal.ZERO;
+        }
+
+        return sum(array).divide(new BigDecimal(array.length),MathContext.DECIMAL128);
+    }
+
+
 }

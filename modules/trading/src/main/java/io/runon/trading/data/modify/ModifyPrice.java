@@ -1,6 +1,5 @@
 package io.runon.trading.data.modify;
 
-import io.runon.trading.LockType;
 import io.runon.trading.data.csv.CsvCandle;
 import io.runon.trading.technical.analysis.candle.CandlePreviousCandle;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -25,7 +24,7 @@ public class ModifyPrice {
      * 값이 1원의 오차율이 자주발생함
      * LockType 을 활용한 수정주가 찾기
      */
-    public static List<CandlePreviousCandle> searchLock(String dirPath, long candleTime, BigDecimal errorRate, BigDecimal errorPrice, long beginTime){
+    public static List<CandlePreviousCandle> search(String dirPath, long candleTime, BigDecimal errorRate, BigDecimal errorPrice, long beginTime){
         //락 유형을 활용한 수정주가 분석
         TradeCandle [] candles =  CsvCandle.load(dirPath, candleTime);
 
@@ -34,16 +33,9 @@ public class ModifyPrice {
         for (int i = 1; i < candles.length; i++) {
             TradeCandle candle = candles[i];
 
-            LockType lockType = candle.getLockType();
-
-            if(lockType == LockType.NONE){
-                continue;
-            }
-
             if(candle.getOpenTime() < beginTime){
                 continue;
             }
-
 
             BigDecimal previous = candle.getPrevious();
             TradeCandle previousCandle = candles[i-1];
@@ -87,5 +79,9 @@ public class ModifyPrice {
 
         return list;
     }
+
+
+
+
 
 }

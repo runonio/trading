@@ -2,6 +2,9 @@
 - system trading, algorithmic trading 으로 주식, 암호화폐, 원자재, 채권, 외환, 기타 파생상품에 사용하기위한 기본적인 프로젝트
 - 매매 프로젝트
 
+/
+
+
 # 시스템트레이딩, 알고리즘매매, 퀀트
 - https://namu.wiki/w/%EC%8B%9C%EC%8A%A4%ED%85%9C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%94%A9
 - https://namu.wiki/w/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%94%A9
