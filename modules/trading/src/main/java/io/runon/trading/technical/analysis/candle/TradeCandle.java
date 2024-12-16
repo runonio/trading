@@ -32,7 +32,7 @@ import java.util.Map;
  * @author macle
  */
 @Slf4j
-public class TradeCandle extends CandleStick implements Volume {
+public class TradeCandle extends CandleStick implements Volume, TimeChangePercent {
 
     public static final TradeCandle [] EMPTY_CANDLES = new TradeCandle[0];
 
@@ -510,13 +510,7 @@ public class TradeCandle extends CandleStick implements Volume {
         return LockType.valueOf(lockTypeText);
     }
 
-    public BigDecimal volatilityRate(){
-        BigDecimal basePrice = previous;
-        if(basePrice == null){
-            basePrice = open;
-        }
-        return high.subtract(low).divide(basePrice,MathContext.DECIMAL128);
-    }
+
 
 
     @SuppressWarnings("RedundantMethodOverride")

@@ -26,7 +26,7 @@ import java.math.MathContext;
  * - 더 많은 요소 클래스는 상속받아서 구현
  * @author macle
  */
-public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber, TimeChangePercent {
+public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber {
     
     //데이터 병합을 위해 아이디(키)가 필요한경우
     protected String id;
@@ -207,7 +207,19 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      * @return 높이(세로길이)
      */
     public BigDecimal getHeight() {
-        return high.subtract(low);
+        BigDecimal min = low;
+        min = min.min(getPrevious());
+
+        return high.subtract(min);
+    }
+
+    /**
+     * 변동성 얻기
+     * @return 변동성
+     */
+    public BigDecimal getVolatility(){
+        BigDecimal basePrice = getPrevious();
+        return getHeight().divide(basePrice, MathContext.DECIMAL128);
     }
 
     /**

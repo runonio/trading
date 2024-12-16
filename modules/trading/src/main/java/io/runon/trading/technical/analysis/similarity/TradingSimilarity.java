@@ -22,12 +22,12 @@ public class TradingSimilarity {
 
 
     public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray){
-        return changeSimilarity(sourceArray, targetArray, null);
+        return changeSimilarity(sourceArray, targetArray, null, null);
     }
     /**
      * 변화율을 활용한 유사도
      */
-    public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray, BigDecimal inPercentGap){
+    public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray, BigDecimal inPercentGap, BigDecimal minAmount){
 
         int size = 0;
         int inCount = 0;
@@ -44,6 +44,26 @@ public class TradingSimilarity {
 
             for (int targetIndex = lastTargetIndex+1; targetIndex <targetArray.length ; targetIndex++) {
                 TimeChangePercent target = targetArray[targetIndex];
+
+                if(target.getVolume().compareTo(BigDecimal.ZERO) == 0 && target.getAmount().compareTo(BigDecimal.ZERO) == 0){
+                    continue;
+                }
+
+                if(source.getVolume().compareTo(BigDecimal.ZERO) == 0 && source.getAmount().compareTo(BigDecimal.ZERO) == 0){
+                    continue;
+                }
+
+                if(minAmount != null){
+
+                    if(  target.getAmount().compareTo(minAmount) < 0 ){
+                        continue;
+                    }
+
+                    if(  source.getAmount().compareTo(minAmount) < 0 ){
+                        continue;
+                    }
+                }
+
 
                 if(target.getTime() == sourceTime){
 
@@ -100,7 +120,7 @@ public class TradingSimilarity {
         );
     }
 
-    public static IdArray<BigDecimalArray> [] search(TimeChangeGet source, TimeChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent){
+    public static IdArray<BigDecimalArray> [] search(TimeChangeGet source, TimeChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent, BigDecimal minAmount){
 
         String sourceId = source.getId();
 
@@ -120,7 +140,7 @@ public class TradingSimilarity {
                 continue;
             }
 
-            BigDecimalArray simData = changeSimilarity(sourceArray, targetArray, inPercentGap);
+            BigDecimalArray simData = changeSimilarity(sourceArray, targetArray, inPercentGap, minAmount);
 
             int size = simData.get(5).intValue();
 

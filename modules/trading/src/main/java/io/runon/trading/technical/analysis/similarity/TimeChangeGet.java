@@ -9,4 +9,7 @@ public interface TimeChangeGet {
     String getId();
 
     TimeChangePercent[] getChangeArray();
+
+
+
 }
