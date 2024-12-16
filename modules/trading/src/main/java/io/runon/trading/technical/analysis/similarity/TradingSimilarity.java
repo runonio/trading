@@ -3,7 +3,6 @@ package io.runon.trading.technical.analysis.similarity;
 import io.runon.commons.data.BigDecimalArray;
 import io.runon.commons.data.IdArray;
 import io.runon.trading.BigDecimals;
-import io.runon.trading.TimeChangePercent;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -21,13 +20,13 @@ public class TradingSimilarity {
     public final static Comparator<IdArray<BigDecimalArray>> SORT_SEARCH_DESC = (o1, o2) -> o2.getArray().get(1).compareTo(o1.getArray().get(1));
 
 
-    public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray){
+    public static BigDecimalArray changeSimilarity(SimChangeData[] sourceArray, SimChangeData[] targetArray){
         return changeSimilarity(sourceArray, targetArray, null, null);
     }
     /**
      * 변화율을 활용한 유사도
      */
-    public static BigDecimalArray changeSimilarity(TimeChangePercent[] sourceArray, TimeChangePercent[] targetArray, BigDecimal inPercentGap, BigDecimal minAmount){
+    public static BigDecimalArray changeSimilarity(SimChangeData[] sourceArray, SimChangeData[] targetArray, BigDecimal inPercentGap, BigDecimal minAmount){
 
         int size = 0;
         int inCount = 0;
@@ -38,12 +37,12 @@ public class TradingSimilarity {
 
 
         int lastTargetIndex = 0;
-        for (TimeChangePercent source : sourceArray) {
+        for (SimChangeData source : sourceArray) {
             long sourceTime = source.getTime();
 
 
             for (int targetIndex = lastTargetIndex+1; targetIndex <targetArray.length ; targetIndex++) {
-                TimeChangePercent target = targetArray[targetIndex];
+                SimChangeData target = targetArray[targetIndex];
 
                 if(target.getVolume().compareTo(BigDecimal.ZERO) == 0 && target.getAmount().compareTo(BigDecimal.ZERO) == 0){
                     continue;
@@ -120,21 +119,21 @@ public class TradingSimilarity {
         );
     }
 
-    public static IdArray<BigDecimalArray> [] search(TimeChangeGet source, TimeChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent, BigDecimal minAmount){
+    public static IdArray<BigDecimalArray> [] search(SimChangeGet source, SimChangeGet[] targets, BigDecimal inPercentGap, int minSize, BigDecimal minSimPercent, BigDecimal minAmount){
 
         String sourceId = source.getId();
 
-        TimeChangePercent [] sourceArray = source.getChangeArray();
+        SimChangeData[] sourceArray = source.getChangeArray();
 
         List<IdArray<BigDecimalArray>> list = new ArrayList<>();
 
-        for(TimeChangeGet target : targets){
+        for(SimChangeGet target : targets){
             String targetId = target.getId();
             if(sourceId.equals(targetId)){
                 continue;
             }
 
-            TimeChangePercent [] targetArray = target.getChangeArray();
+            SimChangeData[] targetArray = target.getChangeArray();
 
             if(targetArray == null || targetArray.length ==0){
                 continue;

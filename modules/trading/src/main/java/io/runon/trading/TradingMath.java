@@ -257,6 +257,22 @@ public class TradingMath {
      */
     public static BigDecimal mdd(BigDecimal high, BigDecimal low){
         return high.subtract(low).multiply(BigDecimals.DECIMAL_100).divide(high,2,RoundingMode.HALF_UP).stripTrailingZeros();
+    }
+
+    public static BigDecimal recoveryPercent(BigDecimal fall){
+
+        fall = fall.abs();
+
+        return fall.multiply(BigDecimals.DECIMAL_100).divide(BigDecimals.DECIMAL_100.subtract(fall), 4, RoundingMode.HALF_UP);
 
     }
+
+    public static void main(String[] args) {
+//        System.out.println(Math.log(1+ 0.005));
+
+        System.out.println(recoveryPercent(new BigDecimal("-0.5")));
+    }
+
+
+
 }

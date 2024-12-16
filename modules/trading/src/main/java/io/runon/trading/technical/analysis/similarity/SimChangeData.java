@@ -1,4 +1,7 @@
-package io.runon.trading;
+package io.runon.trading.technical.analysis.similarity;
+
+import io.runon.trading.Time;
+import io.runon.trading.TradingMath;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -6,7 +9,7 @@ import java.math.MathContext;
 /**
  * @author macle
  */
-public interface TimeChangePercent extends Time {
+public interface SimChangeData extends Time {
 
     BigDecimal getChangePercent();
 
@@ -14,8 +17,7 @@ public interface TimeChangePercent extends Time {
 
     BigDecimal getAmount();
 
-
-    public static BigDecimal getAvg(TimeChangePercent [] array, boolean isVolumeCheck){
+    public static BigDecimal getAvg(SimChangeData[] array, boolean isVolumeCheck){
         if(array == null || array.length ==0){
             return BigDecimal.ZERO;
         }
@@ -23,13 +25,20 @@ public interface TimeChangePercent extends Time {
         int cnt = 0;
 
         BigDecimal sum = BigDecimal.ZERO;
-        for(TimeChangePercent percent : array){
+        for(SimChangeData percent : array){
             if(isVolumeCheck){
                 if(percent.getVolume().compareTo(BigDecimal.ZERO) == 0 && percent.getAmount().compareTo(BigDecimal.ZERO) == 0){
                     continue;
                 }
             }
-            sum = sum.add(percent.getChangePercent());
+
+            BigDecimal num = percent.getChangePercent();
+            if(num.compareTo(BigDecimal.ZERO) < 0){
+                sum = sum.subtract(TradingMath.recoveryPercent(num));
+            }else{
+                sum = sum.add(num);
+            }
+
             cnt++;
         }
 
