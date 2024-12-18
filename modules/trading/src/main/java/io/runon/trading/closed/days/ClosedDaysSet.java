@@ -1,5 +1,6 @@
 package io.runon.trading.closed.days;
 
+import io.runon.trading.CountryCode;
 import io.runon.trading.data.YmdSet;
 
 /**
@@ -11,4 +12,9 @@ public class ClosedDaysSet extends YmdSet implements ClosedDays{
     public boolean isClosedDay(String ymd) {
         return contains(ymd);
     }
+
+    public void load(CountryCode countryCode){
+        loadFile(ClosedDays.getCloseDaysFilePath(countryCode));
+    }
+
 }

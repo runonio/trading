@@ -30,6 +30,11 @@ public class TimeLineLock {
         }catch (Exception ignore){}
     }
 
+
+    public void update(List<String> lineList){
+        update(lineList.toArray(new String[0]));
+    }
+
     public void update(String [] lines){
         Arrays.sort(lines, Comparator.comparingLong(timeLine::getTime));
 
