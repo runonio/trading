@@ -1,11 +1,15 @@
 package io.runon.trading.data.file;
 
+import io.runon.commons.callback.StrCallback;
 import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.time.Times;
+import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.data.TradingDataPath;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -273,6 +277,39 @@ public class TimeLineLock {
         synchronized (lock) {
             return timeLine.getLastTime(dirPath);
         }
+    }
+
+    public String [] load(String beginYmd, String endYmd, ZoneId zoneId){
+        long beginTime = YmdUtil.getTime(beginYmd, zoneId);
+        long endTime = YmdUtil.getTime(endYmd,zoneId) + (Times.DAY_1 - 1L);
+
+        synchronized (lock) {
+            return TimeLines.load(dirPath, beginTime, endTime, timeName, timeLine );
+        }
+    }
+
+
+
+    public String [] load(int beginYmd, int endYmd, ZoneId zoneId){
+        long beginTime = YmdUtil.getTime(beginYmd, zoneId);
+        long endTime = YmdUtil.getTime(endYmd,zoneId) + (Times.DAY_1 - 1L);
+
+        synchronized (lock) {
+            return TimeLines.load(dirPath, beginTime, endTime, timeName, timeLine );
+        }
+    }
+
+    public String [] load( long beginTime, long endTime){
+        synchronized (lock) {
+            return TimeLines.load(dirPath, beginTime, endTime, timeName, timeLine );
+        }
+    }
+
+    public void load(long beginTime, long endTime, StrCallback callback){
+        synchronized (lock) {
+            TimeLines.load(dirPath, beginTime, endTime, timeName, timeLine, callback );
+        }
+
     }
 
 

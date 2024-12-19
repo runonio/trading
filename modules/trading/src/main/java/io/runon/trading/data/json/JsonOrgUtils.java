@@ -45,4 +45,12 @@ public class JsonOrgUtils {
         return strings;
     }
 
+    public static BigDecimal [] getBigDecimals(JSONArray array){
+        BigDecimal [] numbers = new BigDecimal[array.length()];
+        for (int i = 0; i <numbers.length ; i++) {
+            numbers[i] = array.getBigDecimal(i);
+        }
+        return numbers;
+    }
+
 }

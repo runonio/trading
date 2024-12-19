@@ -95,15 +95,18 @@ public class TimeLines {
         load(dirPath, -1, -1, timeNameType, timeLine, callback);
     }
 
-    /**
-     *
-     * @param dirPath 경로
-     * @param endTime 종료시간
-     * @param timeLine 시간 파싱
-     * @param callback 결과를 전달받을 callback
-     */
-    public static void load(String dirPath, long beginTime, long endTime, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
 
+    public static String [] load(String dirPath, long beginTime, long endTime, TimeName timeName, TimeLine timeLine){
+
+        final List<String> list = new ArrayList<>();
+        StrCallback callback = list::add;
+        load(dirPath, beginTime, endTime, timeName, timeLine, callback);
+        String [] lines = list.toArray(new String[0]);
+        list.clear();
+        return lines;
+    }
+
+    public static void load(String dirPath, long beginTime, long endTime, TimeName timeName, TimeLine timeLine, StrCallback callback){
         File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
 
         if(files.length == 0){
@@ -114,15 +117,20 @@ public class TimeLines {
         int endFileNum = -1;
 
         if(beginTime >= 0) {
-            String beginName = TimeName.getName(beginTime, timeNameType);
+            String beginName = timeName.getName(beginTime);
             beginFileNum = Integer.parseInt(beginName);
         }
 
         if(endTime >= 0){
-            String endName = TimeName.getName(endTime , timeNameType);
+            String endName = timeName.getName(endTime);
             endFileNum = Integer.parseInt(endName);
         }
+        load(files, beginFileNum, endFileNum, timeLine, beginTime, endTime, callback);
 
+    }
+
+
+    public static void load(File[] files, int beginFileNum, int endFileNum, TimeLine timeLine, long beginTime, long endTime, StrCallback callback){
         outer:
         for(File file : files){
             int fileNum = Integer.parseInt(file.getName());
@@ -164,6 +172,39 @@ public class TimeLines {
             }
 
         }
+    }
+
+
+
+
+    /**
+     *
+     * @param dirPath 경로
+     * @param endTime 종료시간
+     * @param timeLine 시간 파싱
+     * @param callback 결과를 전달받을 callback
+     */
+    public static void load(String dirPath, long beginTime, long endTime, TimeName.Type timeNameType, TimeLine timeLine, StrCallback callback){
+
+        File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+
+        if(files.length == 0){
+            return;
+        }
+
+        int beginFileNum = -1;
+        int endFileNum = -1;
+
+        if(beginTime >= 0) {
+            String beginName = TimeName.getName(beginTime, timeNameType);
+            beginFileNum = Integer.parseInt(beginName);
+        }
+
+        if(endTime >= 0){
+            String endName = TimeName.getName(endTime , timeNameType);
+            endFileNum = Integer.parseInt(endName);
+        }
+        load(files, beginFileNum, endFileNum, timeLine, beginTime, endTime, callback);
 
     }
 
