@@ -8,6 +8,15 @@ import io.runon.trading.data.YmdSet;
  */
 public class ClosedDaysSet extends YmdSet implements ClosedDays{
 
+
+    public ClosedDaysSet(){
+
+    }
+
+    public ClosedDaysSet(CountryCode countryCode){
+        load(countryCode);
+    }
+
     @Override
     public boolean isClosedDay(String ymd) {
         return contains(ymd);

@@ -6,6 +6,6 @@ package io.runon.trading.backtesting;
 
 public interface BacktestingData {
 
-    void setStandardTime(long time);
+    void setBaseTime(long time);
 
 }

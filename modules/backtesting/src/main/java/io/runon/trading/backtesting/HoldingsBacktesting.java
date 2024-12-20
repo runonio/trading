@@ -16,11 +16,11 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 
 /**
- * 켄들을 활용해 벡테스팅한다..
+ * 보유종목이 많을 떄의 벡테스팅
  * @author macle
  */
 @Slf4j
-public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuantity> implements Runnable{
+public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQuantity> implements Runnable{
 
     protected StrategyOrders<E> strategy;
 
@@ -43,7 +43,7 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
         this.closedDays = closedDays;
     }
 
-    public CandleBacktesting(){
+    public HoldingsBacktesting(){
     }
 
 
@@ -120,7 +120,7 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
                 continue;
             }
 
-            data.setStandardTime(nextTime);
+            data.setBaseTime(nextTime);
             strategy();
 
             //초기에는 콘솔에 뿌리기, 나중에 리포트 형슥의 결과를 제공 하는 경우를 고민한다.
@@ -142,7 +142,6 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
         if(orders == null || orders.length == 0){
             return;
         }
-
 
         //마지막 현금 저장
         //매매도중에 증가한 현금을 활용하면 벡테스팅 오류.
@@ -166,5 +165,13 @@ public class CandleBacktesting<E extends BacktestingData, T extends HoldingQuant
                 account.sell(order.getHoldingId(), order.getQuantity());
             }
         }
+    }
+
+    public E getData() {
+        return data;
+    }
+
+    public StrategyOrders<E> getStrategy() {
+        return strategy;
     }
 }
