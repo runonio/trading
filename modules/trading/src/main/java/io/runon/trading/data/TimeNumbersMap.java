@@ -85,16 +85,11 @@ public class TimeNumbersMap implements Time {
         for(String key : keys){
 
             try{
-
-
                 BigDecimal [] numbers = JsonOrgUtils.getBigDecimals(jsonObject.getJSONArray(key));
                 timeNumbersMap.numbersMap.put(key, numbers);
 
             }catch (Exception ignore){}
         }
-
-
-
         return timeNumbersMap;
     }
 

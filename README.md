@@ -232,9 +232,6 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - [github.com/seomse](https://github.com/seomse)
 - [www.seomse.com](https://www.seomse.com/)
 
-### cafe
-- [cafe.naver.com/radvisor](https://cafe.naver.com/radvisor)
-
 
 ## main developer
 - macle

@@ -108,6 +108,8 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
             throw new IllegalArgumentException("strategy null");
         }
 
+        init();
+
         long nextTime= beginTime;
 
         for(;;){
@@ -165,6 +167,10 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
                 account.sell(order.getHoldingId(), order.getQuantity());
             }
         }
+    }
+
+    protected void init(){
+
     }
 
     public E getData() {
