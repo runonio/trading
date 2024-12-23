@@ -261,16 +261,25 @@ public class TradingMath {
 
     public static BigDecimal recoveryPercent(BigDecimal fall){
 
-        fall = fall.abs();
+        if(fall.compareTo(BigDecimal.ZERO) == 0 ){
+            return BigDecimal.ZERO;
+        }
 
-        return fall.multiply(BigDecimals.DECIMAL_100).divide(BigDecimals.DECIMAL_100.subtract(fall), 4, RoundingMode.HALF_UP);
+        fall = fall.abs();
+        if(fall.compareTo(BigDecimals.DECIMAL_100) == 0){
+            fall = new BigDecimal("99.99999");
+        }
+
+        BigDecimal recovery = fall.multiply(BigDecimals.DECIMAL_100).divide(BigDecimals.DECIMAL_100.subtract(fall), 4, RoundingMode.HALF_UP);
+        recovery = recovery.stripTrailingZeros();
+        return recovery;
 
     }
 
     public static void main(String[] args) {
 //        System.out.println(Math.log(1+ 0.005));
 
-        System.out.println(recoveryPercent(new BigDecimal("-0.5")));
+        System.out.println(recoveryPercent(new BigDecimal("0.5")).toPlainString());
     }
 
 

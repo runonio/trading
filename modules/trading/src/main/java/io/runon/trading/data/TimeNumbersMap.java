@@ -16,6 +16,8 @@ import java.util.*;
 @Data
 public class TimeNumbersMap implements Time {
 
+    String id;
+
     long time;
     Integer ymd;
 

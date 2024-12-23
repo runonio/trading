@@ -1,6 +1,7 @@
 package io.runon.trading.data;
 
 import io.runon.commons.config.Config;
+import io.runon.trading.CountryCode;
 import io.runon.trading.CountryUtils;
 import io.runon.trading.TradingConfig;
 
@@ -176,8 +177,34 @@ public class TradingDataPath {
     }
 
 
+    public static String getMarketDirPath(){
+        String code = null;
+        return getMarketDirPath(code);
+    }
+
+
+    public static String getMarketDirPath(CountryCode countryCode){
+        return getMarketDirPath(countryCode.toString());
+    }
+
+    @SuppressWarnings("ConstantValue")
+    public static String getMarketDirPath(String countryCode){
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        String dirPath;
+        if(countryCode == null){
+            dirPath = TradingConfig.getTradingDataPath() + fileSeparator + "market" ;
+        }else{
+            countryCode = countryCode.toUpperCase();
+            dirPath = TradingConfig.getTradingDataPath() + fileSeparator + "market" + fileSeparator + countryCode;
+        }
+
+        return dirPath;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(getTempPath());
+        System.out.println(getMarketDirPath(CountryCode.KOR));
     }
 
 }
