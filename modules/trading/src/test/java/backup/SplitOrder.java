@@ -1,9 +1,13 @@
-package io.runon.trading.order;
+package backup;
 
 import io.runon.commons.utils.time.Times;
 import io.runon.trading.PriceQuantity;
 import io.runon.trading.account.TradeAccount;
 import io.runon.trading.exception.RequiredFieldException;
+import io.runon.trading.order.LimitOrderTrade;
+import io.runon.trading.order.OrderBook;
+import io.runon.trading.order.OrderBookGet;
+import io.runon.trading.order.OrderCase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,7 +22,10 @@ public abstract class SplitOrder {
 
     protected boolean isStop = false;
 
-    protected String symbol = null;
+
+    protected String orderId = null;
+
+    protected String itemId = null;
 
     protected TradeAccount account;
     protected long beginTime = -1L;
@@ -84,8 +91,8 @@ public abstract class SplitOrder {
     }
 
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public void setAccount(TradeAccount account) {
@@ -106,8 +113,8 @@ public abstract class SplitOrder {
     protected long orderCount  = -1;
 
     protected void valid(){
-        if(symbol == null){
-            throw new RequiredFieldException("symbol null");
+        if(itemId == null){
+            throw new RequiredFieldException("item id null");
         }
 
         if(endTime < System.currentTimeMillis()){
@@ -122,10 +129,7 @@ public abstract class SplitOrder {
             throw new RequiredFieldException("order scale less than 0");
         }
 
-        //시작 시간이 더 작으면 현제 시작시간으로 설정
-        if(beginTime < System.currentTimeMillis()){
-            beginTime = System.currentTimeMillis();
-        }
+
 
         if(reorderTime == -1){
             reorderTime = delayTime*5;
@@ -207,7 +211,7 @@ public abstract class SplitOrder {
      */
     public abstract void openOrderCancel(LimitOrderTrade limitOrderTrade );
 
-    
+
     //미체결 전체 수량 얻기
     public BigDecimal sumOpenQuantity(){
         if(openOrderList == null){
@@ -272,18 +276,18 @@ public abstract class SplitOrder {
     }
 
     /**
-     * 
+     *
      * @return 주문당시가격 (추정치)
      */
     public BigDecimal getOrderPrice(){
         if(orderCase == OrderCase.MARKET){
-            return account.getPrice(symbol);
+            return account.getPrice(itemId);
         }else if(orderCase == OrderCase.BID){
             OrderBook orderBook = orderBookGet.getOrderBook();
             PriceQuantity[] bids = orderBook.getBids();
 
             if(bids == null || bids.length == 0){
-                return account.getPrice(symbol);
+                return account.getPrice(itemId);
             }else{
                 return  bids[0].getPrice();
             }
@@ -292,7 +296,7 @@ public abstract class SplitOrder {
             PriceQuantity [] asks = orderBook.getAsks();
 
             if(asks == null || asks.length == 0){
-                return account.getPrice(symbol);
+                return account.getPrice(itemId);
             }else{
                 return asks[0].getPrice();
             }

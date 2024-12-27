@@ -1,101 +1,36 @@
 package io.runon.trading.order;
 
-import io.runon.commons.utils.ExceptionUtil;
-import io.runon.trading.Trade;
-import io.runon.trading.exception.RequiredFieldException;
-import lombok.extern.slf4j.Slf4j;
+import io.runon.trading.TradingGson;
+import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
- * 분할매도
- * 매도할때는 수량만을 활용 (금액 버전은 필요가 있을때 이후개발)
- * 시장가 주문이 아닌 경우
- * 목포수량을 매도 하지 못할 수 있다.
- * 하한가 처리는 포함되지 않음
- * 
+ * 분할매도, 심플하게 재구현
+ * 전략에서 관리하는 방식으로 변경 
+ * 관련 클래스는 초기 세팅 수량과, 얼마나 남았느지를 관리하는 정보성 클래스로 대체한다.
  * @author macle
  */
-@Slf4j
-public class SplitSell extends SplitOrder{
+@Data
+public class SplitSell {
+    //판매 설정수량
+    private BigDecimal planQuantity;
 
-    protected BigDecimal sellQuantity = null;
+    //분할 건수
+    private int plantCount;
 
-    public void setSellQuantity(BigDecimal sellQuantity) {
-        this.sellQuantity = sellQuantity;
-    }
-
-    private BigDecimal remainderQuantity = BigDecimal.ZERO;
+    //매매수량
+    private BigDecimal sellQuantity;
 
 
-    //매도
-    public void sell(){
-        valid();
+    private int tradeCount;
 
-        if(sellQuantity == null || sellQuantity.compareTo(BigDecimal.ZERO) <= 0){
-            throw new RequiredFieldException("sell quantity set error");
-        }
-
-        BigDecimal avgQuantity = sellQuantity.divide(new BigDecimal(orderCount), orderScale, RoundingMode.DOWN);
-
-        for(;;) {
-            if (endTime <= System.currentTimeMillis()) {
-                break;
-            }
-
-            if(isStop){
-                break;
-            }
-            
-            try {
-                BigDecimal orderQuantity = avgQuantity.add(remainderQuantity);
-                BigDecimal minQuantity = getMinQuantity();
-
-                if (minQuantity.compareTo(orderQuantity) > 0) {
-                    remainderQuantity = orderQuantity;
-                    continue;
-                }
-
-                remainderQuantity = BigDecimal.ZERO;
-                BigDecimal remainder = orderQuantity.remainder(minQuantity);
-                remainderQuantity = remainderQuantity.add(remainder);
-
-                orderQuantity = orderQuantity.subtract(remainder);
-
-                trade(orderQuantity);
-
-                Thread.sleep(delayTime);
-            }catch (Exception e){
-                log.error(ExceptionUtil.getStackTrace(e));
-                break;
-            }
-        }
-
-    }
-
-    public void trade(BigDecimal orderQuantity){
-        if(orderCase == OrderCase.MARKET){
-
-            MarketOrderTrade marketOrderTrade =  account.marketOrderQuantity(symbol, Trade.Type.BUY, orderQuantity);
-
-            BigDecimal tradePriceSum = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
-            quantitySum = quantitySum.add(marketOrderTrade.getQuantity());
-            amountSum = amountSum.add(tradePriceSum);
-
-        }else if(orderCase == OrderCase.ASK){
-
-            LimitOrderTrade limitOrderTrade = account.limitOrderQuantity(symbol, Trade.Type.BUY, orderQuantity, getOrderPrice());
-            addOpenOrder(limitOrderTrade);
-            updateOpenOrder();
-        }
-    }
+    //마지막 체결시간
+    private Long lastTradeTime;
 
     @Override
-    public void openOrderCancel(LimitOrderTrade limitOrderTrade) {
-        remainderQuantity = remainderQuantity.add(limitOrderTrade.getOpenQuantity());
+    public String toString(){
+        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
-
-
 
 }

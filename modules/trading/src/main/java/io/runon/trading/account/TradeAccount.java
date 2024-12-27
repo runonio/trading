@@ -18,7 +18,7 @@ public interface TradeAccount extends Account, MarketOrder, LimitOrder {
      * 미체결된 주문(종목)
      * 미체결 주문은 지정가로 하기때문에 지정가 주문 내역이 된다.
      */
-    LimitOrderTrade[] getOpenOrders(String symbol);
+    LimitOrderTrade[] getOpenOrders(String id);
 
     /**
      * 미체결된 전체정보
@@ -28,7 +28,7 @@ public interface TradeAccount extends Account, MarketOrder, LimitOrder {
     /**
      * 현제가격 얻기
      */
-    BigDecimal getPrice(String symbol);
+    BigDecimal getPrice(String id);
 
     /**
      * 구매 수수료
