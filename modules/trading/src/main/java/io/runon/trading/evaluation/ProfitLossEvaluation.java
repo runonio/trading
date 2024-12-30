@@ -28,8 +28,8 @@ public class ProfitLossEvaluation {
         profitList.add(profit);
     }
 
-    public void addLoss(BigDecimal profit){
-        lossList.add(profit);
+    public void addLoss(BigDecimal loss){
+        lossList.add(loss.abs());
     }
 
     public BigDecimal getWinningRatio(){
