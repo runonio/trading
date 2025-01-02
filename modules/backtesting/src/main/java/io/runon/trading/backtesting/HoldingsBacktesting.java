@@ -2,10 +2,7 @@ package io.runon.trading.backtesting;
 
 import io.runon.commons.utils.time.Times;
 import io.runon.commons.utils.time.YmdUtil;
-import io.runon.trading.CashQuantity;
-import io.runon.trading.HoldingQuantity;
-import io.runon.trading.Trade;
-import io.runon.trading.TradingTimes;
+import io.runon.trading.*;
 import io.runon.trading.backtesting.account.BacktestingHoldingAccount;
 import io.runon.trading.closed.days.ClosedDays;
 import io.runon.trading.order.OrderQuantity;
@@ -14,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 보유종목이 많을 떄의 벡테스팅
@@ -42,6 +41,9 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
     public void setClosedDays(ClosedDays closedDays) {
         this.closedDays = closedDays;
     }
+
+
+    protected TimeNumber [] assetTimes ;
 
     public HoldingsBacktesting(){
     }
@@ -111,7 +113,7 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
         init();
 
         long nextTime= beginTime;
-
+        List<TimeNumber> assetTimeList = new ArrayList<>();
         for(;;){
 
             if(closedDays.isClosedDay(YmdUtil.getYmd(nextTime, zoneId))){
@@ -126,16 +128,19 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
             strategy();
 
             //초기에는 콘솔에 뿌리기, 나중에 리포트 형슥의 결과를 제공 하는 경우를 고민한다.
-            System.out.println(Times.ymdhm(nextTime, zoneId));
-            System.out.println(account.getAssets());
+            log.debug(Times.ymdhm(nextTime, zoneId));
+            log.debug(account.getAssets().stripTrailingZeros().toPlainString());
 
+            assetTimeList.add(new TimeNumberData(nextTime, account.getAssets().stripTrailingZeros()));
 
             nextTime += moveTime;
             if(nextTime > endTime){
                 break;
             }
-
         }
+
+        assetTimes = assetTimeList.toArray(new TimeNumber[assetTimeList.size()]);
+        assetTimeList.clear();
     }
 
     private void strategy(){
@@ -179,5 +184,9 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
 
     public StrategyOrders<E> getStrategy() {
         return strategy;
+    }
+
+    public TimeNumber[] getAssetTimes() {
+        return assetTimes;
     }
 }

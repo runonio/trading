@@ -4,6 +4,7 @@ import io.runon.commons.exception.UndefinedException;
 import io.runon.commons.utils.string.Check;
 import io.runon.commons.utils.time.Times;
 import io.runon.commons.utils.time.YmdUtil;
+import io.runon.trading.data.TimeRange;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -281,7 +282,23 @@ public class TradingTimes {
      */
     public static long getDayOpenTime(long time, ZoneId zoneId){
         String ymd = YmdUtil.getYmd(time, zoneId);
-        long openTime =  YmdUtil.getTime(ymd, zoneId);
         return YmdUtil.getTime(ymd, zoneId);
     }
+
+
+    public static TimeRange getYmdRange(String ymd, ZoneId zoneId){
+
+        long beginTime = YmdUtil.getTime(ymd, zoneId);
+        long endTime = beginTime + Times.DAY_1;
+        return new TimeRange(beginTime, endTime);
+
+    }
+
+    public static TimeRange getYmdRange(int ymd, ZoneId zoneId){
+        long beginTime = YmdUtil.getTime(ymd, zoneId);
+        long endTime = beginTime + Times.DAY_1 ;
+        return new TimeRange(beginTime, endTime);
+
+    }
+
 }
