@@ -177,6 +177,7 @@ public class TradingDataPath {
     }
 
 
+
     public static String getMarketDirPath(){
         String code = null;
         return getMarketDirPath(code);

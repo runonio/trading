@@ -50,9 +50,6 @@ public class TimeNumbersMapStat {
             throw new UndefinedException("key: " + key + ", index: " + index + ", check number null");
         }
 
-//        final BigDecimal minNUmber = min.subtract(BigDecimal.ONE);
-//        final BigDecimal maxNumber = max.add(BigDecimal.ONE);
-
         TimeNumbersMap [] newArray = newList.toArray(new TimeNumbersMap[newList.size()]);
 
         if(newArray.length == 1){
@@ -66,25 +63,11 @@ public class TimeNumbersMapStat {
             BigDecimal number2 = o2.getNumber(key, index);
 
             if(isAsc){
-//              if(number1 == null){
-//                  number1 = maxNumber;
-//              }
-//
-//              if(number2 == null){
-//                  number2 = maxNumber;
-//              }
 
               return number1.compareTo(number2);
 
 
             }else{
-//                if(number1 == null){
-//                    number1 = minNUmber;
-//                }
-//
-//                if(number2 == null){
-//                    number2 = minNUmber;
-//                }
 
                 return number2.compareTo(number1);
             }
