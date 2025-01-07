@@ -48,6 +48,11 @@ public class TimeNumbersMap implements Time {
         return numbers[index];
     }
 
+    public BigDecimal[] getNumbers(String key){
+        return numbersMap.get(key);
+    }
+
+
 
     public static TimeNumber[] getTimeNumbers(TimeNumbersMap [] numbersMaps, String key, int index){
         List<TimeNumber> dataList = new ArrayList<>();

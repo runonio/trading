@@ -15,6 +15,11 @@ public class BacktestingSymbolNumberAccount extends BacktestingHoldingAccount<Sy
     }
 
     @Override
+    public BigDecimal getPrice(String symbol) {
+        return idPrice.getPrice(symbol);
+    }
+
+    @Override
     public SymbolNumber newHoldingQuantity(String id, BigDecimal quantity) {
         return new SymbolNumber(id, quantity);
     }

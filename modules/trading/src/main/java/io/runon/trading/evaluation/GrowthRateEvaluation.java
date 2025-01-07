@@ -84,7 +84,7 @@ public class GrowthRateEvaluation {
         BigDecimal percent = timeNumbers[timeNumbers.length - 1].getNumber().subtract(first).divide(first, 6, RoundingMode.HALF_UP).multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
         BigDecimal yearAvg = yearPercentSum.divide(new BigDecimal(yearPercentList.size()), 4, RoundingMode.HALF_UP).stripTrailingZeros();
         mdd = mdd.multiply(BigDecimals.DECIMAL_100).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-        return new BigDecimalArray(percent, mdd, yearAvg, max, min );
+        return new BigDecimalArray(percent, mdd, yearAvg, max, min, timeNumbers[timeNumbers.length-1].getNumber() );
     }
 
 

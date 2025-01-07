@@ -13,6 +13,15 @@ public class NumbersData {
 
     BigDecimal [] numbers;
 
+    public NumbersData(){
+
+    }
+
+    public NumbersData(String id,  BigDecimal [] numbers) {
+        this.id = id;
+        this.numbers = numbers;
+    }
+
     public String toCsv(){
         StringBuilder sb = new StringBuilder();
         sb.append(id).append(",").append(name);

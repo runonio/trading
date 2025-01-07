@@ -36,6 +36,8 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
 
     protected ZoneId zoneId = TradingTimes.KOR_ZONE_ID;
 
+    protected boolean isLog = true;
+
     private ClosedDays closedDays = null;
 
     public void setClosedDays(ClosedDays closedDays) {
@@ -51,6 +53,10 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
 
     public void setStrategy(StrategyOrders<E> strategy) {
         this.strategy = strategy;
+    }
+
+    public void setLog(boolean log) {
+        isLog = log;
     }
 
     public void setCashScale(int cashScale) {
@@ -127,10 +133,11 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
             data.setBaseTime(nextTime);
             strategy();
 
-            //초기에는 콘솔에 뿌리기, 나중에 리포트 형슥의 결과를 제공 하는 경우를 고민한다.
-            log.debug(Times.ymdhm(nextTime, zoneId));
-            log.debug(account.getAssets().stripTrailingZeros().toPlainString());
-
+            if(isLog) {
+                //초기에는 콘솔에 뿌리기, 나중에 리포트 형슥의 결과를 제공 하는 경우를 고민한다.
+                log.debug(Times.ymdhm(nextTime, zoneId));
+                log.debug(account.getAssets().stripTrailingZeros().toPlainString());
+            }
             assetTimeList.add(new TimeNumberData(nextTime, account.getAssets().stripTrailingZeros()));
 
             nextTime += moveTime;

@@ -65,7 +65,9 @@ public abstract class BacktestingHoldingAccount<T extends HoldingQuantity> exten
         BigDecimal buyCash = holdingQuantity.getQuantity().multiply(idPrice.getBuyPrice(holdingQuantity.getId()));
 
         if(buyCash.compareTo(cash) > 0 ){
-            throw new NotEnoughCashException("cash: " + cash.stripTrailingZeros().toPlainString() +" buy cash: " + buyCash.stripTrailingZeros().toPlainString());
+            return;
+
+//            throw new NotEnoughCashException("cash: " + cash.stripTrailingZeros().toPlainString() +" buy cash: " + buyCash.stripTrailingZeros().toPlainString() + ", " + getAssets().toPlainString());
         }
 
         T lastHolding = HoldingMap.get(holdingQuantity.getId());
