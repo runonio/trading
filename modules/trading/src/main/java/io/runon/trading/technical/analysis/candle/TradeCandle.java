@@ -1,6 +1,7 @@
 
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.*;
 import io.runon.trading.technical.analysis.similarity.SimChangeData;
 import io.runon.trading.technical.analysis.volume.Volumes;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -498,6 +500,13 @@ public class TradeCandle extends CandleStick implements Volume,SimChangeData  {
     }
 
 
+    public String getYmd(ZoneId zoneId){
+        return YmdUtil.getYmd(openTime, zoneId);
+    }
+
+    public int getYmdInt(ZoneId zoneId){
+        return YmdUtil.getYmdInt(openTime, zoneId);
+    }
 
 
     @SuppressWarnings("RedundantMethodOverride")

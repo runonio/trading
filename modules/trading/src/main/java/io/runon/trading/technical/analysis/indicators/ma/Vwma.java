@@ -2,6 +2,7 @@ package io.runon.trading.technical.analysis.indicators.ma;
 
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;
@@ -96,7 +97,7 @@ public class Vwma {
 
         int resultLength = end - startIndex;
         if(resultLength < 1){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
         TimeNumber[] averages = new TimeNumber[resultLength];
         for (int i = 0; i < resultLength; i++) {

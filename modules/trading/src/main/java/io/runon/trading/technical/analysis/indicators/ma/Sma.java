@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.indicators.ma;
 import io.runon.trading.Price;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 
 import java.math.BigDecimal;
@@ -140,6 +141,11 @@ public class Sma {
         return sma;
     }
 
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n){
+
+        return getTimeNumbers(array, n, 0, array.length);
+    }
+
     public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int resultLength){
 
         return getTimeNumbers(array, n, array.length - resultLength, array.length);
@@ -156,7 +162,7 @@ public class Sma {
 
         int resultLength = end - startIndex;
         if(resultLength < 1){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
         int gap = startIndex+1;
 

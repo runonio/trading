@@ -11,4 +11,8 @@ public class TradingDataException extends RuntimeException{
     public TradingDataException(String msg){
         super(msg);
     }
+
+    public TradingDataException(Exception e){
+        super(e);
+    }
 }

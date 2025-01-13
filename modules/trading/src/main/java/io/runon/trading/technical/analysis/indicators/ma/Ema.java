@@ -1,9 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.ma;
 
-import io.runon.trading.BigDecimals;
-import io.runon.trading.Price;
-import io.runon.trading.TimeNumber;
-import io.runon.trading.TimeNumberData;
+import io.runon.trading.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -191,7 +188,7 @@ public class Ema {
 
         int resultLength = end - startIndex;
         if(resultLength < 1){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
         TimeNumber[] averages = new TimeNumber[resultLength];
 

@@ -1,9 +1,12 @@
 package io.runon.trading.data.investor;
 
 import io.runon.trading.Time;
+import io.runon.trading.TimeNumber;
 import io.runon.trading.TradingGson;
 import io.runon.trading.data.VolumeAmountBuySell;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * 한국 시장의 기본투자자 매매동향 정보
@@ -17,10 +20,13 @@ import lombok.Data;
  * 기타법인 (금융회사가 아닌 기업의 운용, 자사주매입등
  * 개인
  * 외국인
+ *
+
+ *
  * @author macle
  */
 @Data
-public class InvestorDaily implements Time {
+public class InvestorDaily implements TimeNumber {
 
     Long t ;
     int ymd;
@@ -75,5 +81,10 @@ public class InvestorDaily implements Time {
 
     public static InvestorDaily make(String jsonText){
        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonText, InvestorDaily.class);
+    }
+
+    @Override
+    public BigDecimal getNumber() {
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.indicators.volume;
 import io.runon.trading.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
 import io.runon.trading.oi.OpenInterest;
 import io.runon.trading.oi.OpenInterestSymbol;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
@@ -167,7 +168,7 @@ public class Hpi {
         }
 
         if(startIndex >= end){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
 
         TimeNumber init = null;
@@ -181,7 +182,7 @@ public class Hpi {
         }
 
         if(init == null){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
 
         List<TimeNumber> list = new ArrayList<>();

@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.indicators;
 import io.runon.trading.Time;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
 
 import java.math.BigDecimal;
 
@@ -49,7 +50,7 @@ public abstract class NTimeNumberIndicators<T extends Time> {
         int resultLength = end - startIndex;
 
         if(resultLength < 1){
-            return TimeNumber.EMPTY_ARRAY;
+            return TimeNumbers.EMPTY_ARRAY;
         }
 
         TimeNumber [] data = new TimeNumber[resultLength];
