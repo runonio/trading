@@ -227,7 +227,7 @@ public class Candles {
     }
 
 
-    public static BigDecimal high(CandleStick [] candles){
+    public static BigDecimal high(CandleStick[] candles){
         BigDecimal high = candles[0].getHigh();
 
         for (CandleStick candleStick : candles) {
@@ -240,10 +240,10 @@ public class Candles {
         return high;
     }
 
-    public static BigDecimal high(CandleStick [] candles, int n){
+    public static BigDecimal high(CandleStick[] candles, int n){
         return high(candles,n, candles.length-1);
     }
-    public static BigDecimal high(CandleStick [] candles, int n, int index){
+    public static BigDecimal high(CandleStick[] candles, int n, int index){
         int end = index+1;
         int startIndex = end -n;
         if(end > candles.length){
@@ -266,7 +266,7 @@ public class Candles {
         return high;
     }
 
-    public static BigDecimal low(CandleStick [] candles){
+    public static BigDecimal low(CandleStick[] candles){
         BigDecimal low = candles[0].getLow();
 
         for (CandleStick candleStick : candles) {
@@ -279,11 +279,11 @@ public class Candles {
         return low;
     }
 
-    public static BigDecimal low(CandleStick [] candles, int n){
+    public static BigDecimal low(CandleStick[] candles, int n){
         return low(candles, n, candles.length-1);
     }
 
-    public static BigDecimal low(CandleStick [] candles, int n, int index){
+    public static BigDecimal low(CandleStick[] candles, int n, int index){
         int end = index+1;
         int startIndex = end -n;
         if(end > candles.length){
@@ -431,7 +431,7 @@ public class Candles {
 
     }
 
-    public static String getMaxYmd(CandleStick [] candles, ZoneId zoneId){
+    public static String getMaxYmd(CandleStick[] candles, ZoneId zoneId){
 
         String maxYmd = YmdUtil.getYmd(candles[0].getOpenTime(), TradingTimes.KOR_ZONE_ID);
 
@@ -447,7 +447,7 @@ public class Candles {
     }
 
 
-    public static BigDecimal mdd(CandleStick [] candles){
+    public static BigDecimal mdd(CandleStick[] candles){
         BigDecimal high = high(candles);
         BigDecimal low = low(candles);
         return TradingMath.mdd(high,low);

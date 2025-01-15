@@ -123,12 +123,12 @@ public class Sar {
         this.scale = scale;
     }
 
-    public SarData get(CandleStick [] array){
+    public SarData get(CandleStick[] array){
         return get(array, array.length-1);
     }
 
 
-   public SarData get(CandleStick [] array, int index){
+   public SarData get(CandleStick[] array, int index){
         int highIndex = HighLowCandleLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
         int lowIndex = HighLowCandleLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
 
@@ -139,7 +139,7 @@ public class Sar {
         return sarData;
    }
 
-    public void setAdvancing(CandleStick [] array, int index, SarData data){
+    public void setAdvancing(CandleStick[] array, int index, SarData data){
         int lowIndex = HighLowCandleLeftSearch.searchLow(array, searchInitN, searchContinueN, index);
 
         BigDecimal ep = array[lowIndex].getLow();
@@ -166,7 +166,7 @@ public class Sar {
     }
 
 
-    public void setDecline(CandleStick [] array, int index, SarData data){
+    public void setDecline(CandleStick[] array, int index, SarData data){
         int highIndex = HighLowCandleLeftSearch.searchHigh(array, searchInitN, searchContinueN, index);
 
         BigDecimal ep = array[highIndex].getHigh();
@@ -193,11 +193,11 @@ public class Sar {
     }
 
 
-    public SarData [] getArray(CandleStick [] array, int resultLength){
+    public SarData [] getArray(CandleStick[] array, int resultLength){
         return getArray(array, array.length-resultLength, array.length);
     }
 
-    public SarData [] getArray(CandleStick [] array,int startIndex, int end){
+    public SarData [] getArray(CandleStick[] array, int startIndex, int end){
 
         if(startIndex < 0){
             startIndex = 0;

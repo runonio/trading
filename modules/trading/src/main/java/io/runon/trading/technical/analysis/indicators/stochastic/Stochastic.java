@@ -56,46 +56,46 @@ public class Stochastic {
     public Stochastic(){
     }
 
-    public StochasticData [] get(CandleStick [] array, int resultLength){
+    public StochasticData [] get(CandleStick[] array, int resultLength){
         return get(array, k, d, slowD, array.length - resultLength, array.length, type);
     }
-    public StochasticData [] get(CandleStick [] array, int startIndex, int end){
+    public StochasticData [] get(CandleStick[] array, int startIndex, int end){
         return get(array, k, d, slowD, startIndex, end, type);
     }
 
 
-    public StochasticData [] getEma(CandleStick [] array){
+    public StochasticData [] getEma(CandleStick[] array){
         return get(array, DEFAULT_K, DEFAULT_D, DEFAULT_SLOW_D, 0, array.length, MovingAverage.Type.EMA);
     }
-    public StochasticData [] getEma(CandleStick [] array, int resultLength){
+    public StochasticData [] getEma(CandleStick[] array, int resultLength){
         return get(array, DEFAULT_K, DEFAULT_D, DEFAULT_SLOW_D, array.length - resultLength, array.length, MovingAverage.Type.EMA);
     }
 
-    public StochasticData [] getEma(CandleStick [] array, int k, int d, int sd, int resultLength){
+    public StochasticData [] getEma(CandleStick[] array, int k, int d, int sd, int resultLength){
         return get(array, k, d, sd, array.length - resultLength, array.length, MovingAverage.Type.EMA);
     }
 
-    public StochasticData [] getEma(CandleStick [] array, int k, int d, int sd, int startIndex, int end){
+    public StochasticData [] getEma(CandleStick[] array, int k, int d, int sd, int startIndex, int end){
         return get(array, k, d, sd, startIndex, end, MovingAverage.Type.EMA);
     }
 
-    public StochasticData [] getSma(CandleStick [] array){
+    public StochasticData [] getSma(CandleStick[] array){
         return get(array, DEFAULT_K, DEFAULT_D, DEFAULT_SLOW_D, 0, array.length, MovingAverage.Type.SMA);
     }
 
-    public StochasticData [] getSma(CandleStick [] array, int resultLength){
+    public StochasticData [] getSma(CandleStick[] array, int resultLength){
         return get(array, DEFAULT_K, DEFAULT_D, DEFAULT_SLOW_D, array.length - resultLength, array.length, MovingAverage.Type.SMA);
     }
 
-    public StochasticData [] getSma(CandleStick [] array, int k, int d, int sd, int resultLength){
+    public StochasticData [] getSma(CandleStick[] array, int k, int d, int sd, int resultLength){
         return get(array, k, d, sd, array.length - resultLength, array.length, MovingAverage.Type.SMA);
     }
 
-    public StochasticData [] getSma(CandleStick [] array, int k, int d, int sd, int startIndex, int end){
+    public StochasticData [] getSma(CandleStick[] array, int k, int d, int sd, int startIndex, int end){
         return get(array, k, d, sd, startIndex, end, MovingAverage.Type.SMA);
     }
 
-    public StochasticData [] get(CandleStick [] array, int k, int d, int sd, int startIndex, int end, MovingAverage.Type type){
+    public StochasticData [] get(CandleStick[] array, int k, int d, int sd, int startIndex, int end, MovingAverage.Type type){
         if(startIndex < 0){
             startIndex = 0;
         }

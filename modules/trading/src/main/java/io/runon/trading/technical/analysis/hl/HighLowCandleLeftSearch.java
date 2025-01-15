@@ -12,12 +12,12 @@ import java.math.BigDecimal;
 public class HighLowCandleLeftSearch {
 
 
-    public static HighLow getHighNextLow(CandleStick [] array, int initN,int continueN){
+    public static HighLowTime getHighNextLow(CandleStick[] array, int initN, int continueN){
         return getHighNextLow(array, initN, continueN, array.length-1);
     }
 
 
-    public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index, int maxNextInit, BigDecimal high){
+    public static HighLowTime getHighNextLow(CandleStick[] array , int initN , int continueN , int index, int maxNextInit, BigDecimal high){
 
         int highIndex = searchHigh(array, initN , continueN,  index);
 
@@ -46,13 +46,13 @@ public class HighLowCandleLeftSearch {
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getHighNextLow(CandleStick [] array , int initN ,int continueN , int index){
+    public static HighLowTime getHighNextLow(CandleStick[] array , int initN , int continueN , int index){
         int highIndex = searchHigh(array, initN , continueN,  index);
         int lowIndex = searchLow(array, highIndex, index+1);
         return get(array, index, highIndex, lowIndex);
     }
 
-    public static int searchHighIndex(CandleStick [] array, int n, int index){
+    public static int searchHighIndex(CandleStick[] array, int n, int index){
 
         int end = index +1;
         int startIndex = end - n;
@@ -60,7 +60,7 @@ public class HighLowCandleLeftSearch {
         return searchHigh(array, startIndex, end);
     }
 
-    public static int searchHigh(CandleStick [] array , int initN ,int continueN , int index){
+    public static int searchHigh(CandleStick[] array , int initN , int continueN , int index){
         int highIndex = searchHighIndex(array, initN , index);
         for(;;){
             int searchIndex = searchHighIndex(array, continueN , highIndex);
@@ -75,7 +75,7 @@ public class HighLowCandleLeftSearch {
         return highIndex;
     }
 
-    public static int searchHigh(CandleStick [] array, int startIndex, int end){
+    public static int searchHigh(CandleStick[] array, int startIndex, int end){
 
         if(startIndex < 0){
             startIndex = 0;
@@ -98,13 +98,13 @@ public class HighLowCandleLeftSearch {
     }
 
 
-    public static int searchLowIndex(CandleStick [] array, int n, int index){
+    public static int searchLowIndex(CandleStick[] array, int n, int index){
         int end = index +1;
         int startIndex = end - n;
         return searchLow(array, startIndex, end);
     }
 
-    public static int searchLow(CandleStick [] array ,  int initN ,int continueN , int index){
+    public static int searchLow(CandleStick[] array , int initN , int continueN , int index){
         int lowIndex = searchLowIndex(array, initN , index);
         for(;;){
             int searchIndex = searchLowIndex(array, continueN , lowIndex);
@@ -119,7 +119,7 @@ public class HighLowCandleLeftSearch {
         return lowIndex;
     }
 
-    public static int searchLow(CandleStick [] array, int startIndex, int end){
+    public static int searchLow(CandleStick[] array, int startIndex, int end){
 
         if(startIndex < 0){
             startIndex = 0;
@@ -144,7 +144,7 @@ public class HighLowCandleLeftSearch {
         return lowIndex;
     }
 
-    public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index, int maxNextInit, BigDecimal low){
+    public static HighLowTime getLowNextHigh(CandleStick[] array , int initN , int continueN , int index, int maxNextInit, BigDecimal low){
         int lowIndex = searchLow(array, initN ,continueN, index);
 
         for (int i = 1; i <maxNextInit ; i++) {
@@ -172,7 +172,7 @@ public class HighLowCandleLeftSearch {
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getLowNextHigh(CandleStick [] array ,  int initN ,int continueN , int index){
+    public static HighLowTime getLowNextHigh(CandleStick[] array , int initN , int continueN , int index){
         int lowIndex = searchLow(array, initN ,continueN, index);
 
         int highIndex = searchHigh(array, lowIndex, index+1);
@@ -180,14 +180,14 @@ public class HighLowCandleLeftSearch {
         return get(array, index, highIndex, lowIndex);
     }
 
-    public static HighLow get(CandleStick [] array, int index, int highIndex , int lowIndex){
+    public static HighLowTime get(CandleStick[] array, int index, int highIndex , int lowIndex){
         CandleStick candleStick = array[index];
 
         CandleStick highCandle = array[highIndex];
         CandleStick lowCandle = array[lowIndex];
 
 
-        HighLow highLow = new HighLow();
+        HighLowTime highLow = new HighLowTime();
         highLow.time = candleStick.getTime();
 
         highLow.high = highCandle.getHigh();

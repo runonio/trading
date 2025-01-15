@@ -79,20 +79,20 @@ public class BollingerBands {
     public static int DEFAULT_N = 20;
     public static int DEFAULT_SD = 2;
 
-    public static BollingerBandsData [] getArray(CandleStick [] array, int resultLength){
+    public static BollingerBandsData [] getArray(CandleStick[] array, int resultLength){
 
         return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD),array.length - resultLength, array.length);
     }
 
-    public static BollingerBandsData [] getArray(CandleStick [] array, int startIndex, int end){
+    public static BollingerBandsData [] getArray(CandleStick[] array, int startIndex, int end){
 
         return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), startIndex,end);
     }
-    public static BollingerBandsData [] getArray(CandleStick [] array, int n, BigDecimal sdm, int resultLength){
+    public static BollingerBandsData [] getArray(CandleStick[] array, int n, BigDecimal sdm, int resultLength){
         return getArray(array, n, sdm, array.length - resultLength, array.length);
     }
 
-    public static BollingerBandsData [] getArray(CandleStick [] array, int n, BigDecimal sdm, int startIndex, int end){
+    public static BollingerBandsData [] getArray(CandleStick[] array, int n, BigDecimal sdm, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -140,7 +140,7 @@ public class BollingerBands {
         return dataArray;
     }
 
-    public static BollingerBandsData [] getArray(CandleStick [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int resultLength){
+    public static BollingerBandsData [] getArray(CandleStick[] array, BigDecimal [] maArray, int n, BigDecimal sdm, int resultLength){
         return getArray(array, maArray, n, sdm, array.length - resultLength, array.length);
     }
 
@@ -148,7 +148,7 @@ public class BollingerBands {
 
      //EMA를 사용할 수 있는 경우에 사용 한다.
 
-    public static BollingerBandsData [] getArray(CandleStick [] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
+    public static BollingerBandsData [] getArray(CandleStick[] array, BigDecimal [] maArray, int n, BigDecimal sdm, int startIndex, int end){
         if(startIndex < 0){
             startIndex = 0;
         }
@@ -191,10 +191,10 @@ public class BollingerBands {
         return get(array, DEFAULT_N, new BigDecimal(DEFAULT_SD), array.length-1);
     }
 
-    public static BollingerBandsData get(CandleStick [] array, int n, int sd){
+    public static BollingerBandsData get(CandleStick[] array, int n, int sd){
         return get(array, n, new BigDecimal(sd), array.length-1);
     }
-    public static BollingerBandsData get(CandleStick [] array, int n, BigDecimal sdm, int index){
+    public static BollingerBandsData get(CandleStick[] array, int n, BigDecimal sdm, int index){
         BigDecimal ma = Sma.get(array, n, index);
         BigDecimal sd = CandleBigDecimals.sd(array,ma,n, index);
         return get(array[array.length -1], ma,sd, sdm);

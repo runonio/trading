@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.indicators.volume.profile.gap;
 
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.hl.HighLow;
+import io.runon.trading.technical.analysis.hl.HighLowTime;
 import io.runon.trading.technical.analysis.hl.HighLowCandleLeftSearch;
 
 import java.math.BigDecimal;
@@ -32,7 +32,7 @@ public class VpgHlResistance extends VpgHl {
         
         int index = Candles.getNearOpenTimeIndex(candles, candleTime, time);
         TradeCandle candle = candles[index];
-        HighLow highLow = HighLowCandleLeftSearch.getHighNextLow(candles, initN, continueN, index, maxNextInit + 1, candle.getHigh());
+        HighLowTime highLow = HighLowCandleLeftSearch.getHighNextLow(candles, initN, continueN, index, maxNextInit + 1, candle.getHigh());
         VpgDataTimeRange range = new VpgDataTimeRange();
         range.openTime = candles[highLow.getHighIndex()].getOpenTime();
         range.closeTime = candles[highLow.getLowIndex()].getCloseTime();

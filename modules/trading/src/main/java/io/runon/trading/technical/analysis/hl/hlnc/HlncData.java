@@ -2,13 +2,13 @@ package io.runon.trading.technical.analysis.hl.hlnc;
 
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.technical.analysis.hl.HighLow;
+import io.runon.trading.technical.analysis.hl.HighLowTime;
 
 import java.math.BigDecimal;
 /**
  * @author macle
  */
-public class HlncData extends HighLow implements TimeNumber {
+public class HlncData extends HighLowTime implements TimeNumber {
 
     public static final HlncData[] EMPTY_ARRAY = new HlncData[0];
 

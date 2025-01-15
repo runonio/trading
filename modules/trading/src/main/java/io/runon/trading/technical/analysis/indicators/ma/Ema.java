@@ -177,16 +177,16 @@ public class Ema {
         return getTimeNumbers(array, initEma, multiplier(n), array.length - resultLength, array.length);
     }
 
-    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int startIndex, int end) {
-        if(startIndex < 0){
-            startIndex = 0;
+    public static TimeNumber[] getTimeNumbers(TimeNumber[] array, BigDecimal initPreviousEma, BigDecimal multiplier, int beginIndex, int end) {
+        if(beginIndex < 0){
+            beginIndex = 0;
         }
 
         if(end > array.length){
             end = array.length;
         }
 
-        int resultLength = end - startIndex;
+        int resultLength = end - beginIndex;
         if(resultLength < 1){
             return TimeNumbers.EMPTY_ARRAY;
         }
@@ -195,7 +195,7 @@ public class Ema {
         BigDecimal previousEma = initPreviousEma;
 
         for (int i = 0; i < resultLength; i++) {
-            int arrayIndex = i+startIndex;
+            int arrayIndex = i+beginIndex;
             BigDecimal ema = get(array[arrayIndex].getNumber(), previousEma, multiplier);
             averages[i] = new TimeNumberData(array[arrayIndex].getTime(), ema);
             previousEma = ema;

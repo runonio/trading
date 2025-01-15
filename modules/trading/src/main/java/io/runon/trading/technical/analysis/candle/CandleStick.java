@@ -16,6 +16,7 @@
 package io.runon.trading.technical.analysis.candle;
 
 import io.runon.trading.*;
+import io.runon.trading.technical.analysis.hl.HighLow;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -26,7 +27,7 @@ import java.math.MathContext;
  * - 더 많은 요소 클래스는 상속받아서 구현
  * @author macle
  */
-public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber {
+public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePrice, TimeNumber, HighLow {
     
     //데이터 병합을 위해 아이디(키)가 필요한경우
     protected String id;
@@ -218,9 +219,18 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
      * @return 변동성
      */
     public BigDecimal getVolatility(){
-        BigDecimal basePrice = getPrevious();
-        return getHeight().divide(basePrice, MathContext.DECIMAL128);
+        return io.runon.trading.technical.analysis.hl.HighLow.getVolatility(this);
     }
+
+    /**
+     * 변동성 얻기
+     * percent 가 붙으면 *100
+     * @return 변동성
+     */
+    public BigDecimal getVolatilityPercent(){
+        return io.runon.trading.technical.analysis.hl.HighLow.getVolatilityPercent(this);
+    }
+
 
     /**
      * 변화가격 설정
@@ -324,8 +334,6 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         return changeRate;
     }
 
-
-
     /**
      * 가격변화율 (백분율)
      * @return 가격변화율 (백분율)
@@ -338,9 +346,6 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         changePercent = getChangeRate().multiply(BigDecimals.DECIMAL_100).stripTrailingZeros();
         return changePercent;
     }
-
-
-
 
 
     /**
@@ -441,7 +446,6 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
     public String toString(){
         return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
-
 
 }
 

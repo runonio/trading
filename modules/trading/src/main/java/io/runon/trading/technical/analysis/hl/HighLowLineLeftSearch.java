@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  */
 public class HighLowLineLeftSearch {
 
-    public static HighLow getHighNextLow(TimeNumber[] array, int initN, int continueN){
+    public static HighLowTime getHighNextLow(TimeNumber[] array, int initN, int continueN){
         return getHighNextLow(array, initN, continueN, array.length-1);
     }
 
@@ -26,7 +26,7 @@ public class HighLowLineLeftSearch {
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getHighNextLow(TimeNumber [] array , int initN ,int continueN , int index){
+    public static HighLowTime getHighNextLow(TimeNumber [] array , int initN , int continueN , int index){
         int highIndex = searchHigh(array, initN , continueN,  index);
         int lowIndex = searchLow(array, highIndex, index+1);
         return get(array, index, highIndex, lowIndex);
@@ -132,7 +132,7 @@ public class HighLowLineLeftSearch {
      * @param index 위치
      * @return 고가 저가 정보
      */
-    public static HighLow getLowNextHigh(TimeNumber [] array ,  int initN ,int continueN , int index){
+    public static HighLowTime getLowNextHigh(TimeNumber [] array , int initN , int continueN , int index){
         int lowIndex = searchLow(array, initN ,continueN, index);
 
         int highIndex = searchHigh(array, lowIndex, index+1);
@@ -140,13 +140,13 @@ public class HighLowLineLeftSearch {
         return get(array, index, highIndex, lowIndex);
     }
 
-    public static HighLow get(TimeNumber [] array, int index, int highIndex , int lowIndex){
+    public static HighLowTime get(TimeNumber [] array, int index, int highIndex , int lowIndex){
         TimeNumber timeNumber = array[index];
 
         TimeNumber high = array[highIndex];
         TimeNumber low = array[lowIndex];
 
-        HighLow highLow = new HighLow();
+        HighLowTime highLow = new HighLowTime();
         highLow.time = timeNumber.getTime();
 
         highLow.high = high.getNumber();

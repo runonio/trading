@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.indicators.volume.profile.gap;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Comparator;
 
 /**
@@ -29,9 +30,18 @@ public class VpgData {
 
     BigDecimal volume = BigDecimal.ZERO;
 
+    BigDecimal percent ;
+
     //누적시간을 측정하기 위한 건수
     //캔들을 시가 고가 저가로 구분하기때문에 전체시간에서 3으로 나눈값을 사용하는게 좋을 수 있다
     int count = 0;
+
+    int scale = 0;
+
+    @Override
+    public String toString(){
+        return price.toPlainString() +"," + volume.setScale(scale, RoundingMode.HALF_UP).toString() +"," + count;
+    }
 
     
 }

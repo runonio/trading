@@ -151,20 +151,20 @@ public class Sma {
         return getTimeNumbers(array, n, array.length - resultLength, array.length);
     }
 
-    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int startIndex, int end){
-        if(startIndex < 0){
-            startIndex = 0;
+    public static TimeNumber[] getTimeNumbers(TimeNumber [] array, int n, int beginIndex, int end){
+        if(beginIndex < 0){
+            beginIndex = 0;
         }
 
         if(end > array.length){
             end = array.length;
         }
 
-        int resultLength = end - startIndex;
+        int resultLength = end - beginIndex;
         if(resultLength < 1){
             return TimeNumbers.EMPTY_ARRAY;
         }
-        int gap = startIndex+1;
+        int gap = beginIndex+1;
 
         TimeNumber [] averages = new TimeNumber[resultLength];
         for (int i = 0; i < resultLength; i++) {

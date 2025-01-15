@@ -87,7 +87,7 @@ public class CandleBigDecimals {
      * 표준편차
      * 표준 편차(標準 偏差, 영어: standard deviation, SD)는 통계집단의 분산의 정도 또는 자료의 산포도를 나타내는 수치
      */
-    public static BigDecimal sd( CandleStick [] array, BigDecimal avg , int n, int index){
+    public static BigDecimal sd(CandleStick[] array, BigDecimal avg , int n, int index){
 
 
         int end = index +1;

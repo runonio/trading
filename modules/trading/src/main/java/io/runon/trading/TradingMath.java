@@ -70,7 +70,11 @@ public class TradingMath {
 
         int count = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
 
-        if(count == 0 || sortNumbers.length == 0){
+        if(count == 0 ){
+            return average(sortNumbers);
+        }
+
+        if( sortNumbers.length == 0){
             throw new IllegalArgumentException("count: " + count +" length " + sortNumbers.length);
         }
 

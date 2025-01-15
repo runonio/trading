@@ -29,6 +29,12 @@ public abstract class NTimeNumberIndicators<T extends Time> {
         return new TimeNumberData( array[index].getTime(), get(array, defaultN, index));
     }
 
+
+    public TimeNumber [] getArray(T [] array){
+        return getArray(array, defaultN, 0, array.length);
+    }
+
+
     public TimeNumber [] getArray(T [] array, int resultLength){
         return getArray(array, defaultN, array.length - resultLength, array.length);
     }

@@ -35,7 +35,7 @@ public class Rmi  extends NTimeNumberIndicators<CandleStick> {
         return get(array, n,defaultX, index).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros();
     }
 
-    public static BigDecimal get(CandleStick[] array, int n, int x,int index){
+    public static BigDecimal get(CandleStick[] array, int n, int x, int index){
         int end = index+1;
         int startIndex = end -n;
         if(end > array.length){
