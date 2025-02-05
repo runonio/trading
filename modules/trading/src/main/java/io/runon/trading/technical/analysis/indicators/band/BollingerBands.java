@@ -79,6 +79,12 @@ public class BollingerBands {
     public static int DEFAULT_N = 20;
     public static int DEFAULT_SD = 2;
 
+
+    public static BollingerBandsData [] getArray(CandleStick[] array){
+
+        return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD),0, array.length);
+    }
+
     public static BollingerBandsData [] getArray(CandleStick[] array, int resultLength){
 
         return getArray(array, DEFAULT_N, new BigDecimal(DEFAULT_SD),array.length - resultLength, array.length);

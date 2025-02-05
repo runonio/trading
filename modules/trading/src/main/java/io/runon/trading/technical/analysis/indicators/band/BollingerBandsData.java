@@ -1,6 +1,7 @@
 package io.runon.trading.technical.analysis.indicators.band;
 
 import com.google.gson.GsonBuilder;
+import io.runon.trading.Time;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class BollingerBandsData {
+public class BollingerBandsData implements Time {
 
     long time = 1;
     BigDecimal mbb;

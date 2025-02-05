@@ -81,6 +81,10 @@ public class Vwma {
         return averages;
     }
 
+    public static TimeNumber[] getTimeNumbers(TradeCandle [] array, int n){
+        return getTimeNumbers(array, n, 0, array.length);
+    }
+
 
     public static TimeNumber[] getTimeNumbers(TradeCandle [] array, int n, int resultLength){
         return getTimeNumbers(array, n, array.length - resultLength, array.length);

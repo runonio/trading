@@ -30,12 +30,24 @@ public class ModifyPrice {
 
         List<CandlePreviousCandle> list = null;
 
+//        System.out.println(candles.length);
+
         for (int i = 1; i < candles.length; i++) {
             TradeCandle candle = candles[i];
 
             if(candle.getOpenTime() < beginTime){
                 continue;
             }
+//
+//            String ymd = YmdUtil.getYmd(candle.getOpenTime(), TradingTimes.KOR_ZONE_ID);
+//            if(ymd.startsWith("20240709")){
+//                BigDecimal previous = candle.getPrevious();
+//                TradeCandle previousCandle = candles[i-1];
+//
+//                System.out.println(ymd +", " + candle.getClose().toPlainString() +"," + previous.toPlainString() + ", " + previousCandle.getClose().toPlainString());
+//            }else{
+//                continue;
+//            }
 
             BigDecimal previous = candle.getPrevious();
             TradeCandle previousCandle = candles[i-1];
@@ -44,16 +56,19 @@ public class ModifyPrice {
                 continue;
             }
 
+
             if(previous.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }
 
             BigDecimal previousAbs = previous.abs();
 
-            BigDecimal gapPrice = previous.subtract(previousCandle.getClose());
+            BigDecimal gapPrice = previous.subtract(previousCandle.getClose()).abs();
+
             if(gapPrice.compareTo(errorPrice) <= 0){
                 continue;
             }
+
 
             if(errorRate == null){
                 if(list == null){
