@@ -32,7 +32,7 @@ public abstract class MarketIndicators<T> {
     }
 
     public MarketIndicators(IdCandleTimes symbolCandleTimes){
-        this.idCandles = symbolCandleTimes.getSymbolCandles();
+        this.idCandles = symbolCandleTimes.getIdCandles();
         times = symbolCandleTimes.getTimes();
     }
 
@@ -62,6 +62,10 @@ public abstract class MarketIndicators<T> {
     }
 
     public abstract T getData(int index);
+
+    public T [] getArray(){
+        return getArray(0, times.length);
+    }
 
     public T [] getArray(int resultLength){
         return getArray(times.length - resultLength, times.length);

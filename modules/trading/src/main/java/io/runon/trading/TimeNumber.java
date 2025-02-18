@@ -8,6 +8,5 @@ import java.math.BigDecimal;
  */
 public interface TimeNumber extends Time{
 
-
     BigDecimal getNumber();
 }

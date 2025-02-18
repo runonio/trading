@@ -200,6 +200,30 @@ TradingChart {
         addVolume(volumeDataArr, new BigDecimal("0.85"), BigDecimal.ZERO);
     }
 
+
+    public void addVolumeAmount(TradeCandle[] candles){
+
+        VolumeData[] volumeDataArr = new VolumeData[candles.length];
+
+        for (int i = 0; i < candles.length ; i++) {
+            TradeCandle candle = candles[i];
+
+            VolumeData volumeData = new VolumeData();
+            volumeData.volume = candles[i].getVolume();
+            volumeData.time = candles[i].getOpenTime();
+            if(candle.getChange().compareTo(BigDecimal.ZERO) >= 0){
+                volumeData.color = "#26a69a";
+            }else{
+                volumeData.color = "red";
+            }
+
+            volumeDataArr[i] = volumeData;
+        }
+
+        addVolume(volumeDataArr, new BigDecimal("0.85"), BigDecimal.ZERO);
+    }
+
+
     /**
      * 거래량 데이터를 전부 추가한다.
      * @param volumeDataArr 거래량 데이터 배열

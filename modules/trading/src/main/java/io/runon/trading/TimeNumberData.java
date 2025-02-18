@@ -25,6 +25,10 @@ public class TimeNumberData implements TimePrice, TimeNumber {
         this.number = number;
     }
 
+    public void addNumber(BigDecimal number){
+        this.number = this.number.add(number);
+    }
+
 
     @Override
     public BigDecimal getClose() {

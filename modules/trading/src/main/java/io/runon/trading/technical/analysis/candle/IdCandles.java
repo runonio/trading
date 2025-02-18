@@ -9,7 +9,7 @@ public interface IdCandles extends GetCandles {
 
     String getId();
 
-    static IdCandles getSymbolCandle(String id, IdCandles[] idCandles){
+    static IdCandles getIdCandle(String id, IdCandles[] idCandles){
         for(IdCandles symbolCandle : idCandles){
             if(symbolCandle.getId().equals(id)){
                 return symbolCandle;
