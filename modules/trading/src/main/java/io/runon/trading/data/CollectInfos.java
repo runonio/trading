@@ -69,7 +69,7 @@ public class CollectInfos {
             if(source == null){
                 JdbcObjects.insert( collectInfo);
             }else{
-                if(!Check.isEquals(collectInfo.getCollectInfo(), source.getCollectInfo())){
+                if(!Check.equals(collectInfo.getCollectInfo(), source.getCollectInfo())){
                     JdbcObjects.update( collectInfo, true);
                 }
             }
@@ -78,9 +78,6 @@ public class CollectInfos {
         }
     }
 
-
-
-
     public static void update(Connection conn, CollectInfo collectInfo){
         try {
             String where = JdbcObjects.getCheckWhere(collectInfo);
@@ -88,7 +85,7 @@ public class CollectInfos {
             if(source == null){
                 JdbcObjects.insert(conn, collectInfo);
             }else{
-                if(!Check.isEquals(collectInfo.getCollectInfo(), source.getCollectInfo())){
+                if(!Check.equals(collectInfo.getCollectInfo(), source.getCollectInfo())){
                     JdbcObjects.update(conn, collectInfo, true);
                 }
             }
