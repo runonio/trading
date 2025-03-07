@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.candle;
 
 import io.runon.commons.data.BeginEnd;
-import io.runon.commons.data.BeginEndImpl;
+import io.runon.commons.data.BeginEndData;
 import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.TradingMath;
 import io.runon.trading.TradingTimes;
@@ -44,7 +44,7 @@ public class Candles {
     public static BeginEnd getNearTimeRange(TradeCandle [] candles, long openTime, long closeTime){
 
         if(candles.length < 1){
-            return new BeginEndImpl(-1, -1);
+            return new BeginEndData(-1, -1);
         }
 
         TradeCandle candle = candles[0];
@@ -60,7 +60,7 @@ public class Candles {
         int openTimeIndex= getNearOpenTimeIndex(candles, candleTime, openTime);
         int closeTimeIndex = getNearCloseTimeIndex(candles, candleTime, closeTime);
 
-        return new BeginEndImpl(openTimeIndex, closeTimeIndex+1);
+        return new BeginEndData(openTimeIndex, closeTimeIndex+1);
     }
 
     public static int getNearOpenTimeIndex(TradeCandle [] candles, long candleTime, long time){
