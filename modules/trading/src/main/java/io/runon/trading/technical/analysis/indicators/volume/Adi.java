@@ -32,10 +32,15 @@ import java.math.MathContext;
  */
 public class Adi {
     public static BigDecimal get(TradeCandle candle, BigDecimal previousAd){
+        if(candle.getHigh().compareTo(candle.getLow()) == 0){
+            return previousAd;
+        }
+
         BigDecimal cl = candle.getClose().subtract(candle.getLow());
         BigDecimal hc = candle.getHigh().subtract(candle.getClose());
         BigDecimal numerator = cl.subtract(hc);
         BigDecimal denominator = candle.getHigh().subtract(candle.getLow());
+
         return numerator.multiply(candle.getVolume()).divide(denominator, MathContext.DECIMAL128).add(previousAd);
     }
 
@@ -66,6 +71,11 @@ public class Adi {
         }
 
         return adArray;
+    }
+
+
+    public static TimeNumber [] getTimeNumbers(TradeCandle [] array){
+        return getTimeNumbers(array, BigDecimal.ZERO, 0, array.length);
     }
 
     public static TimeNumber [] getTimeNumbers(TradeCandle [] array,  int resultLength){

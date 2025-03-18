@@ -18,6 +18,10 @@ public class Mfi extends NTimeNumberIndicators<TradeCandle> {
         defaultN = 14;
         scale = 2;
     }
+
+
+
+
     @Override
     public BigDecimal get(TradeCandle[] array, int n, int index) {
 
