@@ -31,6 +31,7 @@ import java.math.MathContext;
  * @author macle
  */
 public class Adi {
+
     public static BigDecimal get(TradeCandle candle, BigDecimal previousAd){
         if(candle.getHigh().compareTo(candle.getLow()) == 0){
             return previousAd;
@@ -108,4 +109,63 @@ public class Adi {
 
         return adArray;
     }
+
+
+    public static TimeNumber [] getNTimeNumbers(TradeCandle [] array, int n){
+        return getNTimeNumbers(array, n, 0, array.length);
+    }
+
+    public static TimeNumber [] getNTimeNumbers(TradeCandle [] array, int n, int resultLength){
+        return getNTimeNumbers(array, n, array.length - resultLength, array.length);
+    }
+
+    public static TimeNumber[] getNTimeNumbers(TradeCandle [] array, int n, int startIndex, int end){
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int resultLength = end - startIndex;
+        TimeNumber[] adArray = new TimeNumber[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            int arrayIndex = i+startIndex;
+
+            long time = array[arrayIndex].getTime();
+            BigDecimal ad = getN(array, n, arrayIndex);
+
+            adArray[i] = new TimeNumberData(time, ad);
+        }
+
+
+
+        return adArray;
+    }
+
+
+    public static BigDecimal getN(TradeCandle [] array, int n, int index){
+
+        int end = index +1;
+        if(end > array.length){
+            end = array.length;
+        }
+
+        int startIndex = index - n;
+
+        if(startIndex < 0){
+            startIndex = 0;
+        }
+
+        BigDecimal adi = BigDecimal.ZERO;
+
+        for (int i = startIndex; i < end; i++) {
+            adi = get(array[i], adi);
+        }
+
+        return adi;
+    }
+
+
 }
