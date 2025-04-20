@@ -1,6 +1,7 @@
 
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.commons.utils.GsonUtils;
 import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.*;
 import io.runon.trading.technical.analysis.similarity.SimChangeData;
@@ -512,7 +513,7 @@ public class TradeCandle extends CandleStick implements Volume,SimChangeData  {
     @SuppressWarnings("RedundantMethodOverride")
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
     

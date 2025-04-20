@@ -60,41 +60,6 @@ public class TradingConfig {
         return CountryCode.KOR;
     }
 
-    private static int TRADING_THREAD_COUNT= -1;
-
-    /**
-     * 설정하지 않으면 전체 쓰레드수 -1
-     * 16코어라면 15개를 사용한다
-     * 설정은 그 이하로만 설정할 수 있다
-     * @return 병렬처리에 사용하는 기본 쓰레드 수
-     */
-    public static int getTradingThreadCount(){
-
-        if(TRADING_THREAD_COUNT > 0){
-            return TRADING_THREAD_COUNT;
-        }
-
-        int maxThreadCount =  Runtime.getRuntime().availableProcessors() -1 ;
-        if(maxThreadCount < 1){
-            maxThreadCount = 1;
-        }
-
-        Integer config = Config.getInteger("trading.thread.count");
-        if(config != null && config > 0){
-            TRADING_THREAD_COUNT = config;
-
-            if(TRADING_THREAD_COUNT > maxThreadCount){
-                TRADING_THREAD_COUNT = maxThreadCount;
-            }
-
-            return TRADING_THREAD_COUNT;
-        }
-
-        TRADING_THREAD_COUNT = maxThreadCount;
-        return TRADING_THREAD_COUNT;
-    }
-
-
     public static final String [] DEFAULT_API_CANDLE_DATA_PATHS = {
             "bonds"
             , "commodities"

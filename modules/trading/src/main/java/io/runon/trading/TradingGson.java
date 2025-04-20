@@ -1,18 +1,17 @@
 package io.runon.trading;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import io.runon.commons.utils.GsonUtils;
 
 /**
  * @author macle
  */
 public class TradingGson {
 
-    public static final Gson LOWER_CASE_WITH_UNDERSCORES_PRETTY =  new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
+    public static final Gson LOWER_CASE_WITH_UNDERSCORES_PRETTY = GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY;
 
-    public static final Gson LOWER_CASE_WITH_UNDERSCORES =  new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-    public static final Gson PRETTY =  new GsonBuilder().setPrettyPrinting().create();
-    public static final Gson DEFAULT = new Gson();
+    public static final Gson LOWER_CASE_WITH_UNDERSCORES =  GsonUtils.LOWER_CASE_WITH_UNDERSCORES;
+    public static final Gson PRETTY = GsonUtils.PRETTY;
+    public static final Gson DEFAULT =GsonUtils.GSON;
 
 }
