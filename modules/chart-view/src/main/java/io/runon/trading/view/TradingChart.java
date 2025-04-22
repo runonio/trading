@@ -18,6 +18,7 @@ package io.runon.trading.view;
 import io.runon.commons.utils.FileUtil;
 import io.runon.commons.utils.time.DateUtil;
 import io.runon.trading.TimeNumber;
+import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.view.util.BrowserUtil;
@@ -258,6 +259,26 @@ TradingChart {
                 """.formatted(timeStr, volumeData.getVolume().setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() , volumeData.getColor()));
         }
         createChartStr.append("]);");
+    }
+
+
+    public void addUptrendLine(TimeNumber [] array, int begin, int end){
+
+        if(begin < 0 || end < array.length){
+            array = Arrays.copyOfRange(array, begin, end);
+        }
+        addLine(array,  "#CCFFCC", 8, true, false);
+
+    }
+
+    public void addDowntrendLine(TimeNumber [] array, int begin, int end){
+
+        if(begin < 0 || end < array.length){
+            array = Arrays.copyOfRange(array, begin, end);
+        }
+
+        addLine(array,  "#FF9999", 8, true, false);
+
     }
 
     /**

@@ -21,10 +21,7 @@ public class TimeCandleFileStorage {
     private final Map<Long, TradeCandles> candlesMap = new HashMap<>();
 
     public TradeCandles loadCandle(String path, long time){
-        if(!FileUtil.isFile(path)){
-            log.error("candle file not find: " + path);
-            return null;
-        }
+
 
         TradeCandle [] candles = CsvCandle.load(path, time);
         TradeCandles tradeCandles = new TradeCandles(time);
