@@ -6,7 +6,6 @@ import io.runon.commons.exception.ReflectiveOperationRuntimeException;
 import io.runon.commons.utils.GsonUtils;
 import io.runon.jdbc.exception.SQLRuntimeException;
 import io.runon.jdbc.objects.JdbcObjects;
-import io.runon.trading.TradingGson;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -68,11 +67,11 @@ public class TradingJdbc {
     public static boolean equalsOutUpdatedAt(Object source, Object target){
 
         String sourceOutUpdatedAt = getOutUpdateAtJson(source);
-        JsonObject sourceObject = TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(sourceOutUpdatedAt, JsonObject.class);
+        JsonObject sourceObject = GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(sourceOutUpdatedAt, JsonObject.class);
         String [] sourceKeys = sourceObject.keySet().toArray(new String[0]);
 
         String targetSourceOutUpdatedAt = getOutUpdateAtJson(target);
-        JsonObject targetObject =  TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(targetSourceOutUpdatedAt, JsonObject.class);
+        JsonObject targetObject =  GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(targetSourceOutUpdatedAt, JsonObject.class);
         Set<String> targetKeySet = targetObject.keySet();
         for(String sourceKey : sourceKeys){
             if(targetKeySet.contains(sourceKey)){
@@ -80,14 +79,14 @@ public class TradingJdbc {
             }
             sourceObject.remove(sourceKey);
         }
-        sourceOutUpdatedAt = TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(sourceObject);
+        sourceOutUpdatedAt = GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(sourceObject);
         return sourceOutUpdatedAt.equals(targetSourceOutUpdatedAt);
 
     }
 
 
     public static String getOutUpdateAtJson(Object object){
-        Gson gson = TradingGson.LOWER_CASE_WITH_UNDERSCORES;
+        Gson gson = GsonUtils.LOWER_CASE_WITH_UNDERSCORES;
         String jsonText = gson.toJson(object);
 
         JsonObject jsonObject = gson.fromJson(jsonText, JsonObject.class);

@@ -1,5 +1,6 @@
 package io.runon.trading;
 
+import io.runon.commons.utils.GsonUtils;
 import lombok.Data;
 /**
  * @author macle
@@ -13,6 +14,6 @@ public class OpenTimeRange {
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 }

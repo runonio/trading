@@ -1,6 +1,6 @@
 package io.runon.trading.data.calendar;
 
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,11 +17,11 @@ public class EconomicCalendarValue {
     BigDecimal previous;
 
     public static EconomicCalendarValue make(String jsonText){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonText, EconomicCalendarValue.class);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonText, EconomicCalendarValue.class);
     }
 
     public String toString(){
 
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 }

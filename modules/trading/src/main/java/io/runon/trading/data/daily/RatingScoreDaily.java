@@ -1,8 +1,8 @@
 package io.runon.trading.data.daily;
 
 import com.google.gson.JsonObject;
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.Time;
-import io.runon.trading.TradingGson;
 import io.runon.trading.data.DailyData;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class RatingScoreDaily implements Time {
     int ymd;
 
     public static RatingScoreDaily make(DailyData dailyData){
-        JsonObject object = TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(dailyData.getDataValue(), JsonObject.class);
+        JsonObject object = GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(dailyData.getDataValue(), JsonObject.class);
         RatingScoreDaily ratingScoreDaily = new RatingScoreDaily();
         ratingScoreDaily.t = object.get("time").getAsLong();
         ratingScoreDaily.score = object.get("score").getAsBigDecimal();
@@ -35,7 +35,7 @@ public class RatingScoreDaily implements Time {
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 
     @Override

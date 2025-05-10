@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import lombok.Data;
 /**
  * 캔들과 전 캔들
@@ -27,7 +27,7 @@ public class CandlePreviousCandles {
             object.add("outputs", jsonArray);
         }
 
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(object);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(object);
     }
 
 }

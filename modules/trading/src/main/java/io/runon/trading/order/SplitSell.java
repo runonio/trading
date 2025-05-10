@@ -1,6 +1,6 @@
 package io.runon.trading.order;
 
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -30,7 +30,7 @@ public class SplitSell {
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 
 }

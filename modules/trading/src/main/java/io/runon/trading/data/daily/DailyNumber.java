@@ -1,9 +1,9 @@
 package io.runon.trading.data.daily;
 
+import io.runon.commons.utils.GsonUtils;
 import io.runon.commons.utils.time.Times;
 import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.Time;
-import io.runon.trading.TradingGson;
 import io.runon.trading.data.json.JsonOutLine;
 import lombok.Data;
 
@@ -55,18 +55,18 @@ public class DailyNumber implements Time , JsonOutLine {
 
         public static DailyNumber make(String jsonStr){
 
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonStr, DailyNumber.class);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonStr, DailyNumber.class);
     }
 
 
     @Override
     public String outTimeLineJsonText(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
 

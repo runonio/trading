@@ -3,7 +3,7 @@ package io.runon.trading.data.json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.runon.commons.utils.FileUtil;
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.data.TextLong;
 import io.runon.trading.data.file.TimeFiles;
 import org.json.JSONObject;
@@ -42,7 +42,7 @@ public class JsonTimeFile {
             return new TextLong[0];
         }
 
-        JsonArray jsonArray = TradingGson.PRETTY.fromJson(FileUtil.getFileContents(filePath, StandardCharsets.UTF_8), JsonArray.class);
+        JsonArray jsonArray = GsonUtils.PRETTY.fromJson(FileUtil.getFileContents(filePath, StandardCharsets.UTF_8), JsonArray.class);
 
         TextLong [] timeLines = new TextLong[jsonArray.size()];
 
@@ -91,7 +91,7 @@ public class JsonTimeFile {
             jsonArray.add(object);
 
         }
-        FileUtil.fileOutput(TradingGson.PRETTY.toJson(jsonArray), filePath, false);
+        FileUtil.fileOutput(GsonUtils.PRETTY.toJson(jsonArray), filePath, false);
     }
             
 

@@ -1,8 +1,7 @@
 package io.runon.trading.data.investor;
 
-import io.runon.trading.Time;
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.TimeNumber;
-import io.runon.trading.TradingGson;
 import io.runon.trading.data.VolumeAmountBuySell;
 import lombok.Data;
 
@@ -66,7 +65,7 @@ public class InvestorDaily implements TimeNumber {
 
    @Override
    public String toString(){
-       return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+       return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
    }
 
    public void setTime(long time){
@@ -80,7 +79,7 @@ public class InvestorDaily implements TimeNumber {
 
 
     public static InvestorDaily make(String jsonText){
-       return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonText, InvestorDaily.class);
+       return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonText, InvestorDaily.class);
     }
 
     @Override

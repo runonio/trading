@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.Volume;
 import lombok.Data;
 
@@ -20,6 +20,6 @@ public class VolumeData implements Volume {
 
     @Override
     public String toString(){
-        return  TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return  GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 }

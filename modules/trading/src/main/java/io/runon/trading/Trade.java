@@ -16,6 +16,8 @@
 
 package io.runon.trading;
 
+import io.runon.commons.utils.GsonUtils;
+
 import java.math.BigDecimal;
 
 /**
@@ -162,6 +164,6 @@ public class Trade implements TimeNumber{
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 }

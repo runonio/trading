@@ -1,8 +1,6 @@
 package io.runon.trading.order;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
-import io.runon.trading.TradingGson;
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.strategy.Position;
 import lombok.Data;
 
@@ -25,7 +23,7 @@ public class MarketOrderCashData implements MarketOrderCash {
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
 }

@@ -1,7 +1,7 @@
 package io.runon.trading.data.daily;
 
+import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.TimeNumber;
-import io.runon.trading.TradingGson;
 import io.runon.trading.data.json.JsonOutLine;
 import io.runon.trading.technical.analysis.volume.Volumes;
 import lombok.Data;
@@ -30,18 +30,18 @@ public class VolumePowerDaily implements TimeNumber, JsonOutLine {
 
     public static VolumePowerDaily make(String jsonStr){
 
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonStr, VolumePowerDaily.class);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.fromJson(jsonStr, VolumePowerDaily.class);
     }
 
 
     @Override
     public String outTimeLineJsonText(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES.toJson(this);
     }
 
     @Override
     public String toString(){
-        return TradingGson.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
+        return GsonUtils.LOWER_CASE_WITH_UNDERSCORES_PRETTY.toJson(this);
     }
 
 
