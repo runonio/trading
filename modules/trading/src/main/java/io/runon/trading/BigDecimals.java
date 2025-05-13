@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author macle
@@ -170,6 +171,23 @@ public class BigDecimals {
     }
 
 
+    public static BigDecimal getNumber(Map<String, Map<String, BigDecimal>> map, String [] mapKeys, String [] numberKeys){
+        for(String mapKey : mapKeys){
+            Map<String, BigDecimal> dataMap = map.get(mapKey);
+            if(dataMap == null || dataMap.isEmpty()){
+                continue;
+            }
 
+
+            for(String numberKey : numberKeys){
+                BigDecimal num = dataMap.get(numberKey);
+                if(num != null){
+                    return num;
+                }
+            }
+        }
+
+        return null;
+    }
 
 }
