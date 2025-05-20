@@ -36,7 +36,7 @@ public class Exchanges {
 
     public static ZoneId getZoneId(String exchange){
         return switch (exchange) {
-            case "KOSPI", "KOSDAQ", "KONEX" -> TradingTimes.KOR_ZONE_ID;
+            case "KRX", "NXT","KOSPI", "KOSDAQ", "KONEX" -> TradingTimes.KOR_ZONE_ID;
             case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> TradingTimes.USA_ZONE_ID;
             case "SGX" -> TradingTimes.SGP_ZONE_ID;
             case "NSE" -> TradingTimes.INR_ZONE_ID;
