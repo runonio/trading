@@ -1,10 +1,12 @@
 package backup;
 
+import io.runon.commons.utils.ExceptionUtil;
 import io.runon.trading.Trade;
 import io.runon.trading.exception.RequiredFieldException;
 import io.runon.trading.order.LimitOrderTrade;
 import io.runon.trading.order.MarketOrderTrade;
 import io.runon.trading.order.OrderCase;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,7 +21,10 @@ import java.math.RoundingMode;
  * @author macle
  */
 
+@Slf4j
 public class SplitSell extends SplitOrder {
+
+
 
     protected BigDecimal sellQuantity = null;
 
@@ -68,7 +73,8 @@ public class SplitSell extends SplitOrder {
 
                 Thread.sleep(delayTime);
             }catch (Exception e){
-                e.printStackTrace();
+                log.error(ExceptionUtil.getStackTrace(e));
+
                 break;
             }
         }
@@ -78,7 +84,7 @@ public class SplitSell extends SplitOrder {
     public void trade(BigDecimal orderQuantity){
         if(orderCase == OrderCase.MARKET){
 
-            MarketOrderTrade marketOrderTrade =  account.marketOrderQuantity(itemId, Trade.Type.BUY, orderQuantity);
+            MarketOrderTrade marketOrderTrade =  account.marketOrderQuantity(itemId, null, Trade.Type.BUY, orderQuantity);
 
             BigDecimal tradePriceSum = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
             quantitySum = quantitySum.add(marketOrderTrade.getQuantity());
@@ -86,7 +92,7 @@ public class SplitSell extends SplitOrder {
 
         }else if(orderCase == OrderCase.ASK){
 
-            LimitOrderTrade limitOrderTrade = account.limitOrderQuantity(itemId, Trade.Type.BUY, orderQuantity, getOrderPrice());
+            LimitOrderTrade limitOrderTrade = account.limitOrderQuantity(itemId, null,Trade.Type.BUY,orderQuantity, getOrderPrice());
             addOpenOrder(limitOrderTrade);
             updateOpenOrder();
         }
@@ -94,7 +100,7 @@ public class SplitSell extends SplitOrder {
 
     @Override
     public void openOrderCancel(LimitOrderTrade limitOrderTrade) {
-        remainderQuantity = remainderQuantity.add(limitOrderTrade.getOpenQuantity());
+//        remainderQuantity = remainderQuantity.add(limitOrderTrade.getOpenQuantity());
     }
 
 

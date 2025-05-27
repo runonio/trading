@@ -18,7 +18,7 @@ public interface MarketOrder {
      * @param quantity 수량
      * @return 시장가 주문정보
      */
-    MarketOrderTrade marketOrderQuantity(String id, Trade.Type type, BigDecimal quantity);
+    MarketOrderTrade marketOrderQuantity(String id, String exchange, Trade.Type type, BigDecimal quantity);
 
     /**
      * 현금사용
@@ -28,7 +28,7 @@ public interface MarketOrder {
      * @param cash 현금, 달러 혹은 원화 (거래소 기준 금액)
      * @return 시장가 주문정보
      */
-    MarketOrderTrade marketOrderCash(String id, Trade.Type type, BigDecimal cash);
+    MarketOrderTrade marketOrderCash(String id, String exchange, Trade.Type type, BigDecimal cash);
 
 
     /**
@@ -36,5 +36,5 @@ public interface MarketOrder {
      * @param id 심볼 ( 종목 아이디)
      * @return 시장가 종료정보
      */
-    MarketOrderTrade closePosition(String id);
+    MarketOrderTrade closePosition(String id, String exchange);
 }

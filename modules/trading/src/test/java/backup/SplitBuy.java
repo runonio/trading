@@ -97,7 +97,7 @@ public class SplitBuy extends SplitOrder {
     public void trade(BigDecimal orderCash, BigDecimal orderPrice){
         if(orderCase == OrderCase.MARKET){
 
-            MarketOrderTrade marketOrderTrade =  account.marketOrderCash(itemId, Trade.Type.BUY, orderCash);
+            MarketOrderTrade marketOrderTrade =  account.marketOrderCash(itemId, null, Trade.Type.BUY, orderCash);
 
             BigDecimal tradePrice = marketOrderTrade.getTradePrice().multiply(marketOrderTrade.getQuantity());
             quantitySum = quantitySum.add(marketOrderTrade.getQuantity());
@@ -113,17 +113,17 @@ public class SplitBuy extends SplitOrder {
             //호가를 얻어와서
             //호가창을 가져오지 못한경우 현제 거래된 가격으로 매수주문
 
-            LimitOrderCashTrade limitOrderCashTrade = account.limitOrderCash(itemId, Trade.Type.BUY, orderCash, orderPrice);
-
-            addOpenOrder(limitOrderCashTrade);
-            remainderCash = remainderCash.add(limitOrderCashTrade.getRemainderCash());
+//            LimitOrderCashTrade limitOrderCashTrade = account.limitOrderCash(itemId, null, Trade.Type.BUY, orderCash, orderPrice);
+//
+//            addOpenOrder(limitOrderCashTrade);
+//            remainderCash = remainderCash.add(limitOrderCashTrade.getRemainderCash());
             updateOpenOrder();
         }
     }
 
     @Override
     public void openOrderCancel(LimitOrderTrade limitOrderTrade) {
-        remainderCash = remainderCash.add(limitOrderTrade.getOpenQuantity().multiply(limitOrderTrade.getPrice()));
+//        remainderCash = remainderCash.add(limitOrderTrade.getOpenQuantity().multiply(limitOrderTrade.getPrice()));
         //수수료 반환을 추가해야할지..
     }
 

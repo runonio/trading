@@ -184,20 +184,20 @@ public abstract class SplitOrder {
 
             LimitOrderTrade [] orders = openOrderList.toArray(new LimitOrderTrade[0]);
             for(LimitOrderTrade order : orders){
-                if(order.getOpenQuantity().compareTo(BigDecimal.ZERO) <= 0){
-                    openOrderList.remove(order);
-                    quantitySum = quantitySum.add(order.getCloseQuantity());
-                    amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
-                }else{
-                    if(reorderTime > 0 && System.currentTimeMillis() - order.getOrderTime() > reorderTime){
-                        //재주문 시간 초과인경우
-                        //금액 정산후 주문 취소
-                        openOrderList.remove(order);
-                        quantitySum = quantitySum.add(order.getCloseQuantity());
-                        amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
-                        openOrderCancel(order);
-                    }
-                }
+//                if(order.getOpenQuantity().compareTo(BigDecimal.ZERO) <= 0){
+//                    openOrderList.remove(order);
+//                    quantitySum = quantitySum.add(order.getCloseQuantity());
+//                    amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
+//                }else{
+//                    if(reorderTime > 0 && System.currentTimeMillis() - order.getOrderTime() > reorderTime){
+//                        //재주문 시간 초과인경우
+//                        //금액 정산후 주문 취소
+//                        openOrderList.remove(order);
+//                        quantitySum = quantitySum.add(order.getCloseQuantity());
+//                        amountSum = amountSum.add(order.getPrice().multiply(order.getCloseQuantity()));
+//                        openOrderCancel(order);
+//                    }
+//                }
 
 
             }
@@ -222,7 +222,7 @@ public abstract class SplitOrder {
             BigDecimal sum = BigDecimal.ZERO;
 
             for(LimitOrderTrade order : openOrderList){
-                sum = sum.add(order.getOpenQuantity());
+//                sum = sum.add(order.getOpenQuantity());
             }
 
             return sum;
@@ -238,7 +238,7 @@ public abstract class SplitOrder {
         synchronized (openOrderLock){
             BigDecimal sum = BigDecimal.ZERO;
             for(LimitOrderTrade order : openOrderList){
-                sum = sum.add(order.getOpenQuantity().multiply(order.getPrice()));
+//                sum = sum.add(order.getOpenQuantity().multiply(order.getPrice()));
             }
 
             return sum;
@@ -255,7 +255,7 @@ public abstract class SplitOrder {
             BigDecimal sum = BigDecimal.ZERO;
 
             for (LimitOrderTrade order : openOrderList) {
-                sum = sum.add(order.getCloseQuantity());
+//                sum = sum.add(order.getCloseQuantity());
             }
 
             return sum;
@@ -269,7 +269,7 @@ public abstract class SplitOrder {
         synchronized (openOrderLock){
             BigDecimal sum = BigDecimal.ZERO;
             for(LimitOrderTrade order : openOrderList){
-                sum = sum.add(order.getCloseQuantity().multiply(order.getPrice()));
+//                sum = sum.add(order.getCloseQuantity().multiply(order.getPrice()));
             }
             return sum;
         }
