@@ -221,7 +221,6 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 200일선(설정값) 보다 종가가 같거나 위에 있는 종목비율
 - 바닥권에서 10% 미만의 값이 나타남
 
-
 # 바닥신호
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
 
@@ -229,12 +228,8 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 ### blog, homepage
 - [runon.io](https://runon.io)
 - [github.com/runonio](https://github.com/runonio)
-- [github.com/seomse](https://github.com/seomse)
-- [www.seomse.com](https://www.seomse.com/)
-
 
 ## main developer
 - macle
   - github(source code): [github.com/macle86](https://github.com/macle86)
   - email: ysys86a@gmail.com
-  - kakaotalk(1:1): https://open.kakao.com/o/sspZGH3g
