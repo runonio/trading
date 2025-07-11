@@ -14,7 +14,7 @@
  * resources/lightweight-charts.standalone.production
  * resources/pure.js
 
-2. 봉 데이터 표시를 위해 위해 com.seomse.trading.technical.analysis.candle.TradeCandle [] 데이터를 준비 합니다.
+2. 봉 데이터 표시를 위해 위해 io.runon.trading.technical.analysis.candle.TradeCandle [] 데이터를 준비 합니다.
 
 3. 차트에 라인 / 마커 / 볼륨 데이터를 추가 할수 있습니다.
 * TradingChart.addLineAll ( LineData[] 선형 데이터 배열 , color , size )
