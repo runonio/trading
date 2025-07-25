@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.commons.data.BeginEnd;
-import io.runon.commons.data.BeginEndData;
+import io.runon.commons.data.StartEnd;
+import io.runon.commons.data.StartEndData;
 import io.runon.commons.utils.time.YmdUtil;
 import io.runon.trading.TradingMath;
 import io.runon.trading.TradingTimes;
@@ -41,10 +41,10 @@ public class Candles {
     }
 
     //빈켄들이 있을경우 시간값에 대한 인덱스를 가져오지 못할경우 가까운 시간값 활용
-    public static BeginEnd getNearTimeRange(TradeCandle [] candles, long openTime, long closeTime){
+    public static StartEnd getNearTimeRange(TradeCandle [] candles, long openTime, long closeTime){
 
         if(candles.length < 1){
-            return new BeginEndData(-1, -1);
+            return new StartEndData(-1, -1);
         }
 
         TradeCandle candle = candles[0];
@@ -55,12 +55,12 @@ public class Candles {
     }
 
     //빈켄들이 있을경우 시간값에 대한 인덱스를 가져오지 못할경우 가까운 시간값 활용
-    public static BeginEnd getNearTimeRange(TradeCandle [] candles, long candleTime, long openTime, long closeTime){
+    public static StartEnd getNearTimeRange(TradeCandle [] candles, long candleTime, long openTime, long closeTime){
 
         int openTimeIndex= getNearOpenTimeIndex(candles, candleTime, openTime);
         int closeTimeIndex = getNearCloseTimeIndex(candles, candleTime, closeTime);
 
-        return new BeginEndData(openTimeIndex, closeTimeIndex+1);
+        return new StartEndData(openTimeIndex, closeTimeIndex+1);
     }
 
     public static int getNearOpenTimeIndex(TradeCandle [] candles, long candleTime, long time){
