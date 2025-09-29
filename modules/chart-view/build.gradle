@@ -26,16 +26,17 @@ dependencies {
 
     //noinspection VulnerableLibrariesLocal
 
-    implementation group: 'org.json', name: 'json', version: '20240303'
+    implementation libs.gson
+    implementation libs.json
 
     //위쪽으로는 개밯환경 의존성
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.19.1'
+    implementation libs.selenium
 
     //noinspection VulnerableLibrariesLocal
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.7.0'
+    implementation libs.webdrivermanager
 
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
 }
 

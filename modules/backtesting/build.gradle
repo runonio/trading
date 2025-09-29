@@ -10,16 +10,16 @@ dependencies {
 
     implementation project(path: ':trading')
     implementation project(path: ':chart-view')
-
     //noinspection VulnerableLibrariesLocal
     implementation project(path: ':commons')
 
-    implementation group: 'org.json', name: 'json', version: '20240303'
+    implementation libs.gson
+    implementation libs.json
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
+    implementation libs.slf4jApi
 
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 }
 
 

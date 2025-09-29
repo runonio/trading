@@ -1,7 +1,7 @@
 package io.runon.trading.data.api;
 
-import io.runon.commons.http.HttpApiResponse;
-import io.runon.commons.http.HttpApis;
+import io.runon.commons.apis.http.HttpApiResponse;
+import io.runon.commons.apis.http.HttpApis;
 import io.runon.commons.utils.time.Times;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;

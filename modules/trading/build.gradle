@@ -8,22 +8,21 @@ repositories {
 
 dependencies {
     implementation project(path: ':commons')
-
-    implementation group: 'org.json', name: 'json', version: '20240303'
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
-
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
-
-
     implementation project(path: ':jdbc')
+
+    implementation libs.gson
+    implementation libs.json
+
     //connection pool
-    implementation 'com.zaxxer:HikariCP:4.0.3'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
-    implementation 'org.projectlombok:lombok:1.18.34'
+    implementation libs.hikariCP
+    implementation libs.postgresql
+
+    implementation libs.logbackClassic
+    implementation libs.slf4jApi
 
 
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 }
 
 test {

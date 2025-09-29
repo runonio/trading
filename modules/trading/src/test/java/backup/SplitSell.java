@@ -6,7 +6,7 @@ import io.runon.trading.exception.RequiredFieldException;
 import io.runon.trading.order.LimitOrderTrade;
 import io.runon.trading.order.MarketOrderTrade;
 import io.runon.trading.order.OrderCase;
-import lombok.extern.slf4j.Slf4j;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,11 +17,10 @@ import java.math.RoundingMode;
  * 시장가 주문이 아닌 경우
  * 목포수량을 매도 하지 못할 수 있다.
  * 하한가 처리는 포함되지 않음
- * 
+ *
  * @author macle
  */
 
-@Slf4j
 public class SplitSell extends SplitOrder {
 
 
@@ -53,7 +52,7 @@ public class SplitSell extends SplitOrder {
             if(isStop){
                 break;
             }
-            
+
             try {
                 BigDecimal orderQuantity = avgQuantity.add(remainderQuantity);
                 BigDecimal minQuantity = getMinQuantity();
@@ -73,7 +72,7 @@ public class SplitSell extends SplitOrder {
 
                 Thread.sleep(delayTime);
             }catch (Exception e){
-                log.error(ExceptionUtil.getStackTrace(e));
+//                log.error(ExceptionUtil.getStackTrace(e));
 
                 break;
             }
