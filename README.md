@@ -225,11 +225,14 @@ io.runon.trading.technical.analysis.indicators.market.MarketSurvivalRate
 - 바닥신호 (vix40이상, 생존비율 10% 미만 200일선 위에종목, 거래량 급증)
 
 # communication
-### blog, homepage
+## site, blog, git
 - [runon.io](https://runon.io)
+- [blog.runon.io](https://blog.runon.io)
 - [github.com/runonio](https://github.com/runonio)
+
+## contact
+- email: info@runon.io
 
 ## main developer
 - macle
-  - github(source code): [github.com/macle86](https://github.com/macle86)
-  - email: ysys86a@gmail.com
+    - git: [github.com/macle86](https://github.com/macle86)
