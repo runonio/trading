@@ -1,10 +1,12 @@
 package io.runon.trading.technical.analysis.volume;
 
 import io.runon.commons.config.Config;
-import io.runon.trading.*;
-import io.runon.trading.technical.analysis.candle.CandleStick;
+import io.runon.commons.math.BigDecimals;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
+import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.hl.HighLow;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 
 import java.math.BigDecimal;

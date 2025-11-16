@@ -2,7 +2,7 @@ package io.runon.trading.data.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.utils.GsonUtils;
 import io.runon.trading.data.TextLong;
 import io.runon.trading.data.file.TimeFiles;
@@ -38,11 +38,11 @@ public class JsonTimeFile {
 
     public static TextLong [] getLastTimeLines(String filePath){
 
-        if(!FileUtil.isFile(filePath)){
+        if(!FileUtils.isFile(filePath)){
             return new TextLong[0];
         }
 
-        JsonArray jsonArray = GsonUtils.PRETTY.fromJson(FileUtil.getFileContents(filePath, StandardCharsets.UTF_8), JsonArray.class);
+        JsonArray jsonArray = GsonUtils.PRETTY.fromJson(FileUtils.getFileContents(filePath, StandardCharsets.UTF_8), JsonArray.class);
 
         TextLong [] timeLines = new TextLong[jsonArray.size()];
 
@@ -63,7 +63,7 @@ public class JsonTimeFile {
     public static void updateLastTimeLines(TextLong[] idTimes, String filePath, Comparator<TextLong> sort){
 
         TextLong [] array;
-        if(FileUtil.isFile(filePath)){
+        if(FileUtils.isFile(filePath)){
             //기존데이터에 새로 누적해서 정렬
             TextLong [] lastArray = getLastTimeLines(filePath);
             Map<String, TextLong> map = new HashMap<>();
@@ -91,7 +91,7 @@ public class JsonTimeFile {
             jsonArray.add(object);
 
         }
-        FileUtil.fileOutput(GsonUtils.PRETTY.toJson(jsonArray), filePath, false);
+        FileUtils.fileOutput(GsonUtils.PRETTY.toJson(jsonArray), filePath, false);
     }
             
 

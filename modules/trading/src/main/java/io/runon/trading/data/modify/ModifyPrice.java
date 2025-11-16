@@ -39,7 +39,7 @@ public class ModifyPrice {
                 continue;
             }
 //
-//            String ymd = YmdUtil.getYmd(candle.getOpenTime(), TradingTimes.KOR_ZONE_ID);
+//            String ymd = YmdUtils.getYmd(candle.getOpenTime(), TradingTimes.KOR_ZONE_ID);
 //            if(ymd.startsWith("20240709")){
 //                BigDecimal previous = candle.getPrevious();
 //                TradeCandle previousCandle = candles[i-1];

@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -35,10 +35,10 @@ public class FileLineOut {
 
                 if(!sb.isEmpty()){
 
-                    if(!FileUtil.isFile(lastOutPath)){
-                        FileUtil.fileOutput(sb.toString(), lastOutPath, false);
+                    if(!FileUtils.isFile(lastOutPath)){
+                        FileUtils.fileOutput(sb.toString(), lastOutPath, false);
                     }else{
-                        FileUtil.fileOutput("\n" + sb.toString(), lastOutPath, true);
+                        FileUtils.fileOutput("\n" + sb.toString(), lastOutPath, true);
                     }
                     sb.setLength(0);
                 }
@@ -56,10 +56,10 @@ public class FileLineOut {
         }
 
         if(!sb.isEmpty()){
-            if(!FileUtil.isFile(lastOutPath)){
-                FileUtil.fileOutput(sb.toString(), lastOutPath, false);
+            if(!FileUtils.isFile(lastOutPath)){
+                FileUtils.fileOutput(sb.toString(), lastOutPath, false);
             }else{
-                FileUtil.fileOutput("\n" + sb.toString(), lastOutPath, true);
+                FileUtils.fileOutput("\n" + sb.toString(), lastOutPath, true);
             }
 
             sb.setLength(0);
@@ -93,12 +93,12 @@ public class FileLineOut {
         }
 
         String outPath = filesDirPath + TimeName.getName(openTime, type);
-        if(!FileUtil.isFile(outPath)){
+        if(!FileUtils.isFile(outPath)){
             outNewLines(pathTimeLine, lines, filesDirPath,type);
             return;
         }
 
-        List<String> lineList = FileUtil.getLineList(new File(outPath), StandardCharsets.UTF_8);
+        List<String> lineList = FileUtils.getLineList(new File(outPath), StandardCharsets.UTF_8);
 
         boolean isChange = false;
 
@@ -136,7 +136,7 @@ public class FileLineOut {
         }
 
         //마지막 라인을 제외하고 다시저장
-        FileUtil.fileOutput( sb.substring(1), outPath, false);
+        FileUtils.fileOutput( sb.substring(1), outPath, false);
         outNewLines(pathTimeLine, lines, filesDirPath,type);
     }
 }

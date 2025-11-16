@@ -1,7 +1,7 @@
 package io.runon.trading.backtesting;
 
 import io.runon.commons.utils.time.Times;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.*;
 import io.runon.trading.backtesting.account.BacktestingHoldingAccount;
 import io.runon.trading.closed.days.ClosedDays;
@@ -122,7 +122,7 @@ public class HoldingsBacktesting<E extends BacktestingData, T extends HoldingQua
         List<TimeNumber> assetTimeList = new ArrayList<>();
         for(;;){
 
-            if(closedDays.isClosedDay(YmdUtil.getYmd(nextTime, zoneId))){
+            if(closedDays.isClosedDay(YmdUtils.getYmd(nextTime, zoneId))){
                 nextTime += moveTime;
                 if(nextTime > endTime){
                     break;

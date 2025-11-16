@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.data.file.YmdFiles;
 
 import java.util.Arrays;
@@ -18,13 +18,13 @@ public class YmdSet extends TextLineSet{
         if(maxYmd == null){
             maxYmd = line;
         }else {
-            maxYmd = YmdUtil.max(line, maxYmd);
+            maxYmd = YmdUtils.max(line, maxYmd);
         }
 
         if(minYmd == null){
             maxYmd = line;
         }else{
-            minYmd = YmdUtil.min(line, minYmd);
+            minYmd = YmdUtils.min(line, minYmd);
         }
 
         return super.add(line);

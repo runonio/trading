@@ -2,7 +2,7 @@ package io.runon.trading.data.daily;
 
 import io.runon.commons.utils.GsonUtils;
 import io.runon.commons.utils.time.Times;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.Time;
 import io.runon.trading.data.json.JsonOutLine;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class DailyNumber implements Time , JsonOutLine {
     public DailyNumber(long time, BigDecimal number, ZoneId zoneId){
         this.t = time;
         this.number = number;
-        this. ymd =Integer.parseInt(YmdUtil.getYmd(time, zoneId));
+        this. ymd =Integer.parseInt(YmdUtils.getYmd(time, zoneId));
     }
 
 
@@ -47,7 +47,7 @@ public class DailyNumber implements Time , JsonOutLine {
         this.ymd = ymd;
     }
     public DailyNumber(int ymd, BigDecimal number, ZoneId zoneId) {
-        this.t = YmdUtil.getTime(ymd, zoneId );
+        this.t = YmdUtils.getTime(ymd, zoneId );
         this.number = number;
         this.ymd = ymd;
     }

@@ -1,4 +1,4 @@
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;
@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class ChartTest {
     public static void main(String[] args) {
-        List<String> ymdList = YmdUtil.getYmdList("20220101", "20221231");
+        List<String> ymdList = YmdUtils.getYmdList("20220101", "20221231");
 
         CandleStick[] candleSticks = new CandleStick[ymdList.size()];
         TimeNumber[] lines = new TimeNumber[ymdList.size()];
@@ -29,7 +29,7 @@ public class ChartTest {
             candleStick.setHigh(new BigDecimal(randomNum));
             randomNum = randInt(100, 200);
             candleStick.setLow(new BigDecimal(randomNum));
-            candleStick.setOpenTime(YmdUtil.getTime(ymd));
+            candleStick.setOpenTime(YmdUtils.getTime(ymd));
             candleSticks[i] = candleStick;
         }
 
@@ -38,7 +38,7 @@ public class ChartTest {
             String ymd = ymdList.get(i);
 
             int randomNum = randInt(0, 10);
-            TimeNumber lineData = new TimeNumberData(YmdUtil.getTime(ymd), new BigDecimal(randomNum));
+            TimeNumber lineData = new TimeNumberData(YmdUtils.getTime(ymd), new BigDecimal(randomNum));
             lines[i] = lineData;
         }
 
@@ -46,7 +46,7 @@ public class ChartTest {
             String ymd = ymdList.get(i);
 
             int randomNum = randInt(100,200);
-            TimeNumber lineData = new TimeNumberData(YmdUtil.getTime(ymd), new BigDecimal(randomNum));
+            TimeNumber lineData = new TimeNumberData(YmdUtils.getTime(ymd), new BigDecimal(randomNum));
             lines2[i] = lineData;
         }
 
@@ -55,7 +55,7 @@ public class ChartTest {
 
         for (int i = 0; i < 12; i++) {
             MarkerData markerData = new MarkerData(
-                    YmdUtil.getTime("2022" + String.format("%02d",i+1) + "01")
+                    YmdUtils.getTime("2022" + String.format("%02d",i+1) + "01")
                     ,"red",i%2 == 0 ? "Long" : "Short",i+"",
                     i%2 == 0? MarkerData.MarkerType.aboveBar : MarkerData.MarkerType.belowBar,
                     i%2 == 0? MarkerData.MarkerShape.arrowDown : MarkerData.MarkerShape.arrowUp

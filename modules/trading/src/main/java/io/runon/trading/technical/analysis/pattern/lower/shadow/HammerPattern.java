@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.pattern.lower.shadow;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.PriceChangeType;
 import io.runon.trading.TrendChangeType;
 import io.runon.trading.technical.analysis.candle.TradeCandle;

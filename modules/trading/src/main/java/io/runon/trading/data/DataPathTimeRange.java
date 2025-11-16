@@ -3,7 +3,7 @@ package io.runon.trading.data;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.runon.commons.utils.time.Times;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingConfig;
 import lombok.Data;
 
@@ -63,7 +63,7 @@ public class DataPathTimeRange {
             zoneId =  TradingConfig.DEFAULT_TIME_ZONE_ID;
         }
 
-       return YmdUtil.getYmd(beginTime, zoneId);
+       return YmdUtils.getYmd(beginTime, zoneId);
     }
 
 
@@ -77,7 +77,7 @@ public class DataPathTimeRange {
             zoneId =  TradingConfig.DEFAULT_TIME_ZONE_ID;
         }
 
-        return YmdUtil.getYmd(endTime, zoneId);
+        return YmdUtils.getYmd(endTime, zoneId);
     }
 
 }

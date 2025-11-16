@@ -13,7 +13,7 @@ public class TimeLineLoadExample {
         TimeLine timeLine = new JsonTimeLine();
         int count= 500;
 
-//        String [] lines = TimeLines.load(dirPath, TimeName.Type.HOUR_4, timeLine, YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID), count);
+//        String [] lines = TimeLines.load(dirPath, TimeName.Type.HOUR_4, timeLine, YmdUtils.getTime("20221103", TradingTimes.UTC_ZONE_ID), count);
         String [] lines = TimeLines.load(dirPath, new TimeNameImpl(TimeName.Type.HOUR_4), timeLine, -1, count);
         for(String line : lines){
             System.out.println(Times.ymdhm(timeLine.getTime(line), TradingTimes.UTC_ZONE_ID));

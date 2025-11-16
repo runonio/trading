@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
-import io.runon.commons.utils.FileUtil;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.FileUtils;
+import io.runon.commons.utils.time.YmdUtils;
 
 import java.io.File;
 import java.util.List;
@@ -26,7 +26,7 @@ public class YmdFiles {
         File file = new File(filePath);
         String lastYmd = null;
         if(file.isFile()){
-            lastYmd = FileUtil.getLastTextLine(file);
+            lastYmd = FileUtils.getLastTextLine(file);
             if(lastYmd.equals("")){
                 lastYmd = null;
             }
@@ -39,20 +39,20 @@ public class YmdFiles {
                 sb.append("\n").append(ymd);
             }
             //파일이 비어있는경우
-            FileUtil.fileOutput(sb.substring(1), filePath, false);
+            FileUtils.fileOutput(sb.substring(1), filePath, false);
             
         }else{
             
             //라스트 내용이 있으면
             for(String ymd : sortYmds){
-                if(YmdUtil.compare(ymd, lastYmd) <= 0){
+                if(YmdUtils.compare(ymd, lastYmd) <= 0){
                     continue;
                 }
 
                 sb.append("\n").append(ymd);
             }
             if(!sb.isEmpty()){
-                FileUtil.fileOutput(sb.toString(), filePath, true);
+                FileUtils.fileOutput(sb.toString(), filePath, true);
             }
             //라스트 내용이 있으면 줄바뀜 포함
         }

@@ -22,7 +22,7 @@ public abstract class HoldingAccount<T extends HoldingQuantity> implements Accou
 
     protected final String id;
 
-    protected BigDecimal slippage = new BigDecimal("0.001");
+//    protected BigDecimal slippage = new BigDecimal("0.001");
 
     public HoldingAccount(String id){
         this.id = id;
@@ -69,14 +69,6 @@ public abstract class HoldingAccount<T extends HoldingQuantity> implements Accou
         this.cash = this.cash.add(cash);
     }
 
-
-    public void setSlippage(BigDecimal slippage) {
-        this.slippage = slippage;
-    }
-
-    public BigDecimal getSlippage() {
-        return slippage;
-    }
 
     public abstract void buy(T number);
 

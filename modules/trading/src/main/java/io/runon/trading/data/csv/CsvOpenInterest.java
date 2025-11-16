@@ -1,6 +1,6 @@
 package io.runon.trading.data.csv;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 import io.runon.trading.oi.LongShortRatio;
 import io.runon.trading.oi.LongShortRatioData;
@@ -33,7 +33,7 @@ public class CsvOpenInterest {
         return loadOpenInterest(path, 0);
     }
     public static OpenInterest[] loadOpenInterest(String path, int limit){
-        String [] lines = FileUtil.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG, limit);
+        String [] lines = FileUtils.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG, limit);
         OpenInterest [] array = new OpenInterest[lines.length];
         for (int i = 0; i < array.length ; i++) {
             array[i] = make(lines[i]);
@@ -45,7 +45,7 @@ public class CsvOpenInterest {
         return loadLongShortRatio(path, 0);
     }
     public static LongShortRatio[] loadLongShortRatio(String path, int limit){
-        String [] lines = FileUtil.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG, limit);
+        String [] lines = FileUtils.getLines(new File(path), StandardCharsets.UTF_8,new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG, limit);
         LongShortRatio [] array = new LongShortRatio[lines.length];
         for (int i = 0; i < array.length ; i++) {
             array[i] = makeLongShortRatio(lines[i]);

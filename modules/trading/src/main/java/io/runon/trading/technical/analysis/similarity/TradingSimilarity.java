@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.similarity;
 
 import io.runon.commons.data.BigDecimalArray;
 import io.runon.commons.data.IdArray;
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

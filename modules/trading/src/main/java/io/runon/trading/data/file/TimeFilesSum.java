@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +43,7 @@ public class TimeFilesSum {
         Set<Long> timeFileSet = new HashSet<>();
 
         for(String sumDir : sumDirs){
-            File []  files = FileUtil.getInFiles(sumDir , new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+            File []  files = FileUtils.getInFiles(sumDir , new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
 
             for(File file : files){
                 try {
@@ -72,7 +72,7 @@ public class TimeFilesSum {
                 }
 
                 List<String> lines = new ArrayList<>();
-                FileUtil.addLine(lines, file, StandardCharsets.UTF_8);
+                FileUtils.addLine(lines, file, StandardCharsets.UTF_8);
                 for(String line : lines){
                     lineTimeList.add(new LineTime(line, timeLine.getTime(line)) );
                 }
@@ -93,7 +93,7 @@ public class TimeFilesSum {
             }
 
             if(sb.length() > 0){
-                FileUtil.fileOutput(sb.substring(1), newPath +"/" + timeFileName, false);
+                FileUtils.fileOutput(sb.substring(1), newPath +"/" + timeFileName, false);
             }
 
             //초기화 소스, 가비지컬렉터 성능향상용

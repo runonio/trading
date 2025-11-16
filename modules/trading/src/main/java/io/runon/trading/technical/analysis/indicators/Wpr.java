@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.candle.Candles;
 

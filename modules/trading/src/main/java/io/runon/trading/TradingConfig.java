@@ -4,7 +4,7 @@ import io.runon.commons.config.Config;
 import io.runon.commons.config.ConfigSet;
 import io.runon.commons.config.JsonFileProperties;
 import io.runon.commons.config.JsonFilePropertiesManager;
-import io.runon.commons.utils.ExceptionUtil;
+import io.runon.commons.utils.ExceptionUtils;
 import io.runon.trading.data.TradingDataPath;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +55,7 @@ public class TradingConfig {
         try{
             return CountryCode.valueOf(Config.getConfig("trading.default.country.code","KOR"));
         }catch (Exception e){
-            log.error(ExceptionUtil.getStackTrace(e));
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return CountryCode.KOR;
     }

@@ -1,4 +1,4 @@
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.*;
 
@@ -15,13 +15,13 @@ public class TimeLineAddExample {
         TimeLine timeLine = new JsonTimeLine();
         int count= 500;
 
-//        String [] lines = TimeLines.load(dirPath, TimeName.Type.HOUR_4, timeLine, YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID), count);
+//        String [] lines = TimeLines.load(dirPath, TimeName.Type.HOUR_4, timeLine, YmdUtils.getTime("20221103", TradingTimes.UTC_ZONE_ID), count);
 
 
 
         TimeLineLock timeLineOut = LineOutManager.getInstance().get("D:\\data\\temp", PathTimeLine.JSON, new TimeNameImpl(TimeName.Type.HOUR_1));
 
-        long beginTime =  YmdUtil.getTime("20221103", TradingTimes.UTC_ZONE_ID);
+        long beginTime =  YmdUtils.getTime("20221103", TradingTimes.UTC_ZONE_ID);
 
         TimeName timeName = new TimeNameImpl(TimeName.Type.HOUR_4);
 

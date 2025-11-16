@@ -15,7 +15,7 @@
  */
 package io.runon.trading.technical.analysis.trend.line;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.math.BigDecimal;

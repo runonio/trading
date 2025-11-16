@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.stochastic;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.CandleStick;

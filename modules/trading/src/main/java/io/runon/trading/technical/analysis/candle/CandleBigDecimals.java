@@ -1,7 +1,7 @@
 
 package io.runon.trading.technical.analysis.candle;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.Price;
 import io.runon.trading.ChangeRate;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;

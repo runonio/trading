@@ -1,6 +1,6 @@
 package io.runon.trading.data.candle;
 
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.TradingDataPath;
 import io.runon.trading.data.csv.CsvCandle;
@@ -63,7 +63,7 @@ public class IntervalCandles {
 
 //        IntervalCandles   intervalCandles = new IntervalCandles(TradingDataPath.getFuturesCandleRelativePathPath("bonds","USA_30_year"));
         IntervalCandles   intervalCandles =  new IntervalCandles(TradingDataPath.getFuturesCandleRelativePathPath("commodities","USA_gold"));
-        intervalCandles.setCandle("1d", YmdUtil.getTime(20000101, zoneId), YmdUtil.getTime(20101013, zoneId));
+        intervalCandles.setCandle("1d", YmdUtils.getTime(20000101, zoneId), YmdUtils.getTime(20101013, zoneId));
 
         TradeCandle []candles = intervalCandles.getCandles("1d");
         for(TradeCandle candle : candles){

@@ -1,6 +1,6 @@
 package io.runon.trading.data.api;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.data.file.FileLineOut;
 import io.runon.trading.data.file.PathTimeLine;
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 public class ApiDataSync {
     public static void candleSyncAll(){
 //        String [] dirs = TimeFiles.getApiCandleDataIntervalDirs();
-        String [] dirs = FileUtil.getFileContents("config/candle_sync_path.txt", StandardCharsets.UTF_8).split("\n");
+        String [] dirs = FileUtils.getFileContents("config/candle_sync_path.txt", StandardCharsets.UTF_8).split("\n");
 
         for(String dir: dirs){
             log.debug("candle sync dir: " + dir);

@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.trend;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimePrice;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 

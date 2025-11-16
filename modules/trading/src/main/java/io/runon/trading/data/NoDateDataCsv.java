@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import lombok.Setter;
 
 /**
@@ -26,7 +26,7 @@ public class NoDateDataCsv {
 
 
     public void load(String path){
-        String content = FileUtil.getFileContents(path);
+        String content = FileUtils.getFileContents(path);
 
         String [] rows = content.split("\n");
         for(String row : rows){

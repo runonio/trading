@@ -1,6 +1,6 @@
 package io.runon.trading.evaluation;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

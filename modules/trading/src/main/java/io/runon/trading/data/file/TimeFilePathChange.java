@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
 import io.runon.commons.exception.IORuntimeException;
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.trading.TradingTimes;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,7 @@ public abstract class TimeFilePathChange {
         readPath = new File(readPath).getAbsolutePath();
         outPath = new File(outPath).getAbsolutePath();
 
-        File [] files = FileUtil.getFiles(readPath);
+        File [] files = FileUtils.getFiles(readPath);
 
         for(File file : files){
             if(!file.isDirectory()){
@@ -102,7 +102,7 @@ public abstract class TimeFilePathChange {
                     if(!name.equals(lastName)){
                         if(sb.length() > 0){
                             if(!overSet.contains(lastName)){
-                                FileUtil.fileOutput(sb.substring(1), pathStart+lastName, false);
+                                FileUtils.fileOutput(sb.substring(1), pathStart+lastName, false);
                                 overSet.add(lastName);
                             }else{
                                 log.error(lastName + " sort error line: " + lastLine);
@@ -123,7 +123,7 @@ public abstract class TimeFilePathChange {
 
         if(sb.length() > 0){
             if(!overSet.contains(lastName)){
-                FileUtil.fileOutput(sb.substring(1), pathStart+lastName, false);
+                FileUtils.fileOutput(sb.substring(1), pathStart+lastName, false);
             }else{
                 log.error(lastName + " sort error line: " + lastLine);
             }

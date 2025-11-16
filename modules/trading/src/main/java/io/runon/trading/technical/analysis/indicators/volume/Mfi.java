@@ -1,6 +1,6 @@
 package io.runon.trading.technical.analysis.indicators.volume;
 
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.NTimeNumberIndicators;
 
@@ -19,9 +19,7 @@ public class Mfi extends NTimeNumberIndicators<TradeCandle> {
         scale = 2;
     }
 
-
-
-
+    
     @Override
     public BigDecimal get(TradeCandle[] array, int n, int index) {
 

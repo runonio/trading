@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
 import io.runon.commons.exception.IORuntimeException;
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 
 import java.io.*;
@@ -34,11 +34,11 @@ public class TimeFileOverride implements Runnable{
 
         String moveDir = dirPath +"/temp_time_files";
         if(new File(moveDir).isDirectory()) {
-            FileUtil.delete(moveDir);
+            FileUtils.delete(moveDir);
         }
         TimeFiles.moveDir(dirPath, moveDir);
 
-        File[] files = FileUtil.getInFiles(moveDir, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File[] files = FileUtils.getInFiles(moveDir, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
 
         String lastName = null;
         StringBuilder sb = new StringBuilder();
@@ -69,7 +69,7 @@ public class TimeFileOverride implements Runnable{
                     if(fileName.equals(lastName)){
                         sb.append('\n').append(line);
                     }else {
-                        FileUtil.fileOutput(sb.toString(), dirPath + "/" + lastName, false);
+                        FileUtils.fileOutput(sb.toString(), dirPath + "/" + lastName, false);
                         sb.setLength(0);
                         lastName = fileName;
                         sb.append(line);
@@ -81,10 +81,10 @@ public class TimeFileOverride implements Runnable{
         }
 
         if(sb.length() > 0){
-            FileUtil.fileOutput(sb.toString(), dirPath + "/" + lastName, false);
+            FileUtils.fileOutput(sb.toString(), dirPath + "/" + lastName, false);
             sb.setLength(0);
         }
-        FileUtil.delete(moveDir);
+        FileUtils.delete(moveDir);
     }
 
     public void setStop(boolean stop) {

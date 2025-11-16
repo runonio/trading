@@ -1,9 +1,13 @@
 
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.commons.math.BigDecimals;
 import io.runon.commons.utils.GsonUtils;
-import io.runon.commons.utils.time.YmdUtil;
-import io.runon.trading.*;
+import io.runon.commons.utils.time.YmdUtils;
+import io.runon.trading.LockType;
+import io.runon.trading.Trade;
+import io.runon.trading.TradingMath;
+import io.runon.trading.Volume;
 import io.runon.trading.technical.analysis.similarity.SimChangeData;
 import io.runon.trading.technical.analysis.volume.Volumes;
 import lombok.extern.slf4j.Slf4j;
@@ -502,11 +506,11 @@ public class TradeCandle extends CandleStick implements Volume,SimChangeData  {
 
 
     public String getYmd(ZoneId zoneId){
-        return YmdUtil.getYmd(openTime, zoneId);
+        return YmdUtils.getYmd(openTime, zoneId);
     }
 
     public int getYmdInt(ZoneId zoneId){
-        return YmdUtil.getYmdInt(openTime, zoneId);
+        return YmdUtils.getYmdInt(openTime, zoneId);
     }
 
 

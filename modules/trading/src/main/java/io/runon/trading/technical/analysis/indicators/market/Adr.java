@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.indicators.market;
 
 import io.runon.commons.config.Config;
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;

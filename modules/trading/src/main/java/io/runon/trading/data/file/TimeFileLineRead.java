@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
 import io.runon.commons.exception.IORuntimeException;
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +40,7 @@ public abstract class TimeFileLineRead {
     public void read(String path){
         isEnd = false;
 
-        File[] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File[] files = FileUtils.getInFiles(path, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
 
         int dirCount = 0;
         for(File checkFile : files){
@@ -64,7 +64,7 @@ public abstract class TimeFileLineRead {
             return;
         }
 
-        FileUtil.sortToNameLong(files, true);
+        FileUtils.sortToNameLong(files, true);
 
         outer:
         for(File file : files){

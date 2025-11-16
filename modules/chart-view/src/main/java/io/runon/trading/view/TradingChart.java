@@ -15,10 +15,9 @@
  */
 package io.runon.trading.view;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.utils.time.DateUtil;
 import io.runon.trading.TimeNumber;
-import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.view.util.BrowserUtil;
@@ -505,7 +504,7 @@ TradingChart {
             exportDir.mkdir();
         }
         String exportFileFullPath = exportPath + "/" + exportFileName;
-        FileUtil.fileOutput(getHtml(),exportFileFullPath , false);
+        FileUtils.fileOutput(getHtml(),exportFileFullPath , false);
         return exportFileFullPath;
     }
 

@@ -1,6 +1,10 @@
 package io.runon.trading.technical.analysis.indicators.ma;
 
-import io.runon.trading.*;
+import io.runon.commons.math.BigDecimals;
+import io.runon.trading.Price;
+import io.runon.trading.TimeNumber;
+import io.runon.trading.TimeNumberData;
+import io.runon.trading.TimeNumbers;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

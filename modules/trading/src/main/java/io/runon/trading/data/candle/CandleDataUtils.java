@@ -1,6 +1,6 @@
 package io.runon.trading.data.candle;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.TimeFileOverride;
 import io.runon.trading.data.file.TimeLine;
@@ -16,7 +16,7 @@ public class CandleDataUtils {
 
 
     public static String [] getCandlePaths(String dirPath){
-        List<File> dirList = FileUtil.getDirList(dirPath);
+        List<File> dirList = FileUtils.getDirList(dirPath);
 
         List<String> pathList = new ArrayList<>();
 

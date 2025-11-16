@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.utils.string.Check;
 import io.runon.commons.validation.NumberNameFileValidation;
 import io.runon.trading.TradingConfig;
@@ -21,7 +21,7 @@ import java.util.List;
 public class TimeFiles {
 
     public static File [] getFilesDir(String path){
-        return FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        return FileUtils.getInFiles(path, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
     }
 
     public static boolean isInDir(String path){
@@ -46,12 +46,12 @@ public class TimeFiles {
     }
 
     public static boolean isInDirs(String path){
-        File [] files = FileUtil.getFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File [] files = FileUtils.getFiles(path, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
         return files.length > 0;
     }
 
     public static String getLastLine(String dirPath){
-        File[] files = FileUtil.getFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG_DESC);
+        File[] files = FileUtils.getFiles(dirPath, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG_DESC);
 
         //noinspection RedundantLengthCheck,ConstantValue
         if(files == null || files.length == 0){
@@ -59,7 +59,7 @@ public class TimeFiles {
         }
 
         for(File file : files){
-            String line = FileUtil.getLastTextLine(file);
+            String line = FileUtils.getLastTextLine(file);
             if("".equals(line)){
                 continue;
             }
@@ -70,7 +70,7 @@ public class TimeFiles {
     }
 
     public static void moveDir(String dirPath, String moveDirPath){
-        File[] files = FileUtil.getInFiles(dirPath, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File[] files = FileUtils.getInFiles(dirPath, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
 
         if(files.length == 0){
             return ;
@@ -81,7 +81,7 @@ public class TimeFiles {
         moveDirFie.mkdirs();
 
         for(File file : files){
-            FileUtil.move(file.getAbsolutePath(), moveDirPath +"/" + file.getName(), false);
+            FileUtils.move(file.getAbsolutePath(), moveDirPath +"/" + file.getName(), false);
         }
 
     }
@@ -229,7 +229,7 @@ public class TimeFiles {
             }
             log.debug("change: " + file.getName());
 
-            File [] timeFiles = FileUtil.getFiles(file, new NumberNameFileValidation(), null);
+            File [] timeFiles = FileUtils.getFiles(file, new NumberNameFileValidation(), null);
             if( timeFiles.length ==0){
                 continue;
             }
@@ -248,7 +248,7 @@ public class TimeFiles {
     }
 
     public static void changeTimeFile(File timeFile, TextChange change){
-        String [] lines = FileUtil.getLines(timeFile);
+        String [] lines = FileUtils.getLines(timeFile);
 
         if(lines.length ==0 ){
             return ;
@@ -274,7 +274,7 @@ public class TimeFiles {
         if(!isChange)
             return;
 
-        FileUtil.fileOutput(sb.toString(), timeFile.getAbsolutePath(), false);
+        FileUtils.fileOutput(sb.toString(), timeFile.getAbsolutePath(), false);
 
     }
 

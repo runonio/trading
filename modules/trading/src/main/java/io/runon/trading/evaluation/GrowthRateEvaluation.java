@@ -2,7 +2,7 @@ package io.runon.trading.evaluation;
 
 import io.runon.commons.data.BigDecimalArray;
 import io.runon.commons.utils.time.Times;
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 
 import java.math.BigDecimal;

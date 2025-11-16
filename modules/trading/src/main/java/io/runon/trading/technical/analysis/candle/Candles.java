@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.commons.data.StartEnd;
 import io.runon.commons.data.StartEndData;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingMath;
 import io.runon.trading.TradingTimes;
 
@@ -433,12 +433,12 @@ public class Candles {
 
     public static String getMaxYmd(CandleStick[] candles, ZoneId zoneId){
 
-        String maxYmd = YmdUtil.getYmd(candles[0].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+        String maxYmd = YmdUtils.getYmd(candles[0].getOpenTime(), TradingTimes.KOR_ZONE_ID);
 
         for (int i = 1; i <candles.length ; i++) {
-            String ymd = YmdUtil.getYmd(candles[i].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+            String ymd = YmdUtils.getYmd(candles[i].getOpenTime(), TradingTimes.KOR_ZONE_ID);
 
-            if(YmdUtil.compare(ymd, maxYmd)> 0){
+            if(YmdUtils.compare(ymd, maxYmd)> 0){
                 maxYmd = ymd;
             }
         }

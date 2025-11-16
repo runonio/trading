@@ -1,7 +1,7 @@
 package io.runon.trading.data.file;
 
 import io.runon.commons.exception.IORuntimeException;
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 import io.runon.trading.data.ReadEnd;
 import io.runon.trading.data.StringRead;
@@ -44,7 +44,7 @@ public class TimeFileRead {
     public void fromBegin(String path, StringRead read){
         isRead = true;
 
-        File[] files = FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG);
+        File[] files = FileUtils.getInFiles(path, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG);
 
         outer:
         for(File f : files){
@@ -74,7 +74,7 @@ public class TimeFileRead {
         //시간으로 나누어진 파일은 크기가 크지 않으므로 전체를 읽어와서 처리
         isRead = true;
 
-        File[] files =  FileUtil.getInFiles(path, new NumberNameFileValidation(), FileUtil.SORT_NAME_LONG_DESC);
+        File[] files =  FileUtils.getInFiles(path, new NumberNameFileValidation(), FileUtils.SORT_NAME_LONG_DESC);
 
         List<String> list = new ArrayList<>();
         outer:

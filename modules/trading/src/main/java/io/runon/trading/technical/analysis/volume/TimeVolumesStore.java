@@ -2,7 +2,7 @@ package io.runon.trading.technical.analysis.volume;
 
 import io.runon.trading.*;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-
+import io.runon.commons.math.BigDecimals;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;

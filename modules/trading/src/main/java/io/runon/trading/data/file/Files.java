@@ -1,6 +1,6 @@
 package io.runon.trading.data.file;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 import io.runon.commons.validation.NumberNameFileValidation;
 import io.runon.trading.data.DataPathTimeRange;
 
@@ -54,7 +54,7 @@ public class Files {
     }
 
     public static File [] getTimeFiles(File dirFile){
-        return  FileUtil.getFiles(dirFile, new NumberNameFileValidation(),  FileUtil.SORT_NAME_LONG);
+        return  FileUtils.getFiles(dirFile, new NumberNameFileValidation(),  FileUtils.SORT_NAME_LONG);
     }
 
     public static DataPathTimeRange getTimeRange(File dirFile){
@@ -65,8 +65,8 @@ public class Files {
 
         TimeLine timeLine = TimeLines.getTimeLine(files);
 
-        String startLine = FileUtil.getLine(files[0], StandardCharsets.UTF_8, 0);
-        String endLine = FileUtil.getLastTextLine(files[files.length-1]);
+        String startLine = FileUtils.getLine(files[0], StandardCharsets.UTF_8, 0);
+        String endLine = FileUtils.getLastTextLine(files[files.length-1]);
 
         return new DataPathTimeRange(dirFile.getAbsolutePath(), timeLine.getTime(startLine), timeLine.getTime(endLine));
     }

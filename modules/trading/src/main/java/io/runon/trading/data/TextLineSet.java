@@ -1,6 +1,6 @@
 package io.runon.trading.data;
 
-import io.runon.commons.utils.FileUtil;
+import io.runon.commons.utils.FileUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +17,7 @@ public class TextLineSet {
 
     public void loadFile(String filePath){
 
-        String text = FileUtil.getFileContents(new File(filePath), StandardCharsets.UTF_8);
+        String text = FileUtils.getFileContents(new File(filePath), StandardCharsets.UTF_8);
         String [] lines = text.split("\n");
         for(String line : lines){
             line = line.trim();

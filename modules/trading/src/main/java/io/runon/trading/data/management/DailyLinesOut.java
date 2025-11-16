@@ -1,7 +1,7 @@
 package io.runon.trading.data.management;
 
 import io.runon.commons.utils.time.Times;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingConfig;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.file.FileLineOut;
@@ -57,7 +57,7 @@ public class DailyLinesOut {
     }
 
     public void out(DailyLineGet dailyLineGet, String filesDirPath){
-        out(dailyLineGet, filesDirPath, YmdUtil.now(zoneId));
+        out(dailyLineGet, filesDirPath, YmdUtils.now(zoneId));
     }
 
     public void out(DailyLineGet dailyLineGet, String filesDirPath, String lastEndYmd){
@@ -76,11 +76,11 @@ public class DailyLinesOut {
             nextYmd = initYmd;
 
         }else{
-            nextYmd = YmdUtil.getYmd(lastTime, TradingTimes.KOR_ZONE_ID);
+            nextYmd = YmdUtils.getYmd(lastTime, TradingTimes.KOR_ZONE_ID);
             //초기 정보가 있는 경우
             if(!isLastLineCheck){
                 // 마지막일자를 체크하지 않으면 마지막 저장 날짜의 다음날짜를 호출한다.
-                nextYmd = YmdUtil.getYmd(nextYmd, 1);
+                nextYmd = YmdUtils.getYmd(nextYmd, 1);
             }
         }
 
@@ -89,11 +89,11 @@ public class DailyLinesOut {
         boolean isFirst = true;
 
         for(;;){
-            if (YmdUtil.compare(nextYmd, lastEndYmd) > 0) {
+            if (YmdUtils.compare(nextYmd, lastEndYmd) > 0) {
                 break;
             }
 
-            String endYmd = YmdUtil.getYmd(nextYmd, nextDay);
+            String endYmd = YmdUtils.getYmd(nextYmd, nextDay);
 
             int endYmdNum =  Integer.parseInt(endYmd);
             if(endYmdNum > lastEndYmdNum){
@@ -116,9 +116,9 @@ public class DailyLinesOut {
             }
 
             if(lines.length == 0){
-                nextYmd = YmdUtil.getYmd(endYmd, 1);
+                nextYmd = YmdUtils.getYmd(endYmd, 1);
             }else{
-                nextYmd = YmdUtil.getYmd(TimeLines.getMaxYmd(pathTimeLine, lines, zoneId),1);
+                nextYmd = YmdUtils.getYmd(TimeLines.getMaxYmd(pathTimeLine, lines, zoneId),1);
             }
         }
     }

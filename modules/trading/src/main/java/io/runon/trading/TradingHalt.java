@@ -1,7 +1,7 @@
 package io.runon.trading;
 
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-
+import io.runon.commons.math.BigDecimals;
 import java.math.BigDecimal;
 
 /**

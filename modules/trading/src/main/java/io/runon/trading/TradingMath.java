@@ -1,5 +1,7 @@
 package io.runon.trading;
 
+import io.runon.commons.math.BigDecimals;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -121,9 +123,6 @@ public class TradingMath {
         BigDecimal sum = sum(numbers);
         return sum.divide(new BigDecimal(numbers.length), MathContext.DECIMAL128);
     }
-
-
-
 
     public static BigDecimal changePercent(BigDecimal previous , BigDecimal close){
         int compare = previous.compareTo(close);

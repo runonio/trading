@@ -1,6 +1,6 @@
 package io.runon.trading.closed.days;
 
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.CountryCode;
 import io.runon.trading.TradingConfig;
 
@@ -32,7 +32,7 @@ public interface ClosedDays {
 
         for(;;){
             if(closedDays.isClosedDay(tradeYmd)){
-                tradeYmd = YmdUtil.getYmd(tradeYmd, -1);
+                tradeYmd = YmdUtils.getYmd(tradeYmd, -1);
                 continue;
             }
 

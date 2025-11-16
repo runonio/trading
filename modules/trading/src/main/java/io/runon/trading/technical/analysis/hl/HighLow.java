@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.hl;
 
 import io.runon.commons.data.IndexDecimal;
-import io.runon.trading.BigDecimals;
+import io.runon.commons.math.BigDecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

@@ -3,7 +3,7 @@ package io.runon.trading;
 import io.runon.commons.exception.UndefinedException;
 import io.runon.commons.utils.string.Check;
 import io.runon.commons.utils.time.Times;
-import io.runon.commons.utils.time.YmdUtil;
+import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.data.TimeRange;
 
 import java.time.Instant;
@@ -231,7 +231,7 @@ public class TradingTimes {
 
             if(countryCode == CountryCode.KOR || countryCode == CountryCode.USA){
                 ZoneId zoneId = TradingTimes.getZoneId(countryCode);
-                long time = YmdUtil.getTime(ymd, zoneId);
+                long time = YmdUtils.getTime(ymd, zoneId);
                 return time + Times.getTimeHm(getOpenTimeHm(countryCode));
             }else{
                 throw new UndefinedException("undefined code: " + countryCode.toString());
@@ -247,7 +247,7 @@ public class TradingTimes {
 
         if(countryCode == CountryCode.KOR || countryCode == CountryCode.USA){
             ZoneId zoneId = TradingTimes.getZoneId(countryCode);
-            long time = YmdUtil.getTime(ymd, zoneId);
+            long time = YmdUtils.getTime(ymd, zoneId);
             return time + Times.getTimeHm(getCloseTimeHm(countryCode));
         }else{
             throw new UndefinedException("undefined code: " + countryCode.toString());
@@ -281,24 +281,23 @@ public class TradingTimes {
      * @return 하루 시작시작 0h 0m 0s
      */
     public static long getDayOpenTime(long time, ZoneId zoneId){
-        String ymd = YmdUtil.getYmd(time, zoneId);
-        return YmdUtil.getTime(ymd, zoneId);
+        String ymd = YmdUtils.getYmd(time, zoneId);
+        return YmdUtils.getTime(ymd, zoneId);
     }
 
 
     public static TimeRange getYmdRange(String ymd, ZoneId zoneId){
 
-        long beginTime = YmdUtil.getTime(ymd, zoneId);
+        long beginTime = YmdUtils.getTime(ymd, zoneId);
         long endTime = beginTime + Times.DAY_1;
         return new TimeRange(beginTime, endTime);
 
     }
 
     public static TimeRange getYmdRange(int ymd, ZoneId zoneId){
-        long beginTime = YmdUtil.getTime(ymd, zoneId);
+        long beginTime = YmdUtils.getTime(ymd, zoneId);
         long endTime = beginTime + Times.DAY_1 ;
         return new TimeRange(beginTime, endTime);
 
     }
-
 }
