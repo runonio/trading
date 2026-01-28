@@ -75,6 +75,8 @@ public class FuturesBacktestingAccount implements FuturesAccount {
         this.scale = scale;
     }
 
+
+
     protected int priceScale = 2;
 
     public void setPriceScale(int priceScale) {
@@ -425,6 +427,11 @@ public class FuturesBacktestingAccount implements FuturesAccount {
             assets = assets.add(closePrice(holding));
         }
         return assets;
+    }
+
+    @Override
+    public BigDecimal getCash(int nextDay) {
+        return cash;
     }
 
 

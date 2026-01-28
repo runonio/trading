@@ -24,5 +24,9 @@ public interface Account {
      * 현금얻기 
      * @return 현금
      */
-    BigDecimal getCash();
+    BigDecimal getCash(int nextDay);
+
+
+
+
 }

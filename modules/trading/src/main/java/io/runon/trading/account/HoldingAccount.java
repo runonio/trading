@@ -57,8 +57,13 @@ public abstract class HoldingAccount<T extends HoldingQuantity> implements Accou
         return sum.stripTrailingZeros();
     }
 
-    @Override
+
     public BigDecimal getCash() {
+        return cash;
+    }
+
+    @Override
+    public BigDecimal getCash(int nextDay) {
         return cash;
     }
 

@@ -56,16 +56,17 @@ public class Accounts implements Account{
     }
 
     @Override
-    public BigDecimal getCash() {
+    public BigDecimal getCash(int nextDay) {
         synchronized (lock){
             BigDecimal cash = BigDecimal.ZERO;
             Collection<Account> accounts = accountMap.values();
             for(Account account : accounts){
-                cash = cash.add(account.getCash());
+                cash = cash.add(account.getCash(nextDay));
             }
             return cash;
         }
 
-
     }
+
+
 }
