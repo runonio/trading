@@ -453,11 +453,24 @@ public class TradeCandle extends CandleStick implements Volume,SimChangeData  {
                 break;
             }
         }
-        tradeCandle.setPrevious(tradeCandle.getOpen());
+
+        if(tradeCandle.getPrevious() == null){
+            tradeCandle.setPrevious(tradeCandle.getOpen());
+        }
         tradeCandle.setChange();
         return tradeCandle;
     }
-    
+
+    public static TradeCandle [] sumCandles(TradeCandle [] sources, TradeCandle [] targets){
+        //두캔들정보를 합쳐서 새로운 캔들 배열을 만든다.
+
+
+
+        return null;
+    }
+
+
+
     public void addTradingCount(int count){
         tradeCount += count;
     }

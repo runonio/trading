@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * @author macle
  */
-public class Exchanges {
+public class Markets {
 
     public static ZoneId getZoneId(String [] exchanges){
 
@@ -37,9 +37,9 @@ public class Exchanges {
     public static ZoneId getZoneId(String exchange){
         return switch (exchange) {
             case "KRX", "NXT","KOSPI", "KOSDAQ", "KONEX" -> TradingTimes.KOR_ZONE_ID;
-            case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> TradingTimes.USA_ZONE_ID;
-            case "SGX" -> TradingTimes.SGP_ZONE_ID;
-            case "NSE" -> TradingTimes.INR_ZONE_ID;
+            case "NYSE", "NASDAQ", "AMEX" -> TradingTimes.USA_ZONE_ID;
+//            case "SGX" -> TradingTimes.SGP_ZONE_ID;
+//            case "NSE" -> TradingTimes.INR_ZONE_ID;
             default -> TradingTimes.UTC_ZONE_ID;
         };
 
