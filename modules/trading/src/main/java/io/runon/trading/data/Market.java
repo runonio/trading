@@ -11,13 +11,12 @@ import lombok.Data;
  * @author macle
  */
 @Data
-@Table(name="exchange")
-public class Exchange {
-
+@Table(name="market")
+public class Market {
 
     @PrimaryKey(seq = 1)
-    @Column(name = "exchange")
-    String exchange;
+    @Column(name = "market")
+    String market;
 
     @Column(name = "country")
     String country;

@@ -1,8 +1,11 @@
 package io.runon.trading.technical.analysis.indicators.market;
 
+import io.runon.commons.parallel.ParallelIntegerSeqNext;
+import io.runon.commons.parallel.ParallelNormalJob;
+import io.runon.commons.parallel.ParallelWork;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 
 import java.math.BigDecimal;
 
@@ -13,7 +16,7 @@ import java.math.BigDecimal;
 public abstract class MarketIndicators<T> {
 
 
-    protected IdCandles[] idCandles;
+    protected IdCandlesGet[] idCandles;
     protected long [] times = null;
 
     protected int searchLength = 50;
@@ -22,19 +25,30 @@ public abstract class MarketIndicators<T> {
         this.searchLength = searchLength;
     }
 
-    public MarketIndicators(IdCandles[] idCandles){
+    public MarketIndicators(IdCandlesGet[] idCandles){
         setIdCandles(idCandles);
     }
 
-    public void setIdCandles(IdCandles[] idCandles) {
+
+    public void setIdCandles(IdCandlesGet[] idCandles) {
         this.idCandles = idCandles;
         times = Candles.getTimes(idCandles);
     }
 
-    public MarketIndicators(IdCandleTimes symbolCandleTimes){
-        this.idCandles = symbolCandleTimes.getIdCandles();
-        times = symbolCandleTimes.getTimes();
+    public MarketIndicators(IdCandleTimes idCandleTimes){
+        this.idCandles = idCandleTimes.getIdCandles();
+        times = idCandleTimes.getTimes();
     }
+
+
+    public MarketIndicators(IdCandlesGet[] idCandles, long [] times){
+        this.idCandles = idCandles;
+        this.times = times;
+    }
+
+
+
+
 
 
     protected int scale = 4;
@@ -49,7 +63,7 @@ public abstract class MarketIndicators<T> {
         this.minAmount = minAmount;
     }
 
-    public IdCandles[] getIdCandles() {
+    public IdCandlesGet[] getIdCandles() {
         return idCandles;
     }
 
@@ -89,7 +103,31 @@ public abstract class MarketIndicators<T> {
         return  newArray(startIndex, end);
     }
 
-    public abstract T [] newArray(int startIndex, int end);
+    protected abstract T [] newEmptyArray(int length);
+
+    public  T [] newArray(final int startIndex, int end){
+
+        //병렬처리로 변경
+        
+        final T [] array = newEmptyArray(end - startIndex);
+
+
+        ParallelWork<Integer> parallelWork = integer -> {
+            array[integer] = getData(integer + startIndex);
+        };
+
+
+        ParallelIntegerSeqNext next = new ParallelIntegerSeqNext(0, array.length);
+
+        ParallelNormalJob<Integer> job = new ParallelNormalJob<>(parallelWork, next);
+        job.runSync();
+//        for (int i = 0; i < array.length ; i++) {
+//            array[i] = getData(i + startIndex);
+//        }
+        return array;
+    }
+
+
 
 
     protected int searchIndex(int index){

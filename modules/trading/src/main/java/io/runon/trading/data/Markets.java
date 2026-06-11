@@ -14,11 +14,11 @@ import java.util.Set;
  */
 public class Markets {
 
-    public static ZoneId getZoneId(String [] exchanges){
+    public static ZoneId getZoneId(String [] markets){
 
         Set<ZoneId> zoneIdSet = new HashSet<>();
 
-        for(String exchange : exchanges){
+        for(String exchange : markets){
             zoneIdSet.add(getZoneId(exchange));
         }
 
@@ -34,9 +34,9 @@ public class Markets {
     }
 
 
-    public static ZoneId getZoneId(String exchange){
-        return switch (exchange) {
-            case "KRX", "NXT","KOSPI", "KOSDAQ", "KONEX" -> TradingTimes.KOR_ZONE_ID;
+    public static ZoneId getZoneId(String market){
+        return switch (market) {
+            case "KOSPI", "KOSDAQ", "KONEX" -> TradingTimes.KOR_ZONE_ID;
             case "NYSE", "NASDAQ", "AMEX" -> TradingTimes.USA_ZONE_ID;
 //            case "SGX" -> TradingTimes.SGP_ZONE_ID;
 //            case "NSE" -> TradingTimes.INR_ZONE_ID;
@@ -45,7 +45,7 @@ public class Markets {
 
     }
 
-    public static String [] getDefaultExchanges(CountryCode countryCode){
+    public static String [] getDefaultMarkets(CountryCode countryCode){
         if(countryCode == CountryCode.KOR){
             return new String[]{
                     "KOSPI"
@@ -62,10 +62,10 @@ public class Markets {
         }
     }
 
-    public static String getOpenTimeHm(String exchange){
-        return switch (exchange) {
+    public static String getOpenTimeHm(String market){
+        return switch (market) {
             case "KOSPI", "KOSDAQ", "KONEX" -> "0900";
-            case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> "0930";
+            case "NYSE", "NASDAQ", "AMEX" -> "0930";
 //            case "SGX" -> TradingTimes.SGP_ZONE_ID;
 //            case "NSE" -> TradingTimes.INR_ZONE_ID;
             default -> throw new UndefinedException();
@@ -75,7 +75,7 @@ public class Markets {
     public static String getCloseTimeHm(String exchange){
         return switch (exchange) {
             case "KOSPI", "KOSDAQ", "KONEX" -> "1530";
-            case "NYSE", "NASDAQ", "NYSE_AMEX", "CME", "CBOT", "NYMEX", "COMEX", "CFD" -> "1600";
+            case "NYSE", "NASDAQ", "AMEX" -> "1600";
 //            case "SGX" -> TradingTimes.SGP_ZONE_ID;
 //            case "NSE" -> TradingTimes.INR_ZONE_ID;
             default -> throw new UndefinedException();

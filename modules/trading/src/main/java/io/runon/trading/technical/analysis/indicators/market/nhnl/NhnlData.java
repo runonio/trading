@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.runon.trading.TimeNumber;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ public class NhnlData implements TimeNumber {
     int length = 0;
     BigDecimal ratio = BigDecimal.ZERO;
 
-    IdCandles[] highs = IdCandles.EMPTY_ARRAY;
-    IdCandles[] lows = IdCandles.EMPTY_ARRAY;
+    IdCandlesGet[] highs = IdCandlesGet.EMPTY_ARRAY;
+    IdCandlesGet[] lows = IdCandlesGet.EMPTY_ARRAY;
 
     public int getHighLength(){
         return highs.length;

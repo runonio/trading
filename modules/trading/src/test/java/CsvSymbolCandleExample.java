@@ -3,7 +3,7 @@ import io.runon.commons.utils.time.Times;
 import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingTimes;
 import io.runon.trading.data.csv.CsvSymbolCandle;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
 import java.time.ZoneId;
@@ -25,10 +25,10 @@ public class CsvSymbolCandleExample {
         long startTime = YmdUtils.getTime("20220701",zoneId);
         long endTime = YmdUtils.getTime("20220731",zoneId);
 
-        IdCandles[] symbolCandles = csvSymbolCandle.load(startTime, endTime);
+        IdCandlesGet[] symbolCandles = csvSymbolCandle.load(startTime, endTime);
         System.out.println("length: " + symbolCandles.length +", load time: " + (TimeUtils.getTimeValue(System.currentTimeMillis() - time)));
 
-        for(IdCandles symbolCandle : symbolCandles){
+        for(IdCandlesGet symbolCandle : symbolCandles){
             TradeCandle[] candles =  symbolCandle.getCandles();
             System.out.println(symbolCandle.getId() + ", last open time: " + Times.ymdhm(candles[candles.length-1].getOpenTime(), zoneId) + ", length: " + candles.length);
         }

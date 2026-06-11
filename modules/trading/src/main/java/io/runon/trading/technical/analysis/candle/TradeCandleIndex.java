@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class TradeCandleIndex {
 
-    TradeCandle tradeCandle;
-    int index;
+    TradeCandle tradeCandle = null;
+    int index = -1;
 
     public TradeCandleIndex(){
 

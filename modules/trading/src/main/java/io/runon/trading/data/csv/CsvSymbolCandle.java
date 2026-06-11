@@ -2,7 +2,7 @@ package io.runon.trading.data.csv;
 
 import io.runon.trading.TradingTimes;
 import io.runon.trading.technical.analysis.candle.IdCandleData;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +30,7 @@ public class CsvSymbolCandle {
     }
 
 
-    public IdCandles[] load(long startTime, long endTime){
+    public IdCandlesGet[] load(long startTime, long endTime){
         //형지정
         String [] nullArray = null;
 
@@ -39,13 +39,13 @@ public class CsvSymbolCandle {
     }
 
 
-    public IdCandles[] load(long startTime, long endTime, String startWith, String endWith){
+    public IdCandlesGet[] load(long startTime, long endTime, String startWith, String endWith){
         String [] startWiths = {startWith};
         String [] endWiths = {endWith};
         return load(startTime,endTime,startWiths,endWiths);
     }
 
-    public IdCandles[] load(long startTime, long endTime, String [] startWiths, String [] endWiths){
+    public IdCandlesGet[] load(long startTime, long endTime, String [] startWiths, String [] endWiths){
         if(startTime == -1 || endTime == -1 || startTime >= endTime){
             throw new IllegalArgumentException("time error start time: " + startTime + ", end time: " + endTime);
         }
@@ -54,10 +54,10 @@ public class CsvSymbolCandle {
         File[] files = new File(path).listFiles();
         if(files == null){
             log.info("path file length 0: " + path);
-            return IdCandles.EMPTY_ARRAY;
+            return IdCandlesGet.EMPTY_ARRAY;
         }
 
-        List<IdCandles> list  = new ArrayList<>();
+        List<IdCandlesGet> list  = new ArrayList<>();
 
         for(File file : files){
             if(!file.isDirectory()){
@@ -102,10 +102,10 @@ public class CsvSymbolCandle {
         }
 
         if(list.size() == 0){
-            return IdCandles.EMPTY_ARRAY;
+            return IdCandlesGet.EMPTY_ARRAY;
         }
 
-        IdCandles[] array = list.toArray(new IdCandles[0]);
+        IdCandlesGet[] array = list.toArray(new IdCandlesGet[0]);
         list.clear();
         return array;
     }

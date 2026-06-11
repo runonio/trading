@@ -19,7 +19,7 @@ import io.runon.trading.Trade;
 import io.runon.trading.technical.analysis.candle.CandleManager;
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandlesGet;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -89,7 +89,7 @@ public class CandleManagerExample {
 
     public static void main(String[] args) {
         CandleManager candleManager = makeCandleManager();
-        TradeCandles TradeCandles = candleManager.getCandles(Times.MINUTE_10);
+        TradeCandlesGet TradeCandles = candleManager.getCandles(Times.MINUTE_10);
         TradeCandle[] candles = TradeCandles.getCandles();
 
         //0.5%

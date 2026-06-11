@@ -5,7 +5,7 @@ import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 
@@ -32,12 +32,12 @@ import java.math.RoundingMode;
  * 0 ~ 500
  * @author macle
  */
-public class Adr extends MarketIndicators<TimeNumber> {
+public class Adr extends MarketIndicatorsTimeNumber {
 
 
     public static final BigDecimal MAX = new BigDecimal(Config.getConfig("adr.max", "200"));
 
-    public Adr(IdCandles[] idCandles) {
+    public Adr(IdCandlesGet[] idCandles) {
         super(idCandles);
 
     }
@@ -56,7 +56,7 @@ public class Adr extends MarketIndicators<TimeNumber> {
         int advancing = 0;
         int decline = 0;
 
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
@@ -120,13 +120,5 @@ public class Adr extends MarketIndicators<TimeNumber> {
         return adr;
     }
 
-    @Override
-    public TimeNumber[] newArray(int startIndex, int end) {
-        TimeNumber[] array = new TimeNumber[end - startIndex];
 
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
-    }
 }

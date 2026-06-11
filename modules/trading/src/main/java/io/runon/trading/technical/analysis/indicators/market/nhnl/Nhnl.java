@@ -4,7 +4,7 @@ import io.runon.commons.utils.time.Times;
 import io.runon.commons.math.BigDecimals;
 import io.runon.trading.exception.CandleTimeException;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
@@ -20,6 +20,8 @@ import java.util.List;
  * New High New Low
  * - 100 ~ 100
  *
+ * 분산통계 작업
+ *
  * @author macle
  */
 public class Nhnl extends MarketIndicators<NhnlData> {
@@ -27,7 +29,7 @@ public class Nhnl extends MarketIndicators<NhnlData> {
     /**
      * 캔들 정보를 활용한 분석
      */
-    public Nhnl(IdCandles[] idCandles){
+    public Nhnl(IdCandlesGet[] idCandles){
         super(idCandles);
     }
 
@@ -62,13 +64,13 @@ public class Nhnl extends MarketIndicators<NhnlData> {
 
         int validSymbolCount = 0;
 
-        List<IdCandles> highList = new ArrayList<>();
-        List<IdCandles> lowList = new ArrayList<>();
+        List<IdCandlesGet> highList = new ArrayList<>();
+        List<IdCandlesGet> lowList = new ArrayList<>();
 
         long rangeEndTime = candleOpenTime - timeRange + candleTime;
         int searchLength = searchIndex(index);
 
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle [] candles = symbolCandle.getCandles();
 
             int openTimeIndex = Candles.getOpenTimeIndex(candles, data.time, searchLength);
@@ -121,13 +123,13 @@ public class Nhnl extends MarketIndicators<NhnlData> {
 
         data.length = validSymbolCount;
 
-        if(highList.size() > 0){
-            data.highs = highList.toArray(new IdCandles[0]);
+        if(!highList.isEmpty()){
+            data.highs = highList.toArray(new IdCandlesGet[0]);
             highList.clear();
         }
 
-        if(lowList.size() > 0){
-            data.lows = lowList.toArray(new IdCandles[0]);
+        if(!lowList.isEmpty()){
+            data.lows = lowList.toArray(new IdCandlesGet[0]);
             lowList.clear();
         }
 
@@ -136,12 +138,8 @@ public class Nhnl extends MarketIndicators<NhnlData> {
     }
 
     @Override
-    public NhnlData[] newArray(int startIndex, int end) {
-        NhnlData[] array = new NhnlData[end - startIndex];
-
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
+    protected NhnlData[] newEmptyArray(int length) {
+        return new NhnlData[length];
     }
+
 }

@@ -5,7 +5,7 @@ import io.runon.trading.*;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
 import io.runon.trading.strategy.Position;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandlesGet;
 
 import io.runon.trading.view.Lines;
 import io.runon.trading.view.MarkerData;
@@ -101,7 +101,7 @@ public abstract class FuturesBacktesting<E> {
     public void setChart(TradeCandle [] candles, int length) {
         isChart = true;
         if(candles.length > length){
-            candles = TradeCandles.getCandles(candles, candles.length-1 , length);
+            candles = TradeCandlesGet.getCandles(candles, candles.length-1 , length);
         }
         this.candles = candles;
     }

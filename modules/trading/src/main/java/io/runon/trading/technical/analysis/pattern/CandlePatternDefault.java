@@ -17,7 +17,7 @@ package io.runon.trading.technical.analysis.pattern;
 
 
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandlesGet;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class CandlePatternDefault implements CandlePattern{
 
 
-    protected TradeCandles tradeCandles;
+    protected TradeCandlesGet tradeCandles;
 
     protected CandlePatternPoint lastPoint;
 
@@ -46,7 +46,7 @@ public abstract class CandlePatternDefault implements CandlePattern{
     }
    
     @Override
-    public void setCandles(TradeCandles tradeCandles){
+    public void setCandles(TradeCandlesGet tradeCandles){
         this.tradeCandles = tradeCandles;
     }
 

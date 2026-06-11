@@ -28,19 +28,19 @@ import java.util.Set;
  */
 public class CandleManager {
 
-    private final Map<Long, TradeCandles> candleMap = new HashMap<>();
+    private final Map<Long, TradeCandlesGet> candleMap = new HashMap<>();
 
-    private final TradeCandles[] tradeCandles;
+    private final TradeCandlesGet[] tradeCandles;
     /**
      * 생성자
      * @param candleTimes long 캔들 생성을위한 캔들 생성 기준 타임 배열
      */
     public CandleManager( long [] candleTimes){
 
-        TradeCandles[] tradeCandles = new TradeCandles[candleTimes.length];
+        TradeCandlesGet[] tradeCandles = new TradeCandlesGet[candleTimes.length];
 
         for (int i = 0; i <candleTimes.length ; i++) {
-            tradeCandles[i] = new TradeCandles(candleTimes[i]);
+            tradeCandles[i] = new TradeCandlesGet(candleTimes[i]);
             candleMap.put(candleTimes[i], tradeCandles[i]);
         }
 
@@ -52,7 +52,7 @@ public class CandleManager {
      * @param saveCount int 저장개수
      */
     public void setSaveCount(int saveCount) {
-        for (TradeCandles tradeCandle : tradeCandles) {
+        for (TradeCandlesGet tradeCandle : tradeCandles) {
             tradeCandle.setCount(saveCount);
         }
     }
@@ -63,7 +63,7 @@ public class CandleManager {
      * @param trade Trade 거래 정보
      */
     public void addTrade(Trade trade){
-        for(TradeCandles tradeCandles : tradeCandles){
+        for(TradeCandlesGet tradeCandles : tradeCandles){
             tradeCandles.addTrade(trade);
         }
     }
@@ -71,9 +71,9 @@ public class CandleManager {
     /**
      * 캔들배열관리정보 얻기
      * @param time long 기준시간
-     * @return TradeCandles 기준시간에 맞는 캔들배열관리정보
+     * @return TradeCandlesGet 기준시간에 맞는 캔들배열관리정보
      */
-    public TradeCandles getCandles(long time){
+    public TradeCandlesGet getCandles(long time){
         return candleMap.get(time);
     }
 

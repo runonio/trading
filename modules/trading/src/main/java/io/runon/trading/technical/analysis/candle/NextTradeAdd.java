@@ -27,13 +27,13 @@ import java.math.BigDecimal;
  * @author macle
  */
 class NextTradeAdd implements TradeAdd {
-    private final TradeCandles tradeCandles;
+    private final TradeCandlesGet tradeCandles;
 
     /**
      * 생성자
      * @param tradeCandles tradeCandles
      */
-    NextTradeAdd(TradeCandles tradeCandles){
+    NextTradeAdd(TradeCandlesGet tradeCandles){
         this.tradeCandles = tradeCandles;
     }
 

@@ -4,8 +4,8 @@ import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
@@ -17,10 +17,10 @@ import java.math.RoundingMode;
  * 이평선과 겹치거나 위에 있는 종목수의 비율
  * @author macle
  */
-public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
+public class MarketSurvivalRate extends MarketIndicatorsTimeNumber {
 
 
-    public MarketSurvivalRate(IdCandles[] idCandles) {
+    public MarketSurvivalRate(IdCandlesGet[] idCandles) {
         super(idCandles);
     }
 
@@ -44,7 +44,7 @@ public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
 
         int validSymbolCount = 0;
         int survivalCount = 0;
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
@@ -79,13 +79,5 @@ public class MarketSurvivalRate extends MarketIndicators<TimeNumber> {
     }
 
 
-    @Override
-    public TimeNumber[] newArray(int startIndex, int end) {
-        TimeNumber[] array = new TimeNumber[end - startIndex];
 
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
-    }
 }

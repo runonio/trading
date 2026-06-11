@@ -3,10 +3,9 @@ package io.runon.trading.technical.analysis.indicators.market;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-
 
 import java.math.BigDecimal;
 
@@ -20,10 +19,10 @@ import java.math.BigDecimal;
  * www.hi-ib.com/systemtrade/st02090801view10.jsp
  * @author macle
  */
-public class AdIssue extends MarketIndicators<TimeNumber> {
+public class AdIssue extends MarketIndicatorsTimeNumber {
 
 
-    public AdIssue(IdCandles[] idCandles) {
+    public AdIssue(IdCandlesGet[] idCandles) {
         super(idCandles);
 
     }
@@ -42,7 +41,7 @@ public class AdIssue extends MarketIndicators<TimeNumber> {
         int advancing = 0;
         int decline = 0;
 
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             int openTimeIndex = Candles.getOpenTimeIndex(candles, time, searchLength);
             if(openTimeIndex == -1){
@@ -80,13 +79,4 @@ public class AdIssue extends MarketIndicators<TimeNumber> {
     }
 
 
-    @Override
-    public TimeNumber[] newArray(int startIndex, int end) {
-        TimeNumber[] array = new TimeNumber[end - startIndex];
-
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
-    }
 }

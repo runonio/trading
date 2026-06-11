@@ -4,7 +4,7 @@ import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
@@ -27,7 +27,7 @@ public class Mtpd extends Mvd{
         super(symbolCandleTimes);
     }
 
-    public Mtpd(IdCandles[] idCandles) {
+    public Mtpd(IdCandlesGet[] idCandles) {
         super(idCandles);
     }
 
@@ -58,7 +58,7 @@ public class Mtpd extends Mvd{
 
         BigDecimal avgSum = BigDecimal.ZERO;
         BigDecimal sum = BigDecimal.ZERO;
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
                 continue;

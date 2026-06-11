@@ -26,13 +26,13 @@ import io.runon.trading.TradingTimes;
  */
 class FirstTradeAdd implements TradeAdd {
 
-    private final TradeCandles tradeCandles;
+    private final TradeCandlesGet tradeCandles;
 
     /**
      * 생성자
-     * @param tradeCandles TradeCandles
+     * @param tradeCandles TradeCandlesGet
      */
-    FirstTradeAdd(TradeCandles tradeCandles){
+    FirstTradeAdd(TradeCandlesGet tradeCandles){
         this.tradeCandles = tradeCandles;
     }
 

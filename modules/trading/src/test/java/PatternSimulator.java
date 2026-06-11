@@ -17,7 +17,7 @@
 import io.runon.commons.utils.time.Times;
 import io.runon.trading.technical.analysis.candle.CandleManager;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
-import io.runon.trading.technical.analysis.candle.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandlesGet;
 import io.runon.trading.technical.analysis.pattern.CandlePatternPoint;
 import io.runon.trading.technical.analysis.pattern.lower.shadow.HammerPattern;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class PatternSimulator {
         for(long time : times){
 
 
-            TradeCandles tradeCandles = candleManager.getCandles(time);
+            TradeCandlesGet tradeCandles = candleManager.getCandles(time);
             BigDecimal shortGapRate;
             BigDecimal steadyGapRate;
 

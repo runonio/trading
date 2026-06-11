@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.runon.trading.TimeNumber;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -18,11 +18,11 @@ import java.math.BigDecimal;
 public class SoaringTradingVolumeData implements TimeNumber {
 
     long time;
-    IdCandles[] soaringArray = IdCandles.EMPTY_ARRAY;
+    IdCandlesGet[] soaringArray = IdCandlesGet.EMPTY_ARRAY;
     BigDecimal ratio = BigDecimal.ZERO;
 
-    IdCandles[] ups = IdCandles.EMPTY_ARRAY;
-    IdCandles[] downs = IdCandles.EMPTY_ARRAY;
+    IdCandlesGet[] ups = IdCandlesGet.EMPTY_ARRAY;
+    IdCandlesGet[] downs = IdCandlesGet.EMPTY_ARRAY;
     int length = 0;
 
     public int length(){

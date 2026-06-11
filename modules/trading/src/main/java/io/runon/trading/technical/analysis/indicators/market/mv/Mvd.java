@@ -6,10 +6,10 @@ import io.runon.trading.TimeNumberData;
 import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicatorsTimeNumber;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.util.Arrays;
  * market.volume.disparity.max 설정값에 최대값은 변할 수 있음
  * @author macle
  */
-public class Mvd extends MarketIndicators<TimeNumber> {
+public class Mvd extends MarketIndicatorsTimeNumber {
 
     protected int averageCount =  Config.getInteger("volume.average.count", 50);
 
@@ -48,7 +48,7 @@ public class Mvd extends MarketIndicators<TimeNumber> {
         this.maxDisparity = maxDisparity;
     }
 
-    public Mvd(IdCandles[] idCandles){
+    public Mvd(IdCandlesGet[] idCandles){
         super(idCandles);
         scale = 2;
     }
@@ -84,7 +84,7 @@ public class Mvd extends MarketIndicators<TimeNumber> {
 
         BigDecimal sum = BigDecimal.ZERO;
 
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
             if(candles.length < minCount){
                 continue;
@@ -147,13 +147,4 @@ public class Mvd extends MarketIndicators<TimeNumber> {
         return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP));
     }
 
-    @Override
-    public TimeNumber[] newArray(int startIndex, int end) {
-        TimeNumber[] array = new TimeNumber[end - startIndex];
-
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
-    }
 }

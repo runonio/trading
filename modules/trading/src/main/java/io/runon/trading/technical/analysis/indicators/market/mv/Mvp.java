@@ -3,10 +3,11 @@ package io.runon.trading.technical.analysis.indicators.market.mv;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandles;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
+import io.runon.trading.technical.analysis.indicators.market.MarketIndicatorsTimeNumber;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,10 +18,10 @@ import java.math.RoundingMode;
  * 최대치 값은 max.volume.power 설정에 의해 달라질 수 있음
  * @author macle
  */
-public class Mvp extends MarketIndicators<TimeNumber> {
+public class Mvp extends MarketIndicatorsTimeNumber {
 
 
-    public Mvp(IdCandles[] idCandles){
+    public Mvp(IdCandlesGet[] idCandles){
         super(idCandles);
         scale = 2;
     }
@@ -40,7 +41,7 @@ public class Mvp extends MarketIndicators<TimeNumber> {
 
         BigDecimal sum = BigDecimal.ZERO;
 
-        for(IdCandles symbolCandle : idCandles){
+        for(IdCandlesGet symbolCandle : idCandles){
 
             TradeCandle[] candles = symbolCandle.getCandles();
 
@@ -65,13 +66,4 @@ public class Mvp extends MarketIndicators<TimeNumber> {
         return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP));
     }
 
-    @Override
-    public TimeNumber[] newArray(int startIndex, int end) {
-        TimeNumber[] array = new TimeNumber[end - startIndex];
-
-        for (int i = 0; i < array.length ; i++) {
-            array[i] = getData(i + startIndex);
-        }
-        return array;
-    }
 }

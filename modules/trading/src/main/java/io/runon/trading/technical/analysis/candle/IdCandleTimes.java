@@ -8,11 +8,11 @@ public class IdCandleTimes {
 
     private String id;
 
-    private final IdCandles[] idCandles;
+    private final IdCandlesGet[] idCandles;
     private final long [] times;
-    public IdCandleTimes(IdCandles[] idCandles){
+    public IdCandleTimes(IdCandlesGet[] idCandles){
         this.idCandles = idCandles;
-        times = Candles.getTimes(idCandles);
+        times = Candles.getTimes(idCandles, true);
     }
 
     public String getId() {
@@ -23,7 +23,7 @@ public class IdCandleTimes {
         this.id = id;
     }
 
-    public IdCandles[] getIdCandles() {
+    public IdCandlesGet[] getIdCandles() {
         return idCandles;
     }
 

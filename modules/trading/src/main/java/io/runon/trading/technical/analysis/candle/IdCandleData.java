@@ -10,7 +10,7 @@ import lombok.Data;
  * @author macle
  */
 @Data
-public class IdCandleData implements IdCandles {
+public class IdCandleData implements IdCandlesGet {
     private String id;
     private TradeCandle [] candles;
 

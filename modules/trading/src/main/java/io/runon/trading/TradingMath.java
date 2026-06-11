@@ -98,8 +98,9 @@ public class TradingMath {
      */
     public static BigDecimal average(BigDecimal[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
 
+        int start = new BigDecimal(sortNumbers.length).multiply(lowestExclusionRate).intValue();
         int end = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
-        int start = new BigDecimal(sortNumbers.length).multiply(highestExclusionRate).intValue();
+
         int size = end - start;
 
         if(size < 1){

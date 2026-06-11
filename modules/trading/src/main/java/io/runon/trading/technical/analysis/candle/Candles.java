@@ -2,16 +2,14 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.commons.data.StartEnd;
 import io.runon.commons.data.StartEndData;
+import io.runon.commons.parallel.ParallelArrayStatJob;
 import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.TradingMath;
-import io.runon.trading.TradingTimes;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * technical analysis candle 관련 유틸성 클래스
@@ -20,24 +18,55 @@ import java.util.Set;
  */
 public class Candles {
 
-    public static long [] getTimes(GetCandles[] array){
-        Set<Long> timeSet = new HashSet<>();
-        for(GetCandles candles : array){
-            TradeCandle [] tradeCandles = candles.getCandles();
-            for(TradeCandle candle: tradeCandles){
-                timeSet.add(candle.getTime());
+    public static long [] getTimes(CandlesGet[] array){
+
+        return getTimes(array, true);
+    }
+
+    public static long [] getTimes(CandlesGet[] array, boolean isParallel){
+
+
+        if(!isParallel || array.length < 100) {
+
+            Set<Long> timeSet = new HashSet<>();
+            for (CandlesGet candles : array) {
+                TradeCandle[] tradeCandles = candles.getCandles();
+                for (TradeCandle candle : tradeCandles) {
+                    timeSet.add(candle.getTime());
+                }
             }
+
+            long[] times = new long[timeSet.size()];
+            int index = 0;
+            for (long time : timeSet) {
+                times[index++] = time;
+            }
+
+            Arrays.sort(times);
+            return times;
+        }else{
+            //분산처리
+
+            ParallelArrayStatJob<CandlesGet, CandleTimeParallel> parallelArrayStatJob = new ParallelArrayStatJob<>(array, CandleTimeParallel.class);
+//            parallelArrayStatJob.setThreadCount(4);
+
+            parallelArrayStatJob.runSync();
+
+            CandleTimeParallel candleTimeParallel = parallelArrayStatJob.getData();
+            Set<Long> timeSet = candleTimeParallel.timeSet;
+
+
+            long[] times = new long[timeSet.size()];
+            int index = 0;
+            for (long time : timeSet) {
+                times[index++] = time;
+            }
+
+            Arrays.sort(times);
+            return times;
         }
 
-        long [] times = new long[timeSet.size()];
-        int index = 0;
-        for (long time : timeSet) {
-            times[index++] = time;
-        }
-
-        Arrays.sort(times);
-
-        return times;
+        
     }
 
     //빈켄들이 있을경우 시간값에 대한 인덱스를 가져오지 못할경우 가까운 시간값 활용
@@ -431,12 +460,40 @@ public class Candles {
 
     }
 
+    /**
+     *
+     * @return 다음 검색 index, 캔들이 있을경우 캔들을 포함하여 돌려줌
+     */
+    public static TradeCandleIndex getOpenTimeSearch(TradeCandle [] candles, int startIndex, long openTime){
+
+        TradeCandleIndex tradeCandleIndex = new TradeCandleIndex();
+
+        for (int i = startIndex; i <candles.length ; i++) {
+            TradeCandle candle = candles[i];
+
+            if(candle.getOpenTime() == openTime){
+                tradeCandleIndex.setIndex(i+1);
+                tradeCandleIndex.setTradeCandle(candle);
+                return tradeCandleIndex;
+            }
+
+            if(candle.getOpenTime() > openTime){
+                tradeCandleIndex.setIndex(i);
+                tradeCandleIndex.setTradeCandle(null);
+                return tradeCandleIndex;
+            }
+        }
+
+        return tradeCandleIndex;
+
+    }
+
     public static String getMaxYmd(CandleStick[] candles, ZoneId zoneId){
 
-        String maxYmd = YmdUtils.getYmd(candles[0].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+        String maxYmd = YmdUtils.getYmd(candles[0].getOpenTime(), zoneId);
 
         for (int i = 1; i <candles.length ; i++) {
-            String ymd = YmdUtils.getYmd(candles[i].getOpenTime(), TradingTimes.KOR_ZONE_ID);
+            String ymd = YmdUtils.getYmd(candles[i].getOpenTime(), zoneId);
 
             if(YmdUtils.compare(ymd, maxYmd)> 0){
                 maxYmd = ymd;
@@ -455,5 +512,58 @@ public class Candles {
 
 
 
+
+    public static TradeCandle[] sumCandles(TradeCandle [] sources, TradeCandle [] targets){
+        //두캔들정보를 합쳐서 새로운 캔들 배열을 만든다.
+
+        List<TradeCandle> list = new ArrayList<>();
+
+        Set<Long> openTimeSet = new HashSet<>();
+
+        for(TradeCandle tradeCandle : sources){
+            openTimeSet.add(tradeCandle.getOpenTime());
+        }
+
+        for(TradeCandle tradeCandle : targets){
+            openTimeSet.add(tradeCandle.getOpenTime());
+        }
+
+        long [] openTimes = new long[openTimeSet.size()];
+        int index = 0;
+
+        for(Long openTime : openTimeSet){
+            openTimes[index++] = openTime;
+        }
+
+        Arrays.sort(openTimes);
+
+
+        TradeCandleIndex sourceIndex = null;
+        TradeCandleIndex targetIndex = null;
+
+        for(long openTime : openTimes){
+
+            TradeCandle sourceCandle = null;
+
+            if(sourceIndex == null){
+                sourceIndex = getOpenTimeSearch(sources, 0, openTime);
+                sourceCandle = sourceIndex.getTradeCandle();
+
+            }else{
+                if(sourceIndex.getIndex() > -1){
+                    sourceIndex = getOpenTimeSearch(sources, sourceIndex.getIndex(), openTime);
+                    sourceCandle = sourceIndex.getTradeCandle();
+                }
+            }
+
+            TradeCandle targetCandle = null;
+
+
+        }
+
+        TradeCandle [] results = list.toArray(new TradeCandle[0]);
+        list.clear();
+        return results;
+    }
 
 }

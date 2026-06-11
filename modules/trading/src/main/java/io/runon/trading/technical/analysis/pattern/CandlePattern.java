@@ -17,7 +17,7 @@ package io.runon.trading.technical.analysis.pattern;
 
 import io.runon.trading.PriceChangeAnalysis;
 import io.runon.trading.TrendChangeType;
-import io.runon.trading.technical.analysis.candle.TradeCandles;
+import io.runon.trading.technical.analysis.candle.TradeCandlesGet;
 
 /**
  * 캔들형 패턴
@@ -28,9 +28,9 @@ public interface CandlePattern extends PriceChangeAnalysis {
 
     /**
      * 캔들배열 설정
-     * @param tradeCandles TradeCandles 캔들배열
+     * @param tradeCandles TradeCandlesGet 캔들배열
      */
-    void setCandles(TradeCandles tradeCandles);
+    void setCandles(TradeCandlesGet tradeCandles);
 
     /**
      * 실시간 분석에 필요한 정보들을 초기화
