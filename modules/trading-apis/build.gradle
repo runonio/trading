@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':commons')
+    implementation project(path: ':jdbc')
+
+    implementation libs.gson
+    implementation libs.json
+
+    //connection pool
+    implementation libs.hikariCP
+    implementation libs.postgresql
+
+    implementation libs.logbackClassic
+    implementation libs.slf4jApi
+
+
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+}
+
+test {
+    useJUnitPlatform()
+}

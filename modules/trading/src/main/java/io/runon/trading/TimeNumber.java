@@ -1,12 +1,11 @@
 package io.runon.trading;
 
-import java.math.BigDecimal;
+import io.runon.trading.data.GetNumber;
 
 /**
  * 시간과 숫자
  * @author macle
  */
-public interface TimeNumber extends Time{
+public interface TimeNumber extends Time, GetNumber {
 
-    BigDecimal getNumber();
 }

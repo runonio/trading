@@ -1,13 +1,18 @@
 rootProject.name = 'trading'
 
 include 'trading'
-project(':trading').projectDir = new File(settingsDir,'../../runon/trading/modules/trading')
+project(':trading').projectDir = new File(settingsDir, '../../runon/trading/modules/trading')
 include 'backtesting'
-project(':backtesting').projectDir = new File(settingsDir,'../../runon/trading/modules/backtesting')
+project(':backtesting').projectDir = new File(settingsDir, '../../runon/trading/modules/backtesting')
 include 'chart-view'
-project(':chart-view').projectDir = new File(settingsDir,'../../runon/trading/modules/chart-view')
+project(':chart-view').projectDir = new File(settingsDir, '../../runon/trading/modules/chart-view')
+
+include 'trading-apis'
+project(':trading-apis').projectDir = new File(settingsDir, '../../runon/trading/modules/trading-apis')
+
+
 
 include 'commons'
-project(':commons').projectDir = new File(settingsDir,'../../runon/commons/modules/commons')
+project(':commons').projectDir = new File(settingsDir, '../../runon/commons/modules/commons')
 include 'jdbc'
-project(':jdbc').projectDir = new File(settingsDir,'../../runon/commons/modules/jdbc')
+project(':jdbc').projectDir = new File(settingsDir, '../../runon/commons/modules/jdbc')

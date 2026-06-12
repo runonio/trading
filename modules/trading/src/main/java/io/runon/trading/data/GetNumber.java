@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 /**
  * @author macle
  */
-public interface GetNumberUseId {
-    BigDecimal getNumber(String id);
+public interface GetNumber {
+
+    BigDecimal getNumber();
 
 }

@@ -1,6 +1,7 @@
 package io.runon.trading;
 
 import io.runon.commons.math.BigDecimals;
+import io.runon.trading.data.GetNumber;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -115,6 +116,36 @@ public class TradingMath {
 
         return sum.divide(new BigDecimal(size), MathContext.DECIMAL128);
     }
+
+    /**
+     * 중간평균 구하기
+     * @param sortNumbers 정렬된 숫자 반드시 정렬된 객체를 보내야함
+     * @param lowestExclusionRate 하위 제외비율 0.1 = 10%제외
+     * @param highestExclusionRate 상위 제외비율 0.1 = 10%제외
+     * @return 하위 상위를 제외한 중간평균
+     */
+    public static BigDecimal average(GetNumber[] sortNumbers, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
+
+        int start = new BigDecimal(sortNumbers.length).multiply(lowestExclusionRate).intValue();
+        int end = new BigDecimal(sortNumbers.length).multiply(BigDecimal.ONE.subtract(highestExclusionRate)).intValue();
+
+        int size = end - start;
+
+        if(size < 1){
+            throw new IllegalArgumentException("start: " + start +" end " + end +" length " + sortNumbers.length);
+        }
+
+        BigDecimal sum = BigDecimal.ZERO;
+
+        for (int i = start; i < end; i++) {
+            sum = sum.add(sortNumbers[i].getNumber());
+        }
+
+        return sum.divide(new BigDecimal(size), MathContext.DECIMAL128);
+    }
+
+
+
 
     public static BigDecimal average(BigDecimal[] numbers) {
         if(numbers == null || numbers.length == 0){
