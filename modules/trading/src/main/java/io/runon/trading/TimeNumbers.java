@@ -1,5 +1,6 @@
 package io.runon.trading;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.exception.TradingDataException;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
@@ -77,7 +78,7 @@ public class TimeNumbers {
                 longNumbers[numIndex++] = array[j].getNumber();
             }
 
-            BigDecimal longAvg = TradingMath.average(longNumbers, new BigDecimal("0.1"));
+            BigDecimal longAvg = BigDecimalMath.average(longNumbers, new BigDecimal("0.1"));
 
             start = endJ - shortN;
             if (start < 0) {
@@ -89,7 +90,7 @@ public class TimeNumbers {
                 shortNumbers[numIndex++] = array[j].getNumber();
             }
 
-            BigDecimal shortAvg = TradingMath.average(shortNumbers);
+            BigDecimal shortAvg = BigDecimalMath.average(shortNumbers);
             averages[i] = new TimeNumberData(array[endJ-1].getTime(), Disparity.get(shortAvg, longAvg));
         }
 

@@ -1,9 +1,9 @@
 package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import io.runon.commons.config.Config;
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.IdCandlesGet;
@@ -28,7 +28,8 @@ public class Mvd extends MarketIndicatorsTimeNumber {
 
     protected int minAverageCount = Config.getInteger("volume.average.min.count", 10);
 
-    protected BigDecimal highestExclusionRate = new BigDecimal(Config.getConfig("volume.average.default.highest.exclusion.rate", "0.1"));
+    protected BigDecimal exclusionRate = new BigDecimal(Config.getConfig("volume.average.default.highest.exclusion.rate", "0.1"));
+
 
     protected BigDecimal maxDisparity = new BigDecimal(Config.getConfig("market.volume.disparity.max", "1000"));
 
@@ -40,8 +41,8 @@ public class Mvd extends MarketIndicatorsTimeNumber {
         this.minAverageCount = minAverageCount;
     }
 
-    public void setHighestExclusionRate(BigDecimal highestExclusionRate) {
-        this.highestExclusionRate = highestExclusionRate;
+    public void setExclusionRate(BigDecimal exclusionRate) {
+        this.exclusionRate = exclusionRate;
     }
 
     public void setMaxDisparity(BigDecimal maxDisparity) {
@@ -123,7 +124,7 @@ public class Mvd extends MarketIndicatorsTimeNumber {
 
             BigDecimal [] volumes = Volumes.getVolumes(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(volumes);
-            BigDecimal avg = TradingMath.average(volumes, highestExclusionRate);
+            BigDecimal avg = BigDecimalMath.average(volumes, exclusionRate, exclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }

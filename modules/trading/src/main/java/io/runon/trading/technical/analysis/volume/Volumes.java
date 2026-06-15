@@ -1,11 +1,12 @@
 package io.runon.trading.technical.analysis.volume;
 
 import io.runon.commons.config.Config;
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.math.BigDecimals;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
 import io.runon.trading.TimeNumbers;
-import io.runon.trading.TradingMath;
+
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 
@@ -52,7 +53,7 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal highestExclusionRate, int startIndex, int end) {
         BigDecimal[] volumes = getVolumes(candles, startIndex, end);
         Arrays.sort(volumes);
-        return TradingMath.average(volumes, highestExclusionRate);
+        return BigDecimalMath.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
@@ -62,13 +63,13 @@ public class Volumes {
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return TradingMath.average(volumes, highestExclusionRate);
+        return BigDecimalMath.average(volumes, highestExclusionRate);
     }
 
     public static BigDecimal getAverage(TradeCandle[] candles, int count, BigDecimal lowestExclusionRate, BigDecimal highestExclusionRate) {
         BigDecimal[] volumes = getVolumes(candles, count);
         Arrays.sort(volumes);
-        return TradingMath.average(volumes,lowestExclusionRate, highestExclusionRate);
+        return BigDecimalMath.average(volumes,lowestExclusionRate, highestExclusionRate);
     }
 
 
@@ -102,7 +103,7 @@ public class Volumes {
         }
         return volumes;
     }
-    public static BigDecimal [] getAmountSum(TradeCandle [] candles, int startIndex, int end){
+    public static BigDecimal [] getAmounts(TradeCandle [] candles, int startIndex, int end){
         if (end > candles.length) {
             end = candles.length;
         }
@@ -152,7 +153,7 @@ public class Volumes {
      * @param maCount MovingAverage count
      * @return 체결강도 이동평균
      */
-    public static BigDecimal getVolumePowerMovingAverage(TradeCandle [] candles, int count, int maCount){
+    public static BigDecimal getVolumePowerMa(TradeCandle [] candles, int count, int maCount){
 
 
         if( count > candles.length){
@@ -170,7 +171,7 @@ public class Volumes {
             int end = i +1;
             array[index++] = getVolumePower(candles,end - count, end );
         }
-        BigDecimal sum = TradingMath.sum(array);
+        BigDecimal sum = BigDecimalMath.sum(array);
         return sum.divide(new BigDecimal(maCount),MathContext.DECIMAL128);
     }
 
@@ -249,7 +250,7 @@ public class Volumes {
                 longNumbers[numIndex++] = array[j].getVolume();
             }
 
-            BigDecimal longAvg = TradingMath.average(longNumbers, new BigDecimal("0.1"));
+            BigDecimal longAvg = BigDecimalMath.average(longNumbers, new BigDecimal("0.1"));
 
             start = endJ - shortN;
             if (start < 0) {
@@ -261,13 +262,12 @@ public class Volumes {
                 shortNumbers[numIndex++] = array[j].getVolume();
             }
 
-            BigDecimal shortAvg = TradingMath.average(shortNumbers);
+            BigDecimal shortAvg = BigDecimalMath.average(shortNumbers);
             averages[i] = new TimeNumberData(array[endJ-1].getTime(), Disparity.get(shortAvg, longAvg));
         }
 
 
         return averages;
-//        return Sma.getTimeNumbers(ema, n, beginIndex, end);
     }
 
 }

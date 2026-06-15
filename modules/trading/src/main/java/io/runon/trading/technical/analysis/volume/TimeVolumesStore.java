@@ -1,5 +1,6 @@
 package io.runon.trading.technical.analysis.volume;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.*;
 import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.commons.math.BigDecimals;
@@ -176,7 +177,7 @@ public class TimeVolumesStore {
             gapArray[i] = timeVolumes.getPriceFutures().subtract(timeVolumes.getPrice());
         }
 
-        futuresPriceGapAverage = TradingMath.average(gapArray, new BigDecimal("0.1"), new BigDecimal("0.1"));
+        futuresPriceGapAverage = BigDecimalMath.average(gapArray, new BigDecimal("0.1"), new BigDecimal("0.1"));
         futuresPriceGapAverage = futuresPriceGapAverage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
     }
 
@@ -228,7 +229,7 @@ public class TimeVolumesStore {
 
             if(moveGap.compareTo(BigDecimal.ZERO) > 0){
                 if(mode < 0){
-                    downMin = TradingMath.min(downMin, downSum);
+                    downMin = BigDecimalMath.min(downMin, downSum);
                     downSum = BigDecimal.ZERO;
                 }
                 upSum = upSum.add(moveGap);
@@ -236,7 +237,7 @@ public class TimeVolumesStore {
 
             }else if(moveGap.compareTo(BigDecimal.ZERO) < 0){
                 if(mode > 0){
-                    upMax = TradingMath.max(upMax, upSum);
+                    upMax = BigDecimalMath.max(upMax, upSum);
                     upSum = BigDecimal.ZERO;
                 }
                 downSum = downSum.add(moveGap);
@@ -247,9 +248,9 @@ public class TimeVolumesStore {
         //하락누적
         MaxMinLast priceGapMove = new MaxMinLast();
         priceGapMove.setLast(moveGaps[moveGaps.length-1]);
-        priceGapMove.setMax(TradingMath.max(upMax, upSum));
+        priceGapMove.setMax(BigDecimalMath.max(upMax, upSum));
 
-        priceGapMove.setMin(TradingMath.min(downMin, downSum));
+        priceGapMove.setMin(BigDecimalMath.min(downMin, downSum));
         priceGapMoveMap.put(searchCount, priceGapMove);
         return priceGapMove;
     }

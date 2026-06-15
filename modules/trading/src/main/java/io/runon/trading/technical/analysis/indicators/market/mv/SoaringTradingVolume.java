@@ -1,8 +1,8 @@
 package io.runon.trading.technical.analysis.indicators.market.mv;
 
 import io.runon.commons.config.Config;
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.math.BigDecimals;
-import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.IdCandlesGet;
@@ -133,7 +133,7 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
 
             BigDecimal [] volumes = Volumes.getVolumes(candles, averageStartIndex , openTimeIndex);
             Arrays.sort(volumes);
-            BigDecimal avg = TradingMath.average(volumes, highestExclusionRate);
+            BigDecimal avg = BigDecimalMath.average(volumes, highestExclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }

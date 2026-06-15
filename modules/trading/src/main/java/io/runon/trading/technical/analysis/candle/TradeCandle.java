@@ -1,12 +1,12 @@
 
 package io.runon.trading.technical.analysis.candle;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.math.BigDecimals;
 import io.runon.commons.utils.GsonUtils;
 import io.runon.commons.utils.time.YmdUtils;
 import io.runon.trading.LockType;
 import io.runon.trading.Trade;
-import io.runon.trading.TradingMath;
 import io.runon.trading.Volume;
 import io.runon.trading.technical.analysis.similarity.SimChangeData;
 import io.runon.trading.technical.analysis.volume.Volumes;
@@ -184,8 +184,8 @@ public class TradeCandle extends CandleStick implements Volume,SimChangeData  {
             }
         }
 
-        low = TradingMath.min(low, addCandle.getLow());
-        high = TradingMath.max(high, addCandle.getHigh());
+        low = BigDecimalMath.min(low, addCandle.getLow());
+        high = BigDecimalMath.max(high, addCandle.getHigh());
 
         if(isTradeRecord && addCandle.getTradeList() != null){
             if(tradeList == null){

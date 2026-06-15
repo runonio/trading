@@ -1,5 +1,5 @@
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.math.BigDecimals;
-import io.runon.trading.TradingMath;
 
 import java.math.BigDecimal;
 /**
@@ -18,7 +18,7 @@ public class BigDecimalsExample {
             array[i] = new BigDecimal(i+1);
         }
 
-        System.out.println("표준편차: " + TradingMath.sd(array,3));
+        System.out.println("표준편차: " + BigDecimalMath.sd(array,3));
 
     }
 }

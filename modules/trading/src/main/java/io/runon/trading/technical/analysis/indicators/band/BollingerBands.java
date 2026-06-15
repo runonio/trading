@@ -1,8 +1,8 @@
 package io.runon.trading.technical.analysis.indicators.band;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.CandleBigDecimals;
 import io.runon.trading.technical.analysis.candle.CandleStick;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
@@ -187,7 +187,7 @@ public class BollingerBands {
         for (int i = 0; i < length; i++) {
             int index = i + startIndex;
 
-            dataArray[i] = get(array[index], maArray[index], TradingMath.sd(array,maArray[index],n, index) ,sdm);
+            dataArray[i] = get(array[index], maArray[index], BigDecimalMath.sd(array,maArray[index],n, index) ,sdm);
 
         }
         return dataArray;
@@ -214,7 +214,7 @@ public class BollingerBands {
     }
     public static BollingerBandsData get(BigDecimal [] array, int n, BigDecimal sdm, int index){
         BigDecimal ma = Sma.get(array, n, index);
-        BigDecimal sd = TradingMath.sd(array,ma,n, index);
+        BigDecimal sd = BigDecimalMath.sd(array,ma,n, index);
         return get(array[array.length -1], ma,sd, sdm);
     }
 

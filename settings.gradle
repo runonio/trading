@@ -10,8 +10,6 @@ project(':chart-view').projectDir = new File(settingsDir, '../../runon/trading/m
 include 'trading-apis'
 project(':trading-apis').projectDir = new File(settingsDir, '../../runon/trading/modules/trading-apis')
 
-
-
 include 'commons'
 project(':commons').projectDir = new File(settingsDir, '../../runon/commons/modules/commons')
 include 'jdbc'

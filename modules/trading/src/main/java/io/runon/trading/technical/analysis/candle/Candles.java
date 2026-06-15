@@ -2,9 +2,9 @@ package io.runon.trading.technical.analysis.candle;
 
 import io.runon.commons.data.StartEnd;
 import io.runon.commons.data.StartEndData;
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.parallel.ParallelArrayStatJob;
 import io.runon.commons.utils.time.YmdUtils;
-import io.runon.trading.TradingMath;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -507,7 +507,7 @@ public class Candles {
     public static BigDecimal mdd(CandleStick[] candles){
         BigDecimal high = high(candles);
         BigDecimal low = low(candles);
-        return TradingMath.mdd(high,low);
+        return BigDecimalMath.mdd(high,low);
     }
 
 

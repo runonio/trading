@@ -1,7 +1,7 @@
 package io.runon.trading.technical.analysis.similarity;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.Time;
-import io.runon.trading.TradingMath;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -34,7 +34,7 @@ public interface SimChangeData extends Time {
 
             BigDecimal num = percent.getChangePercent();
             if(num.compareTo(BigDecimal.ZERO) < 0){
-                sum = sum.subtract(TradingMath.recoveryPercent(num));
+                sum = sum.subtract(BigDecimalMath.recoveryPercent(num));
             }else{
                 sum = sum.add(num);
             }

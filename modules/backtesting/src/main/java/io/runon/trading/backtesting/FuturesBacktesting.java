@@ -1,5 +1,6 @@
 package io.runon.trading.backtesting;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.commons.utils.time.Times;
 import io.runon.trading.*;
 import io.runon.trading.backtesting.account.FuturesBacktestingAccount;
@@ -211,7 +212,7 @@ public abstract class FuturesBacktesting<E> {
 
     protected void addChartLine(BigDecimal price){
         if(isChart && time >= candles[0].getOpenTime()) {
-            assetList.add(new TimeNumberData(time, TradingMath.changePercent(startCash, account.getAssets())));
+            assetList.add(new TimeNumberData(time, BigDecimalMath.changePercent(startCash, account.getAssets())));
 
             if(isPositionLine) {
                 lastLines.add(new TimeNumberData( time,price));
@@ -263,6 +264,6 @@ public abstract class FuturesBacktesting<E> {
     public String getLogMessage(BigDecimal price){
         BigDecimal assets = account.getAssets();
         return Times.ymdhm(time, TradingConfig.DEFAULT_TIME_ZONE_ID)+ " " + lastPosition + " " + price
-                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + TradingMath.changePercent(startCash, assets) +"%";
+                + "\n" + assets.stripTrailingZeros().setScale(cashScale, RoundingMode.HALF_UP).toPlainString() + " " + BigDecimalMath.changePercent(startCash, assets) +"%";
     }
 }

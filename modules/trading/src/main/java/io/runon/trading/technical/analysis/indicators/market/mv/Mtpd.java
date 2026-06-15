@@ -1,15 +1,13 @@
 package io.runon.trading.technical.analysis.indicators.market.mv;
 
+import io.runon.commons.math.BigDecimalMath;
 import io.runon.trading.TimeNumber;
 import io.runon.trading.TimeNumberData;
-import io.runon.trading.TradingMath;
 import io.runon.trading.technical.analysis.candle.Candles;
-import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.IdCandleTimes;
+import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.Disparity;
-
-
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
@@ -35,6 +33,12 @@ public class Mtpd extends Mvd{
     @Override
     public TimeNumber getData(int index) {
 
+        //1. 개별종목의 평균거래대금 구하기
+        //2. 개별종목의 평균 거래대금의 합
+
+        //3. 타겟날짜의 종목 거래대금의 합.
+
+
         int minCount = minAverageCount + 1;
         if(minCount > averageCount + 1) {
             minCount = averageCount + 1;
@@ -54,7 +58,6 @@ public class Mtpd extends Mvd{
         long avgStartTime = times[avgStartIndex];
 
         int searchLength = searchIndex(index);
-        int check = (times.length - index);
 
         BigDecimal avgSum = BigDecimal.ZERO;
         BigDecimal sum = BigDecimal.ZERO;
@@ -94,9 +97,9 @@ public class Mtpd extends Mvd{
                 continue;
             }
 
-            BigDecimal [] amountArray = Volumes.getAmountSum(candles, averageStartIndex , openTimeIndex);
-            Arrays.sort(amountArray);
-            BigDecimal avg = TradingMath.average(amountArray, highestExclusionRate);
+            BigDecimal [] amounts = Volumes.getAmounts(candles, averageStartIndex , openTimeIndex);
+            Arrays.sort(amounts);
+            BigDecimal avg = BigDecimalMath.average(amounts, exclusionRate, exclusionRate);
             if(avg.compareTo(BigDecimal.ZERO) == 0){
                 continue;
             }
