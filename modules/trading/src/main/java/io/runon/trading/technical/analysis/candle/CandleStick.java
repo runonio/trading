@@ -284,6 +284,8 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         }
     }
 
+
+
     /**
      * 가격 변화량 얻기
      *
@@ -320,6 +322,35 @@ public class CandleStick implements PriceChange, Candle, PriceOpenTime, TimePric
         }
         changeRate =  change.divide(getPrevious(), MathContext.DECIMAL128);
         return changeRate;
+    }
+
+    public BigDecimal getOpenChangeRate(){
+
+        BigDecimal previous = getPrevious();
+
+        BigDecimal openChange = open.subtract(previous);
+
+        return openChange.divide(previous, MathContext.DECIMAL128);
+    }
+
+
+    public BigDecimal getHighChangeRate(){
+
+        BigDecimal previous = getPrevious();
+
+        BigDecimal openChange = high.subtract(previous);
+
+        return openChange.divide(previous, MathContext.DECIMAL128);
+    }
+//
+//
+    public BigDecimal getLowChangeRate(){
+
+        BigDecimal previous = getPrevious();
+
+        BigDecimal openChange = low.subtract(previous);
+
+        return openChange.divide(previous, MathContext.DECIMAL128);
     }
 
     /**

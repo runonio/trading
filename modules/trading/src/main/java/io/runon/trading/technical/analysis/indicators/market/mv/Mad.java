@@ -11,21 +11,23 @@ import io.runon.trading.technical.analysis.indicators.Disparity;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
- * Market Trading Price Disparity
+ * Market Amount Disparity
  * 0 ~ 1000
  * market.volume.disparity.max 설정값에 최대값은 변할 수 있음
  * 거래대금으로 보는 이격도
  * @author macle
  */
-public class Mtpd extends Mvd{
-    public Mtpd(IdCandleTimes symbolCandleTimes){
+public class Mad extends Mvd{
+    public Mad(IdCandleTimes symbolCandleTimes){
         super(symbolCandleTimes);
     }
 
-    public Mtpd(IdCandlesGet[] idCandles) {
+    public Mad(IdCandlesGet[] idCandles) {
         super(idCandles);
     }
 
@@ -57,12 +59,15 @@ public class Mtpd extends Mvd{
 
         long avgStartTime = times[avgStartIndex];
 
+        int validSymbolCount = 0;
+
         int searchLength = searchIndex(index);
 
-        BigDecimal avgSum = BigDecimal.ZERO;
+
         BigDecimal sum = BigDecimal.ZERO;
-        for(IdCandlesGet symbolCandle : idCandles){
-            TradeCandle[] candles = symbolCandle.getCandles();
+
+        for(IdCandlesGet idCandle : idCandles){
+            TradeCandle[] candles = idCandle.getCandles();
             if(candles.length < minCount){
                 continue;
             }
@@ -85,6 +90,7 @@ public class Mtpd extends Mvd{
             }
 
             if(averageStartIndex >= openTimeIndex){
+
                 continue;
             }
 
@@ -104,21 +110,30 @@ public class Mtpd extends Mvd{
                 continue;
             }
 
-            sum = sum.add(candle.getAmount());
-            avgSum = avgSum.add(avg);
+            validSymbolCount++;
+
+
+            TradeCandle tradeCandle = candles[openTimeIndex];
+            BigDecimal disparity = Disparity.get(tradeCandle.getAmount(), avg);
+
+            if(disparity.compareTo(maxDisparity) > 0){
+                disparity = maxDisparity;
+            }
+            sum = sum.add(disparity);
+        }
+
+        if(validSymbolCount == 0 || sum.compareTo(BigDecimal.ZERO) == 0){
+//            return new TimeNumberData(time, BigDecimal.ZERO);
+            return null;
 
         }
 
-        if(avgSum.compareTo(BigDecimal.ZERO) == 0|| sum.compareTo(BigDecimal.ZERO) == 0){
-            return new TimeNumberData(time, BigDecimal.ZERO);
+        if(scale > 0){
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros());
         }
 
-        BigDecimal disparity = Disparity.get(sum, avgSum, scale);
 
-        if(disparity.compareTo(maxDisparity) > 0){
-            disparity = maxDisparity;
-        }
-
-        return new TimeNumberData(time, disparity);
     }
 }

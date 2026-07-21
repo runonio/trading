@@ -14,8 +14,6 @@ import io.runon.trading.technical.analysis.indicators.EmaOscillator;
  */
 public class McClellanOscillator {
 
-
-
     public static int DEFAULT_SHORT_N = 19;
     public static int DEFAULT_LONG_N = 39;
 

@@ -74,6 +74,10 @@ public class AdIssue extends MarketIndicatorsTimeNumber {
                 decline++;
             }
         }
+        if(advancing == 0 && decline == 0){
+            return null;
+        }
+
         data.setNumber(new BigDecimal(advancing- decline));
         return data;
     }

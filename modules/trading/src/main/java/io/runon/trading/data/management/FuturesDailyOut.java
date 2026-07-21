@@ -46,6 +46,10 @@ public class FuturesDailyOut {
 
     protected String serviceName;
 
+
+
+
+
     public void setPathTimeLine(PathTimeLine pathTimeLine) {
         this.pathTimeLine = pathTimeLine;
     }
@@ -64,6 +68,13 @@ public class FuturesDailyOut {
     }
 
 
+    protected boolean isStop = false;
+
+    public void stopOut() {
+        isStop = true;
+    }
+
+
     public void out(String ymd){
         FuturesData futuresData = TradingDataManager.getInstance().getFuturesData();
 
@@ -75,10 +86,13 @@ public class FuturesDailyOut {
         }
 
         for(Futures futures :array){
+            if(isStop){
+                break;
+            }
 
             try {
                 out(futures);
-            }catch (Exception e){
+            } catch (Exception e){
                 log.error(ExceptionUtils.getStackTrace(e));
             }
         }

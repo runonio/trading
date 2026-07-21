@@ -12,6 +12,7 @@ import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +93,7 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
         List<IdCandlesGet> upList = new ArrayList<>();
         List<IdCandlesGet> downList = new ArrayList<>();
         int searchLength = searchIndex(index);
-        int check = (times.length - index);
+//        int check = (times.length - index);
 
         for(IdCandlesGet symbolCandle : idCandles){
             TradeCandle[] candles = symbolCandle.getCandles();
@@ -157,14 +158,22 @@ public class SoaringTradingVolume extends MarketIndicators<SoaringTradingVolumeD
         }
 
         if(validSymbolCount == 0){
-            return data;
+//            return data;
+            return null;
         }
 
         data.length = validSymbolCount;
         data.soaringArray = list.toArray(new IdCandlesGet[0]);
         data.ups = upList.toArray(new IdCandlesGet[0]);
         data.downs = downList.toArray(new IdCandlesGet[0]);
-        data.ratio = new BigDecimal(list.size()).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+
+        if(scale > 0){
+            data.ratio = new BigDecimal(list.size()).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        }else{
+            data.ratio = new BigDecimal(list.size()).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros();
+
+        }
+
         return data;
     }
 

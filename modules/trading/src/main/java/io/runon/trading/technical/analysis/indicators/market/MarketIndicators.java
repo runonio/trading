@@ -8,6 +8,8 @@ import io.runon.trading.technical.analysis.candle.IdCandleTimes;
 import io.runon.trading.technical.analysis.candle.IdCandlesGet;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 시장 관련 지표
@@ -105,7 +107,7 @@ public abstract class MarketIndicators<T> {
 
     protected abstract T [] newEmptyArray(int length);
 
-    public  T [] newArray(final int startIndex, int end){
+    public T [] newArray(final int startIndex, int end){
 
         //병렬처리로 변경
         
@@ -124,7 +126,18 @@ public abstract class MarketIndicators<T> {
 //        for (int i = 0; i < array.length ; i++) {
 //            array[i] = getData(i + startIndex);
 //        }
-        return array;
+
+
+        // null 처리
+        List<T> list = new ArrayList<>();
+        for (T data : array){
+            if(data == null){
+                continue;
+            }
+            list.add(data);
+        }
+
+        return list.toArray(newEmptyArray(0));
     }
 
 

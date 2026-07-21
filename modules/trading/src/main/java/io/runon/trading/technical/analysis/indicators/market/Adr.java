@@ -90,6 +90,11 @@ public class Adr extends MarketIndicatorsTimeNumber {
             }
 
         }
+
+        if(advancing == 0 && decline == 0){
+            return null;
+        }
+
         if(advancing == 0){
             data.setNumber(BigDecimal.ZERO);
             return data;
@@ -99,7 +104,14 @@ public class Adr extends MarketIndicatorsTimeNumber {
             return data;
         }
 
-        data.setNumber(getAdr(advancing, decline).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros());
+
+        if(scale> 0){
+            data.setNumber(getAdr(advancing, decline).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            data.setNumber(getAdr(advancing, decline).stripTrailingZeros());
+
+        }
+
         return data;
     }
 

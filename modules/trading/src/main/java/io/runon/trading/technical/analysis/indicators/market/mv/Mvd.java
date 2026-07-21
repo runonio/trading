@@ -13,6 +13,7 @@ import io.runon.trading.technical.analysis.indicators.market.MarketIndicatorsTim
 import io.runon.trading.technical.analysis.volume.Volumes;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Arrays;
 
@@ -81,12 +82,12 @@ public class Mvd extends MarketIndicatorsTimeNumber {
         int validSymbolCount = 0;
 
         int searchLength = searchIndex(index);
-        int check = (times.length - index);
+
 
         BigDecimal sum = BigDecimal.ZERO;
 
-        for(IdCandlesGet symbolCandle : idCandles){
-            TradeCandle[] candles = symbolCandle.getCandles();
+        for(IdCandlesGet idCandle : idCandles){
+            TradeCandle[] candles = idCandle.getCandles();
             if(candles.length < minCount){
                 continue;
             }
@@ -142,10 +143,18 @@ public class Mvd extends MarketIndicatorsTimeNumber {
         }
 
         if(validSymbolCount == 0 || sum.compareTo(BigDecimal.ZERO) == 0){
-            return new TimeNumberData(time, BigDecimal.ZERO);
+//            return new TimeNumberData(time, BigDecimal.ZERO);
+
+            return null;
         }
 
-        return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP));
+        if(scale > 0){
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros());
+        }
+
+
     }
 
 }

@@ -99,7 +99,6 @@ public class Admr extends MarketIndicatorsTimeNumber {
                 if(changeRate == null){
                     continue;
                 }
-//                BigDecimal abs = changeRate.abs();
 
             }
 
@@ -109,8 +108,17 @@ public class Admr extends MarketIndicatorsTimeNumber {
                 decline ++;
             }
         }
+        if(advancing == 0 && decline == 0){
+            return null;
+        }
 
-        data.setNumber(getAdmr(advancing, decline, marketCount).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        if(scale > 0){
+            data.setNumber(getAdmr(advancing, decline, marketCount).setScale(scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            data.setNumber(getAdmr(advancing, decline, marketCount).stripTrailingZeros());
+        }
+
+
         return data;
 
     }

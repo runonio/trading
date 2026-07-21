@@ -10,6 +10,7 @@ import io.runon.trading.technical.analysis.candle.TradeCandle;
 import io.runon.trading.technical.analysis.indicators.ma.Sma;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -69,11 +70,18 @@ public class MarketSurvivalRate extends MarketIndicatorsTimeNumber {
         }
 
         if(validSymbolCount == 0){
-            data.setNumber(BigDecimal.ZERO);
-            return data;
+//            data.setNumber(BigDecimal.ZERO);
+//            return data;
+
+            return null;
         }
 
-        data.setNumber(new BigDecimal(survivalCount).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        if(scale> 0){
+            data.setNumber(new BigDecimal(survivalCount).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            data.setNumber(new BigDecimal(survivalCount).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros());
+        }
+
         return data;
 
     }

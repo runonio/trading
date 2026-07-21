@@ -10,6 +10,7 @@ import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 import io.runon.trading.technical.analysis.indicators.market.MarketIndicatorsTimeNumber;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -60,10 +61,18 @@ public class Mvp extends MarketIndicatorsTimeNumber {
         }
 
         if(validSymbolCount == 0 || sum.compareTo(BigDecimal.ZERO) == 0){
-            return new TimeNumberData(time, BigDecimal.ZERO);
+//            return new TimeNumberData(time, BigDecimal.ZERO);
+
+            return null;
         }
 
-        return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP));
+        if(scale > 0){
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros());
+        }else{
+            return new TimeNumberData(time, sum.divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros());
+        }
+
+
     }
 
 }

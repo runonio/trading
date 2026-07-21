@@ -11,6 +11,7 @@ import io.runon.trading.technical.analysis.indicators.market.MarketIndicators;
 
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +119,8 @@ public class Nhnl extends MarketIndicators<NhnlData> {
         }
 
         if(validSymbolCount == 0){
-            return data;
+            return null;
+//            return data;
         }
 
         data.length = validSymbolCount;
@@ -133,7 +135,13 @@ public class Nhnl extends MarketIndicators<NhnlData> {
             lowList.clear();
         }
 
-        data.ratio = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        if(scale > 0){
+            data.ratio = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+        }else{
+            data.ratio = new BigDecimal(data.highs.length - data.lows.length).multiply(BigDecimals.DECIMAL_100).divide(new BigDecimal(validSymbolCount), MathContext.DECIMAL128).stripTrailingZeros();
+
+        }
+
         return data;
     }
 

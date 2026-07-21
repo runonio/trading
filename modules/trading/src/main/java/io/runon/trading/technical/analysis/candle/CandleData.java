@@ -3,6 +3,7 @@ package io.runon.trading.technical.analysis.candle;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import io.runon.trading.Candle;
+import io.runon.trading.TimeNumber;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +12,10 @@ import java.math.BigDecimal;
  * @author macle
  */
 @Data
-public class CandleData implements Candle {
+public class CandleData implements Candle, TimeNumber {
+
+
+    long time;
 
     /**
      * 시가
@@ -36,4 +40,12 @@ public class CandleData implements Candle {
     public String toString(){
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create().toJson(this);
     }
+
+    @Override
+    public BigDecimal getNumber() {
+        return close;
+    }
+
+
+
 }

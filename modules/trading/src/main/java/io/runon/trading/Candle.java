@@ -8,6 +8,8 @@ import java.math.BigDecimal;
  */
 public interface Candle extends Price {
 
+    long getTime();
+
     /**
      * 시가 얻기
      * @return 시가 (시작가)
